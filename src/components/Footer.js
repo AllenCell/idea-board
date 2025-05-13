@@ -63,7 +63,7 @@ const Footer = () => {
                                     <li>
                                         <Link
                                             className="navbar-item"
-                                            to="/blog"
+                                            to="/idea"
                                         >
                                             Latest Stories
                                         </Link>

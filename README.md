@@ -10,9 +10,9 @@ It follows the [JAMstack architecture](https://jamstack.org) by using Git as a s
 
 ## Features
 
-- A simple landing page with blog functionality built with Decap CMS
-- Editable Pages: Landing, About, Product, Blog-Collection and Contact page with Netlify Form support
-- Create Blog posts from decap CMS
+- A simple landing page with idea functionality built with Decap CMS
+- Editable Pages: Landing, About, Product, Idea-Collection and Contact page with Netlify Form support
+- Create Idea posts from decap CMS
 - Tags: Separate page for posts under each tag
 - Basic directory organization
 - Uses Bulma for styling, but size is reduced by `gatsy-plugin-purgecss`
@@ -49,7 +49,7 @@ $ yarn
 $ netlify dev # or ntl dev
 ```
 
-This uses [Netlify Dev](https://www.netlify.com/products/dev/?utm_source=blog&utm_medium=netlifycms&utm_campaign=devex) CLI feature to serve any functions you have in the `netlify/functions` folder.
+This uses [Netlify Dev](https://www.netlify.com/products/dev/?utm_source=idea&utm_medium=netlifycms&utm_campaign=devex) CLI feature to serve any functions you have in the `netlify/functions` folder.
 
 To test the CMS locally, you'll need to run a production build of the site:
 
@@ -68,8 +68,7 @@ import CMS from "decap-cms-app";
 // import cloudinary from 'decap-cms-media-library-cloudinary'
 
 import AboutPagePreview from "./preview-templates/AboutPagePreview";
-import BlogPostPreview from "./preview-templates/BlogPostPreview";
-import ProductPagePreview from "./preview-templates/ProductPagePreview";
+import IdeaPostPreview from "./preview-templates/IdeaPostPreview";
 import IndexPagePreview from "./preview-templates/IndexPagePreview";
 
 // CMS.registerMediaLibrary(uploadcare);
@@ -77,8 +76,7 @@ import IndexPagePreview from "./preview-templates/IndexPagePreview";
 
 CMS.registerPreviewTemplate("index", IndexPagePreview);
 CMS.registerPreviewTemplate("about", AboutPagePreview);
-CMS.registerPreviewTemplate("products", ProductPagePreview);
-CMS.registerPreviewTemplate("blog", BlogPostPreview);
+CMS.registerPreviewTemplate("idea", IdeaPostPreview);
 ```
 
 Note: Don't forget to also remove them from `package.json` and `yarn.lock` / `package-lock.json` using `yarn` or `npm`. During the build decap-cms-app will bundle the media libraries as well, having them removed will save you build time.

@@ -7,7 +7,7 @@ import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
 
 // eslint-disable-next-line
-export const BlogPostTemplate = ({
+export const IdeaPostTemplate = ({
     content,
     contentComponent,
     description,
@@ -51,7 +51,7 @@ export const BlogPostTemplate = ({
     );
 };
 
-BlogPostTemplate.propTypes = {
+IdeaPostTemplate.propTypes = {
     content: PropTypes.node.isRequired,
     contentComponent: PropTypes.func,
     description: PropTypes.string,
@@ -59,17 +59,17 @@ BlogPostTemplate.propTypes = {
     helmet: PropTypes.object,
 };
 
-const BlogPost = ({ data }) => {
+const IdeaPost = ({ data }) => {
     const { markdownRemark: post } = data;
 
     return (
         <Layout>
-            <BlogPostTemplate
+            <IdeaPostTemplate
                 content={post.html}
                 contentComponent={HTMLContent}
                 description={post.frontmatter.description}
                 helmet={
-                    <Helmet titleTemplate="%s | Blog">
+                    <Helmet titleTemplate="%s | Ideas">
                         <title>{`${post.frontmatter.title}`}</title>
                         <meta
                             name="description"
@@ -84,16 +84,16 @@ const BlogPost = ({ data }) => {
     );
 };
 
-BlogPost.propTypes = {
+IdeaPost.propTypes = {
     data: PropTypes.shape({
         markdownRemark: PropTypes.object,
     }),
 };
 
-export default BlogPost;
+export default IdeaPost;
 
 export const pageQuery = graphql`
-    query BlogPostByID($id: String!) {
+    query IdeaPostByID($id: String!) {
         markdownRemark(id: { eq: $id }) {
             id
             html
