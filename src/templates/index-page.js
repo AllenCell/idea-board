@@ -60,7 +60,7 @@ export const IndexPageTemplate = ({
                                         </h3>
                                         <IdeaRoll />
                                         <div className="column is-12 has-text-centered">
-                                            <Link className="btn" to="/idea">
+                                            <Link className="btn" to="/ideas">
                                                 Read more
                                             </Link>
                                         </div>
