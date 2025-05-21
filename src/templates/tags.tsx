@@ -3,7 +3,37 @@ import { Helmet } from "react-helmet-async";
 import { Link, graphql } from "gatsby";
 import Layout from "../components/Layout";
 
-const TagRoute = (props) => {
+interface QueryResult {
+    data: {
+        site: {
+            siteMetadata: {
+                title: string;
+            };
+        };
+        allMarkdownRemark: {
+            totalCount: number;
+            edges: Array<{
+                node: {
+                    fields: {
+                        slug: string;
+                    };
+                    frontmatter: {
+                        title: string;
+                    };
+                };
+            }>;
+        };
+    };
+    pageContext: {
+        tag: string;
+    };
+}
+interface TagRouteProps {
+    data: QueryResult["data"];
+    pageContext: QueryResult["pageContext"];
+}
+
+const TagRoute = (props: TagRouteProps) => {
     const posts = props.data.allMarkdownRemark.edges;
 
     const postLinks = posts.map((post) => (
@@ -57,7 +87,7 @@ export const tagPageQuery = graphql`
         }
         allMarkdownRemark(
             limit: 1000
-            sort: { fields: [frontmatter___date], order: DESC }
+            sort: { frontmatter: { date: DESC } }
             filter: { frontmatter: { tags: { in: [$tag] } } }
         ) {
             totalCount

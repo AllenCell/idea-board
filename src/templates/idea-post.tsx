@@ -1,13 +1,35 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet-async";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
 
-// eslint-disable-next-line
-export const IdeaPostTemplate = ({
+interface QueryResult {
+    data: {
+        markdownRemark: {
+            id: string;
+            html: string;
+            frontmatter: {
+                date: string;
+                title: string;
+                description: string;
+                tags: string[];
+            };
+        };
+    };
+}
+
+interface IdeaPostTemplateProps {
+    content: string;
+    contentComponent?: React.FC<{ content: string }> | typeof Content;
+    description?: string;
+    tags?: string[];
+    title: string;
+    helmet?: React.ReactNode;
+}
+
+export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     content,
     contentComponent,
     description,
@@ -51,15 +73,7 @@ export const IdeaPostTemplate = ({
     );
 };
 
-IdeaPostTemplate.propTypes = {
-    content: PropTypes.node.isRequired,
-    contentComponent: PropTypes.func,
-    description: PropTypes.string,
-    title: PropTypes.string,
-    helmet: PropTypes.object,
-};
-
-const IdeaPost = ({ data }) => {
+const IdeaPost = ({ data }: QueryResult) => {
     const { markdownRemark: post } = data;
 
     return (
@@ -82,12 +96,6 @@ const IdeaPost = ({ data }) => {
             />
         </Layout>
     );
-};
-
-IdeaPost.propTypes = {
-    data: PropTypes.shape({
-        markdownRemark: PropTypes.object,
-    }),
 };
 
 export default IdeaPost;

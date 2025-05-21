@@ -92,7 +92,7 @@ const IdeaRollTemplate = (props: {
                                 }
                             />
                         }
-                        // title={<a href={item.fields}>{item.title}</a>}
+                        title={<a href={item.slug}>{item.title}</a>}
                     />
                 </List.Item>
             )}

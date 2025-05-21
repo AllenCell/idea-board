@@ -4,19 +4,45 @@ import { Link, graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
 
 import Layout from "../components/Layout";
-import Features from "../components/Features";
 import IdeaRoll from "../components/IdeaRoll";
 import FullWidthImage from "../components/FullWidthImage";
 
-// eslint-disable-next-line
-export const IndexPageTemplate = ({
+interface QueryResult {
+    data: {
+        markdownRemark: {
+            frontmatter: {
+                title: string;
+                image: any; // Replace `any` with a more specific type if possible
+                heading: string;
+                subheading: string;
+                mainpitch: MainPitch;
+                description: string;
+            };
+        };
+    };
+}
+
+interface MainPitch {
+    title: string;
+    description: string;
+}
+
+interface IndexPageTemplateProps {
+    image: any; // Replace `any` with a more specific type if possible
+    title: string;
+    heading: string;
+    subheading: string;
+    mainpitch: MainPitch;
+    description: string;
+}
+
+export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
     image,
     title,
     heading,
     subheading,
     mainpitch,
     description,
-    intro,
 }) => {
     const heroImage = getImage(image) || image;
 
@@ -53,10 +79,9 @@ export const IndexPageTemplate = ({
                                             <p>{description}</p>
                                         </div>
                                     </div>
-                                    <Features gridItems={intro.blurbs} />
                                     <div className="column is-12">
                                         <h3 className="has-text-weight-semibold is-size-2">
-                                            Latest stories
+                                            Most recent additions
                                         </h3>
                                         <IdeaRoll />
                                         <div className="column is-12 has-text-centered">
@@ -75,19 +100,7 @@ export const IndexPageTemplate = ({
     );
 };
 
-IndexPageTemplate.propTypes = {
-    image: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    title: PropTypes.string,
-    heading: PropTypes.string,
-    subheading: PropTypes.string,
-    mainpitch: PropTypes.object,
-    description: PropTypes.string,
-    intro: PropTypes.shape({
-        blurbs: PropTypes.array,
-    }),
-};
-
-const IndexPage = ({ data }) => {
+const IndexPage = ({ data }: QueryResult) => {
     const { frontmatter } = data.markdownRemark;
 
     return (
@@ -99,7 +112,6 @@ const IndexPage = ({ data }) => {
                 subheading={frontmatter.subheading}
                 mainpitch={frontmatter.mainpitch}
                 description={frontmatter.description}
-                intro={frontmatter.intro}
             />
         </Layout>
     );
@@ -132,22 +144,6 @@ export const pageQuery = graphql`
                     description
                 }
                 description
-                intro {
-                    blurbs {
-                        image {
-                            childImageSharp {
-                                gatsbyImageData(
-                                    width: 240
-                                    quality: 64
-                                    layout: CONSTRAINED
-                                )
-                            }
-                        }
-                        text
-                    }
-                    heading
-                    description
-                }
             }
         }
     }
