@@ -15,7 +15,12 @@ interface PostNode {
             title: string;
             date: string;
             templateKey: string;
+            dataStatus: string;
+            caveats?: string;
+            program: string;
+            authors?: string[];
             tags?: string[];
+            type: string;
             dataset?: {
                 frontmatter: {
                     name: string;
@@ -46,6 +51,10 @@ const IdeaRollTemplate = (props: {
         date: post.frontmatter.date,
         slug: post.fields.slug,
         tags: post.frontmatter.tags || [],
+        type: post.frontmatter.type,
+        authors: post.frontmatter.authors || [],
+        dataStatus: post.frontmatter.dataStatus,
+        caveats: post.frontmatter.caveats || "",
         dataset: { ...post.frontmatter.dataset?.frontmatter },
     }));
     console.log("data", data);
@@ -85,10 +94,31 @@ const IdeaRollTemplate = (props: {
                     <List.Item.Meta
                         title={<a href={item.slug}>{item.title}</a>}
                         description={
-                            <span>
-                                {item.date} -{" "}
-                                {item.dataset.name || "No public dataset"}
-                            </span>
+                            <>
+                                <Space>
+                                    <Avatar.Group maxCount={2}>
+                                        {item.authors.map((author) => (
+                                            <Avatar
+                                                key={author}
+                                                style={{
+                                                    backgroundColor: "gray",
+                                                }}
+                                            >
+                                                {author[0].toUpperCase()}
+                                            </Avatar>
+                                        ))}
+                                    </Avatar.Group>
+                                    <span>{item.dataStatus}</span>
+                                    {item.caveats && (
+                                        <span style={{ color: "red" }}>
+                                            Caveats: {item.caveats}
+                                        </span>
+                                    )}
+                                </Space>
+                                <span>
+                                    {item.dataset.name || "No public dataset"}
+                                </span>
+                            </>
                         }
                     />
                 </List.Item>
@@ -120,7 +150,10 @@ export default function IdeaRoll() {
                                     templateKey
                                     date(formatString: "MMMM DD, YYYY")
                                     tags
-
+                                    type
+                                    authors
+                                    dataStatus
+                                    caveats
                                     dataset {
                                         frontmatter {
                                             name

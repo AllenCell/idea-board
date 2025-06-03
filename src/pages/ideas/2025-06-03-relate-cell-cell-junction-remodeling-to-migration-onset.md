@@ -1,13 +1,13 @@
 ---
 templateKey: idea-post
 title: "Relate cell-cell junction remodeling to migration onset "
-data-status: Released ZO-1 timelapses
+dataStatus: Released ZO-1 timelapses
 dataset: Released EMT dataset
-data-caveats: None
+caveats: None
 program: EMT
 date: 2025-06-02T17:31:00.000Z
 type: New idea/question
-author(s):
+authors:
   - Gokhan
 tags: 
   - EMT

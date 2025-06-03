@@ -29,7 +29,7 @@ collections:
           - { label: "Question/Title", name: "title", widget: "string" }
           - {
                 label: "Data status",
-                name: "data-status",
+                name: "dataStatus",
                 widget: "string",
                 required: false,
             }
@@ -53,7 +53,7 @@ collections:
             }
           - {
                 label: "Data caveats",
-                name: "data-caveats",
+                name: "caveats",
                 widget: "string",
                 required: false,
             }
@@ -72,7 +72,7 @@ collections:
             }
           - {
                 label: "Author(s)",
-                name: "author(s)",
+                name: "authors",
                 widget: "relation",
                 collection: "allenite",
                 search_fields: ["name", "title"],

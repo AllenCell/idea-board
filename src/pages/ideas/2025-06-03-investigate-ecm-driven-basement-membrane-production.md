@@ -1,13 +1,13 @@
 ---
 templateKey: idea-post
 title: Investigate ECM-driven basement membrane production
-data-status: "We have some preliminary data on different ECM to drive lumenoid formation "
+dataStatus: "We have some preliminary data on different ECM to drive lumenoid formation "
 dataset: "EMC "
-data-caveats: "Preliminary data, would need additional organization for release "
+caveats: "Preliminary data, would need additional organization for release "
 program: EMT
 date: 2025-06-02T17:38:00.000Z
 type: New idea/question
-author(s):
+authors:
   - Gokhan
 tags:
   - ECM
