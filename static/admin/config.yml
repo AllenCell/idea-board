@@ -16,7 +16,7 @@ collections:
     - name: "ideas"
       label: "Ideas"
       label_singular: "Idea"
-      folder: "src/pages/idea"
+      folder: "src/pages/ideas"
       create: true
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
       fields:
@@ -27,9 +27,36 @@ collections:
                 default: "idea-post",
             }
           - { label: "Question/Title", name: "title", widget: "string" }
-          - { label: "Data status", name: "data-status", widget: "string" }
-          - { label: "Data link", name: "data-link", widget: "string" }
-          - { label: "Data caveats", name: "data-caveats", widget: "string" }
+          - {
+                label: "Data status",
+                name: "data-status",
+                widget: "string",
+                required: false,
+            }
+          - {
+                label: "Dataset",
+                name: "dataset",
+                widget: "relation",
+                collection: "dataset",
+                search_fields: ["name", "link"],
+                value_field: "name",
+                multiple: false,
+                required: false,
+                hint: "Select a dataset from the dataset collection, or leave blank if this idea is not associated with a dataset or if you just have a direct link.",
+            }
+          - {
+                label: "Link to data",
+                name: "data-link",
+                widget: "string",
+                required: false,
+                hint: "If you have a direct link to the data, you can put it here. Otherwise, select a dataset from the dataset collection above.",
+            }
+          - {
+                label: "Data caveats",
+                name: "data-caveats",
+                widget: "string",
+                required: false,
+            }
           - {
                 label: "Program",
                 name: "program",
@@ -44,17 +71,56 @@ collections:
                 options: ["New idea/question", "Early dataset", "Observation"],
             }
           - {
-                label: "Author",
-                name: "author",
+                label: "Author(s)",
+                name: "author(s)",
                 widget: "relation",
-                collection: "allenites",
+                collection: "allenite",
                 search_fields: ["name", "title"],
                 value_field: "name",
+                multiple: true,
             }
-          - { label: "contact", name: "Contact", widget: "string" }
           - { label: "Tags", name: "tags", widget: "list" }
           - { label: "AICS concerns", name: "concerns", widget: "string" }
-
+          - {
+                label: "Details",
+                name: "body",
+                widget: "markdown",
+                required: false,
+            }
+    - name: "dataset"
+      label: "Datasets"
+      label_singular: "Dataset"
+      folder: "src/pages/dataset"
+      create: true
+      slug: "{{name}}"
+      fields:
+          - {
+                label: "Template Key",
+                name: "templateKey",
+                widget: "hidden",
+                default: "dataset",
+            }
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Link", name: "link", widget: "string", required: false }
+          - {
+                label: "Status",
+                name: "status",
+                widget: "select",
+                options:
+                    [
+                        "Public",
+                        "Not QCed",
+                        "Preliminary",
+                        "Need to request data directly",
+                    ],
+            }
+          - { label: "Publish Date", name: "date", widget: "datetime" }
+          - {
+                label: "Description",
+                name: "description",
+                widget: "markdown",
+                required: false,
+            }
     - name: "allenite"
       label: "Allenites"
       label_singular: "Allenite"
@@ -109,7 +175,7 @@ collections:
                 required: false,
             }
           - { label: "Image", name: "image", widget: image, required: false }
-          - { label: "Active", name: "active", widget: boolean }
+          - { label: "Active", name: "active", widget: boolean, default: false }
 
     - name: "pages"
       label: "Pages"

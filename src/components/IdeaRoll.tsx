@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, graphql, StaticQuery } from "gatsby";
-import { Avatar, List, Space } from "antd";
+import { Avatar, List, Space, Tag } from "antd";
 import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
 import PreviewCompatibleImage from "./PreviewCompatibleImage";
 
@@ -14,13 +14,15 @@ interface PostNode {
         frontmatter: {
             title: string;
             date: string;
-            featuredpost: boolean;
-            featuredimage?: {
-                childImageSharp: {
-                    gatsbyImageData: {
-                        width: number;
-                        height: number;
-                    };
+            templateKey: string;
+            tags?: string[];
+            dataset?: {
+                frontmatter: {
+                    name: string;
+                    description?: string;
+                    link?: string;
+                    status?: string;
+                    date?: string;
                 };
             };
         };
@@ -43,10 +45,10 @@ const IdeaRollTemplate = (props: {
         title: post.frontmatter.title,
         date: post.frontmatter.date,
         slug: post.fields.slug,
-        excerpt: post.excerpt,
-        featuredpost: post.frontmatter.featuredpost,
-        featuredimage: post.frontmatter.featuredimage,
+        tags: post.frontmatter.tags || [],
+        dataset: { ...post.frontmatter.dataset?.frontmatter },
     }));
+    console.log("data", data);
     return (
         <List
             itemLayout="vertical"
@@ -57,19 +59,20 @@ const IdeaRollTemplate = (props: {
                     actions={[
                         <IconText
                             icon={StarOutlined}
-                            text="156"
+                            text="2"
                             key="list-vertical-star-o"
                         />,
-                        <IconText
-                            icon={LikeOutlined}
-                            text="156"
-                            key="list-vertical-like-o"
-                        />,
+
                         <IconText
                             icon={MessageOutlined}
                             text="2"
                             key="list-vertical-message"
                         />,
+                        ...item.tags.map((tag) => (
+                            <Link to={`/tags/${tag.replace(" ", "-")}/`}>
+                                <Tag key="list-vertical-tag">{tag}</Tag>
+                            </Link>
+                        )),
                     ]}
                     extra={
                         <img
@@ -80,19 +83,13 @@ const IdeaRollTemplate = (props: {
                     }
                 >
                     <List.Item.Meta
-                        avatar={
-                            <PreviewCompatibleImage
-                                imageInfo={
-                                    item.featuredimage
-                                        ? {
-                                              ...item.featuredimage,
-                                              image: item.featuredimage,
-                                          }
-                                        : { image: {}, alt: "Default alt text" }
-                                }
-                            />
-                        }
                         title={<a href={item.slug}>{item.title}</a>}
+                        description={
+                            <span>
+                                {item.date} -{" "}
+                                {item.dataset.name || "No public dataset"}
+                            </span>
+                        }
                     />
                 </List.Item>
             )}
@@ -122,14 +119,14 @@ export default function IdeaRoll() {
                                     title
                                     templateKey
                                     date(formatString: "MMMM DD, YYYY")
-                                    featuredpost
-                                    featuredimage {
-                                        childImageSharp {
-                                            gatsbyImageData(
-                                                width: 120
-                                                quality: 100
-                                                layout: CONSTRAINED
-                                            )
+                                    tags
+
+                                    dataset {
+                                        frontmatter {
+                                            name
+                                            description
+                                            link
+                                            status
                                         }
                                     }
                                 }
