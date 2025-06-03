@@ -4,6 +4,8 @@ import { Avatar, List, Space, Tag } from "antd";
 import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
 import PreviewCompatibleImage from "./PreviewCompatibleImage";
 
+const { container } = require("../style/idea-roll.module.css");
+
 interface PostNode {
     node: {
         id: string;
@@ -57,11 +59,19 @@ const IdeaRollTemplate = (props: {
         caveats: post.frontmatter.caveats || "",
         dataset: { ...post.frontmatter.dataset?.frontmatter },
     }));
-    console.log("data", data);
     return (
         <List
+            className={container}
             itemLayout="vertical"
+            bordered={true}
             dataSource={data}
+            footer={
+                <div>
+                    <Link className="btn" to="/ideas">
+                        Read more
+                    </Link>
+                </div>
+            }
             renderItem={(item) => (
                 <List.Item
                     key={item.title}
@@ -83,37 +93,39 @@ const IdeaRollTemplate = (props: {
                             </Link>
                         )),
                     ]}
-                    extra={
-                        <img
-                            width={272}
-                            alt="logo"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                        />
-                    }
+                    // extra={
+                    //     <img
+                    //         width={272}
+                    //         alt="logo"
+                    //         src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                    //     />
+                    // }
                 >
                     <List.Item.Meta
                         title={<a href={item.slug}>{item.title}</a>}
+                        avatar={
+                            <Avatar.Group>
+                                {item.authors.map((author) => (
+                                    <Avatar
+                                        key={author}
+                                        style={{
+                                            backgroundColor: "gray",
+                                        }}
+                                    >
+                                        {author[0].toUpperCase()}
+                                    </Avatar>
+                                ))}
+                            </Avatar.Group>
+                        }
                         description={
                             <>
                                 <Space>
-                                    <Avatar.Group maxCount={2}>
-                                        {item.authors.map((author) => (
-                                            <Avatar
-                                                key={author}
-                                                style={{
-                                                    backgroundColor: "gray",
-                                                }}
-                                            >
-                                                {author[0].toUpperCase()}
-                                            </Avatar>
-                                        ))}
-                                    </Avatar.Group>
                                     <span>{item.dataStatus}</span>
-                                    {item.caveats && (
+                                    {/* {item.caveats && (
                                         <span style={{ color: "red" }}>
                                             Caveats: {item.caveats}
                                         </span>
-                                    )}
+                                    )} */}
                                 </Space>
                                 <span>
                                     {item.dataset.name || "No public dataset"}
@@ -121,6 +133,7 @@ const IdeaRollTemplate = (props: {
                             </>
                         }
                     />
+                    <div>{item.dataset.description}</div>
                 </List.Item>
             )}
         />

@@ -12,7 +12,7 @@ interface FullWidthImageProps {
 const FullWidthImage: React.FC<FullWidthImageProps> = ({
     img,
     title,
-    height = 400,
+    height = 200,
     subheading,
     imgPosition = "top left",
 }) => {

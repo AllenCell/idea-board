@@ -1,0 +1,21 @@
+.container {
+}
+
+.header {
+    max-width: 1728px;
+    margin: auto;
+    padding: 32px 96px;
+}
+
+.info {
+    background-color: white;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    padding: 20px 32px;
+}
+
+.list-wrapper {
+    max-width: 1728px;
+    margin: auto;
+    padding: 32px 96px;
+}

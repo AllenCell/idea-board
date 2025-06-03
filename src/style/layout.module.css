@@ -1,10 +1,11 @@
+@import "../style/colors.sass";
+
 .container {
     font-family: "Open Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
     max-width: 1728px;
-    padding: 32px;
     margin: auto;
 }
 

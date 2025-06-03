@@ -2,11 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link, graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
+import { Layout as AntdLayout, Flex } from "antd";
 
 import Layout from "../components/Layout";
 import IdeaRoll from "../components/IdeaRoll";
 import FullWidthImage from "../components/FullWidthImage";
 
+const {
+    container,
+    header,
+    info,
+    listWrapper,
+} = require("../style/index-page.module.css");
 interface QueryResult {
     data: {
         markdownRemark: {
@@ -47,56 +54,27 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
     const heroImage = getImage(image) || image;
 
     return (
-        <div>
+        <AntdLayout className={container}>
             <FullWidthImage
                 img={heroImage}
                 title={title}
                 subheading={subheading}
             />
-            <section className="section section--gradient">
-                <div className="container">
-                    <div className="section">
-                        <div className="columns">
-                            <div className="column is-10 is-offset-1">
-                                <div className="content">
-                                    <div className="content">
-                                        <div className="tile">
-                                            <h1 className="title">
-                                                {mainpitch.title}
-                                            </h1>
-                                        </div>
-                                        <div className="tile">
-                                            <h3 className="subtitle">
-                                                {mainpitch.description}
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <div className="columns">
-                                        <div className="column is-12">
-                                            <h3 className="has-text-weight-semibold is-size-2">
-                                                {heading}
-                                            </h3>
-                                            <p>{description}</p>
-                                        </div>
-                                    </div>
-                                    <div className="column is-12">
-                                        <h3 className="has-text-weight-semibold is-size-2">
-                                            Most recent additions
-                                        </h3>
-                                        <IdeaRoll />
-                                        <div className="column is-12 has-text-centered">
-                                            <Link className="btn" to="/ideas">
-                                                Read more
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div className={header}>
+                <h4>{mainpitch.title}</h4>
+                <p>{mainpitch.description}</p>
+                <div className={info}>
+                    <div>{heading}</div>
+                    <p>{description}</p>
                 </div>
-            </section>
-        </div>
+            </div>
+            <AntdLayout.Content>
+                <div className={listWrapper}>
+                    <h3>Most recent additions</h3>
+                    <IdeaRoll />
+                </div>
+            </AntdLayout.Content>
+        </AntdLayout>
     );
 };
 
