@@ -71,7 +71,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
             <AntdLayout.Content>
                 <div className={listWrapper}>
                     <h3>Most recent additions</h3>
-                    <IdeaRoll />
+                    <IdeaRoll count={3} />
                 </div>
             </AntdLayout.Content>
         </AntdLayout>

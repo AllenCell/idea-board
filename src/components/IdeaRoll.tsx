@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, graphql, StaticQuery } from "gatsby";
 import { Avatar, List, Space, Tag } from "antd";
-import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
-import PreviewCompatibleImage from "./PreviewCompatibleImage";
+import { MessageOutlined, StarOutlined } from "@ant-design/icons";
+import { useLocation } from "@reach/router";
 
 const { container } = require("../style/idea-roll.module.css");
 
@@ -37,8 +37,11 @@ interface PostNode {
 }
 
 const IdeaRollTemplate = (props: {
+    count?: number;
     data: { allMarkdownRemark: { edges: PostNode[] } };
 }) => {
+    const path = useLocation().pathname;
+
     const { edges: posts } = props.data.allMarkdownRemark;
     const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
         <Space>
@@ -59,6 +62,9 @@ const IdeaRollTemplate = (props: {
         caveats: post.frontmatter.caveats || "",
         dataset: { ...post.frontmatter.dataset?.frontmatter },
     }));
+    if (props.count) {
+        data.splice(props.count);
+    }
     return (
         <List
             className={container}
@@ -66,11 +72,15 @@ const IdeaRollTemplate = (props: {
             bordered={true}
             dataSource={data}
             footer={
-                <div>
-                    <Link className="btn" to="/ideas">
-                        Read more
-                    </Link>
-                </div>
+                path.includes("ideas") ? (
+                    ""
+                ) : (
+                    <div>
+                        <Link className="btn" to="/ideas">
+                            Read more
+                        </Link>
+                    </div>
+                )
             }
             renderItem={(item) => (
                 <List.Item
@@ -140,7 +150,11 @@ const IdeaRollTemplate = (props: {
     );
 };
 
-export default function IdeaRoll() {
+export default function IdeaRoll({
+    count,
+}: {
+    count?: number;
+}): React.JSX.Element {
     return (
         <StaticQuery
             query={graphql`
@@ -181,7 +195,9 @@ export default function IdeaRoll() {
                     }
                 }
             `}
-            render={(data: any) => <IdeaRollTemplate data={data} />}
+            render={(data: any) => (
+                <IdeaRollTemplate data={data} count={count} />
+            )}
         />
     );
 }
