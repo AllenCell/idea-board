@@ -77,7 +77,7 @@ const IdeaRollTemplate = (props: {
                 ) : (
                     <div>
                         <Link className="btn" to="/ideas">
-                            Read more
+                            See more
                         </Link>
                     </div>
                 )

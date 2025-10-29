@@ -1,7 +1,5 @@
 ---
 templateKey: allenite
-name: Antoine
-title: "Senior Scientist "
-program:
-  - EMT
+name: Gokhan Dalgin
+title: Senior Scientist
 ---

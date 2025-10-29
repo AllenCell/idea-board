@@ -26,37 +26,144 @@ collections:
                 widget: "hidden",
                 default: "idea-post",
             }
-          - { label: "Question/Title", name: "title", widget: "string" }
           - {
-                label: "Data status",
-                name: "dataStatus",
+                label: "Question/Title/Hypothesis",
+                name: "title",
+                widget: "string",
+                hint: "A one sentence description of the idea, question, or hypothesis.",
+            }
+          - {
+                label: "Introduction",
+                name: "introduction",
+                widget: "markdown",
+                required: false,
+                hint: "Why is this idea interesting or important?",
+            }
+          - {
+                label: "Preliminary findings",
+                name: "preliminaryFindings",
+                widget: "object",
+                hint: "What have you found so far?",
+                required: false,
+                fields:
+                    [
+                        {
+                            label: "Summary of findings",
+                            name: "summary",
+                            widget: "string",
+                            required: false,
+                        },
+                        {
+                            label: "Images or figures",
+                            name: "figures",
+                            widget: "list",
+                            required: false,
+                            hint: "Add any images or figures that illustrate your preliminary findings.",
+                            field:
+                                {
+                                    label: "Figure",
+                                    name: "figure",
+                                    widget: "image",
+                                },
+                        },
+                    ],
+            }
+          - {
+                label: "Materials and Methods",
+                name: "materialsAndMethods",
+                widget: "object",
+                required: true,
+                fields:
+                    [
+                        {
+                            label: "Dataset",
+                            name: "dataset",
+                            widget: "relation",
+                            collection: "dataset",
+                            search_fields: ["name", "link"],
+                            value_field: "name",
+                            multiple: false,
+                            required: false,
+                            hint: "Select a dataset from the dataset collection, (if it's a new dataset, please add it to the dataset collection first, you can save this and come back later).",
+                        },
+                        {
+                            label: "Relevant protocols",
+                            name: "protocols",
+                            widget: "list",
+                            required: false,
+                            hint: "List any relevant protocols used in this analysis.",
+                            field:
+                                {
+                                    label: "Protocol",
+                                    name: "protocol",
+                                    widget: "file",
+                                },
+                        },
+                        {
+                            label: "Cell lines used",
+                            name: "cellLines",
+                            widget: "list",
+                            required: false,
+                            hint: "List any cell lines used in this analysis.",
+                            field:
+                                {
+                                    label: "Cell line",
+                                    name: "cellLine",
+                                    widget: "link",
+                                },
+                        },
+                        {
+                            label: "Software tools",
+                            name: "software",
+                            widget: "list",
+                            required: false,
+                            hint: "List any software tools used in this analysis.",
+
+                            fields:
+                                [
+                                    {
+                                        label: "Software tool",
+                                        name: "softwareTool",
+                                        widget: "object",
+                                        fields:
+                                            [
+                                                {
+                                                    label: "Name",
+                                                    name: "name",
+                                                    widget: "string",
+                                                },
+                                                {
+                                                    label: "Instructions",
+                                                    name: "instructions",
+                                                    widget: "markdown",
+                                                },
+
+                                                {
+                                                    label: "Link",
+                                                    name: "link",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                ],
+                        },
+                    ],
+            }
+          - {
+                label: "Suggested next steps",
+                name: "nextSteps",
+                widget: "markdown",
+                required: false,
+                hint: "What are the next steps to further investigate this idea?",
+            }
+          - {
+                label: "Associated publication",
+                name: "publication",
                 widget: "string",
                 required: false,
             }
-          - {
-                label: "Dataset",
-                name: "dataset",
-                widget: "relation",
-                collection: "dataset",
-                search_fields: ["name", "link"],
-                value_field: "name",
-                multiple: false,
-                required: false,
-                hint: "Select a dataset from the dataset collection, or leave blank if this idea is not associated with a dataset or if you just have a direct link.",
-            }
-          - {
-                label: "Link to data",
-                name: "data-link",
-                widget: "string",
-                required: false,
-                hint: "If you have a direct link to the data, you can put it here. Otherwise, select a dataset from the dataset collection above.",
-            }
-          - {
-                label: "Data caveats",
-                name: "caveats",
-                widget: "string",
-                required: false,
-            }
+
           - {
                 label: "Program",
                 name: "program",
@@ -68,7 +175,12 @@ collections:
                 label: "Type",
                 name: "type",
                 widget: "select",
-                options: ["New idea/question", "Early dataset", "Observation"],
+                options:
+                    [
+                        "analysis of existing data",
+                        "hypothesis that requires new experimentation",
+                        "micropublication",
+                    ],
             }
           - {
                 label: "Author(s)",
@@ -79,14 +191,29 @@ collections:
                 value_field: "name",
                 multiple: true,
             }
-          - { label: "Tags", name: "tags", widget: "list" }
-          - { label: "AICS concerns", name: "concerns", widget: "string" }
           - {
-                label: "Details",
-                name: "body",
-                widget: "markdown",
+                label: "Tags",
+                name: "tags",
+                widget: "list",
+                allow_add: true,
+                required: false,
+                default: [],
+            }
+          - {
+                label: "Preferred acknowledgment",
+                name: "acknowledgment",
+                widget: "select",
+                options:
+                    ["as co-authors", "acknowledgment in paper", "citation"],
                 required: false,
             }
+          - {
+                label: "AICS concerns",
+                name: "concerns",
+                widget: "string",
+                required: false,
+            }
+
     - name: "dataset"
       label: "Datasets"
       label_singular: "Dataset"
