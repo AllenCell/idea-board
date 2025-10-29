@@ -33,6 +33,39 @@ collections:
                 hint: "A one sentence description of the idea, question, or hypothesis.",
             }
           - {
+                label: "Type",
+                name: "type",
+                widget: "select",
+                options:
+                    [
+                        "analysis of existing data",
+                        "hypothesis that requires new experimentation",
+                        "micropublication",
+                    ],
+            }
+          - {
+                label: "Publish Date",
+                name: "date",
+                widget: "datetime",
+                default: "{{now}}",
+            }
+
+          - {
+                label: "Author(s)",
+                name: "authors",
+                widget: "relation",
+                collection: "allenite",
+                search_fields: ["name", "title"],
+                value_field: "name",
+                multiple: true,
+            }
+          - {
+                label: "Program",
+                name: "program",
+                widget: "select",
+                options: ["EMT", "Endo", "Other"],
+            }
+          - {
                 label: "Introduction",
                 name: "introduction",
                 widget: "markdown",
@@ -163,34 +196,6 @@ collections:
                 widget: "string",
                 required: false,
             }
-
-          - {
-                label: "Program",
-                name: "program",
-                widget: "select",
-                options: ["EMT", "Endo", "Other"],
-            }
-          - { label: "Publish Date", name: "date", widget: "datetime" }
-          - {
-                label: "Type",
-                name: "type",
-                widget: "select",
-                options:
-                    [
-                        "analysis of existing data",
-                        "hypothesis that requires new experimentation",
-                        "micropublication",
-                    ],
-            }
-          - {
-                label: "Author(s)",
-                name: "authors",
-                widget: "relation",
-                collection: "allenite",
-                search_fields: ["name", "title"],
-                value_field: "name",
-                multiple: true,
-            }
           - {
                 label: "Tags",
                 name: "tags",
@@ -208,7 +213,7 @@ collections:
                 required: false,
             }
           - {
-                label: "AICS concerns",
+                label: "AICS concerns if any (won't be shared publicly)",
                 name: "concerns",
                 widget: "string",
                 required: false,
