@@ -17,7 +17,7 @@ interface PostNode {
             title: string;
             date: string;
             templateKey: string;
-            caveats?: string;
+            concerns?: string;
             program: string;
             authors?: string[];
             tags?: string[];
@@ -57,7 +57,7 @@ const IdeaRollTemplate = (props: {
         tags: post.frontmatter.tags || [],
         type: post.frontmatter.type,
         authors: post.frontmatter.authors || [],
-        caveats: post.frontmatter.caveats || "",
+        concerns: post.frontmatter.concerns || "",
         dataset: { ...post.frontmatter.dataset?.frontmatter },
     }));
     if (props.count) {
@@ -129,9 +129,9 @@ const IdeaRollTemplate = (props: {
                             <>
                                 <Space>
                                     {/* {item.dataStatus && (
-                                    {/* {item.caveats && (
+                                    {/* {item.concerns && (
                                         <span style={{ color: "red" }}>
-                                            Caveats: {item.caveats}
+                                            concerns: {item.concerns}
                                         </span>
                                     )} */}
                                 </Space>
@@ -177,7 +177,7 @@ export default function IdeaRoll({
                                     tags
                                     type
                                     authors
-                                    caveats
+                                    concerns
                                     dataset {
                                         frontmatter {
                                             name
