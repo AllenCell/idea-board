@@ -3,6 +3,7 @@ import { Link, graphql, StaticQuery } from "gatsby";
 import { Avatar, List, Space, Tag } from "antd";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
+import { IdeaFrontmatter } from "../types";
 
 const { container } = require("../style/idea-roll.module.css");
 
@@ -13,25 +14,7 @@ interface PostNode {
         fields: {
             slug: string;
         };
-        frontmatter: {
-            title: string;
-            date: string;
-            templateKey: string;
-            concerns?: string;
-            program: string;
-            authors?: string[];
-            tags?: string[];
-            type: string;
-            dataset?: {
-                frontmatter: {
-                    name: string;
-                    description?: string;
-                    link?: string;
-                    status?: string;
-                    date?: string;
-                };
-            };
-        };
+        frontmatter: IdeaFrontmatter;
     };
 }
 
@@ -58,7 +41,7 @@ const IdeaRollTemplate = (props: {
         type: post.frontmatter.type,
         authors: post.frontmatter.authors || [],
         concerns: post.frontmatter.concerns || "",
-        dataset: { ...post.frontmatter.dataset?.frontmatter },
+        dataset: { ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter },
     }));
     if (props.count) {
         data.splice(props.count);
@@ -110,6 +93,7 @@ const IdeaRollTemplate = (props: {
                     // }
                 >
                     <List.Item.Meta
+                        // links to the URL created for "idea-post" template
                         title={<a href={item.slug}>{item.title}</a>}
                         avatar={
                             <Avatar.Group>
@@ -178,12 +162,14 @@ export default function IdeaRoll({
                                     type
                                     authors
                                     concerns
-                                    dataset {
-                                        frontmatter {
-                                            name
-                                            description
-                                            link
-                                            status
+                                    materialsAndMethods {
+                                        dataset {
+                                            frontmatter {
+                                                name
+                                                description
+                                                link
+                                                status
+                                            }
                                         }
                                     }
                                 }

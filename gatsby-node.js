@@ -2,14 +2,39 @@ const _ = require("lodash");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 
-exports.createSchemaCustomization = ({ actions, schema }) => {
+exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
-    const typeDefs = [
-        "type MarkdownRemark implements Node { frontmatter: Frontmatter }",
-        `type Frontmatter {
-                dataset: MarkdownRemark @link(by: "frontmatter.name")
-            }`,
-    ];
+    const typeDefs = `
+        type MarkdownRemark implements Node {
+            frontmatter: Frontmatter
+        }
+
+        """
+        Shared frontmatter fields for idea posts (and other markdown).
+        """
+        type Frontmatter {
+            date: Date @dateformat
+            title: String!
+            description: String
+            tags: [String!]
+            authors: [String!]
+            program: String
+            type: String
+            concerns: String
+            introduction: String
+            materialsAndMethods: MaterialsAndMethods
+            nextSteps: String
+        }
+
+        """
+        Nested materials and methods block for idea posts.
+        """
+        type MaterialsAndMethods {
+            # This links the string stored by Decap (dataset name)
+            # to the MarkdownRemark node in the "dataset" collection
+            dataset: MarkdownRemark @link(by: "frontmatter.name")
+        }
+    `;
     createTypes(typeDefs);
 };
 
