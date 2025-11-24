@@ -140,12 +140,19 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "List any cell lines used in this analysis.",
-                            field:
+                            fields: [
                                 {
-                                    label: "Cell line",
-                                    name: "cellLine",
-                                    widget: "link",
+                                    label: "Name",
+                                    name: "name",
+                                    widget: "string",
                                 },
+                                {
+                                    label: "Link",
+                                    name: "link",
+                                    widget: "string",
+                                    required: false,
+                                },
+                            ],
                         },
                         {
                             label: "Software tools",
@@ -153,44 +160,42 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "List any software tools used in this analysis.",
-
-                            fields:
-                                [
+                            field: {
+                                label: "Software tool",
+                                name: "softwareTool",
+                                widget: "object",
+                                fields: [
                                     {
-                                        label: "Software tool",
-                                        name: "softwareTool",
-                                        widget: "object",
-                                        fields:
-                                            [
-                                                {
-                                                    label: "Name",
-                                                    name: "name",
-                                                    widget: "string",
-                                                },
-                                                {
-                                                    label: "Instructions",
-                                                    name: "instructions",
-                                                    widget: "markdown",
-                                                },
-
-                                                {
-                                                    label: "Link",
-                                                    name: "link",
-                                                    widget: "string",
-                                                    required: false,
-                                                },
-                                            ],
+                                        label: "Name",
+                                        name: "name",
+                                        widget: "string",
+                                    },
+                                    {
+                                        label: "Instructions",
+                                        name: "instructions",
+                                        widget: "markdown",
+                                    },
+                                    {
+                                        label: "Link",
+                                        name: "link",
+                                        widget: "string",
+                                        required: false,
                                     },
                                 ],
+                            },
                         },
                     ],
             }
           - {
-                label: "Suggested next steps",
-                name: "nextSteps",
+            label: "Suggested next steps",
+            name: "nextSteps",
+            widget: "list",
+            required: false,
+            hint: "What are the next steps to further investigate this idea?",
+            field: {
+                label: "Step",
                 widget: "markdown",
-                required: false,
-                hint: "What are the next steps to further investigate this idea?",
+            },
             }
           - {
                 label: "Associated publication",

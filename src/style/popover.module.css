@@ -1,0 +1,5 @@
+.popoverContent {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}

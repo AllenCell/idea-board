@@ -1,28 +1,31 @@
 import React from "react";
-import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet-async";
 import { graphql, Link } from "gatsby";
+import { Layout as AntdLayout, Card, Collapse, Flex, Space } from "antd";
 import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
-import { MaterialsAndMethods } from "../types";
+import FullWidthImage from "../components/FullWidthImage";
+import { IdeaPostNode, MaterialsAndMethods } from "../types";
+import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
+import { TagPopover } from "../components/TagPopover";
+import { CommentsPopover } from "../components/CommentsPopover";
+import { ArrowLeftOutlined, LeftCircleOutlined, StarOutlined } from "@ant-design/icons";
 
-interface IdeaPostNode {
-    id: string;
-    html: string;
-    frontmatter: {
-        date: string;
-        title: string;
-        description?: string;
-        tags?: string[];
-        authors?: string[];
-        program?: string;
-        type?: string;
-        concerns?: string;
-        introduction?: string;
-        materialsAndMethods?: MaterialsAndMethods;
-        nextSteps?: string;
-    };
-}
+// const { header } = require("../style/index-page.module.css");
+const {
+    container,
+    backButton,
+    section,
+    sectionTitle,
+    subsectionTitle,
+    tagsSection,
+    taglist,
+    proposal,
+    card,
+    buttonContainer,
+    buttonText,
+    actionIcons,
+} = require("../style/idea-post.module.css");
 
 interface QueryResult {
     data: {
@@ -42,7 +45,7 @@ interface IdeaPostTemplateProps {
     concerns?: string;
     introduction?: string;
     materialsAndMethods?: MaterialsAndMethods;
-    nextSteps?: string;
+    nextSteps?: string[];
     title: string;
     helmet?: React.ReactNode;
 }
@@ -63,145 +66,117 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     title,
     helmet,
 }) => {
+    // not rendering:
+    // author, publish date, program, type, concerns, PostContent (what is that?)
     const PostContent = contentComponent || Content;
 
-    const datasetFm =
-        materialsAndMethods?.dataset?.frontmatter ?? undefined;
+    const getTagList = (tags: string[]) => {
+        return (
+            <>
+            {/* <div> Explore related proposals: </div> */}
+            <ul className={taglist}>
+                {tags.map((tag) => (
+                    <li key={tag + `tag`}>
+                        <TagPopover tag={tag} />
+                    </li>
+                ))}
+            </ul>
+            
+            </>
+        );
+    };
+
+    const getNextStepsContent = (nextSteps: string[]) => {
+        if (nextSteps.length === 1) {
+            return <p>{nextSteps[0]}</p>;
+        } else {
+            return (
+                <ul>
+                    {nextSteps.map((step, index) => (
+                        <li key={index}>{step}</li>
+                    ))}
+                </ul>
+            );
+        }
+    };
+
+    //TODO dry this out, its duplciated from IdeaRoll
+    const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+        <Space>
+            {React.createElement(icon)}
+            {text}
+        </Space>
+    );
 
     return (
-        <section className="section">
+        <AntdLayout className={container}>
             {helmet || ""}
-            <div className="container content">
-                <div className="columns">
-                    <div className="column is-10 is-offset-1">
-                        {/* Title */}
-                        <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-                            {title}
-                        </h1>
+            <AntdLayout.Header>
+                <Flex className={buttonContainer}>
+                    <Link className={backButton} to="/">
+                        <ArrowLeftOutlined />
+                        <span className={buttonText}> All proposals </span>
+                    </Link>
+                </Flex>
+            </AntdLayout.Header>
+            <AntdLayout.Content>
+                <Card className={card}>
+                    {introduction && (
+                        <div>
+                            <Flex
+                                justify="space-between"
+                                align="center"
+                                className={sectionTitle}
+                            >
+                                <h3>{title}</h3>
+                                <Flex className={actionIcons} gap={6}>
+                                    <IconText
+                                        icon={StarOutlined}
+                                        text="2"
+                                        key="list-vertical-star-o"
+                                    />
+                                    <CommentsPopover
+                                        postTitle={title}
+                                        commentCount={2}
+                                    />
+                                </Flex>
+                            </Flex>
 
-                        {/* Meta: authors, date, program, type */}
-                        <div className="is-size-6 has-text-grey">
-                            {authors && authors.length > 0 && (
-                                <p>
-                                    <strong>Author(s):</strong>{" "}
-                                    {authors.join(", ")}
-                                </p>
-                            )}
-                            {date && (
-                                <p>
-                                    <strong>Publish date:</strong> {date}
-                                </p>
-                            )}
-                            {program && (
-                                <p>
-                                    <strong>Program:</strong> {program}
-                                </p>
-                            )}
-                            {type && (
-                                <p>
-                                    <strong>Type:</strong> {type}
-                                </p>
-                            )}
+                            <p className={proposal}>{introduction}</p>
                         </div>
+                    )}
+                    {nextSteps && (
+                        <div className={section}>
+                            <h2 className={sectionTitle}>
+                                Suggested next steps:
+                            </h2>
+                            {getNextStepsContent(nextSteps)}
+                        </div>
+                    )}
+                    {materialsAndMethods && (
+                        <div className={section}>
+                            <h2 className={sectionTitle}>
+                                Materials and methods available:
+                            </h2>
+                            <MaterialsAndMethodsComponent
+                                materialsAndMethods={materialsAndMethods}
+                            />
+                        </div>
+                    )}
+                    {tags && tags.length ? (
+                        <div>
+                            {getTagList(tags)}
+                        </div>
+                    ) : null}
 
-                        {/* Short description */}
-                        {description && <p>{description}</p>}
-
-                        {/* Introduction */}
-                        {introduction && (
-                            <>
-                                <h2 className="title is-size-4">
-                                    Introduction
-                                </h2>
-                                <p>{introduction}</p>
-                            </>
-                        )}
-
-                        {/* Dataset & materials / methods */}
-                        {datasetFm && (
-                            <>
-                                <h2 className="title is-size-4">
-                                    Materials and Methods
-                                </h2>
-                                <div>
-                                    <p>
-                                        <strong>Dataset:</strong>{" "}
-                                        {datasetFm.link ? (
-                                            <a
-                                                href={datasetFm.link}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                {datasetFm.name}
-                                            </a>
-                                        ) : (
-                                            datasetFm.name
-                                        )}
-                                    </p>
-                                    {datasetFm.description && (
-                                        <p>{datasetFm.description}</p>
-                                    )}
-                                    {datasetFm.status && (
-                                        <p>
-                                            <strong>Status:</strong>{" "}
-                                            {datasetFm.status}
-                                        </p>
-                                    )}
-                                    {datasetFm.date && (
-                                        <p>
-                                            <strong>Dataset date:</strong>{" "}
-                                            {datasetFm.date}
-                                        </p>
-                                    )}
-                                </div>
-                            </>
-                        )}
-
-                        {/* Suggested next steps */}
-                        {nextSteps && (
-                            <>
-                                <h2 className="title is-size-4">
-                                    Suggested next steps
-                                </h2>
-                                <p>{nextSteps}</p>
-                            </>
-                        )}
-
-                        {/* Concerns (internal) */}
-                        {concerns && (
-                            <>
-                                <h2 className="title is-size-5">
-                                    AICS concerns (internal)
-                                </h2>
-                                <p>{concerns}</p>
-                            </>
-                        )}
-
-                        {/* Body content */}
-                        <h2 className="title is-size-4">Details</h2>
-                        <PostContent content={content} />
-
-                        {/* Tags */}
-                        {tags && tags.length ? (
-                            <div style={{ marginTop: `4rem` }}>
-                                <h4>Tags</h4>
-                                <ul className="taglist">
-                                    {tags.map((tag) => (
-                                        <li key={tag + `tag`}>
-                                            <Link
-                                                to={`/tags/${kebabCase(tag)}/`}
-                                            >
-                                                {tag}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
-            </div>
-        </section>
+                    {/* Body content */}
+                    {/* <div className={section}>
+                            <h2 className={sectionTitle}>Details</h2>
+                            <PostContent content={content} />
+                        </div> */}
+                </Card>
+            </AntdLayout.Content>
+        </AntdLayout>
     );
 };
 
@@ -211,30 +186,27 @@ const IdeaPost: React.FC<QueryResult> = ({ data }) => {
 
     return (
         <Layout>
-            <IdeaPostTemplate
-                content={post.html}
-                contentComponent={HTMLContent}
-                date={fm.date}
-                description={fm.description}
-                tags={fm.tags}
-                authors={fm.authors}
-                program={fm.program}
-                type={fm.type}
-                concerns={fm.concerns}
-                introduction={fm.introduction}
-                materialsAndMethods={fm.materialsAndMethods}
-                nextSteps={fm.nextSteps}
-                title={fm.title}
-                helmet={
-                    <Helmet titleTemplate="%s | Ideas">
-                        <title>{fm.title}</title>
-                        <meta
-                            name="description"
-                            content={fm.description || ""}
-                        />
-                    </Helmet>
-                }
-            />
+        <IdeaPostTemplate
+            content={post.html}
+            contentComponent={HTMLContent}
+            date={fm.date}
+            description={fm.description}
+            tags={fm.tags}
+            authors={fm.authors}
+            program={fm.program}
+            type={fm.type}
+            concerns={fm.concerns}
+            introduction={fm.introduction}
+            materialsAndMethods={fm.materialsAndMethods}
+            nextSteps={fm.nextSteps}
+            title={fm.title}
+            helmet={
+                <Helmet titleTemplate="%s | Ideas">
+                    <title>{fm.title}</title>
+                    <meta name="description" content={fm.description || ""} />
+                </Helmet>
+            }
+        />
         </Layout>
     );
 };
@@ -264,6 +236,20 @@ export const pageQuery = graphql`
                             link
                             status
                             date
+                        }
+                    }
+                    protocols {
+                        protocol
+                    }
+                    cellLines {
+                        name
+                        link
+                    }
+                    software {
+                        softwareTool {
+                            name
+                            instructions
+                            link
                         }
                     }
                 }

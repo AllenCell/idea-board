@@ -11,8 +11,30 @@ export interface DatasetNode {
     frontmatter: DatasetFrontmatter;
 }
 
+export interface ProtocolItem {
+    protocol: string;
+}
+
+export interface CellLineItem {
+    name: string;
+    link?: string;
+}
+
+
+export interface SoftwareTool {
+    softwareTool: {
+        name: string;
+        instructions: string;
+        link?: string;
+    };
+}
+
 export interface MaterialsAndMethods {
     dataset?: DatasetNode | null;
+    protocols?: ProtocolItem[] | null;
+    cellLines?: CellLineItem[] | null;
+    software?: SoftwareTool[] | null;
+
 }
 
 export interface IdeaFrontmatter {
@@ -26,7 +48,7 @@ export interface IdeaFrontmatter {
     concerns?: string;
     introduction?: string;
     materialsAndMethods?: MaterialsAndMethods;
-    nextSteps?: string;
+    nextSteps?: string[];
 }
 
 export interface IdeaPostNode {

@@ -1,0 +1,9 @@
+.subText {
+    border: 1px solid #CBCBCC;
+    background-color: #f0f0f2;
+    border-radius: 4px;
+    margin: 12px;
+    padding: 6px;
+    margin-bottom: 24px;
+    font-style: italic;
+}

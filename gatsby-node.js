@@ -23,16 +23,39 @@ exports.createSchemaCustomization = ({ actions }) => {
             concerns: String
             introduction: String
             materialsAndMethods: MaterialsAndMethods
-            nextSteps: String
+            nextSteps: [String!]
         }
 
         """
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
-            # This links the string stored by Decap (dataset name)
-            # to the MarkdownRemark node in the "dataset" collection
-            dataset: MarkdownRemark @link(by: "frontmatter.name")
+        dataset: MarkdownRemark @link(by: "frontmatter.name")
+        protocols: [ProtocolItem!]
+        cellLines: [CellLineItem!]
+        software: [SoftwareTool!]
+        }
+
+        type ProtocolItem {
+        protocol: String!
+        }
+
+        type CellLineItem {
+            name: String!
+            link: String
+        }
+
+        """
+        Software tool with name, instructions, and optional link.
+        """
+        type SoftwareTool {
+            softwareTool: SoftwareToolDetails
+        }
+
+        type SoftwareToolDetails {
+            name: String!
+            instructions: String!
+            link: String
         }
     `;
     createTypes(typeDefs);

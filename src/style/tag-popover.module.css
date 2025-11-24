@@ -1,0 +1,17 @@
+.postLink {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.postLink:last-child {
+    border-bottom: none;
+}
+
+.postLink a {
+    color: #1890ff;
+    text-decoration: none;
+}
+
+.postLink a:hover {
+    text-decoration: underline;
+}

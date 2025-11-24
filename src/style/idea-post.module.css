@@ -1,0 +1,103 @@
+.container :global(.ant-layout-content){
+    min-height: 100vh;
+    padding: 24px;
+    background-color: white;;
+    border-left: 1px solid #CBCBCC;
+}
+
+.container :global(.ant-layout-header) {
+    background-color: var(--primary-color);
+}
+
+.container :global(.ant-layout-content) {
+    min-height: 100vh;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    /* padding: 16px; */
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 32px;
+    color: white;
+    /* border: 1px solid white; */
+    border-radius: 4px;
+    /* padding: 8px 12px; */
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.backButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.buttonText {
+    font-size: 32px;
+}
+
+.card {
+    border: 1px solid #CBCBCC;
+    /* border-radius: 0; */
+    /* height: 100%; */
+}
+
+.section {
+    margin-top: 2rem;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.sectionTitle .actionIcons {
+    font-size: 16px;
+}
+
+.subsectionTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.tagsSection {
+    margin-top: 4rem;
+}
+
+.tagsSection h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.taglist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.taglist li {
+    display: inline-block;
+}
+
+.proposal {
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid #CBCBCC;
+    background-color: rgb(240, 251, 255);
+    border-radius: 4px;
+    /* margin: 12px; */
+    padding: 12px;
+}
