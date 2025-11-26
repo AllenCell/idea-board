@@ -4,6 +4,7 @@ import { Avatar, List, Space, Tag } from "antd";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { MaterialsAndMethods } from "../types";
+import { IconText } from "./IconText";
 
 const { container } = require("../style/idea-roll.module.css");
 
@@ -35,12 +36,6 @@ const IdeaRollTemplate = (props: {
     const path = useLocation().pathname;
 
     const { edges: posts } = props.data.allMarkdownRemark;
-    const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-        <Space>
-            {React.createElement(icon)}
-            {text}
-        </Space>
-    );
 
     const data = posts.map(({ node: post }) => ({
         id: post.id,
