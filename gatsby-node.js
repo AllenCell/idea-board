@@ -18,10 +18,34 @@ const DATA_ONLY_PAGES = [
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        "type MarkdownRemark implements Node { frontmatter: Frontmatter }",
-        `type Frontmatter {
-                dataset: MarkdownRemark @link(by: "frontmatter.name")
-            }`,
+        `type MarkdownRemark implements Node { frontmatter: Frontmatter }
+
+        """
+        Shared frontmatter fields for idea posts (and other markdown).
+        """
+        type Frontmatter {
+            date: Date @dateformat
+            title: String!
+            description: String
+            draft: Boolean
+            materialsAndMethods: MaterialsAndMethods
+            }
+            
+        """
+        Nested materials and methods block for idea posts.
+        """
+        type MaterialsAndMethods {
+        dataset: MarkdownRemark @link(by: "frontmatter.name")
+        software: [SoftwareTool!]
+        }
+
+        """
+        Software tool reference with optional custom description.
+        """
+        type SoftwareTool {
+            softwareTool: MarkdownRemark @link(by: "frontmatter.name")
+            customDescription: String
+        }`,
     ];
     createTypes(typeDefs);
 };
@@ -45,6 +69,7 @@ exports.createPages = ({ actions, graphql }) => {
                         frontmatter {
                             tags
                             templateKey
+                            draft
                         }
                     }
                 }
@@ -64,6 +89,12 @@ exports.createPages = ({ actions, graphql }) => {
 
             // Skip creating pages for data-only pages (software, dataset, etc.)
             if (DATA_ONLY_PAGES.includes(templateKey)) {
+                return;
+            }
+
+            // Skip creating pages for drafts
+            // Toggle boolean flag on dev-example pages during devlopement
+            if (edge.node.frontmatter.draft === true) {
                 return;
             }
 
