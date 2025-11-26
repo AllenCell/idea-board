@@ -162,7 +162,7 @@ export const MaterialsAndMethodsComponent: React.FC<{
             <div className={subText}>
                 Data and tools made available for use by researchers, that may
                 be of use in pursuing this idea, some available free online, and
-                some available to be purchased or licensesed through AICS.
+                some available to be purchased or licensed through AICS.
             </div>
         </div>
     );
