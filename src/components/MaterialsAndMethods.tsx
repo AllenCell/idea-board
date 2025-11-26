@@ -10,7 +10,6 @@ export const MaterialsAndMethodsComponent: React.FC<{
     materialsAndMethods: MaterialsAndMethods;
 }> = ({ materialsAndMethods }) => {
     const datasetFm = materialsAndMethods?.dataset?.frontmatter;
-    console.log("materialsAndMethods", materialsAndMethods);
 
     const getCellLineRender = (cellLine: CellLineItem) => {
         if (!cellLine.link) {
