@@ -159,30 +159,21 @@ collections:
                                     {
                                         label: "Software tool",
                                         name: "softwareTool",
-                                        widget: "object",
-                                        fields:
-                                            [
-                                                {
-                                                    label: "Name",
-                                                    name: "name",
-                                                    widget: "string",
-                                                },
-                                                {
-                                                    label: "Instructions",
-                                                    name: "instructions",
-                                                    widget: "markdown",
-                                                },
-
-                                                {
-                                                    label: "Link",
-                                                    name: "link",
-                                                    widget: "string",
-                                                    required: false,
-                                                },
-                                            ],
+                                        widget: "relation",
+                                        collection: "software",
+                                        search_fields: ["name", "description", "link", "status"],
+                                        value_field: "name",
+                                        multiple: false,
+                                    },
+                                    {
+                                        label: "Custom description (optional)",
+                                        name: "customDescription",
+                                        widget: "text",
+                                        required: false,
+                                        hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
                                     },
                                 ],
-                        },
+                        }
                     ],
             }
           - {
@@ -310,6 +301,36 @@ collections:
             }
           - { label: "Image", name: "image", widget: image, required: false }
           - { label: "Active", name: "active", widget: boolean, default: false }
+
+    - name: "software"
+      label: "Software Tools"
+      label_singular: "Software Tool"
+      folder: "src/pages/software"
+      create: true
+      slug: "{{name}}"
+      fields:
+          - {
+                label: "Template Key",
+                name: "templateKey",
+                widget: "hidden",
+                default: "software",
+            }
+          - { label: "Name", name: "name", widget: "string" }
+          - {
+                label: "Description",
+                name: "description",
+                widget: "markdown",
+                required: false,
+            }
+          - { label: "Link", name: "link", widget: "string", required: false }
+          - {
+                label: "Status",
+                name: "status",
+                widget: "select",
+                options: ["Public", "In development", "Internal use only"],
+                required: false,
+            }
+          - { label: "Publish Date", name: "date", widget: "datetime", required: false }
 
     - name: "pages"
       label: "Pages"
