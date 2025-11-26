@@ -20,13 +20,21 @@ export interface CellLineItem {
     link?: string;
 }
 
+export interface SoftwareFrontmatter {
+    name: string;
+    description?: string;
+    link?: string;
+    status?: string;
+    date?: string;
+}
+
+export interface SoftwareNode {
+    frontmatter: SoftwareFrontmatter
+}
 
 export interface SoftwareTool {
-    softwareTool: {
-        name: string;
-        instructions: string;
-        link?: string;
-    };
+    softwareTool: SoftwareNode;
+    customDescription?: string | null;
 }
 
 export interface MaterialsAndMethods {

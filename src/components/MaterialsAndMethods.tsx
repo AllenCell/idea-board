@@ -25,21 +25,34 @@ export const MaterialsAndMethodsComponent: React.FC<{
     };
 
     const getSoftwareToolRender = (
-        softwareTool: SoftwareTool,
+        software: SoftwareTool,
         index: number
     ) => {
-        const { name, instructions, link } = softwareTool.softwareTool;
+        const { name, description, link } = software.softwareTool.frontmatter;
+        const displayDescription = software.customDescription || description;
+
         const title = link ? (
-            <a href={link} target="_blank" rel="noreferrer">
-                {name}
-            </a>
+            <p>
+                <strong>{`Name: `}</strong>
+                <a href={link} target="_blank" rel="noreferrer">
+                    {name}
+                </a>
+            </p>
         ) : (
-            name
+            <p>
+                <strong>{`Name: `}</strong>
+                {name}
+            </p>
         );
         return (
             <div key={index}>
-                <p>{title}</p>
-                {instructions && <p>{instructions}</p>}
+                {title}
+                {displayDescription && (
+                    <p>
+                        <strong>{`Description: `}</strong>
+                        {displayDescription}
+                    </p>
+                )}
             </div>
         );
     };
@@ -152,7 +165,6 @@ export const MaterialsAndMethodsComponent: React.FC<{
                 Data and tools made available for use by researchers, that may
                 be of use in pursuing this idea, some available free online, and
                 some available to be purchased or licensesed through AICS.
-                Details below.
             </div>
         </div>
     );

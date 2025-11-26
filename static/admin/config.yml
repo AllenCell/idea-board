@@ -140,62 +140,47 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "List any cell lines used in this analysis.",
-                            fields: [
+                            field:
                                 {
-                                    label: "Name",
-                                    name: "name",
-                                    widget: "string",
+                                    label: "Cell line",
+                                    name: "cellLine",
+                                    widget: "link",
                                 },
-                                {
-                                    label: "Link",
-                                    name: "link",
-                                    widget: "string",
-                                    required: false,
-                                },
-                            ],
                         },
                         {
                             label: "Software tools",
                             name: "software",
                             widget: "list",
                             required: false,
-                            hint: "List any software tools used in this analysis.",
-                            field: {
-                                label: "Software tool",
-                                name: "softwareTool",
-                                widget: "object",
-                                fields: [
+                            hint: "Select one or more software tools used in this analysis.",
+                            fields:
+                                [
                                     {
-                                        label: "Name",
-                                        name: "name",
-                                        widget: "string",
+                                        label: "Software tool",
+                                        name: "softwareTool",
+                                        widget: "relation",
+                                        collection: "software",
+                                        search_fields: ["name", "description", "link"],
+                                        value_field: "name",
+                                        multiple: false,
                                     },
                                     {
-                                        label: "Instructions",
-                                        name: "instructions",
-                                        widget: "markdown",
-                                    },
-                                    {
-                                        label: "Link",
-                                        name: "link",
-                                        widget: "string",
+                                        label: "Custom description (optional)",
+                                        name: "customDescription",
+                                        widget: "text",
                                         required: false,
+                                        hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
                                     },
                                 ],
-                            },
-                        },
+                        }
                     ],
             }
           - {
-            label: "Suggested next steps",
-            name: "nextSteps",
-            widget: "list",
-            required: false,
-            hint: "What are the next steps to further investigate this idea?",
-            field: {
-                label: "Step",
+                label: "Suggested next steps",
+                name: "nextSteps",
                 widget: "markdown",
-            },
+                required: false,
+                hint: "What are the next steps to further investigate this idea?",
             }
           - {
                 label: "Associated publication",
@@ -315,6 +300,36 @@ collections:
             }
           - { label: "Image", name: "image", widget: image, required: false }
           - { label: "Active", name: "active", widget: boolean, default: false }
+
+    - name: "software"
+      label: "Software Tools"
+      label_singular: "Software Tool"
+      folder: "src/pages/software"
+      create: true
+      slug: "{{name}}"
+      fields:
+          - {
+                label: "Template Key",
+                name: "templateKey",
+                widget: "hidden",
+                default: "software",
+            }
+          - { label: "Name", name: "name", widget: "string" }
+          - {
+                label: "Description",
+                name: "description",
+                widget: "markdown",
+                required: false,
+            }
+          - { label: "Link", name: "link", widget: "string", required: false }
+          - {
+                label: "Status",
+                name: "status",
+                widget: "select",
+                options: ["Public", "In development", "Internal use only"],
+                required: false,
+            }
+          - { label: "Publish Date", name: "date", widget: "datetime", required: false }
 
     - name: "pages"
       label: "Pages"

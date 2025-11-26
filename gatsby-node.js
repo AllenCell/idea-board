@@ -2,6 +2,25 @@ const _ = require("lodash");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 
+/**
+ * Markdown in /src/pages/ with these templateKeys are data-only
+ * and do not get their own pages.
+ * They serve as single source of truth, can be added/edited via CMS,
+ * and are referenced by other markdown files.
+ */
+const DATA_ONLY_TEMPLATES = [
+    "software",
+    "dataset",
+    "allenite",
+    "program",
+];
+
+/**
+ * Define custom GraphQL schema for frontmatter fields.
+ * This gives all markdown nodes a consistent typed schema,
+ * so optional fields resolve to null instead of changing type,
+ * and required fields (like `title`) are enforced at build time.
+ */
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
     const typeDefs = `
@@ -46,21 +65,21 @@ exports.createSchemaCustomization = ({ actions }) => {
         }
 
         """
-        Software tool with name, instructions, and optional link.
+        Software tool reference with optional custom description.
         """
         type SoftwareTool {
-            softwareTool: SoftwareToolDetails
-        }
-
-        type SoftwareToolDetails {
-            name: String!
-            instructions: String!
-            link: String
+            softwareTool: MarkdownRemark @link(by: "frontmatter.name")
+            customDescription: String
         }
     `;
     createTypes(typeDefs);
 };
 
+/**
+ * Create pages for markdown files based on their templateKey frontmatter.
+ * Also create tag pages for all unique tags found in markdown files.
+ * Skips creating pages for data-only templates.
+ */
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
@@ -91,13 +110,18 @@ exports.createPages = ({ actions, graphql }) => {
 
         posts.forEach((edge) => {
             const id = edge.node.id;
+            const templateKey = edge.node.frontmatter.templateKey;
+
+            // Skip creating pages for data-only templates (software, dataset, etc.)
+            if (DATA_ONLY_TEMPLATES.includes(templateKey)) {
+                return;
+            }
+
             createPage({
                 path: edge.node.fields.slug,
                 tags: edge.node.frontmatter.tags,
                 component: path.resolve(
-                    `src/templates/${String(
-                        edge.node.frontmatter.templateKey
-                    )}.tsx`
+                    `src/templates/${String(templateKey)}.tsx`
                 ),
                 // additional data can be passed via context
                 context: {

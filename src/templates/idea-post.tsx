@@ -247,10 +247,13 @@ export const pageQuery = graphql`
                     }
                     software {
                         softwareTool {
-                            name
-                            instructions
-                            link
+                            frontmatter {
+                                name
+                                description
+                                link
+                            }
                         }
+                        customDescription
                     }
                 }
                 nextSteps
