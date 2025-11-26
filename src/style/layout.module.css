@@ -42,3 +42,22 @@ h4 {
     font-weight: 500;
     color: var(--primary-color);
 }
+
+/* Global AntD Layout Header styling */
+.container :global(.ant-layout-header), .container :global(.ant-layout-header) a {
+    background-color: var(--primary-color);
+    padding: 0 24px;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-size: 32px;
+    
+}
+
+.container :global(.ant-layout-header) a {
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.container :global(.ant-layout-header) a:hover {
+    border: 1px solid white;
+}

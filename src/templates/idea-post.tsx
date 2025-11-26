@@ -1,10 +1,28 @@
 import React from "react";
-import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet-async";
 import { graphql, Link } from "gatsby";
+import { Layout as AntdLayout, Card, Flex } from "antd";
+import {
+    ArrowLeftOutlined,
+    MessageOutlined,
+    StarOutlined,
+} from "@ant-design/icons";
+
 import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
+import IconText from "../components/IconText";
 import { IdeaPostNode, MaterialsAndMethods } from "../types";
+
+const Header = AntdLayout.Header;
+
+const {
+    section,
+    sectionTitle,
+    taglist,
+    proposal,
+    card,
+    actionIcons,
+} = require("../style/idea-post.module.css");
 
 interface QueryResult {
     data: {
@@ -31,40 +49,82 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     helmet,
     materialsAndMethods,
 }) => {
-    const PostContent = contentComponent || Content;
     const software = materialsAndMethods?.software || null;
 
+    // TODO query the actual data
+    const introduction = "PLACEHOLDER INTRODUCTION TEXT";
+    const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
+    const materialsAndMethodsText = "MATERIALS AND METHODS TO GO HERE";
+
+    const getTagList = (tags: string[]) => {
+        return (
+            <ul className={taglist}>
+                {tags.map((tag) => (
+                    <li key={tag + `tag`}>
+                        <div>{tag} </div>
+                    </li>
+                ))}
+            </ul>
+        );
+    };
+
     return (
-        <section className="section">
+        <div>
             {helmet || ""}
-            <div className="container content">
-                <div className="columns">
-                    <div className="column is-10 is-offset-1">
-                        <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-                            {title}
-                        </h1>
-                        <p>{description}</p>
-                        <PostContent content={content} />
-                        {software && software.length ? (
-                            <ul>
-                                Software
-                                {software.map((item, index) => (
-                                    <li key={index}>
-                                        {item.softwareTool?.frontmatter?.name}
-                                        {item.customDescription && (
-                                            <span>
-                                                {" "}
-                                                - {item.customDescription}
-                                            </span>
-                                        )}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : null}
-                    </div>
+            <Header>
+                <Link to="/">
+                    <ArrowLeftOutlined />
+                    <span> All proposals </span>
+                </Link>
+            </Header>
+            <Card className={card}>
+                <div>
+                    <Flex
+                        justify="space-between"
+                        align="center"
+                        className={sectionTitle}
+                    >
+                        <h3>{title}</h3>
+                        <Flex className={actionIcons} gap={6}>
+                            <IconText
+                                icon={StarOutlined}
+                                text="2"
+                                key="star-o"
+                            />
+                            <IconText
+                                icon={MessageOutlined}
+                                text="2"
+                                key="message-o"
+                            />
+                        </Flex>
+                    </Flex>
+
+                    <p className={proposal}>{introduction}</p>
                 </div>
-            </div>
-        </section>
+                {nextSteps && (
+                    <div className={section}>
+                        <h2 className={sectionTitle}>Suggested next steps:</h2>
+                        {nextSteps}
+                    </div>
+                )}
+                {/* TODO render all materials and methods */}
+                <div> {materialsAndMethodsText} </div>
+                {software && software.length ? (
+                    <ul>
+                        Software
+                        {software.map((item, index) => (
+                            <li key={index}>
+                                {item.softwareTool?.frontmatter?.name}
+                                {item.customDescription && (
+                                    <span> - {item.customDescription}</span>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : null}
+                {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
+            </Card>
+        </div>
     );
 };
 
@@ -105,6 +165,7 @@ export const pageQuery = graphql`
                 date(formatString: "MMMM DD, YYYY")
                 title
                 description
+                tags
                 materialsAndMethods {
                     software {
                         softwareTool {
