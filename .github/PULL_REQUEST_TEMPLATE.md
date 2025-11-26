@@ -22,7 +22,6 @@ Change summary:
 ---------------
 * Tidy, well formulated commit message
 * Another great commit message
-* Something else I/we did
 
 Steps to Verify:
 ----------------
