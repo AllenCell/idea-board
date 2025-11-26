@@ -60,7 +60,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
         return (
             <ul className={taglist}>
                 {tags.map((tag) => (
-                    <li key={tag + `tag`}>
+                    <li key={tag}>
                         <div>{tag} </div>
                     </li>
                 ))}
