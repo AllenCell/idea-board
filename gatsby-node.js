@@ -93,7 +93,7 @@ exports.createPages = ({ actions, graphql }) => {
             }
 
             // Skip creating pages for drafts
-            // Toggle boolean flag on dev-example pages during devlopement
+            // Toggle boolean flag on dev-example pages during development
             if (edge.node.frontmatter.draft === true) {
                 return;
             }
