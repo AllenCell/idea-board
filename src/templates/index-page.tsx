@@ -54,7 +54,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
     const heroImage = getImage(image) || image;
 
     return (
-        <AntdLayout className={container}>
+        <div className={container}>
             <FullWidthImage
                 img={heroImage}
                 title={title}
@@ -68,13 +68,13 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                     <p>{description}</p>
                 </div>
             </div>
-            <AntdLayout.Content>
+            <div>
                 <div className={listWrapper}>
                     <h3>Most recent additions</h3>
                     <IdeaRoll count={3} />
                 </div>
-            </AntdLayout.Content>
-        </AntdLayout>
+            </div>
+        </div>
     );
 };
 
