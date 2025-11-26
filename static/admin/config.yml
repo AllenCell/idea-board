@@ -161,7 +161,7 @@ collections:
                                         name: "softwareTool",
                                         widget: "relation",
                                         collection: "software",
-                                        search_fields: ["name", "description", "link", "status"],
+                                        search_fields: ["name"],
                                         value_field: "name",
                                         multiple: false,
                                     },
@@ -251,7 +251,7 @@ collections:
       label_singular: "Allenite"
       folder: "src/pages/allenite"
       create: true
-      slug: "name"
+      slug: "{{name}}"
       fields:
           - {
                 label: "Template Key",
