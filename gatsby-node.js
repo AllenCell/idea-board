@@ -18,7 +18,7 @@ const DATA_ONLY_PAGES = [
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs =
-        `type MarkdownRemark implements Node { frontmatter: Frontmatter }
+        `type MarkdownRemark implements Node { frontmatter: Frontmatter! }
 
         """
         Shared frontmatter fields for idea posts (and other markdown).
@@ -28,17 +28,19 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             title: String!
             description: String
             draft: Boolean
-            materialsAndMethods: MaterialsAndMethods
+            tags: [String!]
+            materialsAndMethods: MaterialsAndMethods!
             }
-            
+
         """
         Nested materials and methods block for idea posts.
+        When present, all arrays default to empty rather than null.
         """
         type MaterialsAndMethods {
         dataset: MarkdownRemark @link(by: "frontmatter.name")
-        protocols: [ProtocolItem!]
-        cellLines: [CellLineItem!]
-        software: [SoftwareTool!]
+        protocols: [ProtocolItem!]! @dontInfer
+        cellLines: [CellLineItem!]! @dontInfer
+        software: [SoftwareTool!]! @dontInfer
         }
 
         type ProtocolItem {
