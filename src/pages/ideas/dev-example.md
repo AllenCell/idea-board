@@ -22,7 +22,7 @@ preliminaryFindings:
     (rapid local changes in junction length and intensity) increases
     ~30–60 minutes before migration onset in a subset of fields of view.
   figures:
-    - figure: /img/github-icon.svg
+    - figure: /img/228469011.jpg
 
 materialsAndMethods:
   dataset: Released EMT dataset
