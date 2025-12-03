@@ -2,17 +2,58 @@ const _ = require("lodash");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 
+/**
+ * Markdown in /src/pages/ with these templateKeys are data-only
+ * and do not get their own pages.
+ * They serve as single source of truth, can be added/edited via CMS,
+ * and are referenced by other markdown files.
+ */
+const DATA_ONLY_PAGES = [
+    "software",
+    "dataset",
+    "allenite",
+    "program",
+];
+
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        "type MarkdownRemark implements Node { frontmatter: Frontmatter }",
-        `type Frontmatter {
-                dataset: MarkdownRemark @link(by: "frontmatter.name")
-            }`,
+        `type MarkdownRemark implements Node { frontmatter: Frontmatter }
+
+        """
+        Shared frontmatter fields for idea posts (and other markdown).
+        """
+        type Frontmatter {
+            date: Date @dateformat
+            title: String!
+            description: String
+            draft: Boolean
+            materialsAndMethods: MaterialsAndMethods
+            }
+            
+        """
+        Nested materials and methods block for idea posts.
+        """
+        type MaterialsAndMethods {
+        dataset: MarkdownRemark @link(by: "frontmatter.name")
+        software: [SoftwareTool!]
+        }
+
+        """
+        Software tool reference with optional custom description.
+        """
+        type SoftwareTool {
+            softwareTool: MarkdownRemark @link(by: "frontmatter.name")
+            customDescription: String
+        }`,
     ];
     createTypes(typeDefs);
 };
-
+/**
+ * Create pages for markdown files based on their templateKey frontmatter.
+ * Also create tag pages for all unique tags found in markdown files.
+ * Skips creating pages for data-only pages.
+ */
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
@@ -28,6 +69,7 @@ exports.createPages = ({ actions, graphql }) => {
                         frontmatter {
                             tags
                             templateKey
+                            draft
                         }
                     }
                 }
@@ -43,13 +85,24 @@ exports.createPages = ({ actions, graphql }) => {
 
         posts.forEach((edge) => {
             const id = edge.node.id;
+            const templateKey = edge.node.frontmatter.templateKey;
+
+            // Skip creating pages for data-only pages (software, dataset, etc.)
+            if (DATA_ONLY_PAGES.includes(templateKey)) {
+                return;
+            }
+
+            // Skip creating pages for drafts
+            // Toggle boolean flag on dev-example pages during development
+            if (edge.node.frontmatter.draft === true) {
+                return;
+            }
+
             createPage({
                 path: edge.node.fields.slug,
                 tags: edge.node.frontmatter.tags,
                 component: path.resolve(
-                    `src/templates/${String(
-                        edge.node.frontmatter.templateKey
-                    )}.tsx`
+                    `src/templates/${String(templateKey)}.tsx`
                 ),
                 // additional data can be passed via context
                 context: {

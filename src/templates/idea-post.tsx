@@ -4,19 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
+import { IdeaPostNode, MaterialsAndMethods } from "../types";
 
 interface QueryResult {
     data: {
-        markdownRemark: {
-            id: string;
-            html: string;
-            frontmatter: {
-                date: string;
-                title: string;
-                description: string;
-                tags: string[];
-            };
-        };
+        markdownRemark: IdeaPostNode;
     };
 }
 
@@ -27,6 +19,7 @@ interface IdeaPostTemplateProps {
     tags?: string[];
     title: string;
     helmet?: React.ReactNode;
+    materialsAndMethods?: MaterialsAndMethods;
 }
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
@@ -36,8 +29,10 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     tags,
     title,
     helmet,
+    materialsAndMethods,
 }) => {
     const PostContent = contentComponent || Content;
+    const software = materialsAndMethods?.software || null;
 
     return (
         <section className="section">
@@ -50,21 +45,21 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         </h1>
                         <p>{description}</p>
                         <PostContent content={content} />
-                        {tags && tags.length ? (
-                            <div style={{ marginTop: `4rem` }}>
-                                <h4>Tags</h4>
-                                <ul className="taglist">
-                                    {tags.map((tag) => (
-                                        <li key={tag + `tag`}>
-                                            <Link
-                                                to={`/tags/${kebabCase(tag)}/`}
-                                            >
-                                                {tag}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                        {software && software.length ? (
+                            <ul>
+                                Software
+                                {software.map((item, index) => (
+                                    <li key={index}>
+                                        {item.softwareTool?.frontmatter?.name}
+                                        {item.customDescription && (
+                                            <span>
+                                                {" "}
+                                                - {item.customDescription}
+                                            </span>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
                         ) : null}
                     </div>
                 </div>
@@ -93,6 +88,7 @@ const IdeaPost = ({ data }: QueryResult) => {
                 }
                 tags={post.frontmatter.tags}
                 title={post.frontmatter.title}
+                materialsAndMethods={post.frontmatter.materialsAndMethods}
             />
         </Layout>
     );
@@ -109,6 +105,18 @@ export const pageQuery = graphql`
                 date(formatString: "MMMM DD, YYYY")
                 title
                 description
+                materialsAndMethods {
+                    software {
+                        softwareTool {
+                            frontmatter {
+                                name
+                                description
+                                link
+                            }
+                        }
+                        customDescription
+                    }
+                }
             }
         }
     }
