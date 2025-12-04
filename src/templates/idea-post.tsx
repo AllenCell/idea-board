@@ -27,7 +27,6 @@ const {
 interface QueryResult {
     data: {
         markdownRemark: IdeaPostNode;
-        markdownRemark: IdeaPostNode;
     };
 }
 
@@ -39,7 +38,6 @@ interface IdeaPostTemplateProps {
     title: string;
     helmet?: React.ReactNode;
     materialsAndMethods?: MaterialsAndMethods;
-    materialsAndMethods?: MaterialsAndMethods;
 }
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
@@ -49,7 +47,6 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     tags,
     title,
     helmet,
-    materialsAndMethods,
     materialsAndMethods,
 }) => {
     const software = materialsAndMethods?.software || null;
@@ -151,7 +148,6 @@ const IdeaPost = ({ data }: QueryResult) => {
                 }
                 tags={post.frontmatter.tags}
                 title={post.frontmatter.title}
-                materialsAndMethods={post.frontmatter.materialsAndMethods}
                 materialsAndMethods={post.frontmatter.materialsAndMethods}
             />
         </Layout>
