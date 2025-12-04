@@ -15,19 +15,6 @@ const DATA_ONLY_PAGES = [
     "program",
 ];
 
-/**
- * Markdown in /src/pages/ with these templateKeys are data-only
- * and do not get their own pages.
- * They serve as single source of truth, can be added/edited via CMS,
- * and are referenced by other markdown files.
- */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-];
-
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
