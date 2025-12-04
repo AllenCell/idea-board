@@ -25,6 +25,7 @@ interface PostNode {
             tags?: string[];
             type: string;
             materialsAndMethods?: MaterialsAndMethods;
+            materialsAndMethods?: MaterialsAndMethods;
         };
     };
 }
@@ -46,6 +47,7 @@ const IdeaRollTemplate = (props: {
         type: post.frontmatter.type,
         authors: post.frontmatter.authors || [],
         concerns: post.frontmatter.concerns || "",
+        dataset: { ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter },
         dataset: { ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter },
     }));
     if (props.count) {
