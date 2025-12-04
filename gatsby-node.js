@@ -46,34 +46,6 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             softwareTool: MarkdownRemark @link(by: "frontmatter.name")
             customDescription: String
         }`,
-        `type MarkdownRemark implements Node { frontmatter: Frontmatter }
-
-        """
-        Shared frontmatter fields for idea posts (and other markdown).
-        """
-        type Frontmatter {
-            date: Date @dateformat
-            title: String!
-            description: String
-            draft: Boolean
-            materialsAndMethods: MaterialsAndMethods
-            }
-            
-        """
-        Nested materials and methods block for idea posts.
-        """
-        type MaterialsAndMethods {
-        dataset: MarkdownRemark @link(by: "frontmatter.name")
-        software: [SoftwareTool!]
-        }
-
-        """
-        Software tool reference with optional custom description.
-        """
-        type SoftwareTool {
-            softwareTool: MarkdownRemark @link(by: "frontmatter.name")
-            customDescription: String
-        }`,
     ];
     createTypes(typeDefs);
 };
@@ -126,7 +98,7 @@ exports.createPages = ({ actions, graphql }) => {
             }
 
             // Skip creating pages for drafts
-            // Toggle boolean flag on dev-example pages during devlopement
+            // Toggle boolean flag on dev-example pages during development
             if (edge.node.frontmatter.draft === true) {
                 return;
             }
