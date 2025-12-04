@@ -17,7 +17,7 @@ const DATA_ONLY_PAGES = [
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
-    const typeDefs = [
+    const typeDefs =
         `type MarkdownRemark implements Node { frontmatter: Frontmatter }
 
         """
@@ -36,7 +36,18 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         """
         type MaterialsAndMethods {
         dataset: MarkdownRemark @link(by: "frontmatter.name")
+        protocols: [ProtocolItem!]
+        cellLines: [CellLineItem!]
         software: [SoftwareTool!]
+        }
+
+        type ProtocolItem {
+        protocol: String!
+        }
+
+        type CellLineItem {
+            name: String!
+            link: String
         }
 
         """
@@ -45,36 +56,9 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         type SoftwareTool {
             softwareTool: MarkdownRemark @link(by: "frontmatter.name")
             customDescription: String
-        }`,
-        `type MarkdownRemark implements Node { frontmatter: Frontmatter }
+        }`;
 
-        """
-        Shared frontmatter fields for idea posts (and other markdown).
-        """
-        type Frontmatter {
-            date: Date @dateformat
-            title: String!
-            description: String
-            draft: Boolean
-            materialsAndMethods: MaterialsAndMethods
-            }
-            
-        """
-        Nested materials and methods block for idea posts.
-        """
-        type MaterialsAndMethods {
-        dataset: MarkdownRemark @link(by: "frontmatter.name")
-        software: [SoftwareTool!]
-        }
 
-        """
-        Software tool reference with optional custom description.
-        """
-        type SoftwareTool {
-            softwareTool: MarkdownRemark @link(by: "frontmatter.name")
-            customDescription: String
-        }`,
-    ];
     createTypes(typeDefs);
 };
 /**
