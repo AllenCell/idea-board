@@ -56,10 +56,16 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         type SoftwareTool {
             softwareTool: MarkdownRemark @link(by: "frontmatter.name")
             customDescription: String
-        }
-    `;
+        }`;
+
+
     createTypes(typeDefs);
 };
+/**
+ * Create pages for markdown files based on their templateKey frontmatter.
+ * Also create tag pages for all unique tags found in markdown files.
+ * Skips creating pages for data-only pages.
+ */
 /**
  * Create pages for markdown files based on their templateKey frontmatter.
  * Also create tag pages for all unique tags found in markdown files.

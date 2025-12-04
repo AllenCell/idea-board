@@ -48,9 +48,9 @@ h4 {
     background-color: var(--primary-color);
     padding: 0 24px;
     color: white;
-    font-family: 'Raleway', sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 32px;
-    
+}
 }
 
 .container :global(.ant-layout-header) a {
