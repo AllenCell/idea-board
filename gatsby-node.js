@@ -54,6 +54,11 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
  * Also create tag pages for all unique tags found in markdown files.
  * Skips creating pages for data-only pages.
  */
+/**
+ * Create pages for markdown files based on their templateKey frontmatter.
+ * Also create tag pages for all unique tags found in markdown files.
+ * Skips creating pages for data-only pages.
+ */
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
