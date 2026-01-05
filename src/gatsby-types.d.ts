@@ -1436,7 +1436,7 @@ type MarkdownRemark = Node & {
   readonly excerptAst: Maybe<Scalars['JSON']>;
   readonly fields: Maybe<MarkdownRemarkFields>;
   readonly fileAbsolutePath: Maybe<Scalars['String']>;
-  readonly frontmatter: Maybe<Frontmatter>;
+  readonly frontmatter: Frontmatter;
   readonly headings: Maybe<ReadonlyArray<Maybe<MarkdownHeading>>>;
   readonly html: Maybe<Scalars['String']>;
   readonly htmlAst: Maybe<Scalars['JSON']>;
@@ -2965,14 +2965,14 @@ type AboutPageQueryVariables = Exact<{
 }>;
 
 
-type AboutPageQuery = { readonly markdownRemark: { readonly html: string | null, readonly frontmatter: { readonly title: string } | null } | null };
+type AboutPageQuery = { readonly markdownRemark: { readonly html: string | null, readonly frontmatter: { readonly title: string } } | null };
 
 type DatasetByIdQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-type DatasetByIdQuery = { readonly markdownRemark: { readonly id: string, readonly html: string | null, readonly frontmatter: { readonly date: string | null, readonly name: string | null, readonly description: string | null, readonly link: string | null, readonly status: string | null } | null } | null };
+type DatasetByIdQuery = { readonly markdownRemark: { readonly id: string, readonly html: string | null, readonly frontmatter: { readonly date: string | null, readonly name: string | null, readonly description: string | null, readonly link: string | null, readonly status: string | null } } | null };
 
 type GatsbyImageSharpFixedFragment = { readonly base64: string | null, readonly width: number, readonly height: number, readonly src: string, readonly srcSet: string };
 
@@ -3003,29 +3003,29 @@ type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: 
 type GetAlleniteByNameStaticQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type GetAlleniteByNameStaticQuery = { readonly markdownRemark: { readonly id: string, readonly frontmatter: { readonly name: string | null, readonly title: string, readonly contact: string | null } | null } | null };
+type GetAlleniteByNameStaticQuery = { readonly markdownRemark: { readonly id: string, readonly frontmatter: { readonly name: string | null, readonly title: string, readonly contact: string | null } } | null };
 
 type GetProgramByNameStaticQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type GetProgramByNameStaticQuery = { readonly markdownRemark: { readonly id: string, readonly frontmatter: { readonly name: string | null, readonly title: string, readonly contact: string | null } | null } | null };
+type GetProgramByNameStaticQuery = { readonly markdownRemark: { readonly id: string, readonly frontmatter: { readonly name: string | null, readonly title: string, readonly contact: string | null } } | null };
 
 type IdeaPostByIDQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-type IdeaPostByIDQuery = { readonly markdownRemark: { readonly id: string, readonly html: string | null, readonly frontmatter: { readonly date: string | null, readonly title: string, readonly description: string | null, readonly tags: ReadonlyArray<string> | null, readonly materialsAndMethods: { readonly dataset: { readonly frontmatter: { readonly name: string | null, readonly description: string | null, readonly link: string | null, readonly status: string | null, readonly date: string | null } | null } | null, readonly protocols: ReadonlyArray<{ readonly protocol: string }>, readonly cellLines: ReadonlyArray<{ readonly name: string, readonly link: string | null }>, readonly software: ReadonlyArray<{ readonly customDescription: string | null, readonly softwareTool: { readonly frontmatter: { readonly name: string | null, readonly description: string | null, readonly link: string | null } | null } | null }> } } | null } | null };
+type IdeaPostByIDQuery = { readonly markdownRemark: { readonly id: string, readonly html: string | null, readonly frontmatter: { readonly date: string | null, readonly title: string, readonly description: string | null, readonly tags: ReadonlyArray<string> | null, readonly materialsAndMethods: { readonly dataset: { readonly frontmatter: { readonly name: string | null, readonly description: string | null, readonly link: string | null, readonly status: string | null, readonly date: string | null } } | null, readonly protocols: ReadonlyArray<{ readonly protocol: string }>, readonly cellLines: ReadonlyArray<{ readonly name: string, readonly link: string | null }>, readonly software: ReadonlyArray<{ readonly customDescription: string | null, readonly softwareTool: { readonly frontmatter: { readonly name: string | null, readonly description: string | null, readonly link: string | null } } | null }> } } } | null };
 
 type IdeaRollQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type IdeaRollQueryQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: { readonly excerpt: string | null, readonly id: string, readonly fields: { readonly slug: string | null } | null, readonly frontmatter: { readonly title: string, readonly templateKey: string | null, readonly date: string | null, readonly tags: ReadonlyArray<string> | null, readonly type: string | null, readonly authors: ReadonlyArray<string | null> | null, readonly concerns: string | null, readonly materialsAndMethods: { readonly dataset: { readonly frontmatter: { readonly name: string | null, readonly description: string | null, readonly link: string | null, readonly status: string | null } | null } | null } } | null } }> } };
+type IdeaRollQueryQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: { readonly excerpt: string | null, readonly id: string, readonly fields: { readonly slug: string | null } | null, readonly frontmatter: { readonly title: string, readonly templateKey: string | null, readonly date: string | null, readonly tags: ReadonlyArray<string> | null, readonly type: string | null, readonly authors: ReadonlyArray<string | null> | null, readonly concerns: string | null, readonly materialsAndMethods: { readonly dataset: { readonly frontmatter: { readonly name: string | null, readonly description: string | null, readonly link: string | null, readonly status: string | null } } | null } } } }> } };
 
 type IndexPageTemplateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type IndexPageTemplateQuery = { readonly markdownRemark: { readonly frontmatter: { readonly title: string, readonly heading: string | null, readonly subheading: string | null, readonly description: string | null, readonly image: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly mainpitch: { readonly title: string | null, readonly description: string | null } | null } | null } | null };
+type IndexPageTemplateQuery = { readonly markdownRemark: { readonly frontmatter: { readonly title: string, readonly heading: string | null, readonly subheading: string | null, readonly description: string | null, readonly image: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly mainpitch: { readonly title: string | null, readonly description: string | null } | null } } | null };
 
 type SITE_METADATA_QUERYQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3037,7 +3037,7 @@ type TagPageQueryVariables = Exact<{
 }>;
 
 
-type TagPageQuery = { readonly site: { readonly siteMetadata: { readonly title: string | null } | null } | null, readonly allMarkdownRemark: { readonly totalCount: number, readonly edges: ReadonlyArray<{ readonly node: { readonly fields: { readonly slug: string | null } | null, readonly frontmatter: { readonly title: string } | null } }> } };
+type TagPageQuery = { readonly site: { readonly siteMetadata: { readonly title: string | null } | null } | null, readonly allMarkdownRemark: { readonly totalCount: number, readonly edges: ReadonlyArray<{ readonly node: { readonly fields: { readonly slug: string | null } | null, readonly frontmatter: { readonly title: string } } }> } };
 
 type TagsQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
