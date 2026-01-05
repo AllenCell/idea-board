@@ -3,6 +3,11 @@ import { Collapse } from "antd";
 import type { CollapseProps } from "antd";
 import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
 
+const {
+    section,
+    sectionTitle,
+} = require("../style/idea-post.module.css");
+
 const { subText } = require("../style/materials.module.css");
 
 interface MaterialsAndMethodsProps {
@@ -147,7 +152,8 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
     }
 
     return (
-        <div>
+        <div className={section}>
+            <h2 className={sectionTitle}>Materials and methods available:</h2>
             <Collapse items={items} />
             <div className={subText}>
                 Data and tools made available for use by researchers, that may

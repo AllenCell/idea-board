@@ -87,16 +87,9 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         {nextSteps}
                     </div>
                 )}
-                {materialsAndMethods && (
-                    <div className={section}>
-                        <h2 className={sectionTitle}>
-                            Materials and methods available:
-                        </h2>
-                        <MaterialsAndMethodsComponent
-                            materialsAndMethods={materialsAndMethods}
-                        />
-                    </div>
-                )}
+                <MaterialsAndMethodsComponent
+                    materialsAndMethods={materialsAndMethods}
+                />
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>

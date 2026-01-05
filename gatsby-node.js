@@ -1,6 +1,10 @@
 const _ = require("lodash");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
+const {
+    stringWithDefault,
+    resolveToArray,
+} = require("./gatsbyutils/gatsby-resolver-utils");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -8,24 +12,17 @@ const { createFilePath } = require("gatsby-source-filesystem");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-];
-
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
-    const typeDefs =
-        `type MarkdownRemark implements Node { frontmatter: Frontmatter! }
+    const typeDefs = `type MarkdownRemark implements Node { frontmatter: Frontmatter! }
 
         """
         Shared frontmatter fields for idea posts (and other markdown).
         """
         type Frontmatter {
             date: Date @dateformat
-            title: String!
+            title: String
             description: String
             draft: Boolean
             tags: [String!]
@@ -38,9 +35,9 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         """
         type MaterialsAndMethods {
         dataset: MarkdownRemark @link(by: "frontmatter.name")
-        protocols: [ProtocolItem!]! @dontInfer
-        cellLines: [CellLineItem!]! @dontInfer
-        software: [SoftwareTool!]! @dontInfer
+        protocols: [ProtocolItem!]!
+        cellLines: [CellLineItem!]!
+        software: [SoftwareTool!]!
         }
 
         type ProtocolItem {
@@ -62,6 +59,50 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
     `;
     createTypes(typeDefs);
 };
+
+exports.createResolvers = ({ createResolvers }) => {
+    createResolvers({
+        Frontmatter: {
+            description: {
+                resolve: (source) =>
+                    stringWithDefault(
+                        source.description,
+                        "No description provided."
+                    ),
+            },
+            title: {
+                resolve: (source) =>
+                    stringWithDefault(source.title, "No title provided."),
+            },
+            materialsAndMethods: {
+                resolve: (source) => {
+                    const raw = source.materialsAndMethods;
+                    const current = {
+                        dataset: null,
+                        cellLines: [],
+                        protocols: [],
+                        software: [],
+                    };
+
+                    if (!raw || typeof raw !== "object") {
+                        return current;
+                    }
+
+                    current.dataset = stringWithDefault(
+                        raw.dataset,
+                        current.dataset
+                    );
+                    current.cellLines = resolveToArray(raw.cellLines);
+                    current.protocols = resolveToArray(raw.protocols);
+                    current.software = resolveToArray(raw.software);
+
+                    return current;
+                },
+            },
+        },
+    });
+};
+
 /**
  * Create pages for markdown files based on their templateKey frontmatter.
  * Also create tag pages for all unique tags found in markdown files.
