@@ -37,21 +37,17 @@ const IdeaRollTemplate = (props: {
 
     const { edges: posts } = props.data.allMarkdownRemark;
 
-    const data = posts
-        .filter((p) => p.node.frontmatter)
-        .map(({ node: post }) => ({
-            id: post.id,
-            title: post.frontmatter.title,
-            date: post.frontmatter.date,
-            slug: post.fields.slug,
-            tags: post.frontmatter.tags || [],
-            type: post.frontmatter.type,
-            authors: post.frontmatter.authors || [],
-            concerns: post.frontmatter.concerns || "",
-            dataset: {
-                ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter,
-            },
-        }));
+    const data = posts.map(({ node: post }) => ({
+        id: post.id,
+        title: post.frontmatter.title,
+        date: post.frontmatter.date,
+        slug: post.fields.slug,
+        tags: post.frontmatter.tags || [],
+        type: post.frontmatter.type,
+        authors: post.frontmatter.authors || [],
+        concerns: post.frontmatter.concerns || "",
+        dataset: { ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter },
+    }));
     if (props.count) {
         data.splice(props.count);
     }

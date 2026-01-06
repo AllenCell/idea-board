@@ -12,7 +12,13 @@ const {
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
+const DATA_ONLY_PAGES = [
+    "software",
+    "dataset",
+    "allenite",
+    "program",
+];
+
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = `type MarkdownRemark implements Node { frontmatter: Frontmatter! }

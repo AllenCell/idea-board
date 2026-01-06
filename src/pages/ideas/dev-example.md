@@ -30,10 +30,10 @@ materialsAndMethods:
     - protocol: /protocols/emt_junction_segmentation.pdf
     - protocol: /protocols/emt_tracking_qc.pdf
   cellLines:
-        - name: AICS-42
-          link: https://allencell.org/cell-catalog
-        - name: AICS-67
-          link: https://allencell.org/cell-catalog
+    - name: AICS-42
+      link: https://allencell.org/cell-catalog
+    - name: AICS-67
+      link: https://allencell.org/cell-catalog
   software:
     - softwareTool: Simularium
       customDescription: CUSTOM DESCRIPTION Used to visualize 3D trajectories and other cool stuff.
