@@ -23,13 +23,12 @@ const {
     card,
     actionIcons,
 } = require("../style/idea-post.module.css");
-interface IdeaPostTemplateProps {
-    post: IdeaPostNode;
-}
 
-export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({ post }) => {
-    const frontmatter = post.frontmatter as IdeaFrontmatter;
-    const { title, tags, materialsAndMethods } = frontmatter ?? {};
+export const IdeaPostTemplate: React.FC<IdeaFrontmatter> = ({
+    title,
+    tags,
+    materialsAndMethods,
+}) => {
 
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
@@ -85,9 +84,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({ post }) => {
                         {nextSteps}
                     </div>
                 )}
-                <MaterialsAndMethodsComponent
-                    materialsAndMethods={materialsAndMethods}
-                />
+                <MaterialsAndMethodsComponent {...materialsAndMethods} />
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
@@ -114,7 +111,7 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 <meta name="description" content={description ?? ""} />
             </Helmet>
 
-            <IdeaPostTemplate post={markdownRemark} />
+            <IdeaPostTemplate {...markdownRemark.frontmatter} />
         </Layout>
     );
 };

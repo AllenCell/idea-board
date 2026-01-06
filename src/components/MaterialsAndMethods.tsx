@@ -7,14 +7,13 @@ const { section, sectionTitle } = require("../style/idea-post.module.css");
 
 const { subText } = require("../style/materials.module.css");
 
-interface MaterialsAndMethodsProps {
-    materialsAndMethods: MaterialsAndMethods;
-}
-
-export const MaterialsAndMethodsComponent: React.FC<
-    MaterialsAndMethodsProps
-> = ({ materialsAndMethods }) => {
-    const datasetFm = materialsAndMethods.dataset?.frontmatter ?? null;
+export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
+    dataset,
+    cellLines,
+    protocols,
+    software,
+}) => {
+    const datasetFm = dataset?.frontmatter ?? null;
 
     const getCellLineRender = (cellLine: CellLine) => {
         if (!cellLine.link) {
@@ -93,13 +92,13 @@ export const MaterialsAndMethodsComponent: React.FC<
     }
 
     // Protocols section
-    if (materialsAndMethods.protocols.length > 0) {
+    if (protocols.length > 0) {
         items.push({
             key: "protocols",
             label: "Protocols",
             children: (
                 <ul>
-                    {materialsAndMethods.protocols.map((item, index) => (
+                    {protocols.map((item, index) => (
                         <li key={index}>
                             <a
                                 href={item.protocol}
@@ -116,13 +115,13 @@ export const MaterialsAndMethodsComponent: React.FC<
     }
 
     // Cell lines section
-    if (materialsAndMethods.cellLines.length > 0) {
+    if (cellLines.length > 0) {
         items.push({
             key: "cellLines",
             label: "Cell Lines",
             children: (
                 <ul>
-                    {materialsAndMethods.cellLines.map((item, index) => (
+                    {cellLines.map((item, index) => (
                         <li key={index}>{getCellLineRender(item)}</li>
                     ))}
                 </ul>
@@ -131,13 +130,13 @@ export const MaterialsAndMethodsComponent: React.FC<
     }
 
     // Software tools section
-    if (materialsAndMethods.software.length > 0) {
+    if (software.length > 0) {
         items.push({
             key: "software",
             label: "Software Tools",
             children: (
                 <div>
-                    {materialsAndMethods.software.map((item, index) =>
+                    {software.map((item, index) =>
                         getSoftwareToolRender(item, index)
                     )}
                 </div>
