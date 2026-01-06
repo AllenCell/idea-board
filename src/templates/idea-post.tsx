@@ -42,9 +42,6 @@ interface IdeaPostTemplateProps {
 }
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
-    content,
-    contentComponent,
-    description,
     tags,
     title,
     helmet,

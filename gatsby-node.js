@@ -17,7 +17,7 @@ const DATA_ONLY_PAGES = [
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
-    const typeDefs =
+    const typeDefs = [
         `type MarkdownRemark implements Node { frontmatter: Frontmatter }
 
         """
@@ -56,8 +56,8 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         type SoftwareTool {
             softwareTool: MarkdownRemark @link(by: "frontmatter.name")
             customDescription: String
-        }`;
-  
+        }`,
+    ];
     createTypes(typeDefs);
 };
 /**
