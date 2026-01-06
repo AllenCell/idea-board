@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { graphql, Link } from "gatsby";
+import { graphql, Link, PageProps } from "gatsby";
 import { Layout as AntdLayout, Card, Flex } from "antd";
 import {
     ArrowLeftOutlined,
@@ -9,10 +9,9 @@ import {
 } from "@ant-design/icons";
 
 import Layout from "../components/Layout";
-import Content, { HTMLContent } from "../components/Content";
 import IconText from "../components/IconText";
-import { IdeaPostNode, MaterialsAndMethods } from "../types";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
+import { IdeaFrontmatter, IdeaPostNode, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
@@ -24,39 +23,23 @@ const {
     card,
     actionIcons,
 } = require("../style/idea-post.module.css");
-
-interface QueryResult {
-    data: {
-        markdownRemark: IdeaPostNode;
-    };
-}
-
 interface IdeaPostTemplateProps {
-    content: string;
-    contentComponent?: React.FC<{ content: string }> | typeof Content;
-    description?: string;
-    tags?: string[];
-    title: string;
-    helmet?: React.ReactNode;
-    materialsAndMethods?: MaterialsAndMethods;
+    post: IdeaPostNode;
 }
 
-export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
-    tags,
-    title,
-    helmet,
-    materialsAndMethods,
-}) => {
+export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({ post }) => {
+    const frontmatter = post.frontmatter as IdeaFrontmatter;
+    const { title, tags, materialsAndMethods } = frontmatter ?? {};
 
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
     const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
 
-    const getTagList = (tags: string[]) => {
+    const getTagList = (tags: readonly string[]) => {
         return (
             <ul className={taglist}>
                 {tags.map((tag) => (
-                    <li key={tag}>
+                    <li key={tag + `tag`}>
                         <div>{tag} </div>
                     </li>
                 ))}
@@ -66,7 +49,6 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
 
     return (
         <div>
-            {helmet || ""}
             <Header>
                 <Link to="/">
                     <ArrowLeftOutlined />
@@ -103,44 +85,36 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         {nextSteps}
                     </div>
                 )}
-                {materialsAndMethods && (
-                    <div className={section}>
-                        <h2 className={sectionTitle}>
-                            Materials and methods available:
-                        </h2>
-                        <MaterialsAndMethodsComponent
-                            materialsAndMethods={materialsAndMethods}
-                        />
-                    </div>
-                )}
+                <MaterialsAndMethodsComponent
+                    materialsAndMethods={materialsAndMethods}
+                />
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
     );
 };
 
-const IdeaPost = ({ data }: QueryResult) => {
-    const { markdownRemark: post } = data;
+const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
+    const markdownRemark = data.markdownRemark;
+    // Runtime guard against missing data
+    if (!markdownRemark || !markdownRemark.frontmatter) {
+        return (
+            <Layout>
+                <p>Post not found.</p>
+            </Layout>
+        );
+    }
+
+    const { title, description } = markdownRemark.frontmatter;
 
     return (
         <Layout>
-            <IdeaPostTemplate
-                content={post.html}
-                contentComponent={HTMLContent}
-                description={post.frontmatter.description}
-                helmet={
-                    <Helmet titleTemplate="%s | Ideas">
-                        <title>{`${post.frontmatter.title}`}</title>
-                        <meta
-                            name="description"
-                            content={`${post.frontmatter.description}`}
-                        />
-                    </Helmet>
-                }
-                tags={post.frontmatter.tags}
-                title={post.frontmatter.title}
-                materialsAndMethods={post.frontmatter.materialsAndMethods}
-            />
+            <Helmet titleTemplate="%s | Ideas">
+                <title>{title}</title>
+                <meta name="description" content={description ?? ""} />
+            </Helmet>
+
+            <IdeaPostTemplate post={markdownRemark} />
         </Layout>
     );
 };
