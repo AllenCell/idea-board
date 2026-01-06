@@ -7164,19 +7164,6 @@ decap-cms-locales@^3.3.0:
   resolved "https://registry.yarnpkg.com/decap-cms-locales/-/decap-cms-locales-3.3.0.tgz#1d08699332915c879477908b485df00f024cd8a4"
   integrity sha512-4DOB2zGoCkKZsS/VpfvgoZDUA+D0tBI6AOS7WMaUvndBBJ47+5V/4YAeGpMKMLZ1oa6JnKa8OiakgM/QelVFPg==
 
-decap-cms-media-library-cloudinary@^3.0.1:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/decap-cms-media-library-cloudinary/-/decap-cms-media-library-cloudinary-3.0.3.tgz#e4f2331086b7c52145c7b51126f74ddd36e99a0e"
-  integrity sha512-2dRmHeEiTpFUZaBOvIdCMvZeWGSdC0SyKcVCyU0YpJ7NXdfZg1LoYt5+2xgsbVO2CWH9HjEWw9uKKgCsMKNf9g==
-
-decap-cms-media-library-uploadcare@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/decap-cms-media-library-uploadcare/-/decap-cms-media-library-uploadcare-3.0.2.tgz#2e980cb14dc901e0ecea89e1f00c9f879a44c591"
-  integrity sha512-nBgA3Mx3z4rEhbuu5XFfOt8/PQ/LXYU/FnwR0bpYcsCXdWQUogp9F+gHrGoYF6UiDrkSPlUUFSTn3Jcfyn0xXQ==
-  dependencies:
-    uploadcare-widget "^3.7.0"
-    uploadcare-widget-tab-effects "^1.4.0"
-
 decap-cms-ui-default@^3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/decap-cms-ui-default/-/decap-cms-ui-default-3.1.4.tgz#c86e7d0dd736cde494d2b162b53d9a7e95752013"
@@ -11722,11 +11709,6 @@ joi@^17.11.0, joi@^17.9.2:
     "@sideway/address" "^4.1.5"
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
-
-jquery@^3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
-  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
 
 js-base64@^3.0.0:
   version "3.7.7"
@@ -18909,19 +18891,6 @@ update-notifier@7.3.1:
     pupa "^3.1.0"
     semver "^7.6.3"
     xdg-basedir "^5.1.0"
-
-uploadcare-widget-tab-effects@^1.4.0:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/uploadcare-widget-tab-effects/-/uploadcare-widget-tab-effects-1.7.2.tgz#a4a766143a586087345b28aa971edac87f98e3f4"
-  integrity sha512-56IxhR5TueGRv9ZUReAZTycV4iWBZ421L1KlMGpK7kCJs/vyQMDY+iQTr3WLtEUmq2Jl9v6H6EA471s3jjpGYQ==
-
-uploadcare-widget@^3.7.0:
-  version "3.21.8"
-  resolved "https://registry.yarnpkg.com/uploadcare-widget/-/uploadcare-widget-3.21.8.tgz#5b7a111bd628d79fb30e3da448ca4bee315affd2"
-  integrity sha512-8Qi97R7zPYIXdMpL6FMFnPieQhcAof48ljnxiYcS1hXF3w5tPrbo5IzF5E4HoscSnxFqWz/jsgvDooZd2UUUVQ==
-  dependencies:
-    escape-html "^1.0.3"
-    jquery "^3.7.1"
 
 upper-case-first@^2.0.2:
   version "2.0.2"
