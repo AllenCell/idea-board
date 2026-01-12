@@ -11,6 +11,15 @@ export interface DatasetNode {
     frontmatter: DatasetFrontmatter;
 }
 
+export interface ProtocolItem {
+    protocol: string;
+}
+
+export interface CellLineItem {
+    name: string;
+    link?: string;
+}
+
 export interface SoftwareFrontmatter {
     name: string;
     description?: string;
@@ -30,6 +39,8 @@ export interface SoftwareTool {
 
 export interface MaterialsAndMethods {
     dataset?: DatasetNode | null;
+    protocols?: ProtocolItem[] | null;
+    cellLines?: CellLineItem[] | null;
     software?: SoftwareTool[] | null;
 
 }

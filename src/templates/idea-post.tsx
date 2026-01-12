@@ -12,6 +12,7 @@ import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
 import IconText from "../components/IconText";
 import { IdeaPostNode, MaterialsAndMethods } from "../types";
+import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 
 const Header = AntdLayout.Header;
 
@@ -41,20 +42,15 @@ interface IdeaPostTemplateProps {
 }
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
-    content,
-    contentComponent,
-    description,
     tags,
     title,
     helmet,
     materialsAndMethods,
 }) => {
-    const software = materialsAndMethods?.software || null;
 
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
     const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
-    const materialsAndMethodsText = "MATERIALS AND METHODS TO GO HERE";
 
     const getTagList = (tags: string[]) => {
         return (
@@ -107,21 +103,16 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         {nextSteps}
                     </div>
                 )}
-                {/* TODO render all materials and methods */}
-                <div> {materialsAndMethodsText} </div>
-                {software && software.length ? (
-                    <ul>
-                        Software
-                        {software.map((item, index) => (
-                            <li key={index}>
-                                {item.softwareTool?.frontmatter?.name}
-                                {item.customDescription && (
-                                    <span> - {item.customDescription}</span>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                ) : null}
+                {materialsAndMethods && (
+                    <div className={section}>
+                        <h2 className={sectionTitle}>
+                            Materials and methods available:
+                        </h2>
+                        <MaterialsAndMethodsComponent
+                            materialsAndMethods={materialsAndMethods}
+                        />
+                    </div>
+                )}
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
@@ -167,6 +158,22 @@ export const pageQuery = graphql`
                 description
                 tags
                 materialsAndMethods {
+                    dataset {
+                        frontmatter {
+                            name
+                            description
+                            link
+                            status
+                            date
+                        }
+                    }
+                    protocols {
+                        protocol
+                    }
+                    cellLines {
+                        name
+                        link
+                    }
                     software {
                         softwareTool {
                             frontmatter {

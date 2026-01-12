@@ -36,7 +36,18 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         """
         type MaterialsAndMethods {
         dataset: MarkdownRemark @link(by: "frontmatter.name")
+        protocols: [ProtocolItem!]
+        cellLines: [CellLineItem!]
         software: [SoftwareTool!]
+        }
+
+        type ProtocolItem {
+        protocol: String!
+        }
+
+        type CellLineItem {
+            name: String!
+            link: String
         }
 
         """
