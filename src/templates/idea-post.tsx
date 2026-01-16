@@ -11,7 +11,7 @@ import {
 import Layout from "../components/Layout";
 import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
-import { IdeaFrontmatter, IdeaPostNode, IdeaPostQuery } from "../types";
+import { IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 

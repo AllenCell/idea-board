@@ -1,6 +1,6 @@
 ---
 templateKey: idea-post
-title: Placeholder name (dev example)
+title: Lichenoid Photosynthetic hIPSC Creature (dev example)
 type: analysis of existing data
 date: 2025-10-28T19:10:00.000Z
 draft: false
@@ -36,7 +36,7 @@ materialsAndMethods:
       link: https://allencell.org/cell-catalog
   software:
     - softwareTool: Simularium
-      customDescription: CUSTOM DESCRIPTION Used to visualize 3D trajectories and other cool stuff.
+      customDescription: Custom description in the markdown file for the idea, not in the software file markdown.
     - softwareTool: Timelapse Feature Explorer
 nextSteps:
   - "Expand analysis to all EMT datasets and stratify by treatment."
@@ -51,6 +51,7 @@ tags:
   - EMT
   - migration
   - cell-cell junctions
+  - moonshot
 
 acknowledgment: as co-authors
 
