@@ -13,6 +13,7 @@ import Content, { HTMLContent } from "../components/Content";
 import IconText from "../components/IconText";
 import { IdeaPostNode, MaterialsAndMethods } from "../types";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
+import { TagPopover } from "../components/TagPopover";
 
 const Header = AntdLayout.Header;
 
@@ -39,9 +40,11 @@ interface IdeaPostTemplateProps {
     title: string;
     helmet?: React.ReactNode;
     materialsAndMethods?: MaterialsAndMethods;
+    currentSlug?: string;
 }
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
+    currentSlug,
     tags,
     title,
     helmet,
@@ -56,8 +59,8 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
         return (
             <ul className={taglist}>
                 {tags.map((tag) => (
-                    <li key={tag}>
-                        <div>{tag} </div>
+                    <li key={tag + `tag`}>
+                        <TagPopover tag={tag} currentSlug={currentSlug} />
                     </li>
                 ))}
             </ul>
@@ -140,6 +143,7 @@ const IdeaPost = ({ data }: QueryResult) => {
                 tags={post.frontmatter.tags}
                 title={post.frontmatter.title}
                 materialsAndMethods={post.frontmatter.materialsAndMethods}
+                currentSlug={post.fields?.slug}
             />
         </Layout>
     );
@@ -152,6 +156,9 @@ export const pageQuery = graphql`
         markdownRemark(id: { eq: $id }) {
             id
             html
+            fields {
+                slug
+            }
             frontmatter {
                 date(formatString: "MMMM DD, YYYY")
                 title

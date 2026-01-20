@@ -5,6 +5,7 @@ import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { MaterialsAndMethods } from "../types";
 import { IconText } from "./IconText";
+import { TagPopover } from "./TagPopover";
 
 const { container } = require("../style/idea-roll.module.css");
 
@@ -84,9 +85,7 @@ const IdeaRollTemplate = (props: {
                             key="list-vertical-message"
                         />,
                         ...item.tags.map((tag) => (
-                            <Link to={`/tags/${tag.replace(" ", "-")}/`}>
-                                <Tag key="list-vertical-tag">{tag}</Tag>
-                            </Link>
+                            <TagPopover tag={tag} currentSlug={item.slug} />
                         )),
                     ]}
                     // extra={

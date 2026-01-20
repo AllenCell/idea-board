@@ -62,5 +62,8 @@ export interface IdeaFrontmatter {
 export interface IdeaPostNode {
     id: string;
     html: string;
+    fields: {
+        slug: string;
+    }
     frontmatter: IdeaFrontmatter;
 }
