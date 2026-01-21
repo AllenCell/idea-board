@@ -56,7 +56,7 @@ export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
                 edge.node.frontmatter!.tags?.includes(tag) &&
                 edge.node.fields!.slug !== currentSlug
         )
-        .map((post: any) => (
+        .map((post: PostForTags) => (
             <li key={post.node.id} className={styles.postLink}>
                 <Link to={post.node.fields.slug}>
                     {post.node.frontmatter.title}
