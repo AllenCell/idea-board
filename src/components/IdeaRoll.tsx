@@ -85,7 +85,7 @@ const IdeaRollTemplate = (props: {
                             key="list-vertical-message"
                         />,
                         ...item.tags.map((tag) => (
-                            <TagPopover tag={tag} currentSlug={item.slug} />
+                            <TagPopover key={tag} tag={tag} currentSlug={item.slug} />
                         )),
                     ]}
                     // extra={
