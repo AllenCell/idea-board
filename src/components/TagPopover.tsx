@@ -58,8 +58,8 @@ export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
         )
         .map((post: PostForTags) => (
             <li key={post.node.id} className={styles.postLink}>
-                <Link to={post.node.fields.slug}>
-                    {post.node.frontmatter.title}
+                <Link to={post.node!.fields!.slug}>
+                    {post.node!.frontmatter!.title}
                 </Link>
             </li>
         ));
