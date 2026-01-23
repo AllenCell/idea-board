@@ -4,32 +4,13 @@ import { Link, useStaticQuery, graphql } from "gatsby";
 
 import * as styles from "../style/tag-popover.module.css";
 
-interface PostForTags {
-    node: {
-        id: string;
-        fields: {
-            slug: string;
-        } | null;
-        frontmatter: {
-            title: string;
-            tags?: string[] | null;
-        } | null;
-    };
-}
-
-interface TagPopoverQuery {
-    allMarkdownRemark: {
-        edges: PostForTags[];
-    };
-}
-
 interface TagPopoverProps {
     tag: string;
     currentSlug?: string;
 }
 
 export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
-    const data: TagPopoverQuery = useStaticQuery(graphql`
+    const data: Queries.AllIdeasForTagsQuery = useStaticQuery(graphql`
         query AllIdeasForTags {
             allMarkdownRemark(
                 filter: { frontmatter: { templateKey: { eq: "idea-post" } } }
@@ -52,14 +33,14 @@ export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
 
     const postsWithTag = data.allMarkdownRemark.edges
         .filter(
-            (edge: PostForTags) =>
-                edge.node.frontmatter!.tags?.includes(tag) &&
-                edge.node.fields!.slug !== currentSlug
+            (edge) =>
+                edge.node.frontmatter.tags?.includes(tag) &&
+                edge.node.fields.slug !== currentSlug
         )
-        .map((post: PostForTags) => (
+        .map((post) => (
             <li key={post.node.id} className={styles.postLink}>
-                <Link to={post.node!.fields!.slug}>
-                    {post.node!.frontmatter!.title}
+                <Link to={post.node.fields.slug}>
+                    {post.node.frontmatter.title}
                 </Link>
             </li>
         ));
