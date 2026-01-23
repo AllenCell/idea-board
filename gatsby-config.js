@@ -1,4 +1,5 @@
 module.exports = {
+    graphqlTypegen: true,
     siteMetadata: {
         title: "Gatsby + Netlify CMS Starter",
         description:
