@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const fs = require("fs");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const {
@@ -8,6 +9,8 @@ const {
     resolveSoftwareTools,
 } = require("./gatsbyutils/gatsby-resolver-utils");
 const { DATASET_PATH } = require("./gatsbyutils/constants");
+
+const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -25,28 +28,7 @@ const DATA_ONLY_PAGES = [
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `type MarkdownRemarkFields {
-            slug: String!
-        }
-
-        type MarkdownRemark implements Node {
-            frontmatter: Frontmatter!
-            fields: MarkdownRemarkFields!
-        }
-
-        """
-        Shared frontmatter fields for idea posts (and other markdown).
-        """
-        type Frontmatter {
-            date: Date @dateformat
-            title: String!
-            description: String
-            draft: Boolean
-            tags: [String!]
-            materialsAndMethods: MaterialsAndMethods!
-            }
-
-        """
+        `"""
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
@@ -73,6 +55,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             customDescription: String
         }`,
     ];
+    createTypes(read("gatsby/schema/base.gql"));
     createTypes(typeDefs);
 };
 
