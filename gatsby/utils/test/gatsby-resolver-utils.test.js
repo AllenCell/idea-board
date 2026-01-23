@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { resolveSlug, resolveSoftwareTools } from '../gatsby-resolver-utils';
-import { DATASET_PATH, SOFTWARE_PATH } from '../constants';
+import { DATASET_PATH, SOFTWARE_PATH } from '../../constants';
 
 describe('resolveSlug', () => {
     it('should return null when id is falsy', () => {
