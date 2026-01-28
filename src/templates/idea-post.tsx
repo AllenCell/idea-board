@@ -11,7 +11,8 @@ import {
 import Layout from "../components/Layout";
 import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
-import { IdeaFrontmatter, IdeaPostNode, IdeaPostQuery } from "../types";
+import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
+import { TagPopover } from "../components/TagPopover";
 
 const Header = AntdLayout.Header;
 
@@ -24,9 +25,10 @@ const {
     actionIcons,
 } = require("../style/idea-post.module.css");
 
-export const IdeaPostTemplate: React.FC<IdeaFrontmatter> = ({
-    title,
+export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
+    slug,
     tags,
+    title,
     materialsAndMethods,
 }) => {
 
@@ -38,8 +40,8 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter> = ({
         return (
             <ul className={taglist}>
                 {tags.map((tag) => (
-                    <li key={tag + `tag`}>
-                        <div>{tag} </div>
+                    <li key={tag}>
+                        <TagPopover tag={tag} currentSlug={slug} />
                     </li>
                 ))}
             </ul>
@@ -93,8 +95,8 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter> = ({
 
 const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
     const markdownRemark = data.markdownRemark;
-    // Runtime guard against missing data
-    if (!markdownRemark || !markdownRemark.frontmatter) {
+    // Runtime guard - markdownRemark can be null if query doesn't find matching ID
+    if (!markdownRemark) {
         return (
             <Layout>
                 <p>Post not found.</p>
@@ -111,7 +113,7 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 <meta name="description" content={description ?? ""} />
             </Helmet>
 
-            <IdeaPostTemplate {...markdownRemark.frontmatter} />
+            <IdeaPostTemplate {...markdownRemark.frontmatter} {...markdownRemark.fields} />
         </Layout>
     );
 };
@@ -123,6 +125,9 @@ export const pageQuery = graphql`
         markdownRemark(id: { eq: $id }) {
             id
             html
+            fields {
+                slug
+            }
             frontmatter {
                 date(formatString: "MMMM DD, YYYY")
                 title

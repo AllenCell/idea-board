@@ -22,7 +22,14 @@ const DATA_ONLY_PAGES = [
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `type MarkdownRemark implements Node { frontmatter: Frontmatter }
+        `type MarkdownRemarkFields {
+            slug: String!
+        }
+
+        type MarkdownRemark implements Node {
+            frontmatter: Frontmatter!
+            fields: MarkdownRemarkFields!
+        }
 
         """
         Shared frontmatter fields for idea posts (and other markdown).
@@ -73,6 +80,13 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
  */
 exports.createResolvers = ({ createResolvers }) => {
     createResolvers({
+        MarkdownRemark: {
+            fields: {
+                resolve: (source) => ({
+                    slug: source.fields?.slug || "/",
+                }),
+            },
+        },
         Frontmatter: {
             description: {
                 resolve: (source) =>
