@@ -1,0 +1,36 @@
+.post-link {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--OFF_WHITE);
+}
+
+.popover-content {
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.header {
+    margin-bottom: 0.5rem;
+}
+
+.post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.post-link:last-child {
+    border-bottom: none;
+}
+
+.post-link a {
+    color: var(--link-color);
+}
+
+.post-link a:hover {
+    text-decoration: underline;
+}
+
+.tag {
+    cursor: pointer;
+}
