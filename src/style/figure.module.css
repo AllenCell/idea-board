@@ -1,0 +1,18 @@
+.container {
+    display: inline-block;
+}
+
+.caption {
+    font-style: italic;
+    font-size: 12px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .container :global(.ant-card-body) {
+        padding: 8px;
+    }
+    .caption {
+        font-size: 10px;
+    }
+}

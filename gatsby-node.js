@@ -12,12 +12,7 @@ const {
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-];
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
@@ -35,11 +30,16 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         Shared frontmatter fields for idea posts (and other markdown).
         """
         type Frontmatter {
+            authors: [String!]!
             date: Date @dateformat
             title: String!
             description: String
             draft: Boolean
             tags: [String!]
+            nextSteps: [String!]
+            publication: String
+            introduction: String
+            preliminaryFindings: PreliminaryFindings
             materialsAndMethods: MaterialsAndMethods!
             }
 
@@ -60,6 +60,16 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         type CellLineItem {
             name: String!
             link: String
+        }
+
+        type PreliminaryFindings {
+            summary: String!
+            figures: [ImgWithCaption!]!
+        }
+
+        type ImgWithCaption {
+            figure: File @fileByRelativePath
+            caption: String
         }
 
         """
@@ -92,8 +102,11 @@ exports.createResolvers = ({ createResolvers }) => {
                 resolve: (source) =>
                     stringWithDefault(
                         source.description,
-                        "No description provided."
+                        "No description provided.",
                     ),
+            },
+            authors: {
+                resolve: (source) => resolveToArray(source.authors),
             },
             title: {
                 resolve: (source) =>
@@ -115,13 +128,26 @@ exports.createResolvers = ({ createResolvers }) => {
 
                     current.dataset = stringWithDefault(
                         raw.dataset,
-                        current.dataset
+                        current.dataset,
                     );
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
                     current.software = resolveToArray(raw.software);
 
                     return current;
+                },
+            },
+            preliminaryFindings: {
+                resolve: (source) => {
+                    return{
+                        summary: stringWithDefault(
+                            source.preliminaryFindings.summary,
+                            "",
+                        ),
+                        figures: resolveToArray(
+                            source.preliminaryFindings.figures,
+                        ),
+                    };
                 },
             },
         },
@@ -181,7 +207,7 @@ exports.createPages = ({ actions, graphql }) => {
                 path: edge.node.fields.slug,
                 tags: edge.node.frontmatter.tags,
                 component: path.resolve(
-                    `src/templates/${String(templateKey)}.tsx`
+                    `src/templates/${String(templateKey)}.tsx`,
                 ),
                 // additional data can be passed via context
                 context: {
