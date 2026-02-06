@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { graphql, Link, PageProps } from "gatsby";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Layout as AntdLayout, Card, Flex } from "antd";
 import {
     ArrowLeftOutlined,
@@ -13,6 +14,7 @@ import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 import { TagPopover } from "../components/TagPopover";
+import FigureComponent from "../components/Figure";
 
 const Header = AntdLayout.Header;
 
@@ -26,16 +28,16 @@ const {
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
+    authors,
+    introduction,
     slug,
     tags,
     title,
     materialsAndMethods,
+    nextSteps,
+    preliminaryFindings,
+    publication,
 }) => {
-
-    // TODO query the actual data
-    const introduction = "PLACEHOLDER INTRODUCTION TEXT";
-    const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
-
     const getTagList = (tags: readonly string[]) => {
         return (
             <ul className={taglist}>
@@ -47,6 +49,21 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
             </ul>
         );
     };
+
+    const getAuthorsList = (authors: readonly string[]) => {
+        if (authors.length === 0) {
+            return null;
+        }
+        return (
+            <>
+                <h4 className={sectionTitle}>Proposed by: </h4>
+                <p> {authors.join(", ")}</p>
+            </>
+        );
+    };
+
+    const hasFigures =
+        preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
 
     return (
         <div>
@@ -79,11 +96,39 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     </Flex>
 
                     <p className={proposal}>{introduction}</p>
+                    {getAuthorsList(authors)}
+                    {publication && (
+                        <>
+                            <h4 className={sectionTitle}>Publication </h4>
+                            <p> {publication}</p>
+                        </>
+                    )}
                 </div>
+
+                {preliminaryFindings && (
+                    <div className={section}>
+                        <h4 className={sectionTitle}>Preliminary Findings</h4>
+                        <p>{preliminaryFindings.summary}</p>
+
+                        {hasFigures &&
+                            preliminaryFindings.figures.map((figure) => {
+                                return (
+                                    <FigureComponent
+                                        figure={figure}
+                                    />
+                                );
+                            })}
+                    </div>
+                )}
+
                 {nextSteps && (
                     <div className={section}>
-                        <h2 className={sectionTitle}>Suggested next steps:</h2>
-                        {nextSteps}
+                        <h4 className={sectionTitle}>Suggested next steps:</h4>
+                        <ul>
+                            {nextSteps.map((step: string, index: number) => (
+                                <li key={index}>{step}</li>
+                            ))}
+                        </ul>
                     </div>
                 )}
                 <MaterialsAndMethodsComponent {...materialsAndMethods} />
@@ -113,7 +158,10 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 <meta name="description" content={description ?? ""} />
             </Helmet>
 
-            <IdeaPostTemplate {...markdownRemark.frontmatter} {...markdownRemark.fields} />
+            <IdeaPostTemplate
+                {...markdownRemark.frontmatter}
+                {...markdownRemark.fields}
+            />
         </Layout>
     );
 };
@@ -129,10 +177,26 @@ export const pageQuery = graphql`
                 slug
             }
             frontmatter {
+                authors
+                publication
                 date(formatString: "MMMM DD, YYYY")
+                introduction
                 title
                 description
                 tags
+                preliminaryFindings {
+                    summary
+                    figures {
+                        figure {
+                            childImageSharp {
+                                gatsbyImageData(width: 600, quality: 90)
+                            }
+                        }
+                        caption
+                    }
+                }
+                publication
+                nextSteps
                 materialsAndMethods {
                     dataset {
                         frontmatter {
