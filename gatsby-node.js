@@ -55,7 +55,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
 
         """
         The front end and CMS assume that you enter EITHER a url OR a file which
-        this type doen't strictly enforce. Directly entering data into markdown
+        this type doesn't strictly enforce. Directly entering data into markdown
         with both fields populated may lead to unexpected behavior.
         """
         type Protocol @dontInfer {
