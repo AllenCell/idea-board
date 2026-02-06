@@ -139,7 +139,7 @@ exports.createResolvers = ({ createResolvers }) => {
             },
             preliminaryFindings: {
                 resolve: (source) => {
-                    return{
+                    return {
                         summary: stringWithDefault(
                             source.preliminaryFindings.summary,
                             "",
