@@ -31,7 +31,6 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     title,
     materialsAndMethods,
 }) => {
-    console.log("protocols:", materialsAndMethods.protocols);
 
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
