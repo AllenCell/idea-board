@@ -20,7 +20,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
             return cellLine.name;
         }
         return (
-            <a href={cellLine.link} target="_blank" rel="noreferrer">
+            <a href={cellLine.link} target="_blank" rel="noreferrer noopener">
                 {cellLine.name}
             </a>
         );
@@ -34,7 +34,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
         const title = link ? (
             <p>
                 <strong>{`Name: `}</strong>
-                <a href={link} target="_blank" rel="noreferrer">
+                <a href={link} target="_blank" rel="noreferrer noopener">
                     {name}
                 </a>
             </p>
@@ -72,7 +72,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
                             <a
                                 href={datasetFm.link}
                                 target="_blank"
-                                rel="noreferrer"
+                                rel="noreferrer noopener"
                             >
                                 {datasetFm.name}
                             </a>
@@ -98,17 +98,23 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
             label: "Protocols",
             children: (
                 <ul>
-                    {protocols.map((item, index) => (
-                        <li key={index}>
-                            <a
-                                href={item.protocol}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {item.protocol.split("/").pop()}
-                            </a>
-                        </li>
-                    ))}
+                    {protocols.map((item, index) => {
+                        const href =
+                            item.type === "protocolLink"
+                                ? item.url
+                                : item.file?.publicURL;
+                        return (
+                            <li key={index}>
+                                <a
+                                    href={href ?? "#"}
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    {item.name}
+                                </a>
+                            </li>
+                        );
+                    })}
                 </ul>
             ),
         });

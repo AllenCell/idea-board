@@ -48,13 +48,21 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         """
         type MaterialsAndMethods {
         dataset: MarkdownRemark @link(by: "frontmatter.name")
-        protocols: [ProtocolItem!]!
+        protocols: [Protocol!]!
         cellLines: [CellLineItem!]!
         software: [SoftwareTool!]!
         }
 
-        type ProtocolItem {
-        protocol: String!
+        """
+        The front end and CMS assume that you enter EITHER a url OR a file which
+        this type doesn't strictly enforce. Directly entering data into markdown
+        with both fields populated may lead to unexpected behavior.
+        """
+        type Protocol @dontInfer {
+            type: String!
+            name: String!
+            url: String
+            file: File @fileByRelativePath
         }
 
         type CellLineItem {

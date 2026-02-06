@@ -127,12 +127,45 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "List any relevant protocols used in this analysis.",
-                            field:
-                                {
-                                    label: "Protocol",
-                                    name: "protocol",
-                                    widget: "file",
-                                },
+                            types:
+                                [
+                                    {
+                                        label: "Protocol link",
+                                        name: "protocolLink",
+                                        widget: "object",
+                                        fields:
+                                            [
+                                                {
+                                                    label: "Name",
+                                                    name: "name",
+                                                    widget: "string",
+                                                },
+                                                {
+                                                    label: "URL",
+                                                    name: "url",
+                                                    widget: "string",
+                                                },
+                                            ],
+                                    },
+                                    {
+                                        label: "Protocol file",
+                                        name: "protocolFile",
+                                        widget: "object",
+                                        fields:
+                                            [
+                                                {
+                                                    label: "Name",
+                                                    name: "name",
+                                                    widget: "string",
+                                                },
+                                                {
+                                                    label: "File",
+                                                    name: "file",
+                                                    widget: "file",
+                                                },
+                                            ],
+                                    },
+                                ],
                         },
                         {
                             label: "Cell lines used",
@@ -173,7 +206,7 @@ collections:
                                         hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
                                     },
                                 ],
-                        }
+                        },
                     ],
             }
           - {
@@ -330,7 +363,12 @@ collections:
                 options: ["Public", "In development", "Internal use only"],
                 required: false,
             }
-          - { label: "Publish Date", name: "date", widget: "datetime", required: false }
+          - {
+                label: "Publish Date",
+                name: "date",
+                widget: "datetime",
+                required: false,
+            }
 
     - name: "pages"
       label: "Pages"
