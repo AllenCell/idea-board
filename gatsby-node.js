@@ -137,6 +137,9 @@ exports.createResolvers = ({ createResolvers }) => {
                     return current;
                 },
             },
+            nextSteps: {
+                resolve: (source) => resolveToArray(source.nextSteps),
+            },
             preliminaryFindings: {
                 resolve: (source) => {
                     return {

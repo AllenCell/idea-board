@@ -48,7 +48,8 @@
     "serve": "gatsby serve",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\""
+    "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\"",
+    "preview": "npx netlify build && npx netlify serve"
   },
   "devDependencies": {
     "@types/antd": "^1.0.0",
