@@ -31,6 +31,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     title,
     materialsAndMethods,
 }) => {
+    console.log("protocols:", materialsAndMethods.protocols);
 
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
@@ -144,7 +145,12 @@ export const pageQuery = graphql`
                         }
                     }
                     protocols {
-                        protocol
+                        type
+                        name
+                        url
+                        file {
+                            publicURL
+                        }
                     }
                     cellLines {
                         name

@@ -98,17 +98,23 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
             label: "Protocols",
             children: (
                 <ul>
-                    {protocols.map((item, index) => (
-                        <li key={index}>
-                            <a
-                                href={item.protocol}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {item.protocol.split("/").pop()}
-                            </a>
-                        </li>
-                    ))}
+                    {protocols.map((item, index) => {
+                        const href =
+                            item.type === "protocolLink"
+                                ? item.url
+                                : item.file?.publicURL;
+                        return (
+                            <li key={index}>
+                                <a
+                                    href={href ?? "#"}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {item.name}
+                                </a>
+                            </li>
+                        );
+                    })}
                 </ul>
             ),
         });
