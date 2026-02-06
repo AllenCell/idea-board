@@ -142,14 +142,16 @@ exports.createResolvers = ({ createResolvers }) => {
             },
             preliminaryFindings: {
                 resolve: (source) => {
+                    const raw = source.preliminaryFindings;
+                    if (!raw || typeof raw !== "object") {
+                        return {
+                            summary: "",
+                            figures: [],
+                        };
+                    }
                     return {
-                        summary: stringWithDefault(
-                            source.preliminaryFindings.summary,
-                            "",
-                        ),
-                        figures: resolveToArray(
-                            source.preliminaryFindings.figures,
-                        ),
+                        summary: stringWithDefault(raw.summary, ""),
+                        figures: resolveToArray(raw.figures),
                     };
                 },
             },

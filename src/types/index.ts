@@ -22,4 +22,4 @@ export type SoftwareTool = MaterialsAndMethods["software"][number];
 export type IdeasForTags = Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];
 
 export type PreliminaryFindings = NonNullable<IdeaFrontmatter["preliminaryFindings"]>;
-export type Figure = NonNullable<IdeaFrontmatter["preliminaryFindings"]>["figures"][number]
+export type Figure = NonNullable<IdeaFrontmatter["preliminaryFindings"]>["figures"][number];
