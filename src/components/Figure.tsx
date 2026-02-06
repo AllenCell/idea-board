@@ -5,8 +5,6 @@ import { Figure } from "../types";
 
 interface FigureProps {
     figure: Figure;
-    index?: number
-    key?: number;
 }
 
 const {
@@ -14,7 +12,7 @@ const {
     container,
 } = require("../style/figure.module.css");
 
-const FigureComponent: React.FC<FigureProps> = ({ figure, key }) => {
+const FigureComponent: React.FC<FigureProps> = ({ figure}) => {
     const { figure: image } = figure;
 
     const imageForGatsby = getImage(image!.childImageSharp);
@@ -23,7 +21,7 @@ const FigureComponent: React.FC<FigureProps> = ({ figure, key }) => {
         <Card className={container}>
             <GatsbyImage
                 image={imageForGatsby}
-                alt={`Preliminary finding figure ${key}`}
+                alt={`Preliminary finding figure`}
                 style={{
                     marginBottom: "1rem",
                 }}

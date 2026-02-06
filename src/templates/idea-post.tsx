@@ -111,11 +111,10 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                         <p>{preliminaryFindings.summary}</p>
 
                         {hasFigures &&
-                            preliminaryFindings.figures.map((figure, index) => {
+                            preliminaryFindings.figures.map((figure) => {
                                 return (
                                     <FigureComponent
                                         figure={figure}
-                                        key={index}
                                     />
                                 );
                             })}
