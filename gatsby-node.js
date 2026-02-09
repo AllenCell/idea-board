@@ -39,7 +39,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             nextSteps: [String!]
             publication: String
             introduction: String
-            preliminaryFindings: PreliminaryFindings
+            preliminaryFindings: PreliminaryFindings!
             materialsAndMethods: MaterialsAndMethods!
             }
 

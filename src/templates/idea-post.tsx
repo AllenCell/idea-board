@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { graphql, Link, PageProps } from "gatsby";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Layout as AntdLayout, Card, Flex } from "antd";
 import {
     ArrowLeftOutlined,
@@ -63,7 +62,8 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     };
 
     const hasFigures =
-        preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    const hasPreliminaryFindings = preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
 
     return (
         <div>
@@ -105,23 +105,19 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     )}
                 </div>
 
-                {preliminaryFindings && (
+                {hasPreliminaryFindings && (
                     <div className={section}>
                         <h4 className={sectionTitle}>Preliminary Findings</h4>
                         <p>{preliminaryFindings.summary}</p>
 
                         {hasFigures &&
-                            preliminaryFindings.figures.map((figure) => {
-                                return (
-                                    <FigureComponent
-                                        figure={figure}
-                                    />
-                                );
+                            preliminaryFindings.figures.map((figure, index) => {
+                                return <FigureComponent key={index} figure={figure} />;
                             })}
                     </div>
                 )}
 
-                {nextSteps && (
+                {nextSteps && nextSteps.length > 0 && (
                     <div className={section}>
                         <h4 className={sectionTitle}>Suggested next steps:</h4>
                         <ul>
@@ -197,7 +193,6 @@ export const pageQuery = graphql`
                         caption
                     }
                 }
-                publication
                 nextSteps
                 materialsAndMethods {
                     dataset {
