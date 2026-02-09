@@ -7,15 +7,27 @@ interface FigureProps {
     figure: Figure;
 }
 
-const {
-    caption,
-    container,
-} = require("../style/figure.module.css");
+const { caption, container } = require("../style/figure.module.css");
 
-const FigureComponent: React.FC<FigureProps> = ({ figure}) => {
-    const { figure: image } = figure;
+const FigureComponent: React.FC<FigureProps> = ({ figure }) => {
+    if (!figure.url && !figure.file) {
+        return null;
+    }
 
-    const imageForGatsby = getImage(image!.childImageSharp);
+    if (figure.url) {
+        return (
+            <Card className={container}>
+                <img
+                    src={figure.url}
+                    alt={figure.caption || "Figure"}
+                    style={{ width: "100%", marginBottom: "1rem" }}
+                />
+                <div className={caption}>{figure.caption}</div>
+            </Card>
+        );
+    }
+
+    const imageForGatsby = getImage(figure.file!.childImageSharp! ?? null);
     if (!imageForGatsby) return null;
     return (
         <Card className={container}>

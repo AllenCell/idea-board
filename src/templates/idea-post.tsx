@@ -187,7 +187,9 @@ export const pageQuery = graphql`
                 preliminaryFindings {
                     summary
                     figures {
-                        figure {
+                        type
+                        url
+                        file {
                             childImageSharp {
                                 gatsbyImageData(width: 600, quality: 90)
                             }

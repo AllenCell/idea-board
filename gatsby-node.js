@@ -67,8 +67,10 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             figures: [ImgWithCaption!]!
         }
 
-        type ImgWithCaption {
-            figure: File @fileByRelativePath
+        type ImgWithCaption @dontInfer {
+            type: String!
+            url: String
+            file: File @fileByRelativePath
             caption: String
         }
 

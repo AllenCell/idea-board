@@ -94,12 +94,47 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "Add any images or figures that illustrate your preliminary findings.",
-                            field:
-                                {
-                                    label: "Figure",
-                                    name: "figure",
-                                    widget: "image",
-                                },
+                            types:
+                                [
+                                    {
+                                        label: "Image link",
+                                        name: "imageLink",
+                                        widget: "object",
+                                        fields: [
+                                                {
+                                                    label: "Figure URL",
+                                                    name: "url",
+                                                    widget: "url-image",
+                                                    hint: "Enter a valid image URL to see a preview",
+                                                },
+                                                {
+                                                    label: "Caption",
+                                                    name: "caption",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                    {
+                                        label: "Image file",
+                                        name: "imageFile",
+                                        widget: "object",
+                                        fields: [
+                                                {
+                                                    label: "Figure",
+                                                    name: "file",
+                                                    widget: "image",
+                                                    choose_url: false,
+                                                },
+                                                {
+                                                    label: "Caption",
+                                                    name: "caption",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                ],
                         },
                     ],
             }
@@ -173,7 +208,7 @@ collections:
                                         hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
                                     },
                                 ],
-                        }
+                        },
                     ],
             }
           - {
@@ -260,7 +295,12 @@ collections:
                 default: "allenite",
             }
           - { label: "Name", name: "name", widget: "string" }
-          - { label: "Title", name: "title", widget: "string", required: false }
+          - {
+                label: "Position",
+                name: "position",
+                widget: "string",
+                required: false,
+            }
           - {
                 label: "Contact method",
                 name: "contact",
@@ -330,7 +370,12 @@ collections:
                 options: ["Public", "In development", "Internal use only"],
                 required: false,
             }
-          - { label: "Publish Date", name: "date", widget: "datetime", required: false }
+          - {
+                label: "Publish Date",
+                name: "date",
+                widget: "datetime",
+                required: false,
+            }
 
     - name: "pages"
       label: "Pages"

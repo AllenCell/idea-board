@@ -5,8 +5,11 @@ preliminaryFindings:
     (rapid local changes in junction length and intensity) increases ~30–60
     minutes before migration onset in a subset of fields of view.
   figures:
-    - figure: /img/228469011.jpg
+    - type: imageFile
+      file: /img/228469011.jpg
       caption: An unrelated image from our website showing lots and lots of cells.
+    - type: imageFile
+      file: /img/228469011.jpg
 draft: false
 templateKey: idea-post
 title: Investigate role of cell-cell junctions in collective cell migration (dev
