@@ -63,7 +63,8 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     };
 
     const hasFigures =
-        preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    const hasPreliminaryFindings = preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
 
     return (
         <div>
@@ -105,18 +106,14 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     )}
                 </div>
 
-                {preliminaryFindings && (
+                {hasPreliminaryFindings && (
                     <div className={section}>
                         <h4 className={sectionTitle}>Preliminary Findings</h4>
                         <p>{preliminaryFindings.summary}</p>
 
                         {hasFigures &&
                             preliminaryFindings.figures.map((figure) => {
-                                return (
-                                    <FigureComponent
-                                        figure={figure}
-                                    />
-                                );
+                                return <FigureComponent figure={figure} />;
                             })}
                     </div>
                 )}
