@@ -33,7 +33,7 @@ const FigureComponent: React.FC<FigureProps> = ({ figure }) => {
         <Card className={container}>
             <GatsbyImage
                 image={imageForGatsby}
-                alt={`Preliminary finding figure`}
+                alt={figure.caption || `Preliminary finding figure`}
                 style={{
                     marginBottom: "1rem",
                 }}
