@@ -7,6 +7,7 @@ module.exports = {
     },
     plugins: [
         "gatsby-plugin-react-helmet-async",
+        "gatsby-plugin-fix-fouc",
         {
             resolve: "gatsby-plugin-sass",
             options: {
