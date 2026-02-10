@@ -7,7 +7,7 @@ interface FigureProps {
     figure: Figure;
 }
 
-const { caption, container } = require("../style/figure.module.css");
+const { caption, container, image } = require("../style/figure.module.css");
 
 const FigureComponent: React.FC<FigureProps> = ({ figure }) => {
     if (!figure.url && !figure.file) {
@@ -18,9 +18,10 @@ const FigureComponent: React.FC<FigureProps> = ({ figure }) => {
         return (
             <Card className={container}>
                 <img
+                    className={image}
                     src={figure.url}
                     alt={figure.caption || "Figure"}
-                    style={{ width: "100%", marginBottom: "1rem" }}
+                    style={{ marginBottom: "1rem" }}
                 />
                 <div className={caption}>{figure.caption}</div>
             </Card>
