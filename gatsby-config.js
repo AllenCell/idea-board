@@ -7,6 +7,7 @@ module.exports = {
     },
     plugins: [
         "gatsby-plugin-react-helmet-async",
+        "gatsby-plugin-fix-fouc",
         {
             resolve: "gatsby-plugin-sass",
             options: {
@@ -79,7 +80,4 @@ module.exports = {
         }, // must be after other CSS plugins
         "gatsby-plugin-netlify", // make sure to keep it last in the array
     ],
-    mapping: {
-        "MarkdownRemark.frontmatter.dataset": `MarkdownRemark.frontmatter.name`,
-    },
 };
