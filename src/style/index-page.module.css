@@ -19,3 +19,14 @@
     margin: auto;
     padding: 32px 96px;
 }
+
+@media (max-width: 600px) {
+    .header,
+    .list-wrapper {
+        padding: 16px;
+    }
+
+    .info {
+        padding: 16px;
+    }
+}

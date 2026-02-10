@@ -24,6 +24,7 @@ const {
     proposal,
     card,
     actionIcons,
+    breakWord,
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
@@ -98,10 +99,10 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     <p className={proposal}>{introduction}</p>
                     {getAuthorsList(authors)}
                     {publication && (
-                        <>
+                        <div className={section}>
                             <h4 className={sectionTitle}>Publication </h4>
-                            <p> {publication}</p>
-                        </>
+                            <p className={breakWord}> {publication}</p>
+                        </div>
                     )}
                 </div>
 
@@ -112,7 +113,12 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
 
                         {hasFigures &&
                             preliminaryFindings.figures.map((figure, index) => {
-                                return <FigureComponent key={index} figure={figure} />;
+                                return (
+                                    <FigureComponent
+                                        key={index}
+                                        figure={figure}
+                                    />
+                                );
                             })}
                     </div>
                 )}
