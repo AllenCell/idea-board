@@ -4,7 +4,10 @@ const { createFilePath } = require("gatsby-source-filesystem");
 const {
     stringWithDefault,
     resolveToArray,
+    resolveSlug,
+    resolveSoftwareTools,
 } = require("./gatsbyutils/gatsby-resolver-utils");
+const { DATASET_PATH } = require("./gatsbyutils/constants");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -47,7 +50,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
-        dataset: MarkdownRemark @link(by: "frontmatter.name")
+        dataset: MarkdownRemark @link(by: "fields.slug")
         protocols: [ProtocolItem!]!
         cellLines: [CellLineItem!]!
         software: [SoftwareTool!]!
@@ -66,7 +69,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         Software tool reference with optional custom description.
         """
         type SoftwareTool {
-            softwareTool: MarkdownRemark @link(by: "frontmatter.name")
+            softwareTool: MarkdownRemark @link(by: "fields.slug")
             customDescription: String
         }`,
     ];
@@ -113,13 +116,11 @@ exports.createResolvers = ({ createResolvers }) => {
                         return current;
                     }
 
-                    current.dataset = stringWithDefault(
-                        raw.dataset,
-                        current.dataset
-                    );
+                    const resolvedDatasetSlug = resolveSlug(raw.dataset, DATASET_PATH);
+                    current.dataset = resolvedDatasetSlug;
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
-                    current.software = resolveToArray(raw.software);
+                    current.software = resolveSoftwareTools(raw.software);
 
                     return current;
                 },
