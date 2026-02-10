@@ -1,4 +1,9 @@
-name: Call a reusable workflow
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+env:
+    NODE_VERSION: "22.x"
 
 on:
   pull_request:
@@ -6,8 +11,47 @@ on:
       - main
 
 jobs:
-  call-workflow:
-    uses: AllenCell/reusable-workflows/.github/workflows/setup_npm.yml@55c2e4597381e209128d85c20b60c5509f374e55
-    with: 
-      node-version: "24.x"
-      npm-version: "11.9.0"
+    lint:
+        name: ✅ Lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm run lint
+    format:
+        name: Format check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm run formatCheck
+    typecheck:
+        name: Type Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm run typeCheck
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm test
