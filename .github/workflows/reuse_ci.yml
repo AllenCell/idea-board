@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: AllenCell/reusable-workflows/.github/workflows/setup_npm.yml@55c2e4597381e209128d85c20b60c5509f374e55
+    uses: AllenCell/reusable-workflows/.github/workflows/setup_yarn.yml@bdeb8b1fbd7fbe9d364855bb7a365f3c844c5792
     with: 
       node-version: "24.x"
-      npm-version: "11.9.0"
+      yarn-version: "1.22.22"
