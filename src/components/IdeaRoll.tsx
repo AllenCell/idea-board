@@ -128,7 +128,6 @@ const IdeaRollTemplate = (props: {
                             </>
                         }
                     />
-                    <div>{item.dataset.description}</div>
                 </List.Item>
             )}
         />
