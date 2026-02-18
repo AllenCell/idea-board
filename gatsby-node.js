@@ -40,6 +40,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         type Frontmatter {
             date: Date @dateformat
             title: String!
+            shortDescription: String
             description: String
             draft: Boolean
             tags: [String!]

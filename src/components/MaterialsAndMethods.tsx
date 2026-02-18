@@ -2,6 +2,7 @@ import React from "react";
 import { Collapse } from "antd";
 import type { CollapseProps } from "antd";
 import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
+import { DatasetResource } from "./DatasetResource";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
 
@@ -64,30 +65,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
         items.push({
             key: "dataset",
             label: "Dataset",
-            children: (
-                <div>
-                    <p>
-                        <strong>Name:</strong>{" "}
-                        {datasetFm.link ? (
-                            <a
-                                href={datasetFm.link}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {datasetFm.name}
-                            </a>
-                        ) : (
-                            datasetFm.name
-                        )}
-                    </p>
-                    {datasetFm.description && (
-                        <p>
-                            <strong>Description:</strong>{" "}
-                            {datasetFm.description}
-                        </p>
-                    )}
-                </div>
-            ),
+            children: <DatasetResource dataset={datasetFm} />,
         });
     }
 

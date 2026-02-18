@@ -137,6 +137,7 @@ export const pageQuery = graphql`
                     dataset {
                         frontmatter {
                             name
+                            shortDescription
                             description
                             link
                             status
