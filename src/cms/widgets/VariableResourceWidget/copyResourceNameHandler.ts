@@ -19,7 +19,7 @@ export const copyResourceNameHandler = ({ entry }: CmsEventListenerHandlerArg) =
     }
 
     const data = entry.get("data");
-    const resource = data.get("resource");
+    const resource = data.get("resourceDetails");
 
     if (resource) {
         // Copy resource.name to top-level name

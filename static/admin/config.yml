@@ -386,7 +386,7 @@ collections:
             }
           - {
                 label: "Resource Details",
-                name: "resource",
+                name: "resourceDetails",
                 widget: "resource_union", # custom widget
             }
     - name: "pages"
