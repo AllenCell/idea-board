@@ -29,9 +29,9 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     slug,
     tags,
     title,
+    // resources, // TODO: migrate MaterialsAndMethods to use resources
     materialsAndMethods,
 }) => {
-
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
     const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
@@ -113,7 +113,10 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 <meta name="description" content={description ?? ""} />
             </Helmet>
 
-            <IdeaPostTemplate {...markdownRemark.frontmatter} {...markdownRemark.fields} />
+            <IdeaPostTemplate
+                {...markdownRemark.frontmatter}
+                {...markdownRemark.fields}
+            />
         </Layout>
     );
 };
@@ -133,6 +136,22 @@ export const pageQuery = graphql`
                 title
                 description
                 tags
+                resources {
+                    resource {
+                        frontmatter {
+                            name
+                            resourceDetails {
+                                name
+                                type
+                                description
+                                link
+                                readmeLink
+                                status
+                                date
+                            }
+                        }
+                    }
+                }
                 materialsAndMethods {
                     dataset {
                         frontmatter {

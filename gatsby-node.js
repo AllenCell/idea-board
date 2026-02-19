@@ -7,7 +7,7 @@ const {
     resolveSlug,
     resolveSoftwareTools,
 } = require("./gatsbyutils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsbyutils/constants");
+const { DATASET_PATH, RESOURCES_PATH } = require("./gatsbyutils/constants");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -26,53 +26,72 @@ const DATA_ONLY_PAGES = [
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `type MarkdownRemarkFields {
-            slug: String!
-        }
-
-        type MarkdownRemark implements Node {
-            frontmatter: Frontmatter!
-            fields: MarkdownRemarkFields!
-        }
-
-        """
-        Shared frontmatter fields for idea posts (and other markdown).
-        """
-        type Frontmatter {
-            date: Date @dateformat
-            title: String!
-            description: String
-            draft: Boolean
-            tags: [String!]
-            materialsAndMethods: MaterialsAndMethods!
+        `
+            type MarkdownRemarkFields {
+                slug: String!
             }
 
-        """
-        Nested materials and methods block for idea posts.
-        """
-        type MaterialsAndMethods {
-        dataset: MarkdownRemark @link(by: "fields.slug")
-        protocols: [ProtocolItem!]!
-        cellLines: [CellLineItem!]!
-        software: [SoftwareTool!]!
-        }
+            type MarkdownRemark implements Node {
+                frontmatter: Frontmatter!
+                fields: MarkdownRemarkFields!
+            }
 
-        type ProtocolItem {
-        protocol: String!
-        }
+            """
+            Shared frontmatter fields for idea posts (and other markdown).
+            """
+            type Frontmatter {
+                date: Date @dateformat
+                title: String!
+                description: String
+                draft: Boolean
+                tags: [String!]
+                resources: [Resource!]!
+                materialsAndMethods: MaterialsAndMethods!
+                resourceDetails: ResourceDetails
+            }
 
-        type CellLineItem {
-            name: String!
-            link: String
-        }
+            type ResourceDetails {
+                name: String
+                type: String
+                description: String
+                link: String
+                readmeLink: String
+                status: String
+                date: Date @dateformat
+                file: String
+            }
 
-        """
-        Software tool reference with optional custom description.
-        """
-        type SoftwareTool {
-            softwareTool: MarkdownRemark @link(by: "fields.slug")
-            customDescription: String
-        }`,
+            type Resource {
+                resource: MarkdownRemark @link(by: "fields.slug")
+            }
+
+            """
+            Nested materials and methods block for idea posts.
+            """
+            type MaterialsAndMethods {
+                dataset: MarkdownRemark @link(by: "fields.slug")
+                protocols: [ProtocolItem!]!
+                cellLines: [CellLineItem!]!
+                software: [SoftwareTool!]!
+            }
+
+            type ProtocolItem {
+                protocol: String!
+            }
+
+            type CellLineItem {
+                name: String!
+                link: String
+            }
+
+            """
+            Software tool reference with optional custom description.
+            """
+            type SoftwareTool {
+                softwareTool: MarkdownRemark @link(by: "fields.slug")
+                customDescription: String
+            }
+        `,
     ];
     createTypes(typeDefs);
 };
@@ -96,12 +115,31 @@ exports.createResolvers = ({ createResolvers }) => {
                 resolve: (source) =>
                     stringWithDefault(
                         source.description,
-                        "No description provided."
+                        "No description provided.",
                     ),
             },
             title: {
                 resolve: (source) =>
                     stringWithDefault(source.title, "No title provided."),
+            },
+            resources: {
+                resolve: (source) => {
+                    const raw = source.resources;
+                    if (!raw || !Array.isArray(raw)) {
+                        return [];
+                    }
+
+                    return raw.map((item) => {
+                        const resourceName =
+                            typeof item === "string" ? item : item?.resource;
+                        const resolvedResource = resourceName
+                            ? resolveSlug(resourceName, RESOURCES_PATH)
+                            : null;
+                        return {
+                            resource: resolvedResource,
+                        };
+                    });
+                },
             },
             materialsAndMethods: {
                 resolve: (source) => {
@@ -117,7 +155,10 @@ exports.createResolvers = ({ createResolvers }) => {
                         return current;
                     }
 
-                    const resolvedDatasetSlug = resolveSlug(raw.dataset, DATASET_PATH);
+                    const resolvedDatasetSlug = resolveSlug(
+                        raw.dataset,
+                        DATASET_PATH,
+                    );
                     current.dataset = resolvedDatasetSlug;
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
@@ -183,7 +224,7 @@ exports.createPages = ({ actions, graphql }) => {
                 path: edge.node.fields.slug,
                 tags: edge.node.frontmatter.tags,
                 component: path.resolve(
-                    `src/templates/${String(templateKey)}.tsx`
+                    `src/templates/${String(templateKey)}.tsx`,
                 ),
                 // additional data can be passed via context
                 context: {
