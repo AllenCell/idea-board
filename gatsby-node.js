@@ -20,6 +20,7 @@ const DATA_ONLY_PAGES = [
     "dataset",
     "allenite",
     "program",
+    "resource",
 ];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
