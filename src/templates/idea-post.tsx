@@ -19,19 +19,19 @@ import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 const Header = AntdLayout.Header;
 
 const {
+    actionIcons,
+    card,
+    proposal,
     section,
     sectionTitle,
     taglist,
-    proposal,
-    card,
-    actionIcons,
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
+    materialsAndMethods,
     slug,
     tags,
     title,
-    materialsAndMethods,
 }) => {
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
@@ -105,7 +105,7 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
         );
     }
 
-    const { title, description } = markdownRemark.frontmatter;
+    const { description, title } = markdownRemark.frontmatter;
 
     return (
         <Layout>

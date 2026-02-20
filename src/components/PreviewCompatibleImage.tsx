@@ -1,11 +1,12 @@
 import * as React from "react";
 
 import { GatsbyImage } from "gatsby-plugin-image";
+import { ChildImageSharp } from "../types";
 
 interface PreviewCompatibleImageProps {
     imageInfo: {
         alt?: string;
-        childImageSharp?: any;
+        childImageSharp?: ChildImageSharp;
         image: any;
         width?: number;
         height?: number;
@@ -26,7 +27,7 @@ const PreviewCompatibleImage = ({
                 alt={alt}
             />
         );
-    } else if (!!childImageSharp) {
+    } else if (childImageSharp) {
         return (
             <GatsbyImage
                 image={childImageSharp.gatsbyImageData}

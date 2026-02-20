@@ -27,8 +27,6 @@ interface ProgramTemplateProps {
 
 export const ProgramTemplate = ({
     name,
-    description,
-    image,
 }: ProgramTemplateProps) => {
     return (
         <div>

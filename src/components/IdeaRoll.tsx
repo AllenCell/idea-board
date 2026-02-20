@@ -1,10 +1,8 @@
 import React from "react";
-
-import { Link, StaticQuery, graphql } from "gatsby";
-
+import { Link, graphql, StaticQuery } from "gatsby";
+import { Avatar, List, Space } from "antd";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
-import { Avatar, List, Space, Tag } from "antd";
 
 import { MaterialsAndMethods } from "../types";
 import { IconText } from "./IconText";
@@ -192,7 +190,7 @@ export default function IdeaRoll({
                     }
                 }
             `}
-            render={(data: any) => (
+            render={(data) => (
                 <IdeaRollTemplate data={data} count={count} />
             )}
         />
