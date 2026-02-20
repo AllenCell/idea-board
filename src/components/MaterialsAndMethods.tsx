@@ -1,6 +1,8 @@
 import React from "react";
+
 import { Collapse } from "antd";
 import type { CollapseProps } from "antd";
+
 import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
@@ -137,7 +139,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
             children: (
                 <div>
                     {software.map((item, index) =>
-                        getSoftwareToolRender(item, index)
+                        getSoftwareToolRender(item, index),
                     )}
                 </div>
             ),

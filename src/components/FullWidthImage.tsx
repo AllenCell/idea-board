@@ -1,4 +1,5 @@
 import React from "react";
+
 import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
 
 interface FullWidthImageProps {
