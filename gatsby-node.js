@@ -73,6 +73,13 @@ exports.createResolvers = ({ createResolvers }) => {
                 }),
             },
         },
+        MarkdownRemark: {
+            fields: {
+                resolve: (source) => ({
+                    slug: source.fields?.slug || "/",
+                }),
+            },
+        },
         Frontmatter: {
             description: {
                 resolve: (source) =>
@@ -103,6 +110,7 @@ exports.createResolvers = ({ createResolvers }) => {
                     current.dataset = resolvedDatasetSlug;
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
+                    current.software = resolveSoftwareTools(raw.software);
                     current.software = resolveSoftwareTools(raw.software);
 
                     return current;
