@@ -1,7 +1,10 @@
 import * as React from "react";
-import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet-async";
+
 import { Link, graphql } from "gatsby";
+
+import { kebabCase } from "lodash";
+
 import Layout from "../../components/Layout";
 
 const TagsPage = ({
@@ -27,7 +30,7 @@ const TagsPage = ({
                                 <li key={tag.fieldValue}>
                                     <Link
                                         to={`/tags/${kebabCase(
-                                            tag.fieldValue
+                                            tag.fieldValue,
                                         )}/`}
                                     >
                                         {tag.fieldValue} ({tag.totalCount})

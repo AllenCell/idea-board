@@ -1,0 +1,11 @@
+name: Setup
+description: Checkout, setup Node, and install dependencies
+runs:
+    using: composite
+    steps:
+        - name: Setup Node
+          uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 #v6.2.0
+          with:
+              node-version: ${{ env.NODE_VERSION }}
+        - run: yarn install --frozen-lockfile
+          shell: bash

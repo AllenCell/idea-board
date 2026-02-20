@@ -1,5 +1,7 @@
 import React from "react";
-import { graphql, StaticQuery } from "gatsby";
+
+import { StaticQuery, graphql } from "gatsby";
+
 import Layout from "../components/Layout";
 
 interface QueryResult {
@@ -25,8 +27,6 @@ interface ProgramTemplateProps {
 
 export const ProgramTemplate = ({
     name,
-    description,
-    image,
 }: ProgramTemplateProps) => {
     return (
         <div>

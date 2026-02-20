@@ -1,20 +1,42 @@
-name: Setup packages
+name: CI
 env:
     NODE_VERSION: "22.x"
 
 on:
-  pull_request:
-    branches:
-      - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  setup:
-    name: Install dependencies
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v4
-        - name: Setup Node
-          uses: actions/setup-node@v4
-          with:
-            node-version: ${{env.NODE_VERSION}}
-        - run: yarn install --frozen-lockfile
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+            - uses: ./.github/actions/setup
+            - run: npm run lint
+
+    format:
+        name: Format check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+            - uses: ./.github/actions/setup
+            - run: npm run formatCheck
+    # TODO: find an approach to getting the generated gatsby types avaiable with a build step
+    # or otherwise we need to skip this step in CI since our types are downstream of that generated file
+    # typecheck:
+    #     name: Type check
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+    #         - uses: ./.github/actions/setup
+    #         - run: npm run typeCheck
+
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+            - uses: ./.github/actions/setup
+            - run: npm test

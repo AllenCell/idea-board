@@ -18,12 +18,7 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-];
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
@@ -85,7 +80,7 @@ exports.createResolvers = ({ createResolvers }) => {
                 resolve: (source) =>
                     stringWithDefault(
                         source.description,
-                        "No description provided."
+                        "No description provided.",
                     ),
             },
             title: {
@@ -106,7 +101,10 @@ exports.createResolvers = ({ createResolvers }) => {
                         return current;
                     }
 
-                    const resolvedDatasetSlug = resolveSlug(raw.dataset, DATASET_PATH);
+                    const resolvedDatasetSlug = resolveSlug(
+                        raw.dataset,
+                        DATASET_PATH,
+                    );
                     current.dataset = resolvedDatasetSlug;
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
@@ -173,7 +171,7 @@ exports.createPages = ({ actions, graphql }) => {
                 path: edge.node.fields.slug,
                 tags: edge.node.frontmatter.tags,
                 component: path.resolve(
-                    `src/templates/${String(templateKey)}.tsx`
+                    `src/templates/${String(templateKey)}.tsx`,
                 ),
                 // additional data can be passed via context
                 context: {

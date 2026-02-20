@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, graphql, StaticQuery } from "gatsby";
-import { Avatar, List, Space, Tag } from "antd";
+import { Avatar, List, Space } from "antd";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
+
 import { MaterialsAndMethods } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
@@ -47,7 +48,9 @@ const IdeaRollTemplate = (props: {
         type: post.frontmatter.type,
         authors: post.frontmatter.authors || [],
         concerns: post.frontmatter.concerns || "",
-        dataset: { ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter },
+        dataset: {
+            ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter,
+        },
     }));
     if (props.count) {
         data.splice(props.count);
@@ -85,7 +88,11 @@ const IdeaRollTemplate = (props: {
                             key="list-vertical-message"
                         />,
                         ...item.tags.map((tag) => (
-                            <TagPopover key={tag} tag={tag} currentSlug={item.slug} />
+                            <TagPopover
+                                key={tag}
+                                tag={tag}
+                                currentSlug={item.slug}
+                            />
                         )),
                     ]}
                     // extra={
@@ -183,7 +190,7 @@ export default function IdeaRoll({
                     }
                 }
             `}
-            render={(data: any) => (
+            render={(data) => (
                 <IdeaRollTemplate data={data} count={count} />
             )}
         />

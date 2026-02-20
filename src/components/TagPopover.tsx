@@ -1,6 +1,8 @@
 import React from "react";
-import { Tag, Popover } from "antd";
-import { Link, useStaticQuery, graphql } from "gatsby";
+
+import { Link, graphql, useStaticQuery } from "gatsby";
+
+import { Popover, Tag } from "antd";
 
 import * as styles from "../style/tag-popover.module.css";
 
@@ -9,7 +11,7 @@ interface TagPopoverProps {
     currentSlug?: string;
 }
 
-export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
+export const TagPopover: React.FC<TagPopoverProps> = ({ currentSlug, tag }) => {
     const data: Queries.AllIdeasForTagsQuery = useStaticQuery(graphql`
         query AllIdeasForTags {
             allMarkdownRemark(
@@ -35,7 +37,7 @@ export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
         .filter(
             (edge) =>
                 edge.node.frontmatter.tags?.includes(tag) &&
-                edge.node.fields.slug !== currentSlug
+                edge.node.fields.slug !== currentSlug,
         )
         .map((post) => (
             <li key={post.node.id} className={styles.postLink}>
