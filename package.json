@@ -53,7 +53,7 @@
     "test": "vitest",
     "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\"",
     "lint": "eslint \"src/**/*.{ts,tsx}\" --quiet --fix",
-    "typeCheck": "tsc --noEmit"
+    "typeCheck": "npx tsc --noEmit"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

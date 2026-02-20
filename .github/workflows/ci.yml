@@ -23,14 +23,15 @@ jobs:
             - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
             - uses: ./.github/actions/setup
             - run: npm run formatCheck
-
-    typecheck:
-        name: Type check
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
-            - uses: ./.github/actions/setup
-            - run: npm run typeCheck
+    # TODO: find an approach to getting the generated gatsby types avaiable with a build step
+    # or otherwise we need to skip this step in CI since our types are downstream of that generated file
+    # typecheck:
+    #     name: Type check
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+    #         - uses: ./.github/actions/setup
+    #         - run: npm run typeCheck
 
     test:
         name: Test
