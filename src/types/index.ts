@@ -26,8 +26,6 @@ export type SoftwareTool = MaterialsAndMethods["software"][number];
 export type IdeasForTags =
     Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];
 
-
-
 /**
  * Other utility types
  */
