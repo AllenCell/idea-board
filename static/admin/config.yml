@@ -260,7 +260,7 @@ collections:
                 default: "allenite",
             }
           - { label: "Name", name: "name", widget: "string" }
-          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Position", name: "position", widget: "string", required: false }
           - {
                 label: "Contact method",
                 name: "contact",
