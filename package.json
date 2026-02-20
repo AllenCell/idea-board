@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/antd": "^1.0.0",
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.59",
@@ -70,7 +70,7 @@
     "jiti": "^2.6.1",
     "netlify-cli": "^17.15.7",
     "postcss": "^8.4.35",
-    "prettier": "^2.0.5",
+    "prettier": "^3.0.0",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.56.0",
     "typescript-plugin-css-modules": "^5.1.0"
