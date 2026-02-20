@@ -363,12 +363,12 @@ collections:
       create: true
       slug: "{{name}}"
       identifier_field: "name"
-      summary: "{{resource.type}}: {{name}}"
-      sortable_fields: ["name", "resource.type"]
+      summary: "{{resourceDetails.type}}: {{name}}"
+      sortable_fields: ["name", "resourceDetails.type"]
       view_groups: [
             {
                 label: "Type",
-                field: "resource.type",
+                field: "resourceDetails.type",
             }
       ]
       fields:
