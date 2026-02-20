@@ -7,8 +7,6 @@ const {
     resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
-    resolveSlug,
-    resolveSoftwareTools,
 } = require("./gatsbyutils/gatsby-resolver-utils");
 const { DATASET_PATH } = require("./gatsbyutils/constants");
 
