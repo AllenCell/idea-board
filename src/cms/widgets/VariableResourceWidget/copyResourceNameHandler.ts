@@ -1,7 +1,7 @@
 import CMS from "decap-cms-core"
 
-// FRor some reason I could not import CmsEventListener as as a type
-// and it was resolving to the global CMS object, so this is the workaround.
+// For some reason I could not import CmsEventListener as a type
+// because it was resolving to the global CMS object, so this is the workaround.
 type CmsEventListenerHandler = Parameters<typeof CMS.registerEventListener>[0]['handler'];
 type CmsEventListenerHandlerArg = Parameters<CmsEventListenerHandler>[0];
 
