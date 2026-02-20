@@ -6,8 +6,7 @@ on:
       - main
 
 jobs:
-  call-workflow:
-    uses: AllenCell/reusable-workflows/.github/workflows/setup_yarn.yml@bdeb8b1fbd7fbe9d364855bb7a365f3c844c5792
-    with: 
-      node-version: "24.x"
-      yarn-version: "1.22.22"
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: AllenCell/reusable-workflows/.github/workflows/yarn_lint.yml@5322e0b6e03a7413a53fd55501a97e1ab7d84aae
