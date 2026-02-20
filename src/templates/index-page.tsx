@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
-import { Layout as AntdLayout, Flex } from "antd";
 
 import Layout from "../components/Layout";
 import IdeaRoll from "../components/IdeaRoll";
@@ -19,7 +18,8 @@ interface QueryResult {
         markdownRemark: {
             frontmatter: {
                 title: string;
-                image: any; // Replace `any` with a more specific type if possible
+                // @eslint-disable-next-line @typescript-eslint/no-explicit-any
+                image: any; // TODO: Replace `any` with a more specific type if possible
                 heading: string;
                 subheading: string;
                 mainpitch: MainPitch;
@@ -35,6 +35,7 @@ interface MainPitch {
 }
 
 interface IndexPageTemplateProps {
+    // @eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: any; // Replace `any` with a more specific type if possible
     title: string;
     heading: string;
@@ -44,12 +45,12 @@ interface IndexPageTemplateProps {
 }
 
 export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
-    image,
-    title,
-    heading,
-    subheading,
-    mainpitch,
     description,
+    heading,
+    image,
+    mainpitch,
+    subheading,
+    title,
 }) => {
     const heroImage = getImage(image) || image;
 

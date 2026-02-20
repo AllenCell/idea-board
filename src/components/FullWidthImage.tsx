@@ -10,11 +10,11 @@ interface FullWidthImageProps {
 }
 
 const FullWidthImage: React.FC<FullWidthImageProps> = ({
-    img,
-    title,
     height = 200,
-    subheading,
+    img,
     imgPosition = "top left",
+    subheading,
+    title,
 }) => {
     return (
         <React.Fragment>

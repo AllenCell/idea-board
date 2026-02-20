@@ -24,9 +24,9 @@ interface AlleniteTemplateProps {
 }
 
 export const AlleniteTemplate = ({
+    contact,
     name,
     title,
-    contact,
 }: AlleniteTemplateProps) => {
     return (
         <div>
