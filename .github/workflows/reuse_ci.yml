@@ -5,4 +5,4 @@ on:
 
 jobs:
   lint:
-    uses: AllenCell/reusable-workflows/.github/workflows/yarn_lint.yml@5322e0b6e03a7413a53fd55501a97e1ab7d84aae
+    uses: AllenCell/reusable-workflows/.github/workflows/yarn_lint.yml@5f908f7dc47714bf48b2300487f83d4406c7ff9d
