@@ -20,7 +20,7 @@ interface QueryResult {
         markdownRemark: {
             frontmatter: {
                 title: string;
-                // @eslint-disable-next-line @typescript-eslint/no-explicit-any
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 image: any; // TODO: Replace `any` with a more specific type if possible
                 heading: string;
                 subheading: string;
@@ -37,7 +37,7 @@ interface MainPitch {
 }
 
 interface IndexPageTemplateProps {
-    // @eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: any; // Replace `any` with a more specific type if possible
     title: string;
     heading: string;
