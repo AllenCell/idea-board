@@ -1,0 +1,20 @@
+name: Setup packages
+env:
+    NODE_VERSION: "22.x"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - name: Setup Node
+          uses: actions/setup-node@v4
+          with:
+            node-version: ${{env.NODE_VERSION}}
+        - run: yarn install --frozen-lockfile
