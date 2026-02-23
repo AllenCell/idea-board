@@ -1,7 +1,9 @@
 import React from "react";
+
+import type { CmsWidgetControlProps } from "decap-cms-core";
+
 import VariableTypeWidgetControl from "../VariableTypeWidget/VariableTypeWidgetControl";
 import { VARIABLE_TYPE_RESOURCE_CONFIG } from "./constants";
-import type { CmsWidgetControlProps } from "decap-cms-core";
 
 /**
  * Implementation of VariableTypeWidgetControl for a union of different

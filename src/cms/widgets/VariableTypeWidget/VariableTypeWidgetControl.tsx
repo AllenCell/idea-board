@@ -1,7 +1,9 @@
 import React from "react";
+
 import CMS from "decap-cms-app";
-import { FieldConfig, TypeConfig } from "./types";
 import type { CmsWidgetControlProps } from "decap-cms-core";
+
+import { FieldConfig, TypeConfig } from "./types";
 
 interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
     types: TypeConfig[];
