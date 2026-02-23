@@ -48,33 +48,12 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
     {
         value: "protocolLink",
         label: "Protocol (Link)",
-        fields: [
-            { label: "Name", name: "name", type: "input" },
-            {
-                label: "Description",
-                name: "description",
-                type: "textarea",
-                rows: 4,
-            },
-            {
-                label: "URL",
-                name: "url",
-                type: "input",
-                hint: "External link to protocol",
-            },
-        ],
+        fields: [],
     },
     {
         value: "protocolFile",
         label: "Protocol (File)",
         fields: [
-            { label: "Name", name: "name", type: "input" },
-            {
-                label: "Description",
-                name: "description",
-                type: "textarea",
-                rows: 4,
-            },
             {
                 label: "File Path",
                 name: "file",
@@ -86,20 +65,6 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
     {
         value: "cellLine",
         label: "Cell Line",
-        fields: [
-            { label: "Name", name: "name", type: "input" },
-            {
-                label: "Description",
-                name: "description",
-                type: "textarea",
-                rows: 4,
-            },
-            {
-                label: "URL",
-                name: "url",
-                type: "input",
-                hint: "Link to cell catalog or documentation",
-            },
-        ],
+        fields: [],
     },
 ];
