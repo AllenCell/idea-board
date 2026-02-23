@@ -8,6 +8,7 @@ interface PreviewCompatibleImageProps {
     imageInfo: {
         alt?: string;
         childImageSharp?: ChildImageSharp;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any TODO: Replace `any` with a more specific type if possible
         image: any;
         width?: number;
         height?: number;
