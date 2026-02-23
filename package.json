@@ -48,11 +48,13 @@
     "build": "npm run clean && gatsby build",
     "develop": "npm run clean && gatsby develop",
     "serve": "gatsby serve",
-    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
+    "format": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --write",
+    "formatCheck": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --check",
     "test": "vitest",
     "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\""
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/antd": "^1.0.0",
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.59",
@@ -62,7 +64,7 @@
     "gatsby-plugin-postcss": "^6.13.1",
     "netlify-cli": "^17.15.7",
     "postcss": "^8.4.35",
-    "prettier": "^2.0.5",
+    "prettier": "^3.8.1",
     "typescript": "^5.3.3",
     "typescript-plugin-css-modules": "^5.1.0"
   },

@@ -1,6 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { IdeaPostTemplate } from '../../templates/idea-post'
+import React from "react";
+
+import PropTypes from "prop-types";
+
+import { IdeaPostTemplate } from "../../templates/idea-post";
 
 const IdeaPostPreview = ({ entry, widgetFor }) => {
   const tags = entry.getIn(['data', 'tags'])

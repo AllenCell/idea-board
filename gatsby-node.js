@@ -18,7 +18,7 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), 'utf8')
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = ['software', 'dataset', 'allenite', 'program']
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
@@ -60,45 +60,44 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
  * functions where possible
  */
 exports.createResolvers = ({ createResolvers }) => {
-  createResolvers({
-    MarkdownRemark: {
-      fields: {
-        resolve: (source) => ({
-          slug: source.fields?.slug || '/',
-        }),
-      },
-    },
-    MarkdownRemark: {
-      fields: {
-        resolve: (source) => ({
-          slug: source.fields?.slug || '/',
-        }),
-      },
-    },
-    Frontmatter: {
-      description: {
-        resolve: (source) =>
-          stringWithDefault(source.description, 'No description provided.'),
-      },
-      title: {
-        resolve: (source) =>
-          stringWithDefault(source.title, 'No title provided.'),
-      },
-      materialsAndMethods: {
-        resolve: (source) => {
-          const raw = source.materialsAndMethods
-          const current = {
-            dataset: null,
-            cellLines: [],
-            protocols: [],
-            software: [],
-          }
+    createResolvers({
+        MarkdownRemark: {
+            fields: {
+                resolve: (source) => ({
+                    slug: source.fields?.slug || "/",
+                }),
+            },
+        },
+        Frontmatter: {
+            description: {
+                resolve: (source) =>
+                    stringWithDefault(
+                        source.description,
+                        "No description provided.",
+                    ),
+            },
+            title: {
+                resolve: (source) =>
+                    stringWithDefault(source.title, "No title provided."),
+            },
+            materialsAndMethods: {
+                resolve: (source) => {
+                    const raw = source.materialsAndMethods;
+                    const current = {
+                        dataset: null,
+                        cellLines: [],
+                        protocols: [],
+                        software: [],
+                    };
 
-          if (!raw || typeof raw !== 'object') {
-            return current
-          }
+                    if (!raw || typeof raw !== "object") {
+                        return current;
+                    }
 
-                    const resolvedDatasetSlug = resolveSlug(raw.dataset, DATASET_PATH);
+                    const resolvedDatasetSlug = resolveSlug(
+                        raw.dataset,
+                        DATASET_PATH,
+                    );
                     current.dataset = resolvedDatasetSlug;
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
@@ -160,16 +159,18 @@ exports.createPages = ({ actions, graphql }) => {
         return
       }
 
-      createPage({
-        path: edge.node.fields.slug,
-        tags: edge.node.frontmatter.tags,
-        component: path.resolve(`src/templates/${String(templateKey)}.tsx`),
-        // additional data can be passed via context
-        context: {
-          id,
-        },
-      })
-    })
+            createPage({
+                path: edge.node.fields.slug,
+                tags: edge.node.frontmatter.tags,
+                component: path.resolve(
+                    `src/templates/${String(templateKey)}.tsx`,
+                ),
+                // additional data can be passed via context
+                context: {
+                    id,
+                },
+            });
+        });
 
     // Tag pages:
     let tags = []
