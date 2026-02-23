@@ -8,12 +8,12 @@ import { kebabCase } from "lodash";
 import Layout from "../../components/Layout";
 
 const TagsPage = ({
-  data: {
-    allMarkdownRemark: { group },
-    site: {
-      siteMetadata: { title },
+    data: {
+        allMarkdownRemark: { group },
+        site: {
+            siteMetadata: { title },
+        },
     },
-  },
 }) => (
     <Layout>
         <section className="section">
@@ -45,23 +45,23 @@ const TagsPage = ({
     </Layout>
 );
 
-export default TagsPage
+export default TagsPage;
 
 export const tagPageQuery = graphql`
-  query TagsQuery {
-    site {
-      siteMetadata {
-        title
-      }
+    query TagsQuery {
+        site {
+            siteMetadata {
+                title
+            }
+        }
+        allMarkdownRemark(
+            limit: 1000
+            filter: { frontmatter: { draft: { ne: true } } }
+        ) {
+            group(field: frontmatter___tags) {
+                fieldValue
+                totalCount
+            }
+        }
     }
-    allMarkdownRemark(
-      limit: 1000
-      filter: { frontmatter: { draft: { ne: true } } }
-    ) {
-      group(field: frontmatter___tags) {
-        fieldValue
-        totalCount
-      }
-    }
-  }
-`
+`;

@@ -1,16 +1,16 @@
-const _ = require('lodash')
-const fs = require('fs')
-const path = require('path')
-const { createFilePath } = require('gatsby-source-filesystem')
+const _ = require("lodash");
+const fs = require("fs");
+const path = require("path");
+const { createFilePath } = require("gatsby-source-filesystem");
 const {
-  stringWithDefault,
-  resolveToArray,
-  resolveSlug,
-  resolveSoftwareTools,
-} = require('./gatsbyutils/gatsby-resolver-utils')
-const { DATASET_PATH } = require('./gatsbyutils/constants')
+    stringWithDefault,
+    resolveToArray,
+    resolveSlug,
+    resolveSoftwareTools,
+} = require("./gatsbyutils/gatsby-resolver-utils");
+const { DATASET_PATH } = require("./gatsbyutils/constants");
 
-const read = (p) => fs.readFileSync(path.join(__dirname, p), 'utf8')
+const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -21,9 +21,9 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), 'utf8')
 const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
-  const { createTypes } = actions
-  const typeDefs = [
-    `"""
+    const { createTypes } = actions;
+    const typeDefs = [
+        `"""
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
@@ -49,10 +49,10 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             softwareTool: MarkdownRemark @link(by: "fields.slug")
             customDescription: String
         }`,
-  ]
-  createTypes(read('gatsby/schema/base.gql'))
-  createTypes(typeDefs)
-}
+    ];
+    createTypes(read("gatsby/schema/base.gql"));
+    createTypes(typeDefs);
+};
 
 /**
  * Resolvers ensure data shape/presence after queries, or provide
@@ -116,48 +116,48 @@ exports.createResolvers = ({ createResolvers }) => {
  * Skips creating pages for data-only pages.
  */
 exports.createPages = ({ actions, graphql }) => {
-  const { createPage } = actions
+    const { createPage } = actions;
 
-  return graphql(`
-    {
-      allMarkdownRemark(limit: 1000) {
-        edges {
-          node {
-            id
-            fields {
-              slug
+    return graphql(`
+        {
+            allMarkdownRemark(limit: 1000) {
+                edges {
+                    node {
+                        id
+                        fields {
+                            slug
+                        }
+                        frontmatter {
+                            tags
+                            templateKey
+                            draft
+                        }
+                    }
+                }
             }
-            frontmatter {
-              tags
-              templateKey
-              draft
-            }
-          }
         }
-      }
-    }
-  `).then((result) => {
-    if (result.errors) {
-      result.errors.forEach((e) => console.error(e.toString()))
-      return Promise.reject(result.errors)
-    }
+    `).then((result) => {
+        if (result.errors) {
+            result.errors.forEach((e) => console.error(e.toString()));
+            return Promise.reject(result.errors);
+        }
 
-    const posts = result.data.allMarkdownRemark.edges
+        const posts = result.data.allMarkdownRemark.edges;
 
-    posts.forEach((edge) => {
-      const id = edge.node.id
-      const templateKey = edge.node.frontmatter.templateKey
+        posts.forEach((edge) => {
+            const id = edge.node.id;
+            const templateKey = edge.node.frontmatter.templateKey;
 
-      // Skip creating pages for data-only pages (software, dataset, etc.)
-      if (DATA_ONLY_PAGES.includes(templateKey)) {
-        return
-      }
+            // Skip creating pages for data-only pages (software, dataset, etc.)
+            if (DATA_ONLY_PAGES.includes(templateKey)) {
+                return;
+            }
 
-      // Skip creating pages for drafts
-      // Toggle boolean flag on dev-example pages during development
-      if (edge.node.frontmatter.draft === true) {
-        return
-      }
+            // Skip creating pages for drafts
+            // Toggle boolean flag on dev-example pages during development
+            if (edge.node.frontmatter.draft === true) {
+                return;
+            }
 
             createPage({
                 path: edge.node.fields.slug,
@@ -172,41 +172,41 @@ exports.createPages = ({ actions, graphql }) => {
             });
         });
 
-    // Tag pages:
-    let tags = []
-    // Iterate through each post, putting all found tags into `tags`
-    posts.forEach((edge) => {
-      if (_.get(edge, `node.frontmatter.tags`)) {
-        tags = tags.concat(edge.node.frontmatter.tags)
-      }
-    })
-    // Eliminate duplicate tags
-    tags = _.uniq(tags)
+        // Tag pages:
+        let tags = [];
+        // Iterate through each post, putting all found tags into `tags`
+        posts.forEach((edge) => {
+            if (_.get(edge, `node.frontmatter.tags`)) {
+                tags = tags.concat(edge.node.frontmatter.tags);
+            }
+        });
+        // Eliminate duplicate tags
+        tags = _.uniq(tags);
 
-    // Make tag pages
-    tags.forEach((tag) => {
-      const tagPath = `/tags/${_.kebabCase(tag)}/`
+        // Make tag pages
+        tags.forEach((tag) => {
+            const tagPath = `/tags/${_.kebabCase(tag)}/`;
 
-      createPage({
-        path: tagPath,
-        component: path.resolve(`src/templates/tags.tsx`),
-        context: {
-          tag,
-        },
-      })
-    })
-  })
-}
+            createPage({
+                path: tagPath,
+                component: path.resolve(`src/templates/tags.tsx`),
+                context: {
+                    tag,
+                },
+            });
+        });
+    });
+};
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
+    const { createNodeField } = actions;
 
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-    createNodeField({
-      name: `slug`,
-      node,
-      value,
-    })
-  }
-}
+    if (node.internal.type === `MarkdownRemark`) {
+        const value = createFilePath({ node, getNode });
+        createNodeField({
+            name: `slug`,
+            node,
+            value,
+        });
+    }
+};
