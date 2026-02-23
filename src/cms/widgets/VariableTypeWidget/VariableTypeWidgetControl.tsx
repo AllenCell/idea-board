@@ -29,10 +29,11 @@ const DEFAULT_BASE_FIELDS: FieldConfig[] = [
 ];
 
 /**
- * It would be more consistent with our codestyle to use a stylesheet, but injecting
- * the styles into Decap is tricky. It's possible to use css defined in a string as
- * JS module, and inject it with the optional globalStyles property on the CmsWidgetParam
- * when calling registerWidget if preferred.
+ * It's easier to apply styles directly here in the component, than to import a stylesheet,
+ * and make sure ensure those styles are correctly injected in the Decap build.
+ * 
+ * To inject styles refer to globalStyles documentation on registerWidget params.
+ *
  */
 const styles = {
     container: {
