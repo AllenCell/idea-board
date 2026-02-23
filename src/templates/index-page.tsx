@@ -1,11 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
 
-import Layout from "../components/Layout";
-import IdeaRoll from "../components/IdeaRoll";
 import FullWidthImage from "../components/FullWidthImage";
+import IdeaRoll from "../components/IdeaRoll";
+import Layout from "../components/Layout";
 
 const {
     container,
