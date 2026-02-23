@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
+
 import { Link, graphql } from "gatsby";
+
 import Layout from "../components/Layout";
 
 interface QueryResult {
@@ -89,10 +91,7 @@ export const tagPageQuery = graphql`
             limit: 1000
             sort: { frontmatter: { date: DESC } }
             filter: {
-                frontmatter: {
-                    tags: { in: [$tag] }
-                    draft: { ne: true }
-                }
+                frontmatter: { tags: { in: [$tag] }, draft: { ne: true } }
             }
         ) {
             totalCount

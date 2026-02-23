@@ -1,8 +1,9 @@
 import React from "react";
+
 import { Layout as AntdLayout, Flex } from "antd";
 
-import Layout from "../../components/Layout";
 import IdeaRoll from "../../components/IdeaRoll";
+import Layout from "../../components/Layout";
 
 const Header = AntdLayout.Header;
 
@@ -14,7 +15,7 @@ export const IdeasIndexTemplate: React.FC = () => {
                     <span>Shared ideas</span>
                 </Flex>
             </Header>
-                <IdeaRoll />
+            <IdeaRoll />
         </div>
     );
 };
