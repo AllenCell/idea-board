@@ -1,12 +1,16 @@
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
-import { ConfigProvider, Layout as AntLayout } from "antd";
+
 import { Script, withPrefix } from "gatsby";
-const { Content } = AntLayout;
+
+import { Layout as AntLayout, ConfigProvider } from "antd";
 
 import "../style/index.sass";
-import useSiteMetadata from "./SiteMetadata";
 import theme from "../style/theme";
+import useSiteMetadata from "./SiteMetadata";
+
+const { Content } = AntLayout;
+
 const { container } = require("../style/layout.module.css");
 
 const TemplateWrapper = ({ children }: React.PropsWithChildren) => {

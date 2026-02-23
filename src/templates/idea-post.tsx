@@ -1,18 +1,20 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { graphql, Link, PageProps } from "gatsby";
-import { Layout as AntdLayout, Card, Flex } from "antd";
+
+import { Link, PageProps, graphql } from "gatsby";
+
 import {
     ArrowLeftOutlined,
     MessageOutlined,
     StarOutlined,
 } from "@ant-design/icons";
+import { Layout as AntdLayout, Card, Flex } from "antd";
 
-import Layout from "../components/Layout";
 import IconText from "../components/IconText";
+import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 import { TagPopover } from "../components/TagPopover";
+import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
@@ -31,7 +33,6 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     title,
     materialsAndMethods,
 }) => {
-
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
     const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
@@ -113,7 +114,10 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 <meta name="description" content={description ?? ""} />
             </Helmet>
 
-            <IdeaPostTemplate {...markdownRemark.frontmatter} {...markdownRemark.fields} />
+            <IdeaPostTemplate
+                {...markdownRemark.frontmatter}
+                {...markdownRemark.fields}
+            />
         </Layout>
     );
 };

@@ -1,16 +1,19 @@
 import * as React from "react";
-import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet-async";
+
 import { Link, graphql } from "gatsby";
+
+import { kebabCase } from "lodash";
+
 import Layout from "../../components/Layout";
 
 const TagsPage = ({
-    data: {
-        allMarkdownRemark: { group },
-        site: {
-            siteMetadata: { title },
-        },
+  data: {
+    allMarkdownRemark: { group },
+    site: {
+      siteMetadata: { title },
     },
+  },
 }) => (
     <Layout>
         <section className="section">
@@ -27,7 +30,7 @@ const TagsPage = ({
                                 <li key={tag.fieldValue}>
                                     <Link
                                         to={`/tags/${kebabCase(
-                                            tag.fieldValue
+                                            tag.fieldValue,
                                         )}/`}
                                     >
                                         {tag.fieldValue} ({tag.totalCount})
@@ -42,23 +45,23 @@ const TagsPage = ({
     </Layout>
 );
 
-export default TagsPage;
+export default TagsPage
 
 export const tagPageQuery = graphql`
-    query TagsQuery {
-        site {
-            siteMetadata {
-                title
-            }
-        }
-        allMarkdownRemark(
-            limit: 1000
-            filter: { frontmatter: { draft: { ne: true } } }
-        ) {
-            group(field: frontmatter___tags) {
-                fieldValue
-                totalCount
-            }
-        }
+  query TagsQuery {
+    site {
+      siteMetadata {
+        title
+      }
     }
-`;
+    allMarkdownRemark(
+      limit: 1000
+      filter: { frontmatter: { draft: { ne: true } } }
+    ) {
+      group(field: frontmatter___tags) {
+        fieldValue
+        totalCount
+      }
+    }
+  }
+`

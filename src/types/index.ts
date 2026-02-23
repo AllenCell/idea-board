@@ -15,9 +15,12 @@ export type IdeaPostNode = NonNullable<IdeaPostQuery["markdownRemark"]>;
 export type IdeaFrontmatter = NonNullable<IdeaPostNode["frontmatter"]>;
 export type IdeaFields = NonNullable<IdeaPostNode["fields"]>;
 
-export type MaterialsAndMethods = NonNullable<IdeaFrontmatter["materialsAndMethods"]>;
+export type MaterialsAndMethods = NonNullable<
+    IdeaFrontmatter["materialsAndMethods"]
+>;
 export type CellLine = MaterialsAndMethods["cellLines"][number];
 export type SoftwareTool = MaterialsAndMethods["software"][number];
 export type Dataset = NonNullable<MaterialsAndMethods["dataset"]>["frontmatter"];
 
-export type IdeasForTags = Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];
+export type IdeasForTags =
+    Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];

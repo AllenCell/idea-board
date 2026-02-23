@@ -1,0 +1,13 @@
+name: Call a reusable workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  call-workflow:
+    uses: AllenCell/reusable-workflows/.github/workflows/setup_yarn.yml@bdeb8b1fbd7fbe9d364855bb7a365f3c844c5792
+    with: 
+      node-version: "24.x"
+      yarn-version: "1.22.22"
