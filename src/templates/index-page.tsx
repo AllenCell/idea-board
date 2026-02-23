@@ -3,6 +3,8 @@ import React from "react";
 import { graphql } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
 
+import PropTypes from "prop-types";
+
 import FullWidthImage from "../components/FullWidthImage";
 import IdeaRoll from "../components/IdeaRoll";
 import Layout from "../components/Layout";
