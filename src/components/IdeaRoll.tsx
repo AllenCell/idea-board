@@ -192,9 +192,7 @@ export default function IdeaRoll({
                     }
                 }
             `}
-            render={(data) => (
-                <IdeaRollTemplate data={data} count={count} />
-            )}
+            render={(data) => <IdeaRollTemplate data={data} count={count} />}
         />
     );
 }
