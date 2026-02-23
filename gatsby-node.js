@@ -18,7 +18,7 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), 'utf8')
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
+const DATA_ONLY_PAGES = ["software", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
   const { createTypes } = actions
@@ -76,9 +76,24 @@ exports.createResolvers = ({ createResolvers }) => {
                         "No description provided.",
                     ),
             },
+            shortDescription: {
+                resolve: (source) =>
+                    stringWithDefault(
+                        source.description,
+                        "No short description provided.",
+                    ),
+            },
             title: {
                 resolve: (source) =>
                     stringWithDefault(source.title, "No title provided."),
+            },
+            link: {
+                resolve: (source) =>
+                    stringWithDefault(source.title, "No link provided."),
+            },
+            status: {
+                resolve: (source) =>
+                    stringWithDefault(source.title, "No status provided."),
             },
             materialsAndMethods: {
                 resolve: (source) => {

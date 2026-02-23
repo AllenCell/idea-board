@@ -24,3 +24,7 @@ export type Dataset = NonNullable<MaterialsAndMethods["dataset"]>["frontmatter"]
 
 export type IdeasForTags =
     Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];
+
+export type DatasetByIdQuery = Queries.DatasetByIdQuery;
+export type DatasetNode = NonNullable<DatasetByIdQuery["markdownRemark"]>;
+export type DatasetFrontmatter = NonNullable<DatasetNode["frontmatter"]>;

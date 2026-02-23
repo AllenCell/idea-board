@@ -1,54 +1,48 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
-import { graphql } from "gatsby";
+import { PageProps, graphql } from "gatsby";
 
-interface QueryResult {
-    data: {
-        markdownRemark: {
-            id: string;
-            html: string;
-            frontmatter: {
-                date: string;
-                name: string;
-                description: string;
-                status?: string;
-                link?: string;
-            };
-        };
-    };
-}
+import { DatasetFrontmatter } from "../types";
 
-type DatasetProps = {
-    name: string;
-    description?: string;
-    link?: string;
-    status?: string;
-    date?: string;
-};
-
-const DatasetTemplate: React.FC<DatasetProps> = ({
+const DatasetTemplate: React.FC<DatasetFrontmatter> = ({
     name,
     description,
+    shortDescription,
     link,
     status,
 }) => {
     return (
         <div style={{ border: "1px solid #ccc", padding: 16, borderRadius: 8 }}>
             <h2>{name}</h2>
+            <p> Quick pitch: {shortDescription} </p>
+            <a href={link || ""}>{link}</a>
+            <p> Status: {status}</p>
+            <ReactMarkdown>
+                {description ?? "No description provided."}
+            </ReactMarkdown>
         </div>
     );
 };
 
-export const Dataset = ({ data }: QueryResult) => {
-    const { markdownRemark: dataset } = data;
+export const Dataset: React.FC<PageProps<Queries.DatasetByIdQuery>> = ({
+    data,
+}) => {
+    if (!data.markdownRemark || !data.markdownRemark.frontmatter) {
+        return <p>Dataset not found.</p>;
+    }
+    const { date, name, description, shortDescription, link, status } =
+        data.markdownRemark.frontmatter;
 
     return (
         <div>
             <DatasetTemplate
-                name={dataset.frontmatter.name}
-                description={dataset.frontmatter.description}
-                link={dataset.frontmatter.link}
-                status={dataset.frontmatter.status}
+                date={date}
+                name={name}
+                description={description}
+                shortDescription={shortDescription}
+                link={link}
+                status={status}
             />
         </div>
     );
@@ -65,6 +59,7 @@ export const pageQuery = graphql`
                 date(formatString: "MMMM DD, YYYY")
                 name
                 description
+                shortDescription
                 link
                 status
             }
