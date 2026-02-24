@@ -8,7 +8,7 @@ const {
     resolveSlug,
     resolveSoftwareTools,
 } = require("./gatsbyutils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsbyutils/constants");
+const { DATASET_PATH, RESOURCES_PATH } = require("./gatsbyutils/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
@@ -18,12 +18,7 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-];
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;

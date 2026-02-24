@@ -23,6 +23,8 @@ preliminaryFindings:
     monomer-scale simulations (using ReaDDy).
   figures:
     - https://www.micropublication.org/static/figures/micropub-biology-001347.png
+resources:
+  - test-software-tool
 materialsAndMethods:
   dataset: Actin compression simulation dataset
   software:

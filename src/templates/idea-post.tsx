@@ -31,9 +31,10 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     slug,
     tags,
     title,
-    // resources, // TODO: migrate MaterialsAndMethods to use resources
+    resources, // TODO: migrate MaterialsAndMethods to use resources
     materialsAndMethods,
 }) => {
+    console.log("resources", resources);
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
     const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
@@ -143,13 +144,7 @@ export const pageQuery = graphql`
                         frontmatter {
                             name
                             resourceDetails {
-                                name
-                                type
-                                description
-                                link
-                                readmeLink
-                                status
-                                date
+                                ...ResourceDetailsFields
                             }
                         }
                     }

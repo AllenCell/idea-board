@@ -31,6 +31,7 @@ const ResourceTemplate: React.FC<ResourceDetails> = ({
 export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
     data,
 }) => {
+    console.log("Resource data:", data);
     const markdownRemark = data.markdownRemark;
     if (!markdownRemark || !markdownRemark.frontmatter.resourceDetails) {
         return (
@@ -54,14 +55,9 @@ export const pageQuery = graphql`
         markdownRemark(id: { eq: $id }) {
             id
             frontmatter {
+                name
                 resourceDetails {
-                    type
-                    name
-                    description
-                    link
-                    readmeLink
-                    status
-                    date(formatString: "MMMM DD, YYYY")
+                    ...ResourceDetailsFields
                 }
             }
         }

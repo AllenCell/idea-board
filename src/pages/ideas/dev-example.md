@@ -24,6 +24,9 @@ preliminaryFindings:
   figures:
     - figure: /img/228469011.jpg
 
+resources:
+  - test software tool
+
 materialsAndMethods:
   dataset: Released EMT dataset
   protocols:
