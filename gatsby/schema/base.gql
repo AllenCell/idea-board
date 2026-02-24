@@ -1,0 +1,35 @@
+type MarkdownRemarkFields {
+    slug: String!
+}
+
+type MarkdownRemark implements Node {
+    frontmatter: Frontmatter!
+    fields: MarkdownRemarkFields!
+}
+
+# Shared frontmatter fields for idea posts (and other markdown).
+type Frontmatter {
+    date: Date @dateformat
+    title: String!
+    description: String
+    draft: Boolean
+    tags: [String!]
+    materialsAndMethods: MaterialsAndMethods!
+    resources: [Resource!]!
+    resourceDetails: ResourceDetails
+}
+
+type ResourceDetails {
+    name: String
+    type: String
+    description: String
+    link: String
+    readmeLink: String
+    status: String
+    date: Date @dateformat
+    file: String
+}
+
+type Resource {
+    resource: MarkdownRemark @link(by: "fields.slug")
+}
