@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const fs = require("fs");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const {
@@ -7,7 +8,9 @@ const {
     resolveSlug,
     resolveSoftwareTools,
 } = require("./gatsbyutils/gatsby-resolver-utils");
-const { DATASET_PATH, RESOURCES_PATH } = require("./gatsbyutils/constants");
+const { DATASET_PATH } = require("./gatsbyutils/constants");
+
+const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -26,54 +29,15 @@ const DATA_ONLY_PAGES = [
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `
-            type MarkdownRemarkFields {
-                slug: String!
-            }
-
-            type MarkdownRemark implements Node {
-                frontmatter: Frontmatter!
-                fields: MarkdownRemarkFields!
-            }
-
-            """
-            Shared frontmatter fields for idea posts (and other markdown).
-            """
-            type Frontmatter {
-                date: Date @dateformat
-                title: String!
-                description: String
-                draft: Boolean
-                tags: [String!]
-                resources: [Resource!]!
-                materialsAndMethods: MaterialsAndMethods!
-                resourceDetails: ResourceDetails
-            }
-
-            type ResourceDetails {
-                name: String
-                type: String
-                description: String
-                link: String
-                readmeLink: String
-                status: String
-                date: Date @dateformat
-                file: String
-            }
-
-            type Resource {
-                resource: MarkdownRemark @link(by: "fields.slug")
-            }
-
-            """
-            Nested materials and methods block for idea posts.
-            """
-            type MaterialsAndMethods {
-                dataset: MarkdownRemark @link(by: "fields.slug")
-                protocols: [ProtocolItem!]!
-                cellLines: [CellLineItem!]!
-                software: [SoftwareTool!]!
-            }
+        `"""
+        Nested materials and methods block for idea posts.
+        """
+        type MaterialsAndMethods {
+        dataset: MarkdownRemark @link(by: "fields.slug")
+        protocols: [ProtocolItem!]!
+        cellLines: [CellLineItem!]!
+        software: [SoftwareTool!]!
+        }
 
             type ProtocolItem {
                 protocol: String!
@@ -93,6 +57,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             }
         `,
     ];
+    createTypes(read("gatsby/schema/base.gql"));
     createTypes(typeDefs);
 };
 

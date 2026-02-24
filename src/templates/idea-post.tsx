@@ -1,18 +1,20 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { graphql, Link, PageProps } from "gatsby";
-import { Layout as AntdLayout, Card, Flex } from "antd";
+
+import { Link, PageProps, graphql } from "gatsby";
+
 import {
     ArrowLeftOutlined,
     MessageOutlined,
     StarOutlined,
 } from "@ant-design/icons";
+import { Layout as AntdLayout, Card, Flex } from "antd";
 
-import Layout from "../components/Layout";
 import IconText from "../components/IconText";
+import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 import { TagPopover } from "../components/TagPopover";
+import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 

@@ -114,16 +114,16 @@ collections:
                 multiple: true,
                 required: false,
                 hint: "Select datasets from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
-                filters: [{ field: "resource.type", values: ["dataset"] }],
+                filters: [{ field: "resourceDetails.type", values: ["dataset"] }],
             }
           - {
                 label: "Resources",
                 name: "resources",
                 widget: "relation",
                 collection: "resources",
-                search_fields: ["resource.name", "resource.type"],
+                search_fields: ["resourceDetails.name", "resourceDetails.type"],
                 value_field: "{{slug}}",
-                display_fields: ["resource.type", "resource.name"],
+                display_fields: ["resourceDetails.type", "resourceDetails.name"],
                 multiple: true,
                 required: false,
                 hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
@@ -285,7 +285,7 @@ collections:
                 default: "allenite",
             }
           - { label: "Name", name: "name", widget: "string" }
-          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Position", name: "position", widget: "string", required: false }
           - {
                 label: "Contact method",
                 name: "contact",
@@ -363,12 +363,12 @@ collections:
       create: true
       slug: "{{name}}"
       identifier_field: "name"
-      summary: "{{resource.type}}: {{name}}"
-      sortable_fields: ["name", "resource.type"]
+      summary: "{{resourceDetails.type}}: {{name}}"
+      sortable_fields: ["name", "resourceDetails.type"]
       view_groups: [
             {
                 label: "Type",
-                field: "resource.type",
+                field: "resourceDetails.type",
             }
       ]
       fields:

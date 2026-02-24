@@ -1,8 +1,10 @@
-import CMS from "decap-cms-core"
+import CMS from "decap-cms-core";
 
-// FRor some reason I could not import CmsEventListener as as a type
-// and it was resolving to the global CMS object, so this is the workaround.
-type CmsEventListenerHandler = Parameters<typeof CMS.registerEventListener>[0]['handler'];
+// For some reason I could not import CmsEventListener as a type
+// because it was resolving to the global CMS object, so this is the workaround.
+type CmsEventListenerHandler = Parameters<
+    typeof CMS.registerEventListener
+>[0]["handler"];
 type CmsEventListenerHandlerArg = Parameters<CmsEventListenerHandler>[0];
 
 /**
@@ -10,7 +12,9 @@ type CmsEventListenerHandlerArg = Parameters<CmsEventListenerHandler>[0];
  when we have a redundant field in widget. This preSave hook copies the resource.name
  field to the top-level from the nested widget.
  */
-export const copyResourceNameHandler = ({ entry }: CmsEventListenerHandlerArg) => {
+export const copyResourceNameHandler = ({
+    entry,
+}: CmsEventListenerHandlerArg) => {
     const collection = entry.get("collection");
 
     // Only apply to resources collection
@@ -32,6 +36,6 @@ export const copyResourceNameHandler = ({ entry }: CmsEventListenerHandlerArg) =
     }
 
     return data;
-}
+};
 
 export default copyResourceNameHandler;
