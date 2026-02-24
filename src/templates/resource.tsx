@@ -1,16 +1,8 @@
 import React from "react";
 
-
-
 import { PageProps, graphql } from "gatsby";
 
-
-
 import { ResourceDetails, ResourceTemplateQuery } from "../types";
-
-
-
-
 
 const ResourceTemplate: React.FC<ResourceDetails> = ({
     type,
@@ -36,7 +28,9 @@ const ResourceTemplate: React.FC<ResourceDetails> = ({
     );
 };
 
-export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({ data }) => {
+export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
+    data,
+}) => {
     const markdownRemark = data.markdownRemark;
     if (!markdownRemark || !markdownRemark.frontmatter.resourceDetails) {
         return (
