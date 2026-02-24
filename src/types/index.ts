@@ -23,3 +23,8 @@ export type SoftwareTool = MaterialsAndMethods["software"][number];
 
 export type IdeasForTags =
     Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];
+
+export type ResourceTemplateQuery = Queries.ResourcesByIdQuery;
+export type ResourceNode = NonNullable<ResourceTemplateQuery>["markdownRemark"];
+export type ResourceFrontmatter = NonNullable<ResourceNode>["frontmatter"]
+export type ResourceDetails = NonNullable<ResourceFrontmatter["resourceDetails"]>;
