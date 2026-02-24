@@ -18,7 +18,7 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program", "resource"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
@@ -138,7 +138,31 @@ exports.createResolvers = ({ createResolvers }) => {
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
-    return graphql(`
+    const resourcePages = graphql(`
+        {
+            allResource {
+                nodes {
+                    id
+                    slug
+                }
+            }
+        }
+    `).then((result) => {
+        if (result.errors) {
+            result.errors.forEach((e) => console.error(e.toString()));
+            return Promise.reject(result.errors);
+        }
+
+        result.data.allResource.nodes.forEach((node) => {
+            createPage({
+                path: node.slug,
+                component: path.resolve(`src/templates/resource.tsx`),
+                context: { id: node.id },
+            });
+        });
+    });
+
+    const markdownPages = graphql(`
         {
             allMarkdownRemark(limit: 1000) {
                 edges {
@@ -216,17 +240,41 @@ exports.createPages = ({ actions, graphql }) => {
             });
         });
     });
+
+    return Promise.all([resourcePages, markdownPages]);
 };
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
-    const { createNodeField } = actions;
-
+exports.onCreateNode = ({
+    node,
+    actions,
+    getNode,
+    createNodeId,
+    createContentDigest,
+}) => {
+    const { createNodeField, createNode } = actions;
+    
     if (node.internal.type === `MarkdownRemark`) {
-        const value = createFilePath({ node, getNode });
+        const slug = createFilePath({ node, getNode });
         createNodeField({
             name: `slug`,
             node,
-            value,
+            value: slug,
         });
+
+        if (node.frontmatter?.templateKey === `resource`) {
+            createNode({
+                id: createNodeId(`${node.id}-Resource`),
+                parent: node.id,
+                children: [],
+                slug,
+                resourceDetails: node.frontmatter.resourceDetails || {},
+                internal: {
+                    type: `Resource`,
+                    contentDigest: createContentDigest(
+                        node.frontmatter.resourceDetails || {}
+                    ),
+                },
+            });
+        }
     }
 };

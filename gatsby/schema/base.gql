@@ -7,7 +7,7 @@ type MarkdownRemark implements Node {
     fields: MarkdownRemarkFields!
 }
 
-# Shared frontmatter fields for idea posts (and other markdown).
+# Shared frontmatter fields for idea posts (and other markdown?).
 type Frontmatter {
     date: Date @dateformat
     title: String!
@@ -15,8 +15,16 @@ type Frontmatter {
     draft: Boolean
     tags: [String!]
     materialsAndMethods: MaterialsAndMethods!
-    resources: [Resource!]!
+    resources: [ResourceRef!]!
+}
+
+type Resource implements Node {
     resourceDetails: ResourceDetails
+    slug: String!
+}
+
+type ResourceRef {
+    resource: Resource @link(by: "slug")
 }
 
 type ResourceDetails {
@@ -28,8 +36,4 @@ type ResourceDetails {
     status: String
     date: Date @dateformat
     file: String
-}
-
-type Resource {
-    resource: MarkdownRemark @link(by: "fields.slug")
 }

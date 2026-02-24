@@ -141,11 +141,8 @@ export const pageQuery = graphql`
                 tags
                 resources {
                     resource {
-                        frontmatter {
-                            name
-                            resourceDetails {
-                                ...ResourceDetailsFields
-                            }
+                        resourceDetails {
+                            ...ResourceDetailsFields
                         }
                     }
                 }

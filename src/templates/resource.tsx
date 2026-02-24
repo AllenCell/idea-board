@@ -31,9 +31,8 @@ const ResourceTemplate: React.FC<ResourceDetails> = ({
 export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
     data,
 }) => {
-    console.log("Resource data:", data);
-    const markdownRemark = data.markdownRemark;
-    if (!markdownRemark || !markdownRemark.frontmatter.resourceDetails) {
+    const resource = data.resource;
+    if (!resource || !resource.resourceDetails) {
         return (
             <div>
                 <p>Resource not found.</p>
@@ -43,7 +42,7 @@ export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
 
     return (
         <div>
-            <ResourceTemplate {...markdownRemark.frontmatter.resourceDetails} />
+            <ResourceTemplate {...resource.resourceDetails} />
         </div>
     );
 };
@@ -52,13 +51,10 @@ export default Resource;
 
 export const pageQuery = graphql`
     query ResourcesById($id: String!) {
-        markdownRemark(id: { eq: $id }) {
+        resource(id: { eq: $id }) {
             id
-            frontmatter {
-                name
-                resourceDetails {
-                    ...ResourceDetailsFields
-                }
+            resourceDetails {
+                ...ResourceDetailsFields
             }
         }
     }
