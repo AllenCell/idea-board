@@ -1,7 +1,12 @@
 import React from "react";
 
 // Custom widget for URL-only image input with preview
-export const UrlImageControl = ({ value, onChange, forID, classNameWrapper }) => {
+export const UrlImageControl = ({
+    value,
+    onChange,
+    forID,
+    classNameWrapper,
+}) => {
     return React.createElement(
         "div",
         { className: classNameWrapper },
@@ -17,8 +22,13 @@ export const UrlImageControl = ({ value, onChange, forID, classNameWrapper }) =>
             React.createElement("img", {
                 src: value,
                 alt: "Preview",
-                style: { display: "block", marginTop: "12px", maxWidth: "100%", maxHeight: "200px" },
-            })
+                style: {
+                    display: "block",
+                    marginTop: "12px",
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                },
+            }),
     );
 };
 

@@ -14,8 +14,7 @@ import IconText from "../components/IconText";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
-import { TagPopover } from "../components/TagPopover";
+import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";;
 import FigureComponent from "../components/Figure";
 
 const Header = AntdLayout.Header;
@@ -32,13 +31,13 @@ const {
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     authors,
     introduction,
-    slug,
-    tags,
-    title,
     materialsAndMethods,
     nextSteps,
     preliminaryFindings,
     publication,
+    slug,
+    tags,
+    title,
 }) => {
     const getTagList = (tags: readonly string[]) => {
         return (

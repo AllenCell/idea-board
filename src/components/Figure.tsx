@@ -1,6 +1,9 @@
 import React from "react";
+
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
+
 import { Card } from "antd";
-import { getImage, GatsbyImage } from "gatsby-plugin-image";
+
 import { Figure } from "../types";
 
 interface FigureProps {
