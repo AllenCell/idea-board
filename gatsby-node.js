@@ -3,12 +3,12 @@ const fs = require("fs");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const {
-    stringWithDefault,
-    resolveToArray,
-    resolveSlug,
-    resolveSoftwareTools,
-} = require("./gatsbyutils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsbyutils/constants");
+  stringWithDefault,
+  resolveToArray,
+  resolveSlug,
+  resolveSoftwareTools,
+} = require('./gatsby/utils/gatsby-resolver-utils')
+const { DATASET_PATH } = require('./gatsby/constants')
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
