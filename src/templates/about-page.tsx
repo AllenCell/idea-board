@@ -25,9 +25,9 @@ interface AboutPageTemplateProps {
 }
 
 export const AboutPageTemplate = ({
-    title,
     content,
     contentComponent,
+    title,
 }: AboutPageTemplateProps) => {
     const PageContent = contentComponent || Content;
 

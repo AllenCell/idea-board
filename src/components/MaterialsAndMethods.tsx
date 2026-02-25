@@ -10,8 +10,8 @@ const { section, sectionTitle } = require("../style/idea-post.module.css");
 const { subText } = require("../style/materials.module.css");
 
 export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
-    dataset,
     cellLines,
+    dataset,
     protocols,
     software,
 }) => {
@@ -29,7 +29,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
     };
 
     const getSoftwareToolRender = (software: SoftwareTool, index: number) => {
-        const { name, description, link } =
+        const { description, link, name } =
             software.softwareTool?.frontmatter ?? {};
         const displayDescription = software.customDescription ?? description;
 
