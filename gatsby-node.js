@@ -8,7 +8,7 @@ const {
     resolveSlug,
     resolveSoftwareTools,
 } = require("./gatsby/utils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsby/constants");
+const { DATASET_PATH, RESOURCES_PATH } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
