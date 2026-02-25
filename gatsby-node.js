@@ -7,8 +7,8 @@ const {
   resolveToArray,
   resolveSlug,
   resolveSoftwareTools,
-} = require('./gatsbyutils/gatsby-resolver-utils')
-const { DATASET_PATH } = require('./gatsbyutils/constants')
+} = require('./gatsby/utils/gatsby-resolver-utils')
+const { DATASET_PATH } = require('./gatsby/constants')
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), 'utf8')
 
@@ -21,9 +21,9 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), 'utf8')
 const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions, schema }) => {
-  const { createTypes } = actions
-  const typeDefs = [
-    `"""
+    const { createTypes } = actions;
+    const typeDefs = [
+        `"""
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
@@ -49,10 +49,10 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             softwareTool: MarkdownRemark @link(by: "fields.slug")
             customDescription: String
         }`,
-  ]
-  createTypes(read('gatsby/schema/base.gql'))
-  createTypes(typeDefs)
-}
+    ];
+    createTypes(read("gatsby/schema/base.gql"));
+    createTypes(typeDefs);
+};
 
 /**
  * Resolvers ensure data shape/presence after queries, or provide
