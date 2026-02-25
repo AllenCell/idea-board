@@ -25,11 +25,7 @@ interface ProgramTemplateProps {
     active: boolean;
 }
 
-export const ProgramTemplate = ({
-    name,
-    description,
-    image,
-}: ProgramTemplateProps) => {
+export const ProgramTemplate = ({ name }: ProgramTemplateProps) => {
     return (
         <div>
             <h1>{name}</h1>

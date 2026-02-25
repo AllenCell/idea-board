@@ -2,10 +2,13 @@ import * as React from "react";
 
 import { GatsbyImage } from "gatsby-plugin-image";
 
+import { ChildImageSharp } from "../types";
+
 interface PreviewCompatibleImageProps {
     imageInfo: {
         alt?: string;
-        childImageSharp?: any;
+        childImageSharp?: ChildImageSharp;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any TODO: Replace `any` with a more specific type if possible
         image: any;
         width?: number;
         height?: number;
@@ -26,7 +29,7 @@ const PreviewCompatibleImage = ({
                 alt={alt}
             />
         );
-    } else if (!!childImageSharp) {
+    } else if (childImageSharp) {
         return (
             <GatsbyImage
                 image={childImageSharp.gatsbyImageData}

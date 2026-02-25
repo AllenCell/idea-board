@@ -14,7 +14,7 @@ const { Content } = AntLayout;
 const { container } = require("../style/layout.module.css");
 
 const TemplateWrapper = ({ children }: React.PropsWithChildren) => {
-    const { title, description } = useSiteMetadata();
+    const { description, title } = useSiteMetadata();
     return (
         <ConfigProvider theme={theme}>
             <Helmet>
