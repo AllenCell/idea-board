@@ -10,12 +10,12 @@ import {
 } from "@ant-design/icons";
 import { Layout as AntdLayout, Card, Flex } from "antd";
 
+import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";;
-import FigureComponent from "../components/Figure";
+import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
@@ -64,8 +64,9 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     };
 
     const hasFigures =
-    preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
-    const hasPreliminaryFindings = preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
+        preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    const hasPreliminaryFindings =
+        preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
 
     return (
         <div>
@@ -111,11 +112,19 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     <div className={section}>
                         <h4 className={sectionTitle}>Preliminary Findings</h4>
                         <p>{preliminaryFindings.summary}</p>
-
-                        {hasFigures &&
-                            preliminaryFindings.figures.map((figure, index) => {
-                                return <FigureComponent key={index} figure={figure} />;
-                            })}
+                        <Flex>
+                            {hasFigures &&
+                                preliminaryFindings.figures.map(
+                                    (figure, index) => {
+                                        return (
+                                            <FigureComponent
+                                                key={index}
+                                                figure={figure}
+                                            />
+                                        );
+                                    },
+                                )}
+                        </Flex>
                     </div>
                 )}
 
