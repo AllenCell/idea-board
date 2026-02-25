@@ -10,11 +10,11 @@ interface ContentProps {
     className?: string;
 }
 
-export const HTMLContent = ({ content, className }: HTMLContentProps) => (
+export const HTMLContent = ({ className, content }: HTMLContentProps) => (
     <div className={className} dangerouslySetInnerHTML={{ __html: content }} />
 );
 
-const Content = ({ content, className }: ContentProps) => (
+const Content = ({ className, content }: ContentProps) => (
     <div className={className}>{content}</div>
 );
 

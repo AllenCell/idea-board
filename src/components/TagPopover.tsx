@@ -11,7 +11,7 @@ interface TagPopoverProps {
     currentSlug?: string;
 }
 
-export const TagPopover: React.FC<TagPopoverProps> = ({ tag, currentSlug }) => {
+export const TagPopover: React.FC<TagPopoverProps> = ({ currentSlug, tag }) => {
     const data: Queries.AllIdeasForTagsQuery = useStaticQuery(graphql`
         query AllIdeasForTags {
             allMarkdownRemark(

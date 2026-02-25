@@ -31,7 +31,7 @@ const DEFAULT_BASE_FIELDS: FieldConfig[] = [
 /**
  * It's easier to apply styles directly here in the component, than to import a stylesheet,
  * and make sure ensure those styles are correctly injected in the Decap build.
- * 
+ *
  * To inject styles refer to globalStyles documentation on registerWidget params.
  *
  */
@@ -78,11 +78,11 @@ const styles = {
  */
 const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
     const {
-        onChange,
-        value,
-        types,
-        defaultType,
         baseFields = DEFAULT_BASE_FIELDS,
+        defaultType,
+        onChange,
+        types,
+        value,
     } = props;
 
     /**
@@ -128,7 +128,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
     ) => {
-        const { label, name, placeholder = "", hint = "" } = cfg;
+        const { hint = "", label, name, placeholder = "" } = cfg;
         return (
             <div key={name} style={styles.fieldGroup}>
                 <label style={styles.label}>{label}</label>
@@ -148,7 +148,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
     ) => {
-        const { label, name, placeholder = "", hint = "", rows = 4 } = cfg;
+        const { hint = "", label, name, placeholder = "", rows = 4 } = cfg;
         return (
             <div key={name} style={styles.fieldGroup}>
                 <label style={styles.label}>{label}</label>
@@ -168,7 +168,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
     ) => {
-        const { label, name, options = [], hint = "" } = cfg;
+        const { hint = "", label, name, options = [] } = cfg;
         return (
             <div key={name} style={styles.fieldGroup}>
                 <label style={styles.label}>{label}</label>
@@ -193,7 +193,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
     ) => {
-        const { label, name, hint = "" } = cfg;
+        const { hint = "", label, name } = cfg;
 
         /**
          * Here we retrieve the default file widget registered in Decap to
@@ -204,6 +204,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         const widget = CMS.getWidget("file");
 
         const FileControl = widget?.control as
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             | React.ComponentType<any>
             | undefined;
 

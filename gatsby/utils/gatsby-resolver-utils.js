@@ -1,4 +1,4 @@
-const { SOFTWARE_PATH } = require("../gatsbyutils/constants");
+const { SOFTWARE_PATH } = require("../constants");
 const slugify = require("slugify");
 
 /**
