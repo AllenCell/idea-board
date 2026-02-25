@@ -1,4 +1,4 @@
-const { SOFTWARE_PATH } = require("../gatsbyutils/constants");
+const { SOFTWARE_PATH } = require("../constants");
 const slugify = require("slugify");
 
 /**
@@ -45,7 +45,7 @@ const resolveSoftwareTools = (rawSoftware) => {
                     softwareTool: resolveSlug(item.softwareTool, SOFTWARE_PATH),
                     customDescription: stringWithDefault(
                         item.customDescription,
-                        null
+                        null,
                     ),
                 };
             }
@@ -66,7 +66,7 @@ const resolveSlug = (id, directory) => {
     if (!id) return null;
     const slugPart = slugify(id, { lower: true, strict: true }).replace(
         /^\/+|\/+$/g,
-        ""
+        "",
     ); // Slugify and remove leading/trailing slashes
     return `/${directory}/${slugPart}/`;
 };

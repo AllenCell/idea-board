@@ -1,4 +1,5 @@
 import React from "react";
+
 import { graphql } from "gatsby";
 
 interface QueryResult {
@@ -25,12 +26,7 @@ type DatasetProps = {
     date?: string;
 };
 
-const DatasetTemplate: React.FC<DatasetProps> = ({
-    name,
-    description,
-    link,
-    status,
-}) => {
+const DatasetTemplate: React.FC<DatasetProps> = ({ name }) => {
     return (
         <div style={{ border: "1px solid #ccc", padding: 16, borderRadius: 8 }}>
             <h2>{name}</h2>

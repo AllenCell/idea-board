@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const fs = require("fs");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const {
@@ -6,8 +7,10 @@ const {
     resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
-} = require("./gatsbyutils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsbyutils/constants");
+} = require("./gatsby/utils/gatsby-resolver-utils");
+const { DATASET_PATH } = require("./gatsby/constants");
+
+const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -20,33 +23,7 @@ const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 exports.createSchemaCustomization = ({ actions, schema }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `type MarkdownRemarkFields {
-            slug: String!
-        }
-
-        type MarkdownRemark implements Node {
-            frontmatter: Frontmatter!
-            fields: MarkdownRemarkFields!
-        }
-
-        """
-        Shared frontmatter fields for idea posts (and other markdown).
-        """
-        type Frontmatter {
-            authors: [String!]!
-            date: Date @dateformat
-            title: String!
-            description: String
-            draft: Boolean
-            tags: [String!]
-            nextSteps: [String!]
-            publication: String
-            introduction: String
-            preliminaryFindings: PreliminaryFindings!
-            materialsAndMethods: MaterialsAndMethods!
-            }
-
-        """
+        `"""
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
@@ -85,6 +62,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
             customDescription: String
         }`,
     ];
+    createTypes(read("gatsby/schema/base.gql"));
     createTypes(typeDefs);
 };
 
@@ -131,7 +109,10 @@ exports.createResolvers = ({ createResolvers }) => {
                         return current;
                     }
 
-                    const resolvedDatasetSlug = resolveSlug(raw.dataset, DATASET_PATH);
+                    const resolvedDatasetSlug = resolveSlug(
+                        raw.dataset,
+                        DATASET_PATH,
+                    );
                     current.dataset = resolvedDatasetSlug;
                     current.cellLines = resolveToArray(raw.cellLines);
                     current.protocols = resolveToArray(raw.protocols);
