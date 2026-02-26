@@ -2,8 +2,6 @@ import React from "react";
 
 import { StaticQuery, graphql } from "gatsby";
 
-import Layout from "../components/Layout";
-
 interface QueryResult {
     data: {
         markdownRemark: {
@@ -42,14 +40,12 @@ export const AlleniteTemplate = ({
 const Allenite = ({ data }: QueryResult) => {
     const { markdownRemark: post } = data;
     return (
-        <Layout>
-            <AlleniteTemplate
-                name={post.frontmatter.name}
-                title={post.frontmatter.title || ""}
-                contact={post.frontmatter.contact || ""}
-                // program={post.frontmatter.program || ""}
-            />
-        </Layout>
+        <AlleniteTemplate
+            name={post.frontmatter.name}
+            title={post.frontmatter.title || ""}
+            contact={post.frontmatter.contact || ""}
+            // program={post.frontmatter.program || ""}
+        />
     );
 };
 

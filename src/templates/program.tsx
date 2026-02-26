@@ -2,8 +2,6 @@ import React from "react";
 
 import { StaticQuery, graphql } from "gatsby";
 
-import Layout from "../components/Layout";
-
 interface QueryResult {
     data: {
         markdownRemark: {
@@ -36,14 +34,12 @@ export const ProgramTemplate = ({ name }: ProgramTemplateProps) => {
 const Program = ({ data }: QueryResult) => {
     const { markdownRemark: post } = data;
     return (
-        <Layout>
-            <ProgramTemplate
-                name={post.frontmatter.name}
-                description={post.frontmatter.description || ""}
-                image={post.frontmatter.image || ""}
-                active={post.frontmatter.active || false}
-            />
-        </Layout>
+        <ProgramTemplate
+            name={post.frontmatter.name}
+            description={post.frontmatter.description || ""}
+            image={post.frontmatter.image || ""}
+            active={post.frontmatter.active || false}
+        />
     );
 };
 
