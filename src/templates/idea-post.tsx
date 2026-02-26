@@ -148,7 +148,12 @@ export const pageQuery = graphql`
                         }
                     }
                     protocols {
-                        protocol
+                        type
+                        name
+                        url
+                        file {
+                            publicURL
+                        }
                     }
                     cellLines {
                         name

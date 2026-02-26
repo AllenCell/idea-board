@@ -27,8 +27,12 @@ preliminaryFindings:
 materialsAndMethods:
   dataset: Released EMT dataset
   protocols:
-    # - protocol: /protocols/emt_junction_segmentation.pdf
-    # - protocol: /protocols/emt_tracking_qc.pdf
+    - type: protocolLink
+      name: Culture And Freezing Methods
+      url: https://cell-catalog.allencell.org/pdf/AICS_WTC_cell_culture_protocol.pdf
+    - type: protocolFile
+      name: Cell culture protocol
+      file: /img/cell_culture_protocol.pdf
   cellLines:
     - name: AICS-42
       link: https://allencell.org/cell-catalog
