@@ -3,7 +3,7 @@ module.exports = {
     siteMetadata: {
         title: "Idea Board",
         description:
-            "A site to explore research directions and possible projects using dataset and tools developed by the Allen Institute for Cell Science.",
+            "A site to explore research directions and possible projects using datasets and tools developed by the Allen Institute for Cell Science.",
     },
     plugins: [
         "gatsby-plugin-react-helmet-async",
