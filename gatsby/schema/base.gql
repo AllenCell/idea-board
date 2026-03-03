@@ -15,4 +15,5 @@ type Frontmatter {
     draft: Boolean
     tags: [String!]
     materialsAndMethods: MaterialsAndMethods!
+    primaryContact: String
 }

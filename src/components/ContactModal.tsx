@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+
+import { Button, Flex, Input, Modal } from "antd";
+
+interface ContactModalProps {
+    authors: readonly (string | null)[] | null | undefined;
+    open: boolean;
+    primaryContact: string | null | undefined;
+    title: string;
+    onClose: () => void;
+}
+
+export const ContactModal: React.FC<ContactModalProps> = ({
+    authors,
+    open,
+    primaryContact,
+    title,
+    onClose,
+}) => {
+    const [senderName, setSenderName] = useState("");
+    const [senderEmail, setSenderEmail] = useState("");
+    const [message, setMessage] = useState("");
+
+    const hasPrimaryContact = !!primaryContact;
+
+    const contact = !!primaryContact ? primaryContact : authors;
+
+    const recipientLabel = hasPrimaryContact
+        ? primaryContact
+        : (authors?.filter(Boolean).join(", ") ?? "the authors");
+
+    const handleSubmit = () => {
+        console.log("contact", contact);
+        console.log("senderName", senderName);
+        console.log("senderEmail", senderEmail);
+        console.log("message", message);
+    };
+
+    return (
+        <Modal
+            title="Contact the Authors"
+            open={open}
+            onCancel={onClose}
+            footer={[
+                <Button key="cancel" onClick={onClose}>
+                    Cancel
+                </Button>,
+                <Button key="submit" type="primary" onClick={handleSubmit}>
+                    Send
+                </Button>,
+            ]}
+        >
+            <p>
+                <strong>Idea:</strong> {title}
+            </p>
+            {authors && authors.length > 0 && (
+                <p>
+                    <strong>Authors:</strong>{" "}
+                    {authors.filter(Boolean).join(", ")}
+                </p>
+            )}
+            <p>
+                Your message will be sent to <strong>{recipientLabel}</strong>
+                {contact ? ` (${contact})` : ""}. Reach out with questions,
+                collaboration interest, or feedback on this idea.
+            </p>
+            <Flex vertical gap={12}>
+                <Input
+                    placeholder="Your name"
+                    value={senderName}
+                    onChange={(e) => setSenderName(e.target.value)}
+                />
+                <Input
+                    type="email"
+                    placeholder="Your email address"
+                    value={senderEmail}
+                    onChange={(e) => setSenderEmail(e.target.value)}
+                />
+                <Input.TextArea
+                    rows={4}
+                    placeholder="Write your message here..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                />
+            </Flex>
+        </Modal>
+    );
+};

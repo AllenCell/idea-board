@@ -62,6 +62,17 @@ collections:
                 multiple: true,
             }
           - {
+                label: "Primary Contact",
+                name: "primaryContact",
+                widget: "relation",
+                collection: "allenite",
+                search_fields: ["name", "title"],
+                value_field: "name",
+                multiple: false,
+                required: false,
+                hint: "Optionally designate a the primary contact. If set, only this person will be contacted instead of all authors.",
+            }
+          - {
                 label: "Program",
                 name: "program",
                 widget: "select",
