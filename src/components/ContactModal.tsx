@@ -22,18 +22,30 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const [message, setMessage] = useState("");
 
     const hasPrimaryContact = !!primaryContact;
-
-    const contact = !!primaryContact ? primaryContact : authors;
+    const hasAuthors = !!authors && authors.length > 0;
 
     const recipientLabel = hasPrimaryContact
         ? primaryContact
-        : (authors?.filter(Boolean).join(", ") ?? "the authors");
+        : hasAuthors ?
+        (authors?.filter(Boolean).join(", ") ?? "the authors")
+        : "fake default email inbox"
 
-    const handleSubmit = () => {
-        console.log("contact", contact);
-        console.log("senderName", senderName);
-        console.log("senderEmail", senderEmail);
-        console.log("message", message);
+    const handleSubmit = async () => {
+        fetch("/.netlify/functions/contact", {
+            method: "POST",
+            body: JSON.stringify({
+                senderName: senderName,
+                senderEmail: senderEmail,
+                recipient: recipientLabel,
+                message: message,
+            }),
+        }).then((response) => {
+            if (response.ok) {
+                console.log("Message sent successfully, response:", response);
+            } else {
+                console.log("Failed to send message. Please try again later.");
+            }
+        });
     };
 
     return (
@@ -60,8 +72,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 </p>
             )}
             <p>
-                Your message will be sent to <strong>{recipientLabel}</strong>
-                {contact ? ` (${contact})` : ""}. Reach out with questions,
+                Your message will be sent to <strong>{recipientLabel}</strong>. Reach out with questions,
                 collaboration interest, or feedback on this idea.
             </p>
             <Flex vertical gap={12}>

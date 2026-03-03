@@ -79,9 +79,9 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                                 onClose={() => setContactModalOpen(false)}
                             />
                             <Button onClick={() => setContactModalOpen(true)}>
-                                Contact Authors
+                                Contact
                             </Button>
-                            <IconText
+                            {/* <IconText
                                 icon={StarOutlined}
                                 text="2"
                                 key="star-o"
@@ -90,7 +90,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                                 icon={MessageOutlined}
                                 text="2"
                                 key="message-o"
-                            />
+                            /> */}
                         </Flex>
                     </Flex>
 
