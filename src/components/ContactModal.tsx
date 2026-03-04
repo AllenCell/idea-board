@@ -33,6 +33,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const handleSubmit = async () => {
         fetch("/.netlify/functions/contact", {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify({
                 senderName: senderName,
                 senderEmail: senderEmail,
