@@ -26,29 +26,33 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
     const recipientLabel = hasPrimaryContact
         ? primaryContact
-        : hasAuthors ?
-        (authors?.filter(Boolean).join(", ") ?? "the authors")
-        : "fake default email inbox"
+        : hasAuthors
+          ? (authors?.filter(Boolean).join(", ") ?? "the authors")
+          : "fake default email inbox";
 
     const handleSubmit = async () => {
-        fetch("/.netlify/functions/contact", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                senderName: senderName,
-                senderEmail: senderEmail,
-                recipient: recipientLabel,
-                message: message,
-            }),
-        }).then((response) => {
+        try {
+            const response = await fetch("/.netlify/functions/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    senderName: senderName,
+                    senderEmail: senderEmail,
+                    recipient: recipientLabel,
+                    message: message,
+                }),
+            });
+
             if (response.ok) {
                 console.log("Message sent successfully, response:", response);
             } else {
                 console.log("Failed to send message. Please try again later.");
             }
-        });
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
     };
 
     return (
@@ -75,8 +79,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 </p>
             )}
             <p>
-                Your message will be sent to <strong>{recipientLabel}</strong>. Reach out with questions,
-                collaboration interest, or feedback on this idea.
+                Your message will be sent to <strong>{recipientLabel}</strong>.
+                Reach out with questions, collaboration interest, or feedback on
+                this idea.
             </p>
             <Flex vertical gap={12}>
                 <Input

@@ -70,7 +70,7 @@ collections:
                 value_field: "name",
                 multiple: false,
                 required: false,
-                hint: "Optionally designate a the primary contact. If set, only this person will be contacted instead of all authors.",
+                hint: "Optionally designate the primary contact. If set, only this person will be contacted instead of all authors.",
             }
           - {
                 label: "Program",
