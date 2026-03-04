@@ -12,10 +12,10 @@ interface ContactModalProps {
 
 export const ContactModal: React.FC<ContactModalProps> = ({
     authors,
+    onClose,
     open,
     primaryContact,
     title,
-    onClose,
 }) => {
     const [senderName, setSenderName] = useState("");
     const [senderEmail, setSenderEmail] = useState("");

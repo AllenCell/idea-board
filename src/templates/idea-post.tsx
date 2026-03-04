@@ -5,13 +5,13 @@ import { Link, PageProps, graphql } from "gatsby";
 
 import {
     ArrowLeftOutlined,
-    MessageOutlined,
-    StarOutlined,
+    // MessageOutlined,
+    // StarOutlined,
 } from "@ant-design/icons";
 import { Layout as AntdLayout, Button, Card, Flex } from "antd";
 
 import { ContactModal } from "../components/ContactModal";
-import IconText from "../components/IconText";
+// import IconText from "../components/IconText";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
