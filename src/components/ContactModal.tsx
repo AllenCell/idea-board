@@ -1,16 +1,6 @@
 import React, { useState } from "react";
 
-
-
 import { Button, Flex, Input, Modal } from "antd";
-
-
-
-
-
-
-
-
 
 interface ContactModalProps {
     authors: readonly (string | null)[] | null | undefined;
