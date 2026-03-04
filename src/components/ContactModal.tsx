@@ -24,11 +24,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const hasPrimaryContact = !!primaryContact;
     const hasAuthors = !!authors && authors.length > 0;
 
+    const filteredAuthors =
+        authors?.filter(Boolean).join(", ") ?? "the authors";
+
     const recipientLabel = hasPrimaryContact
         ? primaryContact
         : hasAuthors
-          ? (authors?.filter(Boolean).join(", ") ?? "the authors")
-          : "fake default email inbox";
+          ? filteredAuthors
+          : // TODO use real contact info
+            "fake default email inbox";
 
     const handleSubmit = async () => {
         try {
@@ -72,10 +76,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <p>
                 <strong>Idea:</strong> {title}
             </p>
-            {authors && authors.length > 0 && (
+            {hasAuthors && (
                 <p>
-                    <strong>Authors:</strong>{" "}
-                    {authors.filter(Boolean).join(", ")}
+                    <strong>Authors:</strong> {filteredAuthors}
                 </p>
             )}
             <p>
