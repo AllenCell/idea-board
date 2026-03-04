@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 
+
+
 import { Button, Flex, Input, Modal } from "antd";
+
+
+
+
+
+
+
+
 
 interface ContactModalProps {
     authors: readonly (string | null)[] | null | undefined;
@@ -31,24 +41,28 @@ export const ContactModal: React.FC<ContactModalProps> = ({
         : "fake default email inbox"
 
     const handleSubmit = async () => {
-        fetch("/.netlify/functions/contact", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                senderName: senderName,
-                senderEmail: senderEmail,
-                recipient: recipientLabel,
-                message: message,
-            }),
-        }).then((response) => {
+        try {
+            const response = await fetch("/.netlify/functions/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    senderName: senderName,
+                    senderEmail: senderEmail,
+                    recipient: recipientLabel,
+                    message: message,
+                }),
+            });
+
             if (response.ok) {
                 console.log("Message sent successfully, response:", response);
             } else {
                 console.log("Failed to send message. Please try again later.");
             }
-        });
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
     };
 
     return (
