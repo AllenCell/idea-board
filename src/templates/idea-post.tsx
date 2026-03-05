@@ -11,7 +11,6 @@ import {
 import { Layout as AntdLayout, Card, Flex } from "antd";
 
 import IconText from "../components/IconText";
-import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
@@ -98,27 +97,22 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
     const markdownRemark = data.markdownRemark;
     // Runtime guard - markdownRemark can be null if query doesn't find matching ID
     if (!markdownRemark) {
-        return (
-            <Layout>
-                <p>Post not found.</p>
-            </Layout>
-        );
+        return <p>Post not found.</p>;
     }
 
     const { description, title } = markdownRemark.frontmatter;
 
     return (
-        <Layout>
+        <>
             <Helmet titleTemplate="%s | Ideas">
                 <title>{title}</title>
                 <meta name="description" content={description ?? ""} />
             </Helmet>
-
             <IdeaPostTemplate
                 {...markdownRemark.frontmatter}
                 {...markdownRemark.fields}
             />
-        </Layout>
+        </>
     );
 };
 
