@@ -85,7 +85,7 @@ collections:
                         {
                             label: "Summary of findings",
                             name: "summary",
-                            widget: "string",
+                            widget: "markdown",
                             required: false,
                         },
                         {
@@ -228,7 +228,7 @@ collections:
                                     {
                                         label: "Custom description (optional)",
                                         name: "customDescription",
-                                        widget: "text",
+                                        widget: "markdown",
                                         required: false,
                                         hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
                                     },

@@ -26,7 +26,7 @@ const DATA_ONLY_PAGES = [
     "resource",
 ];
 
-exports.createSchemaCustomization = ({ actions, schema }) => {
+exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
     const typeDefs = [
         `"""
