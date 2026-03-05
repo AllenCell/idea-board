@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Button, Flex, Input, Modal } from "antd";
 
+import { CONTACT_FUNCTION_PATH } from "../constants";
+
 interface ContactModalProps {
     authors: readonly (string | null)[] | null | undefined;
     open: boolean;
@@ -36,7 +38,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch("/.netlify/functions/contact", {
+            const response = await fetch(CONTACT_FUNCTION_PATH, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
