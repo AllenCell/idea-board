@@ -1,7 +1,6 @@
 import type { Handler } from "@netlify/functions";
 
 const handler: Handler = async function (event) {
-
     if (event.body === null) {
         return {
             statusCode: 400,
