@@ -1,16 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
-import {
-    ArrowLeftOutlined,
-    MessageOutlined,
-    StarOutlined,
-} from "@ant-design/icons";
-import { Layout as AntdLayout, Card, Flex } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Layout as AntdLayout, Button, Card, Flex } from "antd";
 
-import IconText from "../components/IconText";
+import { ContactModal } from "../components/ContactModal";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
@@ -28,11 +24,15 @@ const {
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
+    authors,
     materialsAndMethods,
+    primaryContact,
     slug,
     tags,
     title,
 }) => {
+    const [contactModalOpen, setContactModalOpen] = useState(false);
+
     // TODO query the actual data
     const introduction = "PLACEHOLDER INTRODUCTION TEXT";
     const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
@@ -66,16 +66,16 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     >
                         <h3>{title}</h3>
                         <Flex className={actionIcons} gap={6}>
-                            <IconText
-                                icon={StarOutlined}
-                                text="2"
-                                key="star-o"
+                            <ContactModal
+                                open={contactModalOpen}
+                                title={title}
+                                authors={authors}
+                                primaryContact={primaryContact}
+                                onClose={() => setContactModalOpen(false)}
                             />
-                            <IconText
-                                icon={MessageOutlined}
-                                text="2"
-                                key="message-o"
-                            />
+                            <Button onClick={() => setContactModalOpen(true)}>
+                                Contact
+                            </Button>
                         </Flex>
                     </Flex>
 
@@ -136,6 +136,8 @@ export const pageQuery = graphql`
                 date(formatString: "MMMM DD, YYYY")
                 title
                 description
+                authors
+                primaryContact
                 tags
                 materialsAndMethods {
                     dataset {
