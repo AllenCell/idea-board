@@ -11,6 +11,9 @@ templateKey: idea-post
 title: Placeholder name (dev example)
 type: analysis of existing data
 date: 2025-10-28T19:10:00.000Z
+allenites:
+  - Gokhan Dalgin
+  - Caroline Hookway
 authors:
   - Gokhan Dalgin
   - Caroline Hookway

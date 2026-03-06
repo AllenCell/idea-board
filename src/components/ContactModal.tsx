@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 import { Button, Flex, Input, Modal } from "antd";
 
+import { Allenite } from "../types";
+
 interface ContactModalProps {
-    authors: readonly (string | null)[] | null | undefined;
+    authors: ReadonlyArray<Allenite> | null;
     open: boolean;
-    primaryContact: string | null | undefined;
+    primaryContact: Allenite | null;
     title: string;
     onClose: () => void;
 }
@@ -25,9 +27,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const hasAuthors = !!authors && authors.length > 0;
 
     const recipientLabel = hasPrimaryContact
-        ? primaryContact
+        ? primaryContact.name
         : hasAuthors
-          ? (authors?.filter(Boolean).join(", ") ?? "the authors")
+          ? (authors
+                ?.map((author) => author.name)
+                .filter(Boolean)
+                .join(", ") ?? "the authors")
           : "fake default email inbox";
 
     const handleSubmit = async () => {
@@ -75,7 +80,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             {authors && authors.length > 0 && (
                 <p>
                     <strong>Authors:</strong>{" "}
-                    {authors.filter(Boolean).join(", ")}
+                    {authors
+                        .map((author) => author.name)
+                        .filter(Boolean)
+                        .join(", ")}
                 </p>
             )}
             <p>
