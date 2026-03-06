@@ -3,15 +3,10 @@ import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
-import {
-    ArrowLeftOutlined,
-    // MessageOutlined,
-    // StarOutlined,
-} from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Layout as AntdLayout, Button, Card, Flex } from "antd";
 
 import { ContactModal } from "../components/ContactModal";
-// import IconText from "../components/IconText";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
@@ -81,16 +76,6 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                             <Button onClick={() => setContactModalOpen(true)}>
                                 Contact
                             </Button>
-                            {/* <IconText
-                                icon={StarOutlined}
-                                text="2"
-                                key="star-o"
-                            />
-                            <IconText
-                                icon={MessageOutlined}
-                                text="2"
-                                key="message-o"
-                            /> */}
                         </Flex>
                     </Flex>
 

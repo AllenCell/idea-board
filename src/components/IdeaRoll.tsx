@@ -114,16 +114,16 @@ const IdeaRollTemplate = (props: {
                                         return null;
                                     }
                                     return (
-                                    <Avatar
-                                        key={author.name}
-                                        style={{
-                                            backgroundColor: "gray",
-                                        }}
-                                    >
-                                        {author.name.toUpperCase()}
-                                    </Avatar>
-                                )}
-                                )}
+                                        <Avatar
+                                            key={author.name}
+                                            style={{
+                                                backgroundColor: "gray",
+                                            }}
+                                        >
+                                            {author.name.toUpperCase()}
+                                        </Avatar>
+                                    );
+                                })}
                             </Avatar.Group>
                         }
                         description={

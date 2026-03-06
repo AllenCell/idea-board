@@ -99,7 +99,9 @@ exports.createResolvers = ({ createResolvers }) => {
                     const results = await Promise.all(
                         names
                             .filter(Boolean)
-                            .map((name) => context.nodeModel.findOne(alleniteQuery(name))),
+                            .map((name) =>
+                                context.nodeModel.findOne(alleniteQuery(name)),
+                            ),
                     );
                     return results.filter(Boolean);
                 },
