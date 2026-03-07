@@ -10,6 +10,8 @@ import {
 } from "@ant-design/icons";
 import { Layout as AntdLayout, Card, Flex } from "antd";
 
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
+import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
@@ -28,15 +30,16 @@ const {
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
+    authors,
+    introduction,
     materialsAndMethods,
+    nextSteps,
+    preliminaryFindings,
+    publication,
     slug,
     tags,
     title,
 }) => {
-    // TODO query the actual data
-    const introduction = "PLACEHOLDER INTRODUCTION TEXT";
-    const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
-
     const getTagList = (tags: readonly string[]) => {
         return (
             <ul className={taglist}>
@@ -48,6 +51,23 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
             </ul>
         );
     };
+
+    const getAuthorsList = (authors: readonly string[]) => {
+        if (authors.length === 0) {
+            return null;
+        }
+        return (
+            <>
+                <h4 className={sectionTitle}>Proposed by: </h4>
+                <p> {authors.join(", ")}</p>
+            </>
+        );
+    };
+
+    const hasFigures =
+        preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    const hasPreliminaryFindings =
+        preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
 
     return (
         <div>
@@ -78,13 +98,54 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                             />
                         </Flex>
                     </Flex>
-
-                    <p className={proposal}>{introduction}</p>
+                    {introduction && (
+                        <div className={proposal}>
+                            <CustomReactMarkdown content={introduction} />
+                        </div>
+                    )}
+                    {getAuthorsList(authors)}
+                    {publication && (
+                        <>
+                            <h4 className={sectionTitle}>Publication </h4>
+                            <p> {publication}</p>
+                        </>
+                    )}
                 </div>
-                {nextSteps && (
+
+                {hasPreliminaryFindings && (
                     <div className={section}>
-                        <h2 className={sectionTitle}>Suggested next steps:</h2>
-                        {nextSteps}
+                        <h4 className={sectionTitle}>Preliminary Findings</h4>
+                        {preliminaryFindings.summary && (
+                            <CustomReactMarkdown
+                                content={preliminaryFindings.summary}
+                            />
+                        )}
+                        <Flex>
+                            {hasFigures &&
+                                preliminaryFindings.figures.map(
+                                    (figure, index) => {
+                                        return (
+                                            <FigureComponent
+                                                key={index}
+                                                figure={figure}
+                                            />
+                                        );
+                                    },
+                                )}
+                        </Flex>
+                    </div>
+                )}
+
+                {nextSteps && nextSteps.length > 0 && (
+                    <div className={section}>
+                        <h4 className={sectionTitle}>Suggested next steps:</h4>
+                        <ul>
+                            {nextSteps.map((step: string, index: number) => (
+                                <li key={index}>
+                                    <CustomReactMarkdown content={step} />
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 )}
                 <MaterialsAndMethodsComponent {...materialsAndMethods} />
@@ -133,10 +194,27 @@ export const pageQuery = graphql`
                 slug
             }
             frontmatter {
+                authors
+                publication
                 date(formatString: "MMMM DD, YYYY")
+                introduction
                 title
                 description
                 tags
+                preliminaryFindings {
+                    summary
+                    figures {
+                        type
+                        url
+                        file {
+                            childImageSharp {
+                                gatsbyImageData(width: 600, quality: 90)
+                            }
+                        }
+                        caption
+                    }
+                }
+                nextSteps
                 materialsAndMethods {
                     dataset {
                         frontmatter {

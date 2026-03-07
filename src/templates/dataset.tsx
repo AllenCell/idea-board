@@ -2,6 +2,8 @@ import React from "react";
 
 import { graphql } from "gatsby";
 
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
+
 interface QueryResult {
     data: {
         markdownRemark: {
@@ -26,10 +28,11 @@ type DatasetProps = {
     date?: string;
 };
 
-const DatasetTemplate: React.FC<DatasetProps> = ({ name }) => {
+const DatasetTemplate: React.FC<DatasetProps> = ({ description, name }) => {
     return (
         <div style={{ border: "1px solid #ccc", padding: 16, borderRadius: 8 }}>
             <h2>{name}</h2>
+            {description && <CustomReactMarkdown content={description} />}
         </div>
     );
 };
