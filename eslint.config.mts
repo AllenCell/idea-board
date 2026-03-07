@@ -22,7 +22,7 @@ export default defineConfig([
         languageOptions: { globals: { ...globals.browser, ...globals.node } },
         rules: {
             "no-unused-vars": "off",
-            "@typescript-eslint/no-unused-vars": ["error"],
+            "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
             "sort-destructure-keys/sort-destructure-keys": [
                 2,
                 { caseSensitive: false },

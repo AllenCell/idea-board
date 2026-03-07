@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Layout as AntdLayout, Card, Flex } from "antd";
 
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import Layout from "../components/Layout";
@@ -97,8 +98,11 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                             />
                         </Flex>
                     </Flex>
-
-                    <p className={proposal}>{introduction}</p>
+                    {introduction && (
+                        <div className={proposal}>
+                            <CustomReactMarkdown content={introduction} />
+                        </div>
+                    )}
                     {getAuthorsList(authors)}
                     {publication && (
                         <>
@@ -111,7 +115,11 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                 {hasPreliminaryFindings && (
                     <div className={section}>
                         <h4 className={sectionTitle}>Preliminary Findings</h4>
-                        <p>{preliminaryFindings.summary}</p>
+                        {preliminaryFindings.summary && (
+                            <CustomReactMarkdown
+                                content={preliminaryFindings.summary}
+                            />
+                        )}
                         <Flex>
                             {hasFigures &&
                                 preliminaryFindings.figures.map(
@@ -133,7 +141,9 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                         <h4 className={sectionTitle}>Suggested next steps:</h4>
                         <ul>
                             {nextSteps.map((step: string, index: number) => (
-                                <li key={index}>{step}</li>
+                                <li key={index}>
+                                    <CustomReactMarkdown content={step} />
+                                </li>
                             ))}
                         </ul>
                     </div>
