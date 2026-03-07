@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Button, Flex, Input, Modal } from "antd";
 
+import { CONTACT_FUNCTION_PATH } from "../constants";
 import { Allenite } from "../types";
 
 interface ContactModalProps {
@@ -26,18 +27,22 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const hasPrimaryContact = !!primaryContact;
     const hasAuthors = !!authors && authors.length > 0;
 
+    const filteredAuthors =
+        authors
+            ?.map((author) => author.name)
+            .filter(Boolean)
+            .join(", ") ?? "the authors";
+
     const recipientLabel = hasPrimaryContact
         ? primaryContact.name
         : hasAuthors
-          ? (authors
-                ?.map((author) => author.name)
-                .filter(Boolean)
-                .join(", ") ?? "the authors")
-          : "fake default email inbox";
+          ? filteredAuthors
+          : // TODO use real contact info
+            "fake default email inbox";
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch("/.netlify/functions/contact", {
+            const response = await fetch(CONTACT_FUNCTION_PATH, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,13 +82,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <p>
                 <strong>Idea:</strong> {title}
             </p>
-            {authors && authors.length > 0 && (
+            {hasAuthors && (
                 <p>
-                    <strong>Authors:</strong>{" "}
-                    {authors
-                        .map((author) => author.name)
-                        .filter(Boolean)
-                        .join(", ")}
+                    <strong>Authors:</strong> {filteredAuthors}
                 </p>
             )}
             <p>
