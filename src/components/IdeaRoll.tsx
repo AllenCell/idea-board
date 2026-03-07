@@ -6,7 +6,7 @@ import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
-import { MaterialsAndMethods } from "../types";
+import { Allenite, MaterialsAndMethods } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
@@ -25,7 +25,7 @@ interface PostNode {
             templateKey: string;
             concerns?: string;
             program: string;
-            authors?: string[];
+            authors?: Allenite[];
             tags?: string[];
             type: string;
             materialsAndMethods?: MaterialsAndMethods;
@@ -109,16 +109,21 @@ const IdeaRollTemplate = (props: {
                         title={<a href={item.slug}>{item.title}</a>}
                         avatar={
                             <Avatar.Group>
-                                {item.authors.map((author) => (
-                                    <Avatar
-                                        key={author}
-                                        style={{
-                                            backgroundColor: "gray",
-                                        }}
-                                    >
-                                        {author[0].toUpperCase()}
-                                    </Avatar>
-                                ))}
+                                {item.authors.map((author) => {
+                                    if (!author || !author.name) {
+                                        return null;
+                                    }
+                                    return (
+                                        <Avatar
+                                            key={author.name}
+                                            style={{
+                                                backgroundColor: "gray",
+                                            }}
+                                        >
+                                            {author.name.toUpperCase()}
+                                        </Avatar>
+                                    );
+                                })}
                             </Avatar.Group>
                         }
                         description={
@@ -174,7 +179,9 @@ export default function IdeaRoll({
                                     date(formatString: "MMMM DD, YYYY")
                                     tags
                                     type
-                                    authors
+                                    authors {
+                                        name
+                                    }
                                     concerns
                                     materialsAndMethods {
                                         dataset {

@@ -136,8 +136,14 @@ export const pageQuery = graphql`
                 date(formatString: "MMMM DD, YYYY")
                 title
                 description
-                authors
-                primaryContact
+                authors {
+                    name
+                    contactId
+                }
+                primaryContact {
+                    name
+                    contactId
+                }
                 tags
                 materialsAndMethods {
                     dataset {

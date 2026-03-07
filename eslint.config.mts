@@ -8,6 +8,13 @@ export default defineConfig([
     eslint.configs.recommended,
     tseslint.configs.recommended,
     {
+        files: ["**/*.js"],
+        languageOptions: { globals: { ...globals.node } },
+        rules: {
+            "@typescript-eslint/no-require-imports": "off",
+        },
+    },
+    {
         files: ["**/*.{ts,tsx}"],
         plugins: {
             "sort-destructure-keys": sortDestructureKeys,

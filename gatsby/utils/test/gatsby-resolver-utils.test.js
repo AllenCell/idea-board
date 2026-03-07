@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DATASET_PATH, SOFTWARE_PATH } from "../constants";
+import { DATASET_TEMPLATE_KEY, SOFTWARE_TEMPLATE_KEY } from "../constants";
 import { resolveSlug, resolveSoftwareTools } from "../gatsby-resolver-utils";
 
 describe("resolveSlug", () => {
@@ -11,22 +11,22 @@ describe("resolveSlug", () => {
     });
 
     it("should build a slug from id and directory", () => {
-        expect(resolveSlug("released-emt-dataset", DATASET_PATH)).toBe(
+        expect(resolveSlug("released-emt-dataset", DATASET_TEMPLATE_KEY)).toBe(
             "/dataset/released-emt-dataset/",
         );
     });
 
     it("should slugify the id to lowercase", () => {
-        expect(resolveSlug("UPPERCASE", DATASET_PATH)).toBe(
+        expect(resolveSlug("UPPERCASE", DATASET_TEMPLATE_KEY)).toBe(
             "/dataset/uppercase/",
         );
     });
 
     it("should handle special characters in id", () => {
-        expect(resolveSlug("Tool & Library", SOFTWARE_PATH)).toBe(
+        expect(resolveSlug("Tool & Library", SOFTWARE_TEMPLATE_KEY)).toBe(
             "/software/tool-and-library/",
         );
-        expect(resolveSlug("Some/Path/Name", SOFTWARE_PATH)).toBe(
+        expect(resolveSlug("Some/Path/Name", SOFTWARE_TEMPLATE_KEY)).toBe(
             "/software/somepathname/",
         );
     });

@@ -15,5 +15,16 @@ type Frontmatter {
     draft: Boolean
     tags: [String!]
     materialsAndMethods: MaterialsAndMethods!
-    primaryContact: String
+    primaryContact: Allenite
+    authors: [Allenite!]!
+}
+
+type Allenite implements Node {
+    # slug is set as a top-level field in onCreateNode (not under fields like MarkdownRemark)
+    slug: String!
+    name: String!
+    contactId: String
+    position: String
+    contact: String
+    program: [String!]
 }

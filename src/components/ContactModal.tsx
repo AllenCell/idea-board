@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { Button, Flex, Input, Modal } from "antd";
 
 import { CONTACT_FUNCTION_PATH } from "../constants";
+import { Allenite } from "../types";
 
 interface ContactModalProps {
-    authors: readonly (string | null)[] | null | undefined;
+    authors: ReadonlyArray<Allenite> | null;
     open: boolean;
-    primaryContact: string | null | undefined;
+    primaryContact: Allenite | null;
     title: string;
     onClose: () => void;
 }
@@ -27,10 +28,13 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const hasAuthors = !!authors && authors.length > 0;
 
     const filteredAuthors =
-        authors?.filter(Boolean).join(", ") ?? "the authors";
+        authors
+            ?.map((author) => author.name)
+            .filter(Boolean)
+            .join(", ") ?? "the authors";
 
     const recipientLabel = hasPrimaryContact
-        ? primaryContact
+        ? primaryContact.name
         : hasAuthors
           ? filteredAuthors
           : // TODO use real contact info
