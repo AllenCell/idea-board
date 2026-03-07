@@ -179,10 +179,6 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 {...markdownRemark.frontmatter}
                 {...markdownRemark.fields}
             />
-            <IdeaPostTemplate
-                {...markdownRemark.frontmatter}
-                {...markdownRemark.fields}
-            />
         </Layout>
     );
 };
