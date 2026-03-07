@@ -259,8 +259,6 @@ exports.onCreateNode = ({
 
         // Create a typed derived node for each collection so queries like
         // allAllenite are available in addition to allMarkdownRemark.
-        // The typed node holds the raw frontmatter fields plus a reference back to
-        // the MarkdownRemark node so HTML / excerpt remain reachable.
         const templateKey = node.frontmatter?.templateKey;
         const nodeType = TEMPLATE_KEY_TO_TYPE[templateKey];
 
@@ -269,8 +267,6 @@ exports.onCreateNode = ({
                 // Spread frontmatter so all CMS fields are top-level on the typed node.
                 ...node.frontmatter,
                 slug: value,
-                // Link back to the MarkdownRemark node for HTML / excerpt access.
-                markdownRemarkId: node.id,
                 id: createNodeId(`${nodeType}-${node.id}`),
                 parent: node.id,
                 children: [],
