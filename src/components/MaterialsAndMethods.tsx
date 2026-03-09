@@ -4,6 +4,7 @@ import { Collapse } from "antd";
 import type { CollapseProps } from "antd";
 
 import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
+import { CustomReactMarkdown } from "./CustomReactMarkdown";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
 
@@ -50,10 +51,10 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
             <div key={index}>
                 {title}
                 {displayDescription && (
-                    <p>
+                    <div>
                         <strong>{`Description: `}</strong>
-                        {displayDescription}
-                    </p>
+                        <CustomReactMarkdown content={displayDescription} />
+                    </div>
                 )}
             </div>
         );
@@ -83,10 +84,12 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
                         )}
                     </p>
                     {datasetFm.description && (
-                        <p>
-                            <strong>Description:</strong>{" "}
-                            {datasetFm.description}
-                        </p>
+                        <div>
+                            <strong>Description:</strong>
+                            <CustomReactMarkdown
+                                content={datasetFm.description}
+                            />
+                        </div>
                     )}
                 </div>
             ),

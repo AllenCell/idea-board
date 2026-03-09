@@ -22,7 +22,12 @@ preliminaryFindings:
     Cytosim) were not able to capture filament supertwist behavior observed with
     monomer-scale simulations (using ReaDDy).
   figures:
-    - https://www.micropublication.org/static/figures/micropub-biology-001347.png
+    - type: imageLink
+      url: https://www.micropublication.org/static/figures/micropub-biology-001347.png
+      caption: "an externally linked image"
+    - type: imageFile
+      file: /img/228469011.jpg
+      caption: An unrelated image from our website showing lots and lots of cells.
 materialsAndMethods:
   dataset: Actin compression simulation dataset
   software:

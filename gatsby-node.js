@@ -18,9 +18,15 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
+const DATA_ONLY_PAGES = [
+    "software",
+    "dataset",
+    "allenite",
+    "program",
+    "resource",
+];
 
-exports.createSchemaCustomization = ({ actions, schema }) => {
+exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
     const typeDefs = [
         `"""
@@ -40,6 +46,18 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
         type CellLineItem {
             name: String!
             link: String
+        }
+
+        type PreliminaryFindings {
+            summary: String!
+            figures: [ImgWithCaption!]!
+        }
+
+        type ImgWithCaption @dontInfer {
+            type: String!
+            url: String
+            file: File @fileByRelativePath
+            caption: String
         }
 
         """
@@ -76,6 +94,9 @@ exports.createResolvers = ({ createResolvers }) => {
                         "No description provided.",
                     ),
             },
+            authors: {
+                resolve: (source) => resolveToArray(source.authors),
+            },
             title: {
                 resolve: (source) =>
                     stringWithDefault(source.title, "No title provided."),
@@ -104,6 +125,24 @@ exports.createResolvers = ({ createResolvers }) => {
                     current.software = resolveSoftwareTools(raw.software);
 
                     return current;
+                },
+            },
+            nextSteps: {
+                resolve: (source) => resolveToArray(source.nextSteps),
+            },
+            preliminaryFindings: {
+                resolve: (source) => {
+                    const raw = source.preliminaryFindings;
+                    if (!raw || typeof raw !== "object") {
+                        return {
+                            summary: "",
+                            figures: [],
+                        };
+                    }
+                    return {
+                        summary: stringWithDefault(raw.summary, ""),
+                        figures: resolveToArray(raw.figures),
+                    };
                 },
             },
         },

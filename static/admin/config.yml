@@ -85,7 +85,7 @@ collections:
                         {
                             label: "Summary of findings",
                             name: "summary",
-                            widget: "string",
+                            widget: "markdown",
                             required: false,
                         },
                         {
@@ -94,14 +94,74 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "Add any images or figures that illustrate your preliminary findings.",
-                            field:
-                                {
-                                    label: "Figure",
-                                    name: "figure",
-                                    widget: "image",
-                                },
+                            types:
+                                [
+                                    {
+                                        label: "Image link",
+                                        name: "imageLink",
+                                        widget: "object",
+                                        fields: [
+                                                {
+                                                    label: "Figure URL",
+                                                    name: "url",
+                                                    widget: "url-image",
+                                                    hint: "Enter a valid image URL to see a preview",
+                                                },
+                                                {
+                                                    label: "Caption",
+                                                    name: "caption",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                    {
+                                        label: "Image file",
+                                        name: "imageFile",
+                                        widget: "object",
+                                        fields: [
+                                                {
+                                                    label: "Figure",
+                                                    name: "file",
+                                                    widget: "image",
+                                                    choose_url: false,
+                                                },
+                                                {
+                                                    label: "Caption",
+                                                    name: "caption",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                ],
                         },
                     ],
+            }
+          - {
+                label: "Datasets",
+                name: "datasets",
+                widget: "relation",
+                collection: "resources",
+                search_fields: ["name"],
+                value_field: "{{slug}}",
+                display_fields: ["name"],
+                multiple: true,
+                required: false,
+                hint: "Select datasets from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
+                filters: [{ field: "resourceDetails.type", values: ["dataset"] }],
+            }
+          - {
+                label: "Resources",
+                name: "resources",
+                widget: "relation",
+                collection: "resources",
+                search_fields: ["resourceDetails.name", "resourceDetails.type"],
+                value_field: "{{slug}}",
+                display_fields: ["resourceDetails.type", "resourceDetails.name"],
+                multiple: true,
+                required: false,
+                hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
             }
           - {
                 label: "Materials and Methods",
@@ -168,12 +228,12 @@ collections:
                                     {
                                         label: "Custom description (optional)",
                                         name: "customDescription",
-                                        widget: "text",
+                                        widget: "markdown",
                                         required: false,
                                         hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
                                     },
                                 ],
-                        }
+                        },
                     ],
             }
           - {
@@ -331,7 +391,39 @@ collections:
                 required: false,
             }
           - { label: "Publish Date", name: "date", widget: "datetime", required: false }
-
+    - name: "resources"
+      label: "Resources"
+      label_singular: "Resource"
+      folder: "src/pages/resources"
+      create: true
+      slug: "{{name}}"
+      identifier_field: "name"
+      summary: "{{resourceDetails.type}}: {{name}}"
+      sortable_fields: ["name", "resourceDetails.type"]
+      view_groups: [
+            {
+                label: "Type",
+                field: "resourceDetails.type",
+            }
+      ]
+      fields:
+          - {
+                label: "Template Key",
+                name: "templateKey",
+                widget: "hidden",
+                default: "resource",
+            }
+          - {
+                label: "Name",
+                name: "name",
+                widget: "hidden",
+                default: "",
+            }
+          - {
+                label: "Resource Details",
+                name: "resourceDetails",
+                widget: "resource_union", # custom widget
+            }
     - name: "pages"
       label: "Pages"
       files:

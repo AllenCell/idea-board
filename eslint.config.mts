@@ -8,6 +8,13 @@ export default defineConfig([
     eslint.configs.recommended,
     tseslint.configs.recommended,
     {
+        files: ["**/*.js"],
+        languageOptions: { globals: { ...globals.node } },
+        rules: {
+            "@typescript-eslint/no-require-imports": "off",
+        },
+    },
+    {
         files: ["**/*.{ts,tsx}"],
         plugins: {
             "sort-destructure-keys": sortDestructureKeys,
@@ -15,7 +22,7 @@ export default defineConfig([
         languageOptions: { globals: { ...globals.browser, ...globals.node } },
         rules: {
             "no-unused-vars": "off",
-            "@typescript-eslint/no-unused-vars": ["error"],
+            "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
             "sort-destructure-keys/sort-destructure-keys": [
                 2,
                 { caseSensitive: false },
