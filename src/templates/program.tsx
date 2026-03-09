@@ -3,7 +3,6 @@ import React from "react";
 import { StaticQuery, graphql } from "gatsby";
 
 import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
-import Layout from "../components/Layout";
 
 interface QueryResult {
     data: {
@@ -41,14 +40,12 @@ export const ProgramTemplate = ({
 const Program = ({ data }: QueryResult) => {
     const { markdownRemark: post } = data;
     return (
-        <Layout>
-            <ProgramTemplate
-                name={post.frontmatter.name}
-                description={post.frontmatter.description || ""}
-                image={post.frontmatter.image || ""}
-                active={post.frontmatter.active || false}
-            />
-        </Layout>
+        <ProgramTemplate
+            name={post.frontmatter.name}
+            description={post.frontmatter.description || ""}
+            image={post.frontmatter.image || ""}
+            active={post.frontmatter.active || false}
+        />
     );
 };
 
