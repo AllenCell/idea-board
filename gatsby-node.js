@@ -128,7 +128,10 @@ exports.createResolvers = ({ createResolvers }) => {
                 },
             },
             nextSteps: {
-                resolve: (source) => resolveToArray(source.nextSteps),
+                resolve: (source) => source.nextSteps ?? null,
+            },
+            program: {
+                resolve: (source) => resolveToArray(source.program),
             },
             preliminaryFindings: {
                 resolve: (source) => {

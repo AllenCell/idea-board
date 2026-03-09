@@ -134,17 +134,10 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                         </Flex>
                     </div>
                 )}
-
-                {nextSteps && nextSteps.length > 0 && (
+                {nextSteps && (
                     <div className={section}>
                         <h4 className={sectionTitle}>Suggested next steps:</h4>
-                        <ul>
-                            {nextSteps.map((step: string, index: number) => (
-                                <li key={index}>
-                                    <CustomReactMarkdown content={step} />
-                                </li>
-                            ))}
-                        </ul>
+                        <CustomReactMarkdown content={nextSteps} />
                     </div>
                 )}
                 <MaterialsAndMethodsComponent {...materialsAndMethods} />
