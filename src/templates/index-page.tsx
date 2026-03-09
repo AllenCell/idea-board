@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 
 import FullWidthImage from "../components/FullWidthImage";
 import IdeaRoll from "../components/IdeaRoll";
-import Layout from "../components/Layout";
 
 const {
     container,
@@ -85,16 +84,14 @@ const IndexPage = ({ data }: QueryResult) => {
     const { frontmatter } = data.markdownRemark;
 
     return (
-        <Layout>
-            <IndexPageTemplate
-                image={frontmatter.image}
-                title={frontmatter.title}
-                heading={frontmatter.heading}
-                subheading={frontmatter.subheading}
-                mainpitch={frontmatter.mainpitch}
-                description={frontmatter.description}
-            />
-        </Layout>
+        <IndexPageTemplate
+            image={frontmatter.image}
+            title={frontmatter.title}
+            heading={frontmatter.heading}
+            subheading={frontmatter.subheading}
+            mainpitch={frontmatter.mainpitch}
+            description={frontmatter.description}
+        />
     );
 };
 

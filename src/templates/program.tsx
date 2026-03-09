@@ -2,7 +2,7 @@ import React from "react";
 
 import { StaticQuery, graphql } from "gatsby";
 
-import Layout from "../components/Layout";
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 
 interface QueryResult {
     data: {
@@ -25,10 +25,14 @@ interface ProgramTemplateProps {
     active: boolean;
 }
 
-export const ProgramTemplate = ({ name }: ProgramTemplateProps) => {
+export const ProgramTemplate = ({
+    description,
+    name,
+}: ProgramTemplateProps) => {
     return (
         <div>
             <h1>{name}</h1>
+            {description && <CustomReactMarkdown content={description} />}
         </div>
     );
 };
@@ -36,14 +40,12 @@ export const ProgramTemplate = ({ name }: ProgramTemplateProps) => {
 const Program = ({ data }: QueryResult) => {
     const { markdownRemark: post } = data;
     return (
-        <Layout>
-            <ProgramTemplate
-                name={post.frontmatter.name}
-                description={post.frontmatter.description || ""}
-                image={post.frontmatter.image || ""}
-                active={post.frontmatter.active || false}
-            />
-        </Layout>
+        <ProgramTemplate
+            name={post.frontmatter.name}
+            description={post.frontmatter.description || ""}
+            image={post.frontmatter.image || ""}
+            active={post.frontmatter.active || false}
+        />
     );
 };
 
