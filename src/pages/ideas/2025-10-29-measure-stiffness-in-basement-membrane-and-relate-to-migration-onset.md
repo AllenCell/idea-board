@@ -1,7 +1,8 @@
 ---
 templateKey: idea-post
 title: Measure stiffness in basement membrane and relate to migration onset
-program: EMT
+program:
+  - EMT
 date: 2025-10-28T19:09:00.000Z
 type: hypothesis that requires new experimentation
 authors:

@@ -37,7 +37,8 @@ type ResourceDetails {
     date: Date @dateformat
     file: String
     authors: [String!]!
-    nextSteps: [String!]
+    nextSteps: String
+    program: [String!]
     publication: String
     introduction: String
     preliminaryFindings: PreliminaryFindings!
