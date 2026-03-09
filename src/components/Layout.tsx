@@ -3,7 +3,7 @@ import * as React from "react";
 import { Layout as AntLayout } from "antd";
 
 import GlobalHead from "./GlobalHead";
-import "../style/index.sass";
+import "../style/index.css";
 
 const { Content } = AntLayout;
 
