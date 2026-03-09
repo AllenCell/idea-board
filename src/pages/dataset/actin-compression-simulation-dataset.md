@@ -187,7 +187,9 @@ description: >
           ├── samples
           │   └── ACTIN_NO_COMPRESSION_(seed).csv
           └── viz
-              └── ACTIN_NO_COMPRESSION_(seed).simularium```
+              └── ACTIN_NO_COMPRESSION_(seed).simularium
+              
+    ```
 
   - `analysis` = various analysis files
 
