@@ -5,11 +5,11 @@ import { PageProps, graphql } from "gatsby";
 import { ResourceDetails, ResourceTemplateQuery } from "../types";
 
 const ResourceTemplate: React.FC<ResourceDetails> = ({
-    type,
-    name,
     description,
     link,
+    name,
     status,
+    type,
 }) => {
     return (
         <div style={{ border: "1px solid #ccc", padding: 16, borderRadius: 8 }}>

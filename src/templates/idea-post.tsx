@@ -31,16 +31,16 @@ const {
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     authors,
     introduction,
+    materialsAndMethods,
     nextSteps,
     preliminaryFindings,
     publication,
+    resources,
     slug,
-    tags,
+    tags, // TODO: migrate MaterialsAndMethods to use resources
     title,
-    resources, // TODO: migrate MaterialsAndMethods to use resources
-    materialsAndMethods,
 }) => {
-
+    console.log("resources: ", resources);
     const getTagList = (tags: readonly string[]) => {
         return (
             <ul className={taglist}>

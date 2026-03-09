@@ -4,7 +4,7 @@ import { withPrefix } from "gatsby";
 import useSiteMetadata from "../hooks/useSiteMetadata";
 
 const GlobalHead = () => {
-    const { title, description } = useSiteMetadata();
+    const { description, title } = useSiteMetadata();
     return (
         <Helmet>
             <html lang="en" />
