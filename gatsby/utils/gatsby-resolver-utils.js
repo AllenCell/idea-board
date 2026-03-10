@@ -1,4 +1,8 @@
-const { SOFTWARE_PATH } = require("../constants");
+const {
+    SOFTWARE_PATH,
+    RESOURCES_TEMPLATE_KEY,
+    TEMPLATE_KEY_TO_TYPE,
+} = require("../constants");
 const slugify = require("slugify");
 
 /**
@@ -71,9 +75,25 @@ const resolveSlug = (id, directory) => {
     return `/${directory}/${slugPart}/`;
 };
 
+/**
+ * Builds a nodeModel query for a single Resource node by display name.
+ * Returns null if the name can't be slugified (falsy input).
+ * @param {string|null|undefined} name - The resources's name (e.g., "Software Y")
+ * @returns {{ query: object, type: string } | null}
+ */
+const resourceQuery = (name) => {
+    const slug = resolveSlug(name, RESOURCES_TEMPLATE_KEY);
+    if (!slug) return null;
+    return {
+        query: { filter: { slug: { eq: slug } } },
+        type: TEMPLATE_KEY_TO_TYPE[RESOURCES_TEMPLATE_KEY], // "Resource"
+    };
+};
+
 module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
+    resourceQuery,
 };

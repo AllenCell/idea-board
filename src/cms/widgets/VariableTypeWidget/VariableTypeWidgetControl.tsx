@@ -203,9 +203,9 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
          */
         const widget = CMS.getWidget("file");
 
-        const FileControl =
-            widget?.control as // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                React.ComponentType<any> | undefined;
+        const FileControl = widget?.control as  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            | React.ComponentType<any>
+            | undefined;
 
         if (!FileControl) {
             return (

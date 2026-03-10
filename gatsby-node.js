@@ -7,8 +7,14 @@ const {
     resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
+    resourceQuery,
 } = require("./gatsby/utils/gatsby-resolver-utils");
-const { DATASET_PATH, RESOURCES_PATH } = require("./gatsby/constants");
+const {
+    DATASET_PATH,
+    RESOURCES_GATSBY_NODE_KEY,
+    MARKDOWN_REMARK_GATSBY_NODE_KEY,
+    TEMPLATE_KEY_TO_TYPE,
+} = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
@@ -18,13 +24,10 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-    "resource",
-];
+
+// TODO: use constants here when this gets revised when we migrate old resources
+// to new collection
+const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
 
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
@@ -103,22 +106,16 @@ exports.createResolvers = ({ createResolvers }) => {
                     stringWithDefault(source.title, "No title provided."),
             },
             resources: {
-                resolve: (source) => {
-                    const raw = source.resources;
-                    if (!raw || !Array.isArray(raw)) {
-                        return [];
-                    }
-
-                    return raw.map((item) => {
-                        const resourceName =
-                            typeof item === "string" ? item : item?.resource;
-                        const resolvedResource = resourceName
-                            ? resolveSlug(resourceName, RESOURCES_PATH)
-                            : null;
-                        return {
-                            resource: resolvedResource,
-                        };
-                    });
+                resolve: async (source, _args, context) => {
+                    const names = resolveToArray(source.resources);
+                    const results = await Promise.all(
+                        names
+                            .filter(Boolean)
+                            .map((name) =>
+                                context.nodeModel.findOne(resourceQuery(name)),
+                            ),
+                    );
+                    return results.filter(Boolean);
                 },
             },
             materialsAndMethods: {
@@ -180,30 +177,47 @@ exports.createResolvers = ({ createResolvers }) => {
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
-    const resourcePages = graphql(`
+    // Create pages for any markdown files that are configured to have their
+    // own node type (e.g. Resource) based on their templateKey.
+    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
+        (templateKey) => {
+            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+            const allKeyString = `all${nodeKey}`;
+            return graphql(`
         {
-            allResource {
+            ${allKeyString} {
                 nodes {
                     id
                     slug
+                    tags
                 }
             }
         }
     `).then((result) => {
-        if (result.errors) {
-            result.errors.forEach((e) => console.error(e.toString()));
-            return Promise.reject(result.errors);
-        }
+                if (result.errors) {
+                    result.errors.forEach((e) => console.error(e.toString()));
+                    return Promise.reject(result.errors);
+                }
 
-        result.data.allResource.nodes.forEach((node) => {
-            createPage({
-                path: node.slug,
-                component: path.resolve(`src/templates/resource.tsx`),
-                context: { id: node.id },
+                result.data[allKeyString].nodes.forEach((node) => {
+                    createPage({
+                        path: node.slug,
+                        tags: node.tags,
+                        component: path.resolve(
+                            `src/templates/${templateKey}.tsx`,
+                        ),
+                        context: { id: node.id },
+                    });
+                });
             });
-        });
-    });
+        },
+    );
 
+    /**
+     * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
+     * unless they are specified in DATA_ONLY_PAGES, or TEMPLATE_KEY_TO_TYPE.
+     * In practice this block makes pages for idea posts and tags.
+     */
     const markdownPages = graphql(`
         {
             allMarkdownRemark(limit: 1000) {
@@ -235,7 +249,10 @@ exports.createPages = ({ actions, graphql }) => {
             const templateKey = edge.node.frontmatter.templateKey;
 
             // Skip creating pages for data-only pages (software, dataset, etc.)
-            if (DATA_ONLY_PAGES.includes(templateKey)) {
+            if (
+                DATA_ONLY_PAGES.includes(templateKey) ||
+                templateKey in TEMPLATE_KEY_TO_TYPE
+            ) {
                 return;
             }
 
@@ -283,7 +300,7 @@ exports.createPages = ({ actions, graphql }) => {
         });
     });
 
-    return Promise.all([resourcePages, markdownPages]);
+    return Promise.all([...typedNodePages, markdownPages]);
 };
 
 exports.onCreateNode = ({
@@ -294,8 +311,10 @@ exports.onCreateNode = ({
     createContentDigest,
 }) => {
     const { createNodeField, createNode } = actions;
-    
-    if (node.internal.type === `MarkdownRemark`) {
+
+    // By default all markdown files are transformed into MarkdownRemark nodes by gatsby-transformer-remark.
+    // We add a slug field to these nodes.
+    if (node.internal.type === MARKDOWN_REMARK_GATSBY_NODE_KEY) {
         const slug = createFilePath({ node, getNode });
         createNodeField({
             name: `slug`,
@@ -303,18 +322,38 @@ exports.onCreateNode = ({
             value: slug,
         });
 
-        if (node.frontmatter?.templateKey === `resource`) {
+        // Make nodes for any types defined in TEMPLATE_KEY_TO_TYPE
+        // Once these nodes are in the data layer, we can query them directly by their type (e.g. allResource)
+        // This type of query is used when mapping over the same TEMPLATE_KEY_TO_TYPE object
+        // in the createPages call to create pages for each node of that type.
+        if (
+            node.frontmatter?.templateKey &&
+            Object.keys(TEMPLATE_KEY_TO_TYPE).includes(
+                node.frontmatter?.templateKey,
+            )
+        ) {
+            const nodeType = TEMPLATE_KEY_TO_TYPE[node.frontmatter.templateKey];
+
+            let fields = { ...node.frontmatter };
+
+            // The structure our our variable type widget leads to a nested field
+            // that we can flatten out here, so the data layer doesn't have that nesting.
+            if (nodeType === RESOURCES_GATSBY_NODE_KEY) {
+                fields = {
+                    ...node.frontmatter,
+                    ...node.frontmatter.resourceDetails,
+                };
+                delete fields.resourceDetails; // avoid duplication in GraphQL node
+            }
             createNode({
-                id: createNodeId(`${node.id}-Resource`),
+                ...fields,
+                id: createNodeId(`${node.id}-${nodeType}`),
                 parent: node.id,
                 children: [],
                 slug,
-                resourceDetails: node.frontmatter.resourceDetails || {},
                 internal: {
-                    type: `Resource`,
-                    contentDigest: createContentDigest(
-                        node.frontmatter.resourceDetails || {}
-                    ),
+                    type: nodeType,
+                    contentDigest: createContentDigest(node.frontmatter || {}),
                 },
             });
         }

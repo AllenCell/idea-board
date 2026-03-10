@@ -9,6 +9,7 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
     data,
 }) => {
     const { allResource, site } = data;
+
     if (!allResource || !site) {
         return (
             <Layout>
@@ -28,15 +29,9 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
                     <ul>
                         {nodes.map((node) => (
                             <li key={node.slug}>
-                                <Link to={node.slug}>
-                                    {node.resourceDetails!.name}
-                                </Link>
-                                {node.resourceDetails!.description && (
-                                    <p>{node.resourceDetails!.description}</p>
-                                )}
-                                {node.resourceDetails!.type && (
-                                    <p>{node.resourceDetails!.type}</p>
-                                )}
+                                <Link to={node.slug}>{node.name}</Link>
+                                {node.description && <p>{node.description}</p>}
+                                {node.type && <p>{node.type}</p>}
                             </li>
                         ))}
                     </ul>
@@ -58,9 +53,7 @@ export const resourcePageQuery = graphql`
         allResource {
             nodes {
                 slug
-                resourceDetails {
-                    ...ResourceDetailsFields
-                }
+                ...ResourceFields
             }
         }
     }

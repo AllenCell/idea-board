@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
+
 import { withPrefix } from "gatsby";
+
 import useSiteMetadata from "../hooks/useSiteMetadata";
 
 const GlobalHead = () => {
@@ -17,10 +19,7 @@ const GlobalHead = () => {
                 href={`${withPrefix("/")}img/AICS-logo.svg`}
             />
 
-            <link
-                rel="preconnect"
-                href="https://fonts.googleapis.com"
-            />
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link
                 rel="preconnect"
                 href="https://fonts.gstatic.com"

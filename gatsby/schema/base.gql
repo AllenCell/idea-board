@@ -15,19 +15,11 @@ type Frontmatter {
     draft: Boolean
     tags: [String!]
     materialsAndMethods: MaterialsAndMethods!
-    resources: [ResourceRef!]!
+    resources: [Resource!]!
 }
 
 type Resource implements Node {
-    resourceDetails: ResourceDetails
     slug: String!
-}
-
-type ResourceRef {
-    resource: Resource @link(by: "slug")
-}
-
-type ResourceDetails {
     name: String
     type: String
     description: String
@@ -35,11 +27,6 @@ type ResourceDetails {
     readmeLink: String
     status: String
     date: Date @dateformat
-    file: String
-    authors: [String!]!
-    nextSteps: String
-    program: [String!]
-    publication: String
-    introduction: String
-    preliminaryFindings: PreliminaryFindings!
+    tags: [String!]
+    draft: Boolean
 }

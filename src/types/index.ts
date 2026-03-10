@@ -34,8 +34,10 @@ export type Figure = NonNullable<
 >["figures"][number];
 
 export type ResourceTemplateQuery = Queries.ResourcesByIdQuery;
-export type ResourceNode = NonNullable<ResourceTemplateQuery>["resource"];
-export type ResourceDetails = NonNullable<NonNullable<ResourceNode>["resourceDetails"]>
+export type ResourceNode = Omit<
+    NonNullable<NonNullable<ResourceTemplateQuery>["resource"]>,
+    "id"
+>;
 
 /**
  * Other utility types

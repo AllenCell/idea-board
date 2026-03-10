@@ -2,9 +2,9 @@ import React from "react";
 
 import { PageProps, graphql } from "gatsby";
 
-import { ResourceDetails, ResourceTemplateQuery } from "../types";
+import { ResourceNode, ResourceTemplateQuery } from "../types";
 
-const ResourceTemplate: React.FC<ResourceDetails> = ({
+const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
     description,
     link,
     name,
@@ -32,7 +32,7 @@ export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
     data,
 }) => {
     const resource = data.resource;
-    if (!resource || !resource.resourceDetails) {
+    if (!resource) {
         return (
             <div>
                 <p>Resource not found.</p>
@@ -42,7 +42,7 @@ export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
 
     return (
         <div>
-            <ResourceTemplate {...resource.resourceDetails} />
+            <ResourceTemplate {...resource} />
         </div>
     );
 };
@@ -53,9 +53,7 @@ export const pageQuery = graphql`
     query ResourcesById($id: String!) {
         resource(id: { eq: $id }) {
             id
-            resourceDetails {
-                ...ResourceDetailsFields
-            }
+            ...ResourceFields
         }
     }
 `;
