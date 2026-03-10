@@ -41,7 +41,6 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     tags, // TODO: migrate MaterialsAndMethods to use resources
     title,
 }) => {
-    console.log("resources: ", resources);
     const getTagList = (tags: readonly string[]) => {
         return (
             <ul className={taglist}>

@@ -7,7 +7,7 @@ type MarkdownRemark implements Node {
     fields: MarkdownRemarkFields!
 }
 
-# Shared frontmatter fields for idea posts (and other markdown?).
+# Shared frontmatter fields for idea posts (and other markdown).
 type Frontmatter {
     date: Date @dateformat
     title: String!
