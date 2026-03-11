@@ -34,7 +34,7 @@ resources:
   - released-emt-dataset
   - aics-42
   - aics-67
-nextSteps: >-
+nextSteps: |-
   - Expand analysis to all EMT datasets and stratify by treatment. And a link
   for no reason: [link](https://allencell.org/)
 

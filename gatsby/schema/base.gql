@@ -14,7 +14,9 @@ type Frontmatter {
     description: String
     draft: Boolean
     tags: [String!]
-    authors: [String!]
+    authors: [String!]!
+    nextSteps: String
+    program: [String!]
     publication: String
     introduction: String
     resources: [Resource!]!
