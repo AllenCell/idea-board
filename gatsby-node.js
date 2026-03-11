@@ -11,6 +11,8 @@ const {
     RESOURCES_GATSBY_NODE_KEY,
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
     TEMPLATE_KEY_TO_TYPE,
+    ALLENITE_TEMPLATE_KEY,
+    PROGRAM_TEMPLATE_KEY,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
@@ -22,9 +24,7 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * and are referenced by other markdown files.
  */
 
-// TODO: use constants here when this gets revised when we migrate old resources
-// to new collection
-const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
+const DATA_ONLY_PAGES = [ALLENITE_TEMPLATE_KEY, PROGRAM_TEMPLATE_KEY];
 
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
