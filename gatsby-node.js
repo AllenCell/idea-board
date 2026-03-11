@@ -323,10 +323,10 @@ exports.onCreateNode = ({
             value: slug,
         });
 
-        // Make nodes for any types defined in TEMPLATE_KEY_TO_TYPE
+        // Here me make nodes for any types defined in TEMPLATE_KEY_TO_TYPE
         // Once these nodes are in the data layer, we can query them directly by their type (e.g. allResource)
         // This type of query is used when mapping over the same TEMPLATE_KEY_TO_TYPE object
-        // in the createPages call to create pages for each node of that type.
+        // in the createPages.
         if (
             node.frontmatter?.templateKey &&
             Object.keys(TEMPLATE_KEY_TO_TYPE).includes(
@@ -338,7 +338,7 @@ exports.onCreateNode = ({
             let fields = { ...node.frontmatter };
 
             // The structure of our variable type widget leads to a nested field
-            // that we can flatten out here, so the data layer doesn't have that nesting.
+            // that we can flatten out here.
             if (nodeType === RESOURCES_GATSBY_NODE_KEY) {
                 fields = {
                     ...node.frontmatter,
