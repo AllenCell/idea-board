@@ -6,7 +6,8 @@ introduction: Needs background
 materialsAndMethods:
   dataset: Released EMT dataset
 nextSteps: Need to be filled out
-program: EMT
+program:
+  - EMT
 date: 2025-10-24T15:25:00.000Z
 type: hypothesis that requires new experimentation
 authors:

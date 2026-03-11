@@ -5,7 +5,8 @@ type: micropublication
 date: 2026-02-06T11:42:00.000Z
 authors:
   - Megan Riel-Mehan
-program: Other
+program:
+  - Other
 introduction: >-
   We have previously compared simulations of single actin filament compression
   at monomer- and fiber-scales using the [ReaDDy](https://readdy.github.io/) and

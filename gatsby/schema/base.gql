@@ -16,7 +16,8 @@ type Frontmatter {
     tags: [String!]
     materialsAndMethods: MaterialsAndMethods!
     authors: [String!]!
-    nextSteps: [String!]
+    nextSteps: String
+    program: [String!]
     publication: String
     introduction: String
     preliminaryFindings: PreliminaryFindings!
