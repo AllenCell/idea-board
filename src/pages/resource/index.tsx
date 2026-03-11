@@ -18,11 +18,7 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
     } = data;
 
     if (!site) {
-        return (
-            <Layout>
-                <p>Data not found.</p>
-            </Layout>
-        );
+        return <p>Data not found.</p>;
     }
 
     const title = site.siteMetadata?.title || "Title";
