@@ -81,7 +81,7 @@ exports.createSchemaCustomization = ({ actions }) => {
  * custom resolution logic. Takes the place of downstream data unpacking
  * functions where possible
  */
-exports.createResolvers = ({ createResolvers }) => {
+exports.createResolvers = ({ reporter, createResolvers }) => {
     createResolvers({
         MarkdownRemark: {
             fields: {
@@ -109,12 +109,16 @@ exports.createResolvers = ({ createResolvers }) => {
                 resolve: async (source, _args, context) => {
                     const names = resolveToArray(source.resources);
                     const results = await Promise.all(
-                        names
-                            .filter(Boolean)
-                            .map((name) =>
-                                context.nodeModel.findOne(resourceQuery(name)),
-                            ),
+                        names.map((name) =>
+                            context.nodeModel.findOne(resourceQuery(name)),
+                        ),
                     );
+                    results.forEach((result, i) => {
+                        if (!result) {
+                            const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                            reporter.error(msg, new Error(msg));
+                        }
+                    });
                     return results.filter(Boolean);
                 },
             },
