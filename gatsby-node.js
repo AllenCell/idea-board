@@ -337,7 +337,7 @@ exports.onCreateNode = ({
 
             let fields = { ...node.frontmatter };
 
-            // The structure our our variable type widget leads to a nested field
+            // The structure of our variable type widget leads to a nested field
             // that we can flatten out here, so the data layer doesn't have that nesting.
             if (nodeType === RESOURCES_GATSBY_NODE_KEY) {
                 fields = {
