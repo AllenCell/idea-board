@@ -3,8 +3,6 @@ import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
-import Layout from "../../components/Layout";
-
 const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
     data,
 }) => {
@@ -18,16 +16,11 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
     } = data;
 
     if (!site) {
-        return (
-            <Layout>
-                <p>Data not found.</p>
-            </Layout>
-        );
+        return <p>Data not found.</p>;
     }
 
     const title = site.siteMetadata?.title || "Title";
     return (
-        <Layout>
             <section>
                 <Helmet title={`Resources | ${title}`} />
                 <div>
@@ -102,7 +95,6 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
                     )}
                 </div>
             </section>
-        </Layout>
     );
 };
 

@@ -153,7 +153,7 @@ export default function IdeaRoll({
             query={graphql`
                 query IdeaRollQuery {
                     allMarkdownRemark(
-                        sort: { order: DESC, fields: [frontmatter___date] }
+                        sort: { frontmatter: { date: DESC } }
                         filter: {
                             frontmatter: {
                                 templateKey: { eq: "idea-post" }
