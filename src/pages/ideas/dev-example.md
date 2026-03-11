@@ -29,6 +29,9 @@ introduction: >
 resources:
   - cell-line-resources
   - test-software-tool
+  - simularium
+  - timelapse-feature-explorer
+  - released-emt-dataset
 materialsAndMethods:
   dataset: Released EMT dataset
   protocols: null

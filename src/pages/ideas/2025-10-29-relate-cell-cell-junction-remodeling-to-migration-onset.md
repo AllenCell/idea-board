@@ -1,6 +1,8 @@
 ---
 templateKey: idea-post
 title: Relate cell-cell junction remodeling to migration onset
+resources:
+  - released-emt-dataset
 materialsAndMethods:
   dataset: Released EMT dataset
 program:

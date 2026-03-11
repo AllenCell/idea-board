@@ -31,6 +31,8 @@ preliminaryFindings:
       caption: An unrelated image from our website showing lots and lots of cells.
 resources:
   - test-software-tool
+  - simularium
+  - actin-compression-simulation-dataset
 materialsAndMethods:
   dataset: Actin compression simulation dataset
   software:
