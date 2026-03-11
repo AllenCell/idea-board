@@ -61,6 +61,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
         });
     }
 
+    // TODO: protocols haven't been totally fleshed out yet
     if (protocols.length > 0) {
         items.push({
             key: "protocols",

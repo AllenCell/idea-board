@@ -9,7 +9,7 @@ export const NameWithLink = ({
 }) => {
     if (link) {
         return (
-            <a href={link} target="_blank" rel="noreferrer">
+            <a href={link} target="_blank" rel="noopener noreferrer">
                 {name}
             </a>
         );
