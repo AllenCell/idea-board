@@ -19,7 +19,8 @@ date: 2025-10-28T19:10:00.000Z
 authors:
   - Gokhan Dalgin
   - Caroline Hookway
-program: EMT
+program:
+  - EMT
 introduction: >
   Collective cell migration during EMT appears to be preceded by subtle
   remodeling of cell-cell junctions. We suspect that temporal patterns in
@@ -38,8 +39,8 @@ materialsAndMethods:
     - softwareTool: Simularium
       customDescription: Custom description in the markdown file for the idea, not in the software file markdown.
     - softwareTool: Timelapse Feature Explorer
-nextSteps:
-  - "Expand analysis to all EMT datasets and stratify by treatment. And a link for no reason: [link](https://allencell.org/)"
+nextSteps: |-
+  - Expand analysis to all EMT datasets and stratify by treatment. And a link for no reason: [link](https://allencell.org/)
   - Quantify robustness of the junction "flicker" signature across cell lines.
   - Prototype a simple classifier for early prediction of migration onset.
   - Share intermediate results with the EMT program for feedback.

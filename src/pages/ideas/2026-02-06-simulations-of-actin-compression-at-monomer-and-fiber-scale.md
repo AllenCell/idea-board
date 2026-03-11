@@ -5,7 +5,8 @@ type: micropublication
 date: 2026-02-06T11:28:00.000Z
 authors:
   - Megan Riel-Mehan
-program: Other
+program:
+  - Other
 introduction: >-
   The dynamic bending and twisting of actin is critical for many cellular
   processes. There exist many efforts to model actin using spatial simulation
