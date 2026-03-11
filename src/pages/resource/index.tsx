@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
+import { CustomReactMarkdown } from "../../components/CustomReactMarkdown";
 import Layout from "../../components/Layout";
 
 const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
@@ -55,7 +56,9 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
                                     <li key={node.slug}>
                                         <Link to={node.slug}>{node.name}</Link>
                                         {node.description && (
-                                            <p>{node.description}</p>
+                                            <CustomReactMarkdown
+                                                content={node.description}
+                                            />
                                         )}
                                     </li>
                                 ))}

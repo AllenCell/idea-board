@@ -3,100 +3,64 @@ import React from "react";
 import { Collapse } from "antd";
 import type { CollapseProps } from "antd";
 
-import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
+import { RESOURCE_TYPES } from "../constants/resourceTypes";
+import { ResourceNode } from "../types";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
+import { NameWithLink } from "../utils/formattingUtils";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
-
 const { subText } = require("../style/materials.module.css");
 
-export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
-    cellLines,
-    dataset,
-    protocols,
-    software,
+interface MaterialsAndMethodsProps {
+    resources: ResourceNode[];
+}
+
+export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = ({
+    resources,
 }) => {
-    const datasetFm = dataset?.frontmatter ?? null;
+    const byType = (type: string) =>
+        resources.filter((r) => r.type === type);
 
-    const getCellLineRender = (cellLine: CellLine) => {
-        if (!cellLine.link) {
-            return cellLine.name;
-        }
-        return (
-            <a href={cellLine.link} target="_blank" rel="noreferrer">
-                {cellLine.name}
-            </a>
-        );
-    };
-
-    const getSoftwareToolRender = (software: SoftwareTool, index: number) => {
-        const { description, link, name } =
-            software.softwareTool?.frontmatter ?? {};
-        const displayDescription = software.customDescription ?? description;
-
-        const title = link ? (
-            <p>
-                <strong>{`Name: `}</strong>
-                <a href={link} target="_blank" rel="noreferrer">
-                    {name}
-                </a>
-            </p>
-        ) : (
-            <p>
-                <strong>{`Name: `}</strong>
-                {name}
-            </p>
-        );
-        return (
-            <div key={index}>
-                {title}
-                {displayDescription && (
-                    <div>
-                        <strong>{`Description: `}</strong>
-                        <CustomReactMarkdown content={displayDescription} />
-                    </div>
-                )}
-            </div>
-        );
-    };
+    const datasets = byType(RESOURCE_TYPES.DATASET);
+    const softwareTools = byType(RESOURCE_TYPES.SOFTWARE_TOOL);
+    const cellLines = byType(RESOURCE_TYPES.CELL_LINE);
+    const protocols = [
+        ...byType(RESOURCE_TYPES.PROTOCOL_LINK),
+        ...byType(RESOURCE_TYPES.PROTOCOL_FILE),
+    ];
 
     const items: CollapseProps["items"] = [];
 
-    // Dataset section
-    if (datasetFm) {
+    if (datasets.length > 0) {
         items.push({
             key: "dataset",
             label: "Dataset",
             children: (
                 <div>
-                    <p>
-                        <strong>Name:</strong>{" "}
-                        {datasetFm.link ? (
-                            <a
-                                href={datasetFm.link}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {datasetFm.name}
-                            </a>
-                        ) : (
-                            datasetFm.name
-                        )}
-                    </p>
-                    {datasetFm.description && (
-                        <div>
-                            <strong>Description:</strong>
-                            <CustomReactMarkdown
-                                content={datasetFm.description}
-                            />
+                    {datasets.map((dataset, index) => (
+                        <div key={index}>
+                            <p>
+                                <strong>Name: </strong>
+                                <NameWithLink
+                                    name={dataset.name}
+                                    link={dataset.link}
+                                />
+                            </p>
+                            {dataset.description && (
+                                <div>
+                                    <strong>Description:</strong>
+                                    <CustomReactMarkdown
+                                        content={dataset.description}
+                                    />
+                                </div>
+                            )}
                         </div>
-                    )}
+                    ))}
                 </div>
             ),
         });
     }
 
-    // Protocols section
     if (protocols.length > 0) {
         items.push({
             key: "protocols",
@@ -105,13 +69,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
                 <ul>
                     {protocols.map((item, index) => (
                         <li key={index}>
-                            <a
-                                href={item.protocol}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {item.protocol.split("/").pop()}
-                            </a>
+                            <NameWithLink name={item.name} link={item.link} />
                         </li>
                     ))}
                 </ul>
@@ -119,7 +77,6 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
         });
     }
 
-    // Cell lines section
     if (cellLines.length > 0) {
         items.push({
             key: "cellLines",
@@ -127,29 +84,45 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
             children: (
                 <ul>
                     {cellLines.map((item, index) => (
-                        <li key={index}>{getCellLineRender(item)}</li>
+                        <li key={index}>
+                            <NameWithLink name={item.name} link={item.link} />
+                        </li>
                     ))}
                 </ul>
             ),
         });
     }
 
-    // Software tools section
-    if (software.length > 0) {
+    if (softwareTools.length > 0) {
         items.push({
             key: "software",
             label: "Software Tools",
             children: (
                 <div>
-                    {software.map((item, index) =>
-                        getSoftwareToolRender(item, index),
-                    )}
+                    {softwareTools.map((tool, index) => (
+                        <div key={index}>
+                            <p>
+                                <strong>Name: </strong>
+                                <NameWithLink
+                                    name={tool.name}
+                                    link={tool.link}
+                                />
+                            </p>
+                            {tool.description && (
+                                <div>
+                                    <strong>Description: </strong>
+                                    <CustomReactMarkdown
+                                        content={tool.description}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             ),
         });
-    }
+    }  
 
-    // Don't render if there are no items
     if (items.length === 0) {
         return null;
     }
