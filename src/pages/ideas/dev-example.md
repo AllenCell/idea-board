@@ -32,6 +32,8 @@ resources:
   - simularium
   - timelapse-feature-explorer
   - released-emt-dataset
+  - aics-42
+  - aics-67
 materialsAndMethods:
   dataset: Released EMT dataset
   protocols: null
