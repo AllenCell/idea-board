@@ -8,9 +8,16 @@ import Layout from "../../components/Layout";
 const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
     data,
 }) => {
-    const { allResource, site } = data;
+    const {
+        cellLineResources,
+        datasetResources,
+        protocolFileResources,
+        protocolLinkResources,
+        site,
+        softwareResources,
+    } = data;
 
-    if (!allResource || !site) {
+    if (!site) {
         return (
             <Layout>
                 <p>Data not found.</p>
@@ -18,7 +25,6 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
         );
     }
 
-    const { nodes } = allResource;
     const title = site.siteMetadata?.title || "Title";
     return (
         <Layout>
@@ -26,15 +32,74 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQueryQuery>> = ({
                 <Helmet title={`Resources | ${title}`} />
                 <div>
                     <h1>Resources</h1>
-                    <ul>
-                        {nodes.map((node) => (
-                            <li key={node.slug}>
-                                <Link to={node.slug}>{node.name}</Link>
-                                {node.description && <p>{node.description}</p>}
-                                {node.type && <p>{node.type}</p>}
-                            </li>
-                        ))}
-                    </ul>
+                    {!!softwareResources?.nodes.length && (
+                        <>
+                            <h2>Software</h2>
+                            <ul>
+                                {softwareResources.nodes.map((node) => (
+                                    <li key={node.slug}>
+                                        <Link to={node.slug}>{node.name}</Link>
+                                        {node.description && (
+                                            <p>{node.description}</p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                    {!!datasetResources?.nodes.length && (
+                        <>
+                            <h2>Datasets</h2>
+                            <ul>
+                                {datasetResources.nodes.map((node) => (
+                                    <li key={node.slug}>
+                                        <Link to={node.slug}>{node.name}</Link>
+                                        {node.description && (
+                                            <p>{node.description}</p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                    {!!cellLineResources?.nodes.length && (
+                        <>
+                            <h2>Cell Lines</h2>
+                            <ul>
+                                {cellLineResources.nodes.map((node) => (
+                                    <li key={node.slug}>
+                                        <Link to={node.slug}>{node.name}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                    {!!(
+                        protocolLinkResources?.nodes.length ||
+                        protocolFileResources?.nodes.length
+                    ) && (
+                        <>
+                            <h2>Protocols</h2>
+                            <ul>
+                                {protocolLinkResources?.nodes.map((node) => (
+                                    <li key={node.slug}>
+                                        <Link to={node.slug}>{node.name}</Link>
+                                        {node.description && (
+                                            <p>{node.description}</p>
+                                        )}
+                                    </li>
+                                ))}
+                                {protocolFileResources?.nodes.map((node) => (
+                                    <li key={node.slug}>
+                                        <Link to={node.slug}>{node.name}</Link>
+                                        {node.description && (
+                                            <p>{node.description}</p>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
                 </div>
             </section>
         </Layout>
@@ -50,10 +115,35 @@ export const resourcePageQuery = graphql`
                 title
             }
         }
-        allResource {
+        datasetResources: allResource(filter: { type: { eq: "dataset" } }) {
             nodes {
-                slug
-                ...ResourceFields
+                ...DatasetResourceFields
+            }
+        }
+        softwareResources: allResource(
+            filter: { type: { eq: "softwareTool" } }
+        ) {
+            nodes {
+                ...SoftwareToolResourceFields
+            }
+        }
+        cellLineResources: allResource(filter: { type: { eq: "cellLine" } }) {
+            nodes {
+                ...CellLineResourceFields
+            }
+        }
+        protocolLinkResources: allResource(
+            filter: { type: { eq: "protocolLink" } }
+        ) {
+            nodes {
+                ...ProtocolLinkResourceFields
+            }
+        }
+        protocolFileResources: allResource(
+            filter: { type: { eq: "protocolFile" } }
+        ) {
+            nodes {
+                ...ProtocolFileResourceFields
             }
         }
     }
