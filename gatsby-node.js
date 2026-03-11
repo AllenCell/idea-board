@@ -52,7 +52,7 @@ exports.createSchemaCustomization = ({ actions }) => {
  * custom resolution logic. Takes the place of downstream data unpacking
  * functions where possible
  */
-exports.createResolvers = ({ createResolvers }) => {
+exports.createResolvers = ({ reporter, createResolvers }) => {
     createResolvers({
         MarkdownRemark: {
             fields: {
@@ -80,12 +80,16 @@ exports.createResolvers = ({ createResolvers }) => {
                 resolve: async (source, _args, context) => {
                     const names = resolveToArray(source.resources);
                     const results = await Promise.all(
-                        names
-                            .filter(Boolean)
-                            .map((name) =>
-                                context.nodeModel.findOne(resourceQuery(name)),
-                            ),
+                        names.map((name) =>
+                            context.nodeModel.findOne(resourceQuery(name)),
+                        ),
                     );
+                    results.forEach((result, i) => {
+                        if (!result) {
+                            const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                            reporter.error(msg, new Error(msg));
+                        }
+                    });
                     return results.filter(Boolean);
                 },
             },
@@ -134,7 +138,6 @@ exports.createPages = ({ actions, graphql }) => {
                 nodes {
                     id
                     slug
-                    tags
                 }
             }
         }
@@ -147,7 +150,6 @@ exports.createPages = ({ actions, graphql }) => {
                 result.data[allKeyString].nodes.forEach((node) => {
                     createPage({
                         path: node.slug,
-                        tags: node.tags,
                         component: path.resolve(
                             `src/templates/${templateKey}.tsx`,
                         ),
@@ -209,7 +211,6 @@ exports.createPages = ({ actions, graphql }) => {
 
             createPage({
                 path: edge.node.fields.slug,
-                tags: edge.node.frontmatter.tags,
                 component: path.resolve(
                     `src/templates/${String(templateKey)}.tsx`,
                 ),
@@ -267,10 +268,10 @@ exports.onCreateNode = ({
             value: slug,
         });
 
-        // Make nodes for any types defined in TEMPLATE_KEY_TO_TYPE
+        // Here me make nodes for any types defined in TEMPLATE_KEY_TO_TYPE
         // Once these nodes are in the data layer, we can query them directly by their type (e.g. allResource)
         // This type of query is used when mapping over the same TEMPLATE_KEY_TO_TYPE object
-        // in the createPages call to create pages for each node of that type.
+        // in the createPages.
         if (
             node.frontmatter?.templateKey &&
             Object.keys(TEMPLATE_KEY_TO_TYPE).includes(
@@ -281,8 +282,8 @@ exports.onCreateNode = ({
 
             let fields = { ...node.frontmatter };
 
-            // The structure our our variable type widget leads to a nested field
-            // that we can flatten out here, so the data layer doesn't have that nesting.
+            // The structure of our variable type widget leads to a nested field
+            // that we can flatten out here.
             if (nodeType === RESOURCES_GATSBY_NODE_KEY) {
                 fields = {
                     ...node.frontmatter,

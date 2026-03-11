@@ -49,7 +49,7 @@ const resolveSlug = (id, directory) => {
 /**
  * Builds a nodeModel query for a single Resource node by display name.
  * Returns null if the name can't be slugified (falsy input).
- * @param {string|null|undefined} name - The resources's name (e.g., "Software Y")
+ * @param {string|null|undefined} name - The resource's name (e.g., "Software Y")
  * @returns {{ query: object, type: string } | null}
  */
 const resourceQuery = (name) => {
