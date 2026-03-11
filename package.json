@@ -4,6 +4,7 @@
     "author": "Megan Riel-Mehan",
     "dependencies": {
         "@ant-design/icons": "^5.5.1",
+        "@netlify/functions": "^5.1.2",
         "@reach/router": "^1.3.4",
         "antd": "^5.21.2",
         "bulma": "^1.0.4",
@@ -48,8 +49,8 @@
         "build": "npm run clean && gatsby build",
         "develop": "npm run clean && gatsby develop",
         "serve": "gatsby serve",
-        "format": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --write",
-        "formatCheck": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --check",
+        "format": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,mts,js,jsx}\" gatsby-*.js --write",
+        "formatCheck": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,mts,js,jsx}\" gatsby-*.js --check",
         "test": "vitest",
         "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\"",
         "lint": "eslint \"src/**/*.{ts,tsx}\" --quiet --fix"
