@@ -193,7 +193,6 @@ exports.createPages = ({ actions, graphql }) => {
                 nodes {
                     id
                     slug
-                    tags
                 }
             }
         }
@@ -206,7 +205,6 @@ exports.createPages = ({ actions, graphql }) => {
                 result.data[allKeyString].nodes.forEach((node) => {
                     createPage({
                         path: node.slug,
-                        tags: node.tags,
                         component: path.resolve(
                             `src/templates/${templateKey}.tsx`,
                         ),
@@ -268,7 +266,6 @@ exports.createPages = ({ actions, graphql }) => {
 
             createPage({
                 path: edge.node.fields.slug,
-                tags: edge.node.frontmatter.tags,
                 component: path.resolve(
                     `src/templates/${String(templateKey)}.tsx`,
                 ),
