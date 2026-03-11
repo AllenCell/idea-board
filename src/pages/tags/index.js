@@ -52,7 +52,7 @@ export const tagPageQuery = graphql`
             limit: 1000
             filter: { frontmatter: { draft: { ne: true } } }
         ) {
-            group(field: frontmatter___tags) {
+            group(field: { frontmatter: { tags: SELECT } }) {
                 fieldValue
                 totalCount
             }
