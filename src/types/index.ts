@@ -24,8 +24,8 @@ export type PreliminaryFindings = NonNullable<
     IdeaFrontmatter["preliminaryFindings"]
 >;
 export type Figure = NonNullable<
-    IdeaFrontmatter["preliminaryFindings"]
->["figures"][number];
+    NonNullable<IdeaFrontmatter["preliminaryFindings"]>["figures"]
+>[number];
 
 export type ResourceTemplateQuery = Queries.ResourcesByIdQuery;
 export type ResourceNode = Omit<

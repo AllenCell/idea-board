@@ -205,34 +205,6 @@ export const pageQuery = graphql`
                 resources {
                     ...ResourceFields
                 }
-                materialsAndMethods {
-                    dataset {
-                        frontmatter {
-                            name
-                            description
-                            link
-                            status
-                            date
-                        }
-                    }
-                    protocols {
-                        protocol
-                    }
-                    cellLines {
-                        name
-                        link
-                    }
-                    software {
-                        softwareTool {
-                            frontmatter {
-                                name
-                                description
-                                link
-                            }
-                        }
-                        customDescription
-                    }
-                }
             }
         }
     }
