@@ -1,0 +1,13 @@
+.sider {
+    padding: 24px 0px 0px 0px;
+    background-color: var(--color-bg-base);
+    position: sticky;
+    top: 64px;
+    align-self: flex-start;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+}
+
+.siderMenu {
+    background-color: var(--color-bg-base);
+}

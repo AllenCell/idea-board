@@ -11,6 +11,7 @@ type MarkdownRemark implements Node {
 type Frontmatter {
     date: Date @dateformat
     title: String!
+    shortDescription: String
     description: String
     draft: Boolean
     tags: [String!]

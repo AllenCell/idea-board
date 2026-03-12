@@ -37,7 +37,6 @@ materialsAndMethods:
       link: https://allencell.org/cell-catalog
   software:
     - softwareTool: Simularium
-      customDescription: Custom description in the markdown file for the idea, not in the software file markdown.
     - softwareTool: Timelapse Feature Explorer
 nextSteps: |-
   - Expand analysis to all EMT datasets and stratify by treatment. And a link for no reason: [link](https://allencell.org/)

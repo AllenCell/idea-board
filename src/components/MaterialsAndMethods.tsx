@@ -1,168 +1,110 @@
 import React from "react";
 
-import { Collapse } from "antd";
-import type { CollapseProps } from "antd";
-
-import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
-import { CustomReactMarkdown } from "./CustomReactMarkdown";
+import { MaterialsAndMethods } from "../types";
+import ResourceItem from "./ResourceItem";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
 
-const { subText } = require("../style/materials.module.css");
+interface MaterialsAndMethodsProps {
+    materialsAndMethods: MaterialsAndMethods;
+    onExpandDescription?: (
+        content: string,
+        label: string,
+        sectionKey: string,
+    ) => void;
+}
 
-export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
-    cellLines,
-    dataset,
-    protocols,
-    software,
-}) => {
-    const datasetFm = dataset?.frontmatter ?? null;
-
-    const getCellLineRender = (cellLine: CellLine) => {
-        if (!cellLine.link) {
-            return cellLine.name;
-        }
-        return (
-            <a href={cellLine.link} target="_blank" rel="noreferrer">
-                {cellLine.name}
-            </a>
-        );
-    };
-
-    const getSoftwareToolRender = (software: SoftwareTool, index: number) => {
-        const { description, link, name } =
-            software.softwareTool?.frontmatter ?? {};
-        const displayDescription = software.customDescription ?? description;
-
-        const title = link ? (
-            <p>
-                <strong>{`Name: `}</strong>
-                <a href={link} target="_blank" rel="noreferrer">
-                    {name}
-                </a>
-            </p>
-        ) : (
-            <p>
-                <strong>{`Name: `}</strong>
-                {name}
-            </p>
-        );
-        return (
-            <div key={index}>
-                {title}
-                {displayDescription && (
-                    <div>
-                        <strong>{`Description: `}</strong>
-                        <CustomReactMarkdown content={displayDescription} />
-                    </div>
-                )}
-            </div>
-        );
-    };
-
-    const items: CollapseProps["items"] = [];
-
-    // Dataset section
-    if (datasetFm) {
-        items.push({
-            key: "dataset",
-            label: "Dataset",
-            children: (
-                <div>
-                    <p>
-                        <strong>Name:</strong>{" "}
-                        {datasetFm.link ? (
-                            <a
-                                href={datasetFm.link}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {datasetFm.name}
-                            </a>
-                        ) : (
-                            datasetFm.name
-                        )}
-                    </p>
-                    {datasetFm.description && (
-                        <div>
-                            <strong>Description:</strong>
-                            <CustomReactMarkdown
-                                content={datasetFm.description}
-                            />
-                        </div>
-                    )}
-                </div>
-            ),
-        });
-    }
-
-    // Protocols section
-    if (protocols.length > 0) {
-        items.push({
-            key: "protocols",
-            label: "Protocols",
-            children: (
-                <ul>
-                    {protocols.map((item, index) => (
-                        <li key={index}>
-                            <a
-                                href={item.protocol}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {item.protocol.split("/").pop()}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            ),
-        });
-    }
-
-    // Cell lines section
-    if (cellLines.length > 0) {
-        items.push({
-            key: "cellLines",
-            label: "Cell Lines",
-            children: (
-                <ul>
-                    {cellLines.map((item, index) => (
-                        <li key={index}>{getCellLineRender(item)}</li>
-                    ))}
-                </ul>
-            ),
-        });
-    }
-
-    // Software tools section
-    if (software.length > 0) {
-        items.push({
-            key: "software",
-            label: "Software Tools",
-            children: (
-                <div>
-                    {software.map((item, index) =>
-                        getSoftwareToolRender(item, index),
-                    )}
-                </div>
-            ),
-        });
-    }
-
-    // Don't render if there are no items
-    if (items.length === 0) {
-        return null;
-    }
+export const MaterialsAndMethodsComponent: React.FC<
+    MaterialsAndMethodsProps
+> = ({ materialsAndMethods, onExpandDescription }) => {
+    const { cellLines, dataset, protocols, software } = materialsAndMethods;
+    const dsfm = dataset?.frontmatter ?? null;
 
     return (
-        <div className={section}>
-            <h2 className={sectionTitle}>Materials and methods available:</h2>
-            <Collapse items={items} />
-            <div className={subText}>
-                Data and tools made available for use by researchers, that may
-                be of use in pursuing this idea, some available free online, and
-                some available to be purchased or licensed through AICS.
-            </div>
-        </div>
+        <>
+            {dsfm && (
+                <div id="datasets" className={section}>
+                    <h4 className={sectionTitle}>Datasets</h4>
+                    <ResourceItem
+                        description={dsfm.description}
+                        link={dsfm.link}
+                        name={dsfm.name}
+                        onExpand={
+                            onExpandDescription && dsfm.description
+                                ? () =>
+                                      onExpandDescription(
+                                          dsfm.description!,
+                                          dsfm.name ?? "Dataset",
+                                          "datasets",
+                                      )
+                                : undefined
+                        }
+                        shortDescription={dsfm.shortDescription}
+                    />
+                </div>
+            )}
+
+            {cellLines?.length > 0 && (
+                <div id="cell-lines" className={section}>
+                    <h4 className={sectionTitle}>Cell Lines</h4>
+                    {cellLines.map((item, index) => (
+                        <ResourceItem
+                            key={index}
+                            link={item.link}
+                            name={item.name}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {protocols?.length > 0 && (
+                <div id="protocols" className={section}>
+                    <h4 className={sectionTitle}>Protocols</h4>
+                    <ul>
+                        {protocols.map((item, index) => (
+                            <li key={index}>
+                                <a
+                                    href={item.protocol}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {item.protocol.split("/").pop()}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {software?.length > 0 && (
+                <div id="software-tools" className={section}>
+                    <h4 className={sectionTitle}>Software Tools</h4>
+                    {software.map((item, index) => {
+                        const { description, link, name } =
+                            item.softwareTool?.frontmatter ?? {};
+                        const displayDescription =
+                            item.customDescription ?? description;
+                        return (
+                            <ResourceItem
+                                key={index}
+                                description={displayDescription}
+                                link={link}
+                                name={name}
+                                onExpand={
+                                    onExpandDescription && displayDescription
+                                        ? () =>
+                                              onExpandDescription(
+                                                  displayDescription,
+                                                  name ?? "Software Tool",
+                                                  "software-tools",
+                                              )
+                                        : undefined
+                                }
+                            />
+                        );
+                    })}
+                </div>
+            )}
+        </>
     );
 };

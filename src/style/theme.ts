@@ -20,7 +20,7 @@ export default {
         colorLinkHover: PRIMARY_COLOR,
         borderRadius: 4,
         colorBorder: RAIN_SHADOW,
-        fontFamily: "Open Sans",
+        fontFamily: "Raleway",
     },
     components: {
         Layout: {
@@ -64,6 +64,7 @@ export default {
         Card: {
             colorBorder: RAIN_SHADOW,
             lineWidth: 1.5,
+            borderRadius: 0,
         },
     },
 };

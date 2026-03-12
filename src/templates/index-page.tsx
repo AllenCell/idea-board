@@ -1,11 +1,9 @@
 import React from "react";
 
 import { graphql } from "gatsby";
-import { getImage } from "gatsby-plugin-image";
 
 import PropTypes from "prop-types";
 
-import FullWidthImage from "../components/FullWidthImage";
 import IdeaRoll from "../components/IdeaRoll";
 
 const {
@@ -36,11 +34,7 @@ interface MainPitch {
 }
 
 interface IndexPageTemplateProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    image: any; // Replace `any` with a more specific type if possible
-    title: string;
     heading: string;
-    subheading: string;
     mainpitch: MainPitch;
     description: string;
 }
@@ -48,20 +42,10 @@ interface IndexPageTemplateProps {
 export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
     description,
     heading,
-    image,
     mainpitch,
-    subheading,
-    title,
 }) => {
-    const heroImage = getImage(image) || image;
-
     return (
         <div className={container}>
-            <FullWidthImage
-                img={heroImage}
-                title={title}
-                subheading={subheading}
-            />
             <div className={header}>
                 <h4>{mainpitch.title}</h4>
                 <p>{mainpitch.description}</p>
@@ -85,10 +69,7 @@ const IndexPage = ({ data }: QueryResult) => {
 
     return (
         <IndexPageTemplate
-            image={frontmatter.image}
-            title={frontmatter.title}
             heading={frontmatter.heading}
-            subheading={frontmatter.subheading}
             mainpitch={frontmatter.mainpitch}
             description={frontmatter.description}
         />
@@ -109,14 +90,7 @@ export const pageQuery = graphql`
     query IndexPageTemplate {
         markdownRemark(frontmatter: { templateKey: { eq: "index-page" } }) {
             frontmatter {
-                title
-                image {
-                    childImageSharp {
-                        gatsbyImageData(quality: 100, layout: FULL_WIDTH)
-                    }
-                }
                 heading
-                subheading
                 mainpitch {
                     title
                     description

@@ -4,6 +4,8 @@ name: Actin compression simulation dataset
 link: https://open.quiltdata.com/b/allencell/tree/aics/subcellular_model_simulations/subcellular_model_simulations_actin_comparison/
 status: Public
 date: 2024-09-09T11:40:00.000Z
+shortDescription: >
+      This dataset contains simulated data of actin filaments using the monomer-scale model [ReaDDy](https://github.com/simularium/readdy-models) and fiber-scale model [Cytosim](https://github.com/simularium/Cytosim).
 description: >
   ### Overview
 

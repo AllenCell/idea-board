@@ -1,38 +1,107 @@
-.card {
-    border: 1px solid #CBCBCC;
+/* Offset anchor scroll targets so the sticky header doesn't cover them */
+:global([id]) {
+    scroll-margin-top: 80px;
 }
 
-.section {
-    margin-top: 2rem;
-}
+.container {
+    border: 1px solid #cbcbcc;
+    border-radius: 0px;
+    padding: 12px 24px;
+    background-color: var(--white);
+    a {
+        overflow-wrap: break-word;
+    }
+    .section {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .mainTitle {
+        font-size: 2rem;
+        color: var(--primary-color);
+        line-height: 1.5;
+        @media screen and (max-width: 576px) {
+            .mainTitle {
+                font-size: 1.5rem;
+                line-height: 1;
+            }
+        }
+    }
+    .authorsClass {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: rgb(from var(--primary-color) r g b / 0.9);
+    }
+    .sectionTitle {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+    }
+    h3.sectionTitle {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1.75rem;
+    }
 
-.sectionTitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
+    .actionIcons {
+        font-size: 16px;
+    }
 
-.actionIcons {
-    font-size: 16px;
-}
+    .taglist {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
 
-.taglist {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
+    .taglist li {
+        display: inline-block;
+    }
 
-.taglist li {
-    display: inline-block;
-}
+    .proposalTitle {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+    }
 
-.proposal {
-    font-size: 16px;
-    font-weight: 500;
-    border: 1px solid #CBCBCC;
-    background-color: rgb(240, 251, 255);
-    border-radius: 4px;
-    padding: 12px;
+    .proposal {
+        font-size: 16px;
+        font-weight: 500;
+        border: 1px solid #cbcbcc;
+        background-color: rgb(240, 251, 255);
+        border-radius: 4px;
+        padding: 12px;
+        ul {
+            padding-inline-start: 20px;
+        }
+    }
+
+    .sectionBorder {
+        border: 1px solid #cbcbcc;
+        border-radius: 4px;
+        padding: 12px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .sectionText {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    .backBar {
+        position: sticky;
+        top: 64px;
+        z-index: 10;
+        background-color: var(--color-bg-base, #fff);
+        padding: 10px 0 12px;
+        border-bottom: 1px solid var(--color-border, #e8e8e8);
+        margin-bottom: 20px;
+    }
 }
