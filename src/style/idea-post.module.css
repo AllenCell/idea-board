@@ -20,10 +20,8 @@
         color: var(--primary-color);
         line-height: 1.5;
         @media screen and (max-width: 576px) {
-            .mainTitle {
-                font-size: 1.5rem;
-                line-height: 1;
-            }
+            font-size: 1.5rem;
+            line-height: 1;
         }
     }
     .authorsClass {
@@ -32,8 +30,11 @@
         font-size: 1rem;
         font-weight: 500;
         color: rgb(from var(--primary-color) r g b / 0.9);
+        @media screen and (max-width: 576px) {
+            margin-top: .5rem;
+        }
     }
-     h4.sectionTitle {
+    h4.sectionTitle {
         margin-bottom: 0.5rem;
         margin-top: 1rem;
     }
@@ -42,7 +43,7 @@
         font-weight: 600;
         margin-top: 1.5rem;
         margin-bottom: 1.75rem;
-    } 
+    }
 
     .actionIcons {
         font-size: 16px;
@@ -74,6 +75,7 @@
         background-color: rgb(240, 251, 255);
         border-radius: 4px;
         padding: 12px;
+        line-height: 1.5;
         ul {
             padding-inline-start: 20px;
         }
