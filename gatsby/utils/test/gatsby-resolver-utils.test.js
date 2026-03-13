@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DATASET_PATH, SOFTWARE_PATH } from "../constants";
+import { DATASET_PATH, SOFTWARE_PATH } from "../../constants";
 import { resolveSlug, resolveSoftwareTools } from "../gatsby-resolver-utils";
 
 describe("resolveSlug", () => {
