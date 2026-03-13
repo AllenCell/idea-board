@@ -52,7 +52,8 @@
         "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\"",
         "lint": "eslint \"src/**/*.{ts,tsx}\" gatsby-*.js --quiet --fix",
         "lint:files": "eslint --quiet --fix",
-        "typeCheck": "tsc --noEmit"
+        "typeCheck": "tsc --noEmit",
+        "prepare": "lefthook install"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
