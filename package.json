@@ -47,9 +47,12 @@
         "serve": "gatsby serve",
         "format": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --write",
         "formatCheck": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --check",
+        "format:files": "prettier --write",
         "test": "vitest",
         "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\"",
-        "lint": "eslint \"src/**/*.{ts,tsx}\" gatsby-*.js --quiet --fix"
+        "lint": "eslint \"src/**/*.{ts,tsx}\" gatsby-*.js --quiet --fix",
+        "lint:files": "eslint --quiet --fix",
+        "typeCheck": "tsc --noEmit"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
@@ -64,6 +67,7 @@
         "eslint-plugin-sort-destructure-keys": "^3.0.0",
         "gatsby-plugin-postcss": "^6.13.1",
         "jiti": "^2.6.1",
+        "lefthook": "^2.0.15",
         "netlify-cli": "^17.15.7",
         "postcss": "^8.4.35",
         "prettier": "^3.8.1",
