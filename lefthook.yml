@@ -14,9 +14,12 @@ pre-commit:
           run: yarn --silent lint:files {staged_files}
           stage_fixed: true
 
-        # - name: typecheck
-        #   glob: "**/*.{ts,tsx}"
-        #   run: yarn --silent typeCheck --pretty false
+pre-push:
+    parallel: true
+    jobs:
+        - name: typecheck
+          glob: "**/*.{ts,tsx}"
+          run: yarn --silent typeCheck --pretty false
 
         - name: test
           run: yarn --silent test
