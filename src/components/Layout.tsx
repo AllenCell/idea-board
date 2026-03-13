@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { Layout as AntLayout } from "antd";
 
-import GlobalHead from "./GlobalHead";
 import "../style/index.css";
+import GlobalHead from "./GlobalHead";
 
 const { Content } = AntLayout;
 

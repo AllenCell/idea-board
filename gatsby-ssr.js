@@ -1,4 +1,3 @@
-
 // Gatsby advises implementing the same things in gatsby-ssr.js and
 // gatsby-browser.js even for sites that aren't implementing server-side rendering,
 // to avoid hydration mismatches.
