@@ -1,19 +1,16 @@
 import React from "react";
 
-import { StaticQuery, graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 
 import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 
-interface QueryResult {
-    data: {
-        markdownRemark: {
-            id: string;
-            frontmatter: {
-                name: string;
-                description?: string;
-                image?: string;
-                active: boolean;
-            };
+interface ProgramQueryData {
+    markdownRemark: {
+        id: string;
+        frontmatter: {
+            name: string;
+            description?: string;
+            active: boolean;
         };
     };
 }
@@ -21,7 +18,6 @@ interface QueryResult {
 interface ProgramTemplateProps {
     name: string;
     description: string;
-    image?: string;
     active: boolean;
 }
 
@@ -37,34 +33,28 @@ export const ProgramTemplate = ({
     );
 };
 
-const Program = ({ data }: QueryResult) => {
+const Program = () => {
+    const data = useStaticQuery<ProgramQueryData>(graphql`
+        query GetProgramByNameStatic {
+            markdownRemark {
+                id
+                frontmatter {
+                    name
+                    description
+                    active
+                }
+            }
+        }
+    `);
+
     const { markdownRemark: post } = data;
     return (
         <ProgramTemplate
             name={post.frontmatter.name}
             description={post.frontmatter.description || ""}
-            image={post.frontmatter.image || ""}
             active={post.frontmatter.active || false}
         />
     );
 };
 
-const ProgramQuery = () => (
-    <StaticQuery
-        query={graphql`
-            query GetProgramByNameStatic {
-                markdownRemark {
-                    id
-                    frontmatter {
-                        name
-                        title
-                        contact
-                    }
-                }
-            }
-        `}
-        render={(data) => <Program data={data} />}
-    />
-);
-
-export default ProgramQuery;
+export default Program;
