@@ -4,5 +4,13 @@
     "tabWidth": 4,
     "importOrder": ["^react", "^gatsby", "^[^./]", "^[./]"],
     "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "importOrderSortSpecifiers": true,
+    "overrides": [
+        {
+            "files": "*.json",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
