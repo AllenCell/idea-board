@@ -19,7 +19,7 @@ interface ImmutableLike {
 
 const DEFAULT_BASE_FIELDS: FieldConfig[] = [
     { label: "Name", name: "name", type: "input" },
-    { label: "Description", name: "description", type: "textarea", rows: 4 },
+    { label: "Description", name: "description", type: "markdown" },
     {
         label: "Link",
         name: "link",
@@ -189,6 +189,39 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         );
     };
 
+    const renderMarkdown = (
+        cfg: FieldConfig,
+        valueObj: Record<string, unknown>,
+    ) => {
+        const { hint = "", label, name } = cfg;
+
+        const widget = CMS.getWidget("markdown");
+        const MarkdownControl = widget?.control as
+            | React.ComponentType<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+            | undefined;
+
+        if (!MarkdownControl) {
+            return (
+                <div key={name} style={styles.fieldGroup}>
+                    <label style={styles.label}>{label}</label>
+                    <div style={styles.error}>Markdown widget not available</div>
+                </div>
+            );
+        }
+
+        return (
+            <div key={name} style={styles.fieldGroup}>
+                <label style={styles.label}>{label}</label>
+                <MarkdownControl
+                    {...props}
+                    value={valueObj[name] || ""}
+                    onChange={(newVal: unknown) => handleChange(name, newVal)}
+                />
+                {hint && <div style={styles.hint}>{hint}</div>}
+            </div>
+        );
+    };
+
     const renderFileControl = (
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
@@ -242,6 +275,8 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
                 return renderSelect(cfg, valueObj);
             case "file":
                 return renderFileControl(cfg, valueObj);
+            case "markdown":
+                return renderMarkdown(cfg, valueObj);
             default:
                 return null;
         }
