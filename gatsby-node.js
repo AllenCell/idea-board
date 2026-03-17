@@ -152,6 +152,32 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
                     return results.filter(Boolean);
                 },
             },
+            authors: {
+                resolve: (source) => resolveToArray(source.authors),
+            },
+            tags: {
+                resolve: (source) => resolveToArray(source.tags),
+            },
+            program: {
+                resolve: (source) => resolveToArray(source.program),
+            },
+            resources: {
+                resolve: async (source, _args, context) => {
+                    const names = resolveToArray(source.resources);
+                    const results = await Promise.all(
+                        names.map((name) =>
+                            context.nodeModel.findOne(resourceQuery(name)),
+                        ),
+                    );
+                    results.forEach((result, i) => {
+                        if (!result) {
+                            const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                            reporter.error(msg, new Error(msg));
+                        }
+                    });
+                    return results.filter(Boolean);
+                },
+            },
         },
     });
 };
@@ -164,8 +190,11 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
+    // Typed node page creation is opt-in per template key.
+    // idea-post is excluded here until the template is migrated to query IdeaPost by id
+    // (currently it queries markdownRemark, so pages are created via markdownPages below).
     const pagesToCreate = Object.keys(TEMPLATE_KEY_TO_TYPE).filter(
-        (templateKey) => templateKey === IDEA_POST_TEMPLATE_KEY,
+        (templateKey) => templateKey !== IDEA_POST_TEMPLATE_KEY,
     );
 
     // Create pages for any markdown files that are configured to have their
@@ -236,7 +265,7 @@ exports.createPages = ({ actions, graphql }) => {
             // Skip creating pages for data-only pages (software, dataset, etc.)
             if (
                 DATA_ONLY_PAGES.includes(templateKey) ||
-                templateKey in pagesToCreate
+                pagesToCreate.includes(templateKey)
             ) {
                 return;
             }

@@ -43,10 +43,10 @@ type IdeaPost implements Node {
     title: String!
     description: String
     draft: Boolean
-    tags: [String!]
+    tags: [String!]!
     authors: [String!]!
     nextSteps: String
-    program: [String!]
+    program: [String!]!
     publication: String
     introduction: String
     resources: [Resource!]!

@@ -1,68 +1,64 @@
 import React from "react";
 
-import { Link, StaticQuery, graphql } from "gatsby";
+import { Link, graphql, useStaticQuery } from "gatsby";
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
-import { Avatar, List, Space } from "antd";
+import { Avatar, List } from "antd";
 
-import { ResourceNode } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
 const { container } = require("../style/idea-roll.module.css");
 
-interface PostNode {
-    node: {
-        id: string;
-        excerpt: string;
-        fields: {
-            slug: string;
-        };
-        frontmatter: {
-            title: string;
-            date: string;
-            templateKey: string;
-            concerns?: string;
-            program: string;
-            authors?: string[];
-            tags?: string[];
-            type: string;
-            resources: ResourceNode[];
-        };
-    };
+type IdeaNode = Queries.IdeaRollQuery["allIdeaPost"]["nodes"][number];
+
+type IdeaListItem = Omit<IdeaNode, "resources"> & {
+    dataset: string | null;
+};
+
+interface IdeaRollProps {
+    count?: number;
 }
 
-const IdeaRollTemplate = (props: {
-    count?: number;
-    data: { allMarkdownRemark: { edges: PostNode[] } };
-}) => {
+const IdeaRoll = ({ count }: IdeaRollProps) => {
     const path = useLocation().pathname;
 
-    const { edges: posts } = props.data.allMarkdownRemark;
+    const queryData = useStaticQuery(graphql`
+        query IdeaRoll {
+            allIdeaPost(sort: { date: DESC }, filter: { draft: { ne: true } }) {
+                nodes {
+                    id
+                    slug
+                    title
+                    tags
+                    authors
+                    resources {
+                        type
+                        name
+                    }
+                }
+            }
+        }
+    `);
 
-    const data = posts.map(({ node: post }) => ({
-        id: post.id,
-        title: post.frontmatter.title,
-        date: post.frontmatter.date,
-        slug: post.fields.slug,
-        tags: post.frontmatter.tags || [],
-        type: post.frontmatter.type,
-        authors: post.frontmatter.authors || [],
-        concerns: post.frontmatter.concerns || "",
-        dataset: {
-            ...post.frontmatter.resources.find((r) => r.type === "dataset"),
-        },
-    }));
-    if (props.count) {
-        data.splice(props.count);
-    }
+    const filteredNodes = queryData.allIdeaPost.nodes.slice(0, count);
+    const ideasForIdeaRoll: IdeaListItem[] = filteredNodes.map(
+        (post: IdeaNode) => ({
+            ...post,
+            dataset:
+                post.resources.map((r) => {
+                    if (r?.type === "dataset") return r.name;
+                }) ?? null,
+        }),
+    );
+
     return (
         <List
             className={container}
             itemLayout="vertical"
             bordered={true}
-            dataSource={data}
+            dataSource={ideasForIdeaRoll}
             footer={
                 path.includes("ideas") ? (
                     ""
@@ -83,7 +79,6 @@ const IdeaRollTemplate = (props: {
                             text="2"
                             key="list-vertical-star-o"
                         />,
-
                         <IconText
                             icon={MessageOutlined}
                             text="2"
@@ -97,13 +92,6 @@ const IdeaRollTemplate = (props: {
                             />
                         )),
                     ]}
-                    // extra={
-                    //     <img
-                    //         width={272}
-                    //         alt="logo"
-                    //         src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                    //     />
-                    // }
                 >
                     <List.Item.Meta
                         title={<a href={item.slug}>{item.title}</a>}
@@ -122,19 +110,7 @@ const IdeaRollTemplate = (props: {
                             </Avatar.Group>
                         }
                         description={
-                            <>
-                                <Space>
-                                    {/* {item.dataStatus && (
-                                    {/* {item.concerns && (
-                                        <span style={{ color: "red" }}>
-                                            concerns: {item.concerns}
-                                        </span>
-                                    )} */}
-                                </Space>
-                                <span>
-                                    {item.dataset.name || "No public dataset"}
-                                </span>
-                            </>
+                            <span>{item.dataset ?? "No public dataset"}</span>
                         }
                     />
                 </List.Item>
@@ -143,49 +119,4 @@ const IdeaRollTemplate = (props: {
     );
 };
 
-export default function IdeaRoll({
-    count,
-}: {
-    count?: number;
-}): React.JSX.Element {
-    return (
-        <StaticQuery
-            query={graphql`
-                query IdeaRollQuery {
-                    allMarkdownRemark(
-                        sort: { frontmatter: { date: DESC } }
-                        filter: {
-                            frontmatter: {
-                                templateKey: { eq: "idea-post" }
-                                draft: { ne: true }
-                            }
-                        }
-                    ) {
-                        edges {
-                            node {
-                                excerpt(pruneLength: 400)
-                                id
-                                fields {
-                                    slug
-                                }
-                                frontmatter {
-                                    title
-                                    templateKey
-                                    date(formatString: "MMMM DD, YYYY")
-                                    tags
-                                    type
-                                    authors
-                                    concerns
-                                    resources {
-                                        ...ResourceFields
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            `}
-            render={(data) => <IdeaRollTemplate data={data} count={count} />}
-        />
-    );
-}
+export default IdeaRoll;
