@@ -7,20 +7,12 @@ type MarkdownRemark implements Node {
     fields: MarkdownRemarkFields!
 }
 
-# Shared frontmatter fields for idea posts (and other markdown).
 type Frontmatter {
     date: Date @dateformat
     title: String!
     description: String
     draft: Boolean
     tags: [String!]
-    authors: [String!]!
-    nextSteps: String
-    program: [String!]
-    publication: String
-    introduction: String
-    resources: [Resource!]!
-    relatedIdeas: [IdeaPost!]
 }
 
 type Resource implements Node {
@@ -51,4 +43,17 @@ type IdeaPost implements Node {
     introduction: String
     resources: [Resource!]!
     relatedIdeas: [IdeaPost!]!
+    preliminaryFindings: PreliminaryFindings
+    }
+
+type PreliminaryFindings {
+    summary: String!
+    figures: [ImgWithCaption!]!
+}
+
+type ImgWithCaption @dontInfer {
+    type: String!
+    url: String
+    file: File @fileByRelativePath
+    caption: String
 }
