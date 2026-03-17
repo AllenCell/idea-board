@@ -2,6 +2,7 @@ import React from "react";
 
 import { PageProps, graphql } from "gatsby";
 
+import "../style/resource.css";
 import { ResourceNode, ResourceTemplateQuery } from "../types";
 
 const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
@@ -12,18 +13,27 @@ const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
     type,
 }) => {
     return (
-        <div style={{ border: "1px solid #ccc", padding: 16, borderRadius: 8 }}>
-            <h2>{name}</h2>
-            <p>{type}</p>
-            <p>{description}</p>
-            {link ? (
-                <p>
-                    <a href={link} target="_blank" rel="noopener noreferrer">
+        <div className="resource-page">
+            <div className="resource-card">
+                {type && <span className="resource-type-badge">{type}</span>}
+                <h2 className="resource-name">{name}</h2>
+                {description && (
+                    <p className="resource-description">{description}</p>
+                )}
+                {link && (
+                    <a
+                        className="resource-link"
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         {link}
                     </a>
-                </p>
-            ) : null}
-            <p>Status: {status}</p>
+                )}
+                {status && (
+                    <p className="resource-status">Status: {status}</p>
+                )}
+            </div>
         </div>
     );
 };
@@ -40,11 +50,7 @@ export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
         );
     }
 
-    return (
-        <div>
-            <ResourceTemplate {...resource} />
-        </div>
-    );
+    return <ResourceTemplate {...resource} />;
 };
 
 export default Resource;

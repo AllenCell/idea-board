@@ -1,0 +1,72 @@
+.resource-page {
+    font-family: "Raleway", sans-serif;
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 0 24px;
+    background: var(--OFF_WHITE);
+
+    .resource-card {
+        background: var(--WHITE);
+        border: 1.5px solid var(--border-color);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 4px;
+        padding: 28px 32px;
+
+        .resource-type-badge {
+            display: inline-block;
+            background: var(--ALLEN_LIGHT_10);
+            color: var(--primary-color);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .resource-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 0 16px;
+        }
+
+        .resource-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--BLUE_70);
+            margin-bottom: 20px;
+
+            p {
+                margin: 0 0 0.75em;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .resource-link {
+            display: inline-block;
+            color: var(--link-color);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 16px;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .resource-status {
+            font-size: 13px;
+            color: var(--ALLEN_LIGHT_60);
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+    }
+}

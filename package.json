@@ -67,6 +67,7 @@
         "netlify-cli": "^17.15.7",
         "postcss": "^8.4.35",
         "prettier": "^3.8.1",
+        "raw-loader": "^4.0.2",
         "typescript": "^5.3.3",
         "typescript-eslint": "^8.56.0",
         "typescript-plugin-css-modules": "^5.1.0"
