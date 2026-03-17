@@ -2,11 +2,15 @@ import React from "react";
 
 import { PageProps, graphql } from "gatsby";
 
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import "../style/resource.css";
 import { ResourceNode, ResourceTemplateQuery } from "../types";
 
 export type ResourceDisplayProps = Partial<
-    Pick<NonNullable<ResourceNode>, "description" | "link" | "name" | "status" | "type">
+    Pick<
+        NonNullable<ResourceNode>,
+        "description" | "link" | "name" | "status" | "type"
+    >
 >;
 
 export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
@@ -22,7 +26,10 @@ export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
                 {type && <span className="resource-type-badge">{type}</span>}
                 <h2 className="resource-name">{name}</h2>
                 {description && (
-                    <p className="resource-description">{description}</p>
+                    <CustomReactMarkdown
+                        content={description}
+                        className="resource-description"
+                    />
                 )}
                 {link && (
                     <a
@@ -34,9 +41,7 @@ export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
                         {link}
                     </a>
                 )}
-                {status && (
-                    <p className="resource-status">Status: {status}</p>
-                )}
+                {status && <p className="resource-status">Status: {status}</p>}
             </div>
         </div>
     );
