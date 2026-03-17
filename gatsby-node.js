@@ -22,6 +22,8 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 const DATA_ONLY_PAGES = [ALLENITE_TEMPLATE_KEY, PROGRAM_TEMPLATE_KEY];
 
+const templateKeysWithNodes = Object.keys(TEMPLATE_KEY_TO_TYPE);
+
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
     createTypes(read("gatsby/schema/base.gql"));
@@ -53,14 +55,12 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
-
     // Create pages for any markdown files that are configured to have their
     // own node type (e.g. Resource) based on their templateKey.
-    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
-        (templateKey) => {
-            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
-            const allKeyString = `all${nodeKey}`;
-            return graphql(`
+    const typedNodePages = templateKeysWithNodes.map((templateKey) => {
+        const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+        const allKeyString = `all${nodeKey}`;
+        return graphql(`
         {
             ${allKeyString} {
                 nodes {
@@ -70,23 +70,20 @@ exports.createPages = ({ actions, graphql }) => {
             }
         }
     `).then((result) => {
-                if (result.errors) {
-                    result.errors.forEach((e) => console.error(e.toString()));
-                    return Promise.reject(result.errors);
-                }
+            if (result.errors) {
+                result.errors.forEach((e) => console.error(e.toString()));
+                return Promise.reject(result.errors);
+            }
 
-                result.data[allKeyString].nodes.forEach((node) => {
-                    createPage({
-                        path: node.slug,
-                        component: path.resolve(
-                            `src/templates/${templateKey}.tsx`,
-                        ),
-                        context: { id: node.id },
-                    });
+            result.data[allKeyString].nodes.forEach((node) => {
+                createPage({
+                    path: node.slug,
+                    component: path.resolve(`src/templates/${templateKey}.tsx`),
+                    context: { id: node.id },
                 });
             });
-        },
-    );
+        });
+    });
 
     /**
      * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
@@ -126,7 +123,7 @@ exports.createPages = ({ actions, graphql }) => {
             // Skip creating pages for data-only pages (software, dataset, etc.)
             if (
                 DATA_ONLY_PAGES.includes(templateKey) ||
-                Object.keys(TEMPLATE_KEY_TO_TYPE).includes(templateKey)
+                templateKeysWithNodes.includes(templateKey)
             ) {
                 return;
             }
@@ -202,9 +199,7 @@ exports.onCreateNode = ({
         // in the createPages.
         if (
             node.frontmatter?.templateKey &&
-            Object.keys(TEMPLATE_KEY_TO_TYPE).includes(
-                node.frontmatter?.templateKey,
-            )
+            templateKeysWithNodes.includes(node.frontmatter?.templateKey)
         ) {
             const nodeType = TEMPLATE_KEY_TO_TYPE[node.frontmatter.templateKey];
 

@@ -3,57 +3,57 @@ type MarkdownRemarkFields {
 }
 
 type MarkdownRemark implements Node {
-    frontmatter: Frontmatter!
     fields: MarkdownRemarkFields!
+    frontmatter: Frontmatter!
 }
 
 type Frontmatter {
     date: Date @dateformat
-    title: String!
     description: String
     draft: Boolean
     tags: [String!]
+    title: String!
 }
 
 type Resource implements Node {
-    slug: String!
-    name: String
-    type: String
-    description: String
-    link: String
-    readmeLink: String
-    file: String
-    status: String
     date: Date @dateformat
-    tags: [String!]
+    description: String
     draft: Boolean
+    file: String
+    link: String
+    name: String
+    readmeLink: String
+    slug: String!
+    status: String
+    tags: [String!]
+    type: String
 }
 
 type IdeaPost implements Node {
-    slug: String!
+    authors: [String!]!
     date: Date @dateformat
-    title: String!
     description: String
     draft: Boolean
-    tags: [String!]!
-    authors: [String!]!
+    introduction: String
     nextSteps: String
+    preliminaryFindings: PreliminaryFindings
     program: [String!]!
     publication: String
-    introduction: String
-    resources: [Resource!]!
     relatedIdeas: [IdeaPost!]!
-    preliminaryFindings: PreliminaryFindings
-    }
+    resources: [Resource!]!
+    slug: String!
+    tags: [String!]!
+    title: String!
+}
 
 type PreliminaryFindings {
-    summary: String!
     figures: [ImgWithCaption!]!
+    summary: String!
 }
 
 type ImgWithCaption @dontInfer {
+    caption: String
+    file: File @fileByRelativePath
     type: String!
     url: String
-    file: File @fileByRelativePath
-    caption: String
 }
