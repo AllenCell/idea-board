@@ -23,25 +23,30 @@ export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
     return (
         <div className="resource-page">
             <div className="resource-card">
-                {type && <span className="resource-type-badge">{type}</span>}
-                <h2 className="resource-name">{name}</h2>
-                {description && (
-                    <CustomReactMarkdown
-                        content={description}
-                        className="resource-description"
-                    />
-                )}
+                <h2>{name}</h2>
+                {status && <p>Status: {status}</p>}
+                {type && <p>Type: {type}</p>}
                 {link && (
-                    <a
-                        className="resource-link"
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {link}
-                    </a>
+                    <>
+                        <p>Link: </p>
+                        <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {link}
+                        </a>
+                    </>
                 )}
-                {status && <p className="resource-status">Status: {status}</p>}
+                {description && (
+                    <>
+                        <p>Description: </p>
+                        <CustomReactMarkdown
+                            content={description}
+                            className="resource-description"
+                        />
+                    </>
+                )}
             </div>
         </div>
     );
