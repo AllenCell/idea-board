@@ -4,6 +4,7 @@ import CMS from "decap-cms-app";
 import type { CmsWidgetControlProps } from "decap-cms-core";
 
 import { FieldConfig, TypeConfig } from "./types";
+import { fromImmutable } from "../../utils/immutable";
 
 interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
     types: TypeConfig[];
@@ -11,11 +12,6 @@ interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
     baseFields?: FieldConfig[];
 }
 
-// Decap uses Immutable.js internally - this interface helps us
-// convert their Map objects to plain JS when needed
-interface ImmutableLike {
-    toJS: () => Record<string, unknown>;
-}
 
 const DEFAULT_BASE_FIELDS: FieldConfig[] = [
     { label: "Name", name: "name", type: "input" },
@@ -107,10 +103,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
             return { type: getDefaultType() };
         }
 
-        const obj =
-            typeof (value as ImmutableLike).toJS === "function"
-                ? (value as ImmutableLike).toJS()
-                : (value as Record<string, unknown>);
+        const obj = fromImmutable<Record<string, unknown>>(value) ?? {};
 
         return { ...obj, type: obj.type || getDefaultType() };
     };
