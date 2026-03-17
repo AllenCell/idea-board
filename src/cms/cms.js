@@ -1,8 +1,5 @@
 import CMS from "decap-cms-app";
 
-import colorsCSS from "!!raw-loader!../style/colors.css";
-import indexCSS from "!!raw-loader!../style/index.css";
-import resourceCSS from "!!raw-loader!../style/resource.css";
 
 import AboutPagePreview from "./preview-templates/AboutPagePreview";
 import IdeaPostPreview from "./preview-templates/IdeaPostPreview";
@@ -12,9 +9,6 @@ import { UrlImageControl, UrlImagePreview } from "./widgets/UrlImageWidget";
 import VariableResourceUnionControl from "./widgets/VariableResourceWidget/VariableResourceUnionControl";
 import copyResourceNameHandler from "./widgets/VariableResourceWidget/copyResourceNameHandler";
 
-CMS.registerPreviewStyle(colorsCSS, { raw: true });
-CMS.registerPreviewStyle(indexCSS, { raw: true });
-CMS.registerPreviewStyle(resourceCSS, { raw: true });
 
 CMS.registerWidget({
     name: "resource_union",

@@ -1,43 +1,44 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
+import { ResourceDisplayProps, ResourceTemplate } from "../../templates/resource";
 
-interface ResourceDetails {
-    type?: string;
-    name?: string;
-    description?: string;
-    link?: string;
-    status?: string;
+interface ImmutableLike {
+    get: (key: string) => unknown;
+    toJS: () => ResourceDisplayProps;
 }
 
 interface PreviewProps {
-    value?: ResourceDetails | null;
+    entry?: ImmutableLike;
+    value?: unknown;
 }
 
-const ResourcePreview: React.FC<PreviewProps> = ({ value }) => {
-    const type = value?.type;
-    const name = value?.name;
-    const description = value?.description;
-    const link = value?.link;
-    const status = value?.status;
+/**
+ * Decap CMS passes widget values as Immutable.js Maps on initial load
+ * (parsed directly from frontmatter) and as plain JS objects after any
+ * edit (emitted by the widget's onChange). This function handles both
+ * shapes and returns a plain object safe to spread into ResourceTemplate.
+ */
+function normalize(raw: unknown): ResourceDisplayProps {
+    if (!raw || typeof raw !== "object") return {};
+    if (typeof (raw as ImmutableLike).toJS === "function") {
+        return (raw as ImmutableLike).toJS();
+    }
+    return raw as ResourceDisplayProps;
+}
 
+const ResourcePreview: React.FC<PreviewProps> = ({ entry, value }) => {
+    // `value` is only populated after the user edits a field — it is undefined
+    // on initial load. Fall back to reading resourceDetails directly from the
+    // entry, mirroring the path used in copyResourceNameHandler.
+    const raw = value ?? (entry?.get("data") as ImmutableLike | undefined)?.get("resourceDetails");
+    const v = normalize(raw);
     return (
-        <div className="resource-page">
-            <div className="resource-card">
-                {type && <span className="resource-type-badge">{type}</span>}
-                <h2 className="resource-name">{name || "(No name)"}</h2>
-                {description && (
-                    <div className="resource-description">
-                        <ReactMarkdown>{description}</ReactMarkdown>
-                    </div>
-                )}
-                {link && (
-                    <a className="resource-link" href={link} target="_blank" rel="noreferrer">
-                        {link}
-                    </a>
-                )}
-                {status && <p className="resource-status">Status: {status}</p>}
-            </div>
-        </div>
+        <ResourceTemplate
+            type={v.type}
+            name={v.name}
+            description={v.description}
+            link={v.link}
+            status={v.status}
+        />
     );
 };
 

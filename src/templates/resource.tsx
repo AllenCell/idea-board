@@ -5,7 +5,11 @@ import { PageProps, graphql } from "gatsby";
 import "../style/resource.css";
 import { ResourceNode, ResourceTemplateQuery } from "../types";
 
-const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
+export type ResourceDisplayProps = Partial<
+    Pick<NonNullable<ResourceNode>, "description" | "link" | "name" | "status" | "type">
+>;
+
+export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
     description,
     link,
     name,
