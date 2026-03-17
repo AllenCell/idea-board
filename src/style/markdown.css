@@ -18,9 +18,9 @@
         }
 }
 
-/* :global is required because react-markdown renders <code> without a class we can target.
+/* react-markdown renders <code> without a class we can target.
    Fenced blocks are excluded via :not(pre > code) since those are handled by .code-block above. */
-:global(code:not(pre > code)) {
+code:not(pre > code) {
     background-color: var(--color-bg-secondary, #f6f8fa);
     border: 1px solid var(--color-border, #e0e0e0);
     border-radius: 3px;
