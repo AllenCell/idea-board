@@ -34,6 +34,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     nextSteps,
     preliminaryFindings,
     publication,
+    relatedIdeas,
     resources,
     slug,
     tags,
@@ -67,6 +68,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
         preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
     const hasPreliminaryFindings =
         preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
+    const hasRelatedIdeas = relatedIdeas && relatedIdeas.length > 0;
 
     return (
         <div>
@@ -141,6 +143,18 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     </div>
                 )}
                 <MaterialsAndMethodsComponent resources={[...resources]} />
+                {hasRelatedIdeas && (
+                    <div className={section}>
+                        <h4 className={sectionTitle}>Related Ideas:</h4>
+                        {relatedIdeas!.map((idea, index) => (
+                            <div key={index}>
+                                <Link to={idea.slug || ""}>
+                                    <h5>{idea.title}</h5>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
@@ -204,6 +218,10 @@ export const pageQuery = graphql`
                 nextSteps
                 resources {
                     ...ResourceFields
+                }
+                relatedIdeas {
+                    title
+                    slug
                 }
             }
         }

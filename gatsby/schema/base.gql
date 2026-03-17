@@ -20,6 +20,7 @@ type Frontmatter {
     publication: String
     introduction: String
     resources: [Resource!]!
+    relatedIdeas: [IdeaPost!]
 }
 
 type Resource implements Node {
@@ -34,4 +35,20 @@ type Resource implements Node {
     date: Date @dateformat
     tags: [String!]
     draft: Boolean
+}
+
+type IdeaPost implements Node {
+    slug: String!
+    date: Date @dateformat
+    title: String!
+    description: String
+    draft: Boolean
+    tags: [String!]
+    authors: [String!]!
+    nextSteps: String
+    program: [String!]
+    publication: String
+    introduction: String
+    resources: [Resource!]!
+    relatedIdeas: [IdeaPost!]!
 }

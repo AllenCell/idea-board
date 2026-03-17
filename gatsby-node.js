@@ -6,6 +6,7 @@ const {
     stringWithDefault,
     resolveToArray,
     resourceQuery,
+    ideaPostQuery,
 } = require("./gatsby/utils/gatsby-resolver-utils");
 const {
     RESOURCES_GATSBY_NODE_KEY,
@@ -13,6 +14,7 @@ const {
     TEMPLATE_KEY_TO_TYPE,
     ALLENITE_TEMPLATE_KEY,
     PROGRAM_TEMPLATE_KEY,
+    IDEA_POST_TEMPLATE_KEY,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
@@ -114,6 +116,42 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
                     };
                 },
             },
+            relatedIdeas: {
+                resolve: async (source, _args, context) => {
+                    const names = resolveToArray(source.related_ideas);
+                    const results = await Promise.all(
+                        names.map((name) =>
+                            context.nodeModel.findOne(ideaPostQuery(name)),
+                        ),
+                    );
+                    results.forEach((result, i) => {
+                        if (!result) {
+                            const msg = `Idea post "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                            reporter.error(msg, new Error(msg));
+                        }
+                    });
+                    return results.filter(Boolean);
+                },
+            },
+        },
+        IdeaPost: {
+            relatedIdeas: {
+                resolve: async (source, _args, context) => {
+                    const names = resolveToArray(source.related_ideas);
+                    const results = await Promise.all(
+                        names.map((name) =>
+                            context.nodeModel.findOne(ideaPostQuery(name)),
+                        ),
+                    );
+                    results.forEach((result, i) => {
+                        if (!result) {
+                            const msg = `Idea post "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                            reporter.error(msg, new Error(msg));
+                        }
+                    });
+                    return results.filter(Boolean);
+                },
+            },
         },
     });
 };
@@ -126,13 +164,16 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
+    const pagesToCreate = Object.keys(TEMPLATE_KEY_TO_TYPE).filter(
+        (templateKey) => templateKey === IDEA_POST_TEMPLATE_KEY,
+    );
+
     // Create pages for any markdown files that are configured to have their
     // own node type (e.g. Resource) based on their templateKey.
-    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
-        (templateKey) => {
-            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
-            const allKeyString = `all${nodeKey}`;
-            return graphql(`
+    const typedNodePages = pagesToCreate.map((templateKey) => {
+        const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+        const allKeyString = `all${nodeKey}`;
+        return graphql(`
         {
             ${allKeyString} {
                 nodes {
@@ -142,23 +183,20 @@ exports.createPages = ({ actions, graphql }) => {
             }
         }
     `).then((result) => {
-                if (result.errors) {
-                    result.errors.forEach((e) => console.error(e.toString()));
-                    return Promise.reject(result.errors);
-                }
+            if (result.errors) {
+                result.errors.forEach((e) => console.error(e.toString()));
+                return Promise.reject(result.errors);
+            }
 
-                result.data[allKeyString].nodes.forEach((node) => {
-                    createPage({
-                        path: node.slug,
-                        component: path.resolve(
-                            `src/templates/${templateKey}.tsx`,
-                        ),
-                        context: { id: node.id },
-                    });
+            result.data[allKeyString].nodes.forEach((node) => {
+                createPage({
+                    path: node.slug,
+                    component: path.resolve(`src/templates/${templateKey}.tsx`),
+                    context: { id: node.id },
                 });
             });
-        },
-    );
+        });
+    });
 
     /**
      * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
@@ -198,7 +236,7 @@ exports.createPages = ({ actions, graphql }) => {
             // Skip creating pages for data-only pages (software, dataset, etc.)
             if (
                 DATA_ONLY_PAGES.includes(templateKey) ||
-                templateKey in TEMPLATE_KEY_TO_TYPE
+                templateKey in pagesToCreate
             ) {
                 return;
             }

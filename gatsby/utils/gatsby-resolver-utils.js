@@ -1,6 +1,8 @@
 const {
     RESOURCES_TEMPLATE_KEY,
     TEMPLATE_KEY_TO_TYPE,
+    IDEA_POST_TEMPLATE_KEY,
+    IDEAS_SLUG_DIRECTORY,
 } = require("../constants");
 const slugify = require("slugify");
 
@@ -61,9 +63,19 @@ const resourceQuery = (name) => {
     };
 };
 
+const ideaPostQuery = (name) => {
+    const slug = resolveSlug(name, IDEAS_SLUG_DIRECTORY);
+    if (!slug) return null;
+    return {
+        query: { filter: { slug: { eq: slug } } },
+        type: TEMPLATE_KEY_TO_TYPE[IDEA_POST_TEMPLATE_KEY],
+    };
+};
+
 module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
     resourceQuery,
+    ideaPostQuery,
 };
