@@ -164,6 +164,19 @@ collections:
                 hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
             }
           - {
+
+                label: "Related Ideas",
+                name: "related_ideas",
+                widget: "relation",
+                collection: "ideas",
+                search_fields: ["title"],
+                value_field: "{{slug}}",
+                display_fields: ["title"],
+                multiple: true,
+                required: false,
+                hint: "Select any related ideas to associate with this one.",
+            }
+          - {
                 label: "Suggested next steps",
                 name: "nextSteps",
                 widget: "markdown",
