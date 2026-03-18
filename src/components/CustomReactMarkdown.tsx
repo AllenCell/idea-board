@@ -16,7 +16,7 @@ export const CustomReactMarkdown: React.FC<CustomReactMarkdownProps> = ({
         <ReactMarkdown
             components={{
                 p: ({ node: _node, ...props }) => (
-                    <p className={className} style={{ margin: 0 }} {...props} />
+                    <p className={className} {...props} />
                 ),
                 pre: ({ node: _node, ...props }) => (
                     <pre className={codeBlock} {...props} />

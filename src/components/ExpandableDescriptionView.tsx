@@ -7,7 +7,7 @@ import { CustomReactMarkdown } from "./CustomReactMarkdown";
 
 const {
     backBar,
-    card,
+    container,
     mainTitle,
     sectionText,
 } = require("../style/idea-post.module.css");
@@ -27,7 +27,7 @@ interface ExpandedDescriptionViewProps {
 export const ExpandedDescriptionView: React.FC<
     ExpandedDescriptionViewProps
 > = ({ content, label, onBack }) => (
-    <div className={card}>
+    <div className={container}>
         <div className={backBar}>
             <Button icon={<ArrowLeftOutlined />} onClick={onBack}>
                 Back to idea

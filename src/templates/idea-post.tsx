@@ -146,7 +146,6 @@ export const IdeaPostTemplate: React.FC<
                     onExpandDescription={onExpandDescription}
                 />
             )}
-            {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
         </div>
     );
 };
