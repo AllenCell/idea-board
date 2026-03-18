@@ -1,14 +1,17 @@
-const _ = require("lodash");
-const fs = require("fs");
-const path = require("path");
-const { createFilePath } = require("gatsby-source-filesystem");
-const {
+import _ from "lodash";
+import fs from "fs";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+import { createFilePath } from "gatsby-source-filesystem";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+import {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
-} = require("./gatsby/utils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsby/constants");
+} from "./gatsby/utils/gatsby-resolver-utils.js";
+import { DATASET_PATH } from "./gatsby/constants.js";
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
@@ -26,7 +29,7 @@ const DATA_ONLY_PAGES = [
     "resource",
 ];
 
-exports.createSchemaCustomization = ({ actions }) => {
+export const createSchemaCustomization =({ actions }) => {
     const { createTypes } = actions;
     const typeDefs = [
         `"""
@@ -77,7 +80,7 @@ exports.createSchemaCustomization = ({ actions }) => {
  * custom resolution logic. Takes the place of downstream data unpacking
  * functions where possible
  */
-exports.createResolvers = ({ createResolvers }) => {
+export const createResolvers =({ createResolvers }) => {
     createResolvers({
         MarkdownRemark: {
             fields: {
@@ -157,7 +160,7 @@ exports.createResolvers = ({ createResolvers }) => {
  * Also create tag pages for all unique tags found in markdown files.
  * Skips creating pages for data-only pages.
  */
-exports.createPages = ({ actions, graphql }) => {
+export const createPages =({ actions, graphql }) => {
     const { createPage } = actions;
 
     return graphql(`
@@ -240,7 +243,7 @@ exports.createPages = ({ actions, graphql }) => {
     });
 };
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
+export const onCreateNode =({ node, actions, getNode }) => {
     const { createNodeField } = actions;
 
     if (node.internal.type === `MarkdownRemark`) {

@@ -1,5 +1,5 @@
-const { SOFTWARE_PATH } = require("../constants");
-const slugify = require("slugify");
+import { SOFTWARE_PATH } from "../constants.js";
+import slugify from "slugify";
 
 /**
  * Returns the raw value if it's a non-empty string, otherwise returns the fallback.
@@ -71,9 +71,4 @@ const resolveSlug = (id, directory) => {
     return `/${directory}/${slugPart}/`;
 };
 
-module.exports = {
-    stringWithDefault,
-    resolveToArray,
-    resolveSlug,
-    resolveSoftwareTools,
-};
+export { stringWithDefault, resolveToArray, resolveSlug, resolveSoftwareTools };
