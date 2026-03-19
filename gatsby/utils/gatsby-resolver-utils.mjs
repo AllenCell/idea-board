@@ -1,4 +1,4 @@
-import { SOFTWARE_PATH } from "../constants.js";
+import { SOFTWARE_PATH } from "../constants.mjs";
 import slugify from "slugify";
 
 /**

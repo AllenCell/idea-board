@@ -2,8 +2,7 @@
     "name": "aics-idea-board",
     "version": "0.0.2",
     "author": "Megan Riel-Mehan",
-    "type": "module",
-    "dependencies": {
+"dependencies": {
         "@ant-design/icons": "^5.5.1",
         "@reach/router": "^1.3.4",
         "antd": "^5.21.2",

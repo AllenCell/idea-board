@@ -10,8 +10,8 @@ import {
     resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
-} from "./gatsby/utils/gatsby-resolver-utils.js";
-import { DATASET_PATH } from "./gatsby/constants.js";
+} from "./gatsby/utils/gatsby-resolver-utils.mjs";
+import { DATASET_PATH } from "./gatsby/constants.mjs";
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
