@@ -6,11 +6,11 @@ import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
+import * as styles from "../style/idea-roll.module.css";
 import { MaterialsAndMethods } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
-import * as styles from "../style/idea-roll.module.css";
 const { container } = styles;
 
 interface PostNode {

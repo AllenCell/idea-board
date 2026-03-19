@@ -3,11 +3,11 @@ import React from "react";
 import { Collapse } from "antd";
 import type { CollapseProps } from "antd";
 
+import * as ideaPostStyles from "../style/idea-post.module.css";
+import * as materialsStyles from "../style/materials.module.css";
 import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
 
-import * as ideaPostStyles from "../style/idea-post.module.css";
-import * as materialsStyles from "../style/materials.module.css";
 const { section, sectionTitle } = ideaPostStyles;
 const { subText } = materialsStyles;
 

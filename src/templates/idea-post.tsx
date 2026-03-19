@@ -15,11 +15,11 @@ import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
+import * as styles from "../style/idea-post.module.css";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
-import * as styles from "../style/idea-post.module.css";
 const { actionIcons, card, proposal, section, sectionTitle, taglist } = styles;
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({

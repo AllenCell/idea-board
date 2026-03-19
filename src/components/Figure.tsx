@@ -4,13 +4,13 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image";
 
 import { Card } from "antd";
 
+import * as styles from "../style/figure.module.css";
 import { Figure } from "../types";
 
 interface FigureProps {
     figure: Figure;
 }
 
-import * as styles from "../style/figure.module.css";
 const { caption, container, image } = styles;
 
 const FigureComponent: React.FC<FigureProps> = ({ figure }) => {
