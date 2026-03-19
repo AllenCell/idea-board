@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link, StaticQuery, graphql } from "gatsby";
+import { Link, graphql, useStaticQuery } from "gatsby";
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
@@ -148,51 +148,47 @@ export default function IdeaRoll({
 }: {
     count?: number;
 }): React.JSX.Element {
-    return (
-        <StaticQuery
-            query={graphql`
-                query IdeaRollQuery {
-                    allMarkdownRemark(
-                        sort: { frontmatter: { date: DESC } }
-                        filter: {
-                            frontmatter: {
-                                templateKey: { eq: "idea-post" }
-                                draft: { ne: true }
-                            }
+    const data = useStaticQuery(graphql`
+        query IdeaRollQuery {
+            allMarkdownRemark(
+                sort: { frontmatter: { date: DESC } }
+                filter: {
+                    frontmatter: {
+                        templateKey: { eq: "idea-post" }
+                        draft: { ne: true }
+                    }
+                }
+            ) {
+                edges {
+                    node {
+                        excerpt(pruneLength: 400)
+                        id
+                        fields {
+                            slug
                         }
-                    ) {
-                        edges {
-                            node {
-                                excerpt(pruneLength: 400)
-                                id
-                                fields {
-                                    slug
-                                }
-                                frontmatter {
-                                    title
-                                    templateKey
-                                    date(formatString: "MMMM DD, YYYY")
-                                    tags
-                                    type
-                                    authors
-                                    concerns
-                                    materialsAndMethods {
-                                        dataset {
-                                            frontmatter {
-                                                name
-                                                description
-                                                link
-                                                status
-                                            }
-                                        }
+                        frontmatter {
+                            title
+                            templateKey
+                            date(formatString: "MMMM DD, YYYY")
+                            tags
+                            type
+                            authors
+                            concerns
+                            materialsAndMethods {
+                                dataset {
+                                    frontmatter {
+                                        name
+                                        description
+                                        link
+                                        status
                                     }
                                 }
                             }
                         }
                     }
                 }
-            `}
-            render={(data) => <IdeaRollTemplate data={data} count={count} />}
-        />
-    );
+            }
+        }
+    `);
+    return <IdeaRollTemplate data={data} count={count} />;
 }
