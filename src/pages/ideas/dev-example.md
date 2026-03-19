@@ -3,7 +3,8 @@ preliminaryFindings:
   summary: >
     Preliminary segmentation and tracking suggest that junction "flickering"
     (rapid local changes in junction length and intensity) increases ~30–60
-    minutes before migration onset in a subset of fields of view. Here is a link for no reason: [link](https://allencell.org/).
+    minutes before migration onset in a subset of fields of view. Here is a link
+    for no reason: [link](https://allencell.org/).
   figures:
     - type: imageFile
       file: /img/228469011.jpg
@@ -25,11 +26,12 @@ introduction: >
   Collective cell migration during EMT appears to be preceded by subtle
   remodeling of cell-cell junctions. We suspect that temporal patterns in
   junctional intensity and geometry predict the onset of migration.
+resources:
+  - cell-line-resources
+  - test-software-tool
 materialsAndMethods:
   dataset: Released EMT dataset
-  protocols:
-    # - protocol: /protocols/emt_junction_segmentation.pdf
-    # - protocol: /protocols/emt_tracking_qc.pdf
+  protocols: null
   cellLines:
     - name: AICS-42
       link: https://allencell.org/cell-catalog
@@ -37,12 +39,15 @@ materialsAndMethods:
       link: https://allencell.org/cell-catalog
   software:
     - softwareTool: Simularium
-      customDescription: Custom description in the markdown file for the idea, not in the software file markdown.
+      customDescription: Custom description in the markdown file for the idea, not in
+        the software file markdown.
     - softwareTool: Timelapse Feature Explorer
 nextSteps: |-
   - Expand analysis to all EMT datasets and stratify by treatment. And a link for no reason: [link](https://allencell.org/)
   - Quantify robustness of the junction "flicker" signature across cell lines.
+
   - Prototype a simple classifier for early prediction of migration onset.
+
   - Share intermediate results with the EMT program for feedback.
 publication: Dalgin et al., _In preparation_
 tags:

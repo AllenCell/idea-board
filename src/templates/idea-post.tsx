@@ -14,6 +14,7 @@ import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
+import ResourcesComponent from "../components/ResourcesComponent";
 import { TagPopover } from "../components/TagPopover";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
@@ -35,8 +36,9 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     nextSteps,
     preliminaryFindings,
     publication,
+    resources,
     slug,
-    tags,
+    tags, // TODO: migrate MaterialsAndMethods to use resources
     title,
 }) => {
     const getTagList = (tags: readonly string[]) => {
@@ -140,6 +142,9 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                         <CustomReactMarkdown content={nextSteps} />
                     </div>
                 )}
+                {!!resources?.length && (
+                    <ResourcesComponent resources={[...resources]} />
+                )}
                 <MaterialsAndMethodsComponent {...materialsAndMethods} />
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
@@ -202,6 +207,9 @@ export const pageQuery = graphql`
                     }
                 }
                 nextSteps
+                resources {
+                    ...ResourceFields
+                }
                 materialsAndMethods {
                     dataset {
                         frontmatter {

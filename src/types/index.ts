@@ -33,6 +33,12 @@ export type Figure = NonNullable<
     IdeaFrontmatter["preliminaryFindings"]
 >["figures"][number];
 
+export type ResourceTemplateQuery = Queries.ResourcesByIdQuery;
+export type ResourceNode = Omit<
+    NonNullable<NonNullable<ResourceTemplateQuery>["resource"]>,
+    "id"
+>;
+
 /**
  * Other utility types
  */
