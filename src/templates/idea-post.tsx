@@ -19,14 +19,8 @@ import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
-const {
-    actionIcons,
-    card,
-    proposal,
-    section,
-    sectionTitle,
-    taglist,
-} = require("../style/idea-post.module.css");
+import * as styles from "../style/idea-post.module.css";
+const { actionIcons, card, proposal, section, sectionTitle, taglist } = styles;
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     authors,

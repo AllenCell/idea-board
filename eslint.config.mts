@@ -1,6 +1,7 @@
 import eslint from '@eslint/js';
 import globals from "globals";
 import tseslint from "typescript-eslint";
+// @ts-expect-error no types available
 import sortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import { defineConfig } from "eslint/config";
 
@@ -8,7 +9,7 @@ export default defineConfig([
     eslint.configs.recommended,
     tseslint.configs.recommended,
     {
-        files: ["**/*.js"],
+        files: ["**/*.{js,mjs}"],
         languageOptions: { globals: { ...globals.node } },
         rules: {
             "@typescript-eslint/no-require-imports": "off",

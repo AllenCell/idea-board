@@ -7,7 +7,8 @@ import "../style/index.css";
 
 const { Content } = AntLayout;
 
-const { container } = require("../style/layout.module.css");
+import * as styles from "../style/layout.module.css";
+const { container } = styles;
 
 const Layout = ({ children }: React.PropsWithChildren) => (
     <AntLayout className={container}>

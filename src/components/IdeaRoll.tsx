@@ -10,7 +10,8 @@ import { MaterialsAndMethods } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
-const { container } = require("../style/idea-roll.module.css");
+import * as styles from "../style/idea-roll.module.css";
+const { container } = styles;
 
 interface PostNode {
     node: {

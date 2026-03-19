@@ -6,9 +6,10 @@ import type { CollapseProps } from "antd";
 import { CellLine, MaterialsAndMethods, SoftwareTool } from "../types";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
 
-const { section, sectionTitle } = require("../style/idea-post.module.css");
-
-const { subText } = require("../style/materials.module.css");
+import * as ideaPostStyles from "../style/idea-post.module.css";
+import * as materialsStyles from "../style/materials.module.css";
+const { section, sectionTitle } = ideaPostStyles;
+const { subText } = materialsStyles;
 
 export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethods> = ({
     cellLines,

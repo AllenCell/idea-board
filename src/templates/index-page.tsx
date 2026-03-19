@@ -8,12 +8,9 @@ import PropTypes from "prop-types";
 import FullWidthImage from "../components/FullWidthImage";
 import IdeaRoll from "../components/IdeaRoll";
 
-const {
-    container,
-    header,
-    info,
-    listWrapper,
-} = require("../style/index-page.module.css");
+import * as styles from "../style/index-page.module.css";
+const { container, header, info, listWrapper } = styles;
+
 interface QueryResult {
     data: {
         markdownRemark: {
