@@ -1,19 +1,19 @@
-import _ from "lodash";
-import fs from "fs";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import type { GatsbyNode } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import fs from "fs";
+import _ from "lodash";
+import path from "path";
+
+import { DATASET_PATH } from "./gatsby/constants";
 import {
-    stringWithDefault,
-    resolveToArray,
     resolveSlug,
     resolveSoftwareTools,
-} from "./gatsby/utils/gatsby-resolver-utils.mjs";
-import { DATASET_PATH } from "./gatsby/constants.mjs";
+    resolveToArray,
+    stringWithDefault,
+} from "./gatsby/utils/gatsby-resolver-utils";
 
-const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
+const read = (p: string) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -29,10 +29,11 @@ const DATA_ONLY_PAGES = [
     "resource",
 ];
 
-export const createSchemaCustomization =({ actions }) => {
-    const { createTypes } = actions;
-    const typeDefs = [
-        `"""
+export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] =
+    ({ actions }) => {
+        const { createTypes } = actions;
+        const typeDefs = [
+            `"""
         Nested materials and methods block for idea posts.
         """
         type MaterialsAndMethods {
@@ -70,48 +71,54 @@ export const createSchemaCustomization =({ actions }) => {
             softwareTool: MarkdownRemark @link(by: "fields.slug")
             customDescription: String
         }`,
-    ];
-    createTypes(read("gatsby/schema/base.gql"));
-    createTypes(typeDefs);
-};
+        ];
+        createTypes(read("gatsby/schema/base.gql"));
+        createTypes(typeDefs);
+    };
 
 /**
  * Resolvers ensure data shape/presence after queries, or provide
  * custom resolution logic. Takes the place of downstream data unpacking
  * functions where possible
  */
-export const createResolvers =({ createResolvers }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ResolverSource = Record<string, any>;
+
+export const createResolvers: GatsbyNode["createResolvers"] = ({
+    createResolvers,
+}) => {
     createResolvers({
         MarkdownRemark: {
             fields: {
-                resolve: (source) => ({
+                resolve: (source: ResolverSource) => ({
                     slug: source.fields?.slug || "/",
                 }),
             },
         },
         Frontmatter: {
             description: {
-                resolve: (source) =>
+                resolve: (source: ResolverSource) =>
                     stringWithDefault(
                         source.description,
                         "No description provided.",
                     ),
             },
             authors: {
-                resolve: (source) => resolveToArray(source.authors),
+                resolve: (source: ResolverSource) =>
+                    resolveToArray(source.authors),
             },
             title: {
-                resolve: (source) =>
+                resolve: (source: ResolverSource) =>
                     stringWithDefault(source.title, "No title provided."),
             },
             materialsAndMethods: {
-                resolve: (source) => {
+                resolve: (source: ResolverSource) => {
                     const raw = source.materialsAndMethods;
                     const current = {
-                        dataset: null,
-                        cellLines: [],
-                        protocols: [],
-                        software: [],
+                        dataset: null as string | null,
+                        cellLines: [] as unknown[],
+                        protocols: [] as unknown[],
+                        software: [] as unknown[],
                     };
 
                     if (!raw || typeof raw !== "object") {
@@ -131,13 +138,14 @@ export const createResolvers =({ createResolvers }) => {
                 },
             },
             nextSteps: {
-                resolve: (source) => source.nextSteps ?? null,
+                resolve: (source: ResolverSource) => source.nextSteps ?? null,
             },
             program: {
-                resolve: (source) => resolveToArray(source.program),
+                resolve: (source: ResolverSource) =>
+                    resolveToArray(source.program),
             },
             preliminaryFindings: {
-                resolve: (source) => {
+                resolve: (source: ResolverSource) => {
                     const raw = source.preliminaryFindings;
                     if (!raw || typeof raw !== "object") {
                         return {
@@ -160,7 +168,10 @@ export const createResolvers =({ createResolvers }) => {
  * Also create tag pages for all unique tags found in markdown files.
  * Skips creating pages for data-only pages.
  */
-export const createPages =({ actions, graphql }) => {
+export const createPages: GatsbyNode["createPages"] = ({
+    actions,
+    graphql,
+}) => {
     const { createPage } = actions;
 
     return graphql(`
@@ -183,53 +194,57 @@ export const createPages =({ actions, graphql }) => {
         }
     `).then((result) => {
         if (result.errors) {
-            result.errors.forEach((e) => console.error(e.toString()));
+            result.errors.forEach((e: Error) => console.error(e.toString()));
             return Promise.reject(result.errors);
         }
 
-        const posts = result.data.allMarkdownRemark.edges;
+        const data = result.data as ResolverSource;
+        const posts = data.allMarkdownRemark.edges;
 
-        posts.forEach((edge) => {
-            const id = edge.node.id;
-            const templateKey = edge.node.frontmatter.templateKey;
+        posts.forEach(
+            (edge: {
+                node: {
+                    id: string;
+                    fields: { slug: string };
+                    frontmatter: {
+                        tags: string[];
+                        templateKey: string;
+                        draft: boolean;
+                    };
+                };
+            }) => {
+                const id = edge.node.id;
+                const templateKey = edge.node.frontmatter.templateKey;
 
-            // Skip creating pages for data-only pages (software, dataset, etc.)
-            if (DATA_ONLY_PAGES.includes(templateKey)) {
-                return;
-            }
+                if (DATA_ONLY_PAGES.includes(templateKey)) {
+                    return;
+                }
 
-            // Skip creating pages for drafts
-            // Toggle boolean flag on dev-example pages during development
-            if (edge.node.frontmatter.draft === true) {
-                return;
-            }
+                if (edge.node.frontmatter.draft === true) {
+                    return;
+                }
 
-            createPage({
-                path: edge.node.fields.slug,
-                tags: edge.node.frontmatter.tags,
-                component: path.resolve(
-                    `src/templates/${String(templateKey)}.tsx`,
-                ),
-                // additional data can be passed via context
-                context: {
-                    id,
-                },
-            });
-        });
+                createPage({
+                    path: edge.node.fields.slug,
+                    component: path.resolve(
+                        `src/templates/${String(templateKey)}.tsx`,
+                    ),
+                    context: {
+                        id,
+                    },
+                });
+            },
+        );
 
-        // Tag pages:
-        let tags = [];
-        // Iterate through each post, putting all found tags into `tags`
-        posts.forEach((edge) => {
+        let tags: string[] = [];
+        posts.forEach((edge: { node: { frontmatter: { tags: string[] } } }) => {
             if (_.get(edge, `node.frontmatter.tags`)) {
                 tags = tags.concat(edge.node.frontmatter.tags);
             }
         });
-        // Eliminate duplicate tags
         tags = _.uniq(tags);
 
-        // Make tag pages
-        tags.forEach((tag) => {
+        tags.forEach((tag: string) => {
             const tagPath = `/tags/${_.kebabCase(tag)}/`;
 
             createPage({
@@ -243,7 +258,11 @@ export const createPages =({ actions, graphql }) => {
     });
 };
 
-export const onCreateNode =({ node, actions, getNode }) => {
+export const onCreateNode: GatsbyNode["onCreateNode"] = ({
+    actions,
+    getNode,
+    node,
+}) => {
     const { createNodeField } = actions;
 
     if (node.internal.type === `MarkdownRemark`) {

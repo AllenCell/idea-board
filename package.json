@@ -38,18 +38,17 @@
     "keywords": [
         "gatsby"
     ],
-    "main": "n/a",
-    "scripts": {
+"scripts": {
         "clean": "gatsby clean",
         "start": "npm run develop",
         "build": "npm run clean && gatsby build",
         "develop": "npm run clean && gatsby develop",
         "serve": "gatsby serve",
-        "format": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --write",
-        "formatCheck": "prettier \"{src,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.js --check",
+        "format": "prettier \"{src,gatsby,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.{ts,tsx,mjs} --write",
+        "formatCheck": "prettier \"{src,gatsby,gatsbyutils,netlify}/**/*.{ts,tsx,js,jsx}\" gatsby-*.{ts,tsx,mjs} --check",
         "test": "vitest",
         "dev": "npx concurrently \"npx netlify-cms-proxy-server\" \"npm start -- --progress\"",
-        "lint": "eslint \"src/**/*.{ts,tsx}\" gatsby-*.js --quiet --fix"
+        "lint": "eslint \"src/**/*.{ts,tsx}\" gatsby-*.{ts,tsx,mjs} --quiet --fix"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
