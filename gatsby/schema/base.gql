@@ -20,5 +20,18 @@ type Frontmatter {
     program: [String!]
     publication: String
     introduction: String
-    preliminaryFindings: PreliminaryFindings!
+    resources: [Resource!]!
+}
+
+type Resource implements Node {
+    slug: String!
+    name: String
+    type: String
+    description: String
+    link: String
+    readmeLink: String
+    status: String
+    date: Date @dateformat
+    tags: [String!]
+    draft: Boolean
 }

@@ -29,6 +29,8 @@ preliminaryFindings:
     - type: imageFile
       file: /img/228469011.jpg
       caption: An unrelated image from our website showing lots and lots of cells.
+resources:
+  - test-software-tool
 materialsAndMethods:
   dataset: Actin compression simulation dataset
   software:
