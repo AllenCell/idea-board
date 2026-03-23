@@ -38,6 +38,9 @@ nextSteps: |-
   - Expand analysis to all EMT datasets and stratify by treatment. And a link
   for no reason: [link](https://allencell.org/)
 
+  - Expand analysis to all EMT datasets and stratify by treatment. And a link
+  for no reason: [link](https://allencell.org/)
+
   - Quantify robustness of the junction "flicker" signature across cell lines.
 
   - Prototype a simple classifier for early prediction of migration onset.
