@@ -1,19 +1,15 @@
 import React from "react";
 
-import { StaticQuery, graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 
-import Layout from "../components/Layout";
-
-interface QueryResult {
-    data: {
-        markdownRemark: {
-            id: string;
-            frontmatter: {
-                name: string;
-                title?: string;
-                contact?: string;
-                // program?: string;
-            };
+interface AlleniteQueryData {
+    markdownRemark: {
+        id: string;
+        frontmatter: {
+            name: string;
+            title?: string;
+            contact?: string;
+            // program?: string;
         };
     };
 }
@@ -39,36 +35,29 @@ export const AlleniteTemplate = ({
     );
 };
 
-const Allenite = ({ data }: QueryResult) => {
+const Allenite = () => {
+    const data = useStaticQuery<AlleniteQueryData>(graphql`
+        query GetAlleniteByNameStatic {
+            markdownRemark {
+                id
+                frontmatter {
+                    name
+                    title
+                    contact
+                }
+            }
+        }
+    `);
+
     const { markdownRemark: post } = data;
     return (
-        <Layout>
-            <AlleniteTemplate
-                name={post.frontmatter.name}
-                title={post.frontmatter.title || ""}
-                contact={post.frontmatter.contact || ""}
-                // program={post.frontmatter.program || ""}
-            />
-        </Layout>
+        <AlleniteTemplate
+            name={post.frontmatter.name}
+            title={post.frontmatter.title || ""}
+            contact={post.frontmatter.contact || ""}
+            // program={post.frontmatter.program || ""}
+        />
     );
 };
 
-const AlleniteQuery = () => (
-    <StaticQuery
-        query={graphql`
-            query GetAlleniteByNameStatic {
-                markdownRemark {
-                    id
-                    frontmatter {
-                        name
-                        title
-                        contact
-                    }
-                }
-            }
-        `}
-        render={(data) => <Allenite data={data} />}
-    />
-);
-
-export default AlleniteQuery;
+export default Allenite;

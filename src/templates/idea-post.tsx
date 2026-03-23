@@ -1,16 +1,40 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
+
+
 import { Link, PageProps, graphql } from "gatsby";
+
+
 
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Layout as AntdLayout, Button, Card, Flex } from "antd";
 
-import { ContactModal } from "../components/ContactModal";
+
+
+import IconText from "../components/IconText";
 import Layout from "../components/Layout";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const Header = AntdLayout.Header;
 
@@ -25,17 +49,17 @@ const {
 
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     authors,
-    materialsAndMethods,
+    introduction,
+    nextSteps,
+    preliminaryFindings,
     primaryContact,
+    publication,
+    resources,
     slug,
     tags,
     title,
 }) => {
     const [contactModalOpen, setContactModalOpen] = useState(false);
-
-    // TODO query the actual data
-    const introduction = "PLACEHOLDER INTRODUCTION TEXT";
-    const nextSteps = "PLACEHOLDER NEXT STEPS TEXT";
 
     const getTagList = (tags: readonly string[]) => {
         return (
@@ -48,6 +72,23 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
             </ul>
         );
     };
+
+    const getAuthorsList = (authors: readonly string[]) => {
+        if (authors.length === 0) {
+            return null;
+        }
+        return (
+            <>
+                <h4 className={sectionTitle}>Proposed by: </h4>
+                <p> {authors.join(", ")}</p>
+            </>
+        );
+    };
+
+    const hasFigures =
+        preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
+    const hasPreliminaryFindings =
+        preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
 
     return (
         <div>
@@ -78,16 +119,50 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                             </Button>
                         </Flex>
                     </Flex>
-
-                    <p className={proposal}>{introduction}</p>
+                    {introduction && (
+                        <div className={proposal}>
+                            <CustomReactMarkdown content={introduction} />
+                        </div>
+                    )}
+                    {getAuthorsList(authors)}
+                    {publication && (
+                        <>
+                            <h4 className={sectionTitle}>Publication </h4>
+                            <p> {publication}</p>
+                        </>
+                    )}
                 </div>
-                {nextSteps && (
+
+                {hasPreliminaryFindings && (
                     <div className={section}>
-                        <h2 className={sectionTitle}>Suggested next steps:</h2>
-                        {nextSteps}
+                        <h4 className={sectionTitle}>Preliminary Findings</h4>
+                        {preliminaryFindings.summary && (
+                            <CustomReactMarkdown
+                                content={preliminaryFindings.summary}
+                            />
+                        )}
+                        <Flex>
+                            {hasFigures &&
+                                preliminaryFindings.figures.map(
+                                    (figure, index) => {
+                                        return (
+                                            <FigureComponent
+                                                key={index}
+                                                figure={figure}
+                                            />
+                                        );
+                                    },
+                                )}
+                        </Flex>
                     </div>
                 )}
-                <MaterialsAndMethodsComponent {...materialsAndMethods} />
+                {nextSteps && (
+                    <div className={section}>
+                        <h4 className={sectionTitle}>Suggested next steps:</h4>
+                        <CustomReactMarkdown content={nextSteps} />
+                    </div>
+                )}
+                <MaterialsAndMethodsComponent resources={[...resources]} />
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
@@ -98,27 +173,22 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
     const markdownRemark = data.markdownRemark;
     // Runtime guard - markdownRemark can be null if query doesn't find matching ID
     if (!markdownRemark) {
-        return (
-            <Layout>
-                <p>Post not found.</p>
-            </Layout>
-        );
+        return <p>Post not found.</p>;
     }
 
     const { description, title } = markdownRemark.frontmatter;
 
     return (
-        <Layout>
+        <>
             <Helmet titleTemplate="%s | Ideas">
                 <title>{title}</title>
                 <meta name="description" content={description ?? ""} />
             </Helmet>
-
             <IdeaPostTemplate
                 {...markdownRemark.frontmatter}
                 {...markdownRemark.fields}
             />
-        </Layout>
+        </>
     );
 };
 
@@ -133,39 +203,30 @@ export const pageQuery = graphql`
                 slug
             }
             frontmatter {
+                authors
+                publication
                 date(formatString: "MMMM DD, YYYY")
+                introduction
                 title
                 description
-                authors
                 primaryContact
                 tags
-                materialsAndMethods {
-                    dataset {
-                        frontmatter {
-                            name
-                            description
-                            link
-                            status
-                            date
-                        }
-                    }
-                    protocols {
-                        protocol
-                    }
-                    cellLines {
-                        name
-                        link
-                    }
-                    software {
-                        softwareTool {
-                            frontmatter {
-                                name
-                                description
-                                link
+                preliminaryFindings {
+                    summary
+                    figures {
+                        type
+                        url
+                        file {
+                            childImageSharp {
+                                gatsbyImageData(width: 600, quality: 90)
                             }
                         }
-                        customDescription
+                        caption
                     }
+                }
+                nextSteps
+                resources {
+                    ...ResourceFields
                 }
             }
         }

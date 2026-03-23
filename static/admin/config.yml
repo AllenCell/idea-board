@@ -96,7 +96,7 @@ collections:
                         {
                             label: "Summary of findings",
                             name: "summary",
-                            widget: "string",
+                            widget: "markdown",
                             required: false,
                         },
                         {
@@ -105,87 +105,74 @@ collections:
                             widget: "list",
                             required: false,
                             hint: "Add any images or figures that illustrate your preliminary findings.",
-                            field:
-                                {
-                                    label: "Figure",
-                                    name: "figure",
-                                    widget: "image",
-                                },
+                            types:
+                                [
+                                    {
+                                        label: "Image link",
+                                        name: "imageLink",
+                                        widget: "object",
+                                        fields: [
+                                                {
+                                                    label: "Figure URL",
+                                                    name: "url",
+                                                    widget: "url-image",
+                                                    hint: "Enter a valid image URL to see a preview",
+                                                },
+                                                {
+                                                    label: "Caption",
+                                                    name: "caption",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                    {
+                                        label: "Image file",
+                                        name: "imageFile",
+                                        widget: "object",
+                                        fields: [
+                                                {
+                                                    label: "Figure",
+                                                    name: "file",
+                                                    widget: "image",
+                                                    choose_url: false,
+                                                },
+                                                {
+                                                    label: "Caption",
+                                                    name: "caption",
+                                                    widget: "string",
+                                                    required: false,
+                                                },
+                                            ],
+                                    },
+                                ],
                         },
                     ],
             }
           - {
-                label: "Materials and Methods",
-                name: "materialsAndMethods",
-                widget: "object",
-                required: true,
-                fields:
-                    [
-                        {
-                            label: "Dataset",
-                            name: "dataset",
-                            widget: "relation",
-                            collection: "dataset",
-                            search_fields: ["name", "link"],
-                            value_field: "name",
-                            multiple: false,
-                            required: false,
-                            hint: "Select a dataset from the dataset collection, (if it's a new dataset, please add it to the dataset collection first, you can save this and come back later).",
-                        },
-                        {
-                            label: "Relevant protocols",
-                            name: "protocols",
-                            widget: "list",
-                            required: false,
-                            hint: "List any relevant protocols used in this analysis.",
-                            field:
-                                {
-                                    label: "Protocol",
-                                    name: "protocol",
-                                    widget: "file",
-                                },
-                        },
-                        {
-                            label: "Cell lines used",
-                            name: "cellLines",
-                            widget: "list",
-                            required: false,
-                            hint: "List any cell lines used in this analysis.",
-                            field:
-                                {
-                                    label: "Cell line",
-                                    name: "cellLine",
-                                    widget: "link",
-                                },
-                        },
-                        {
-                            label: "Software tools",
-                            name: "software",
-                            widget: "list",
-                            required: false,
-                            hint: "List any software tools used in this analysis.",
-
-                            fields:
-                                [
-                                    {
-                                        label: "Software tool",
-                                        name: "softwareTool",
-                                        widget: "relation",
-                                        collection: "software",
-                                        search_fields: ["name"],
-                                        value_field: "name",
-                                        multiple: false,
-                                    },
-                                    {
-                                        label: "Custom description (optional)",
-                                        name: "customDescription",
-                                        widget: "text",
-                                        required: false,
-                                        hint: "Optionally provide a custom or supplementary description for how this tool was used in this specific analysis. Leave blank to use the default description.",
-                                    },
-                                ],
-                        }
-                    ],
+                label: "Datasets",
+                name: "datasets",
+                widget: "relation",
+                collection: "resources",
+                search_fields: ["name"],
+                value_field: "{{slug}}",
+                display_fields: ["name"],
+                multiple: true,
+                required: false,
+                hint: "Select datasets from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
+                filters: [{ field: "resourceDetails.type", values: ["dataset"] }],
+            }
+          - {
+                label: "Resources",
+                name: "resources",
+                widget: "relation",
+                collection: "resources",
+                search_fields: ["resourceDetails.name", "resourceDetails.type"],
+                value_field: "{{slug}}",
+                display_fields: ["resourceDetails.type", "resourceDetails.name"],
+                multiple: true,
+                required: false,
+                hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
             }
           - {
                 label: "Suggested next steps",
@@ -223,40 +210,6 @@ collections:
                 required: false,
             }
 
-    - name: "dataset"
-      label: "Datasets"
-      label_singular: "Dataset"
-      folder: "src/pages/dataset"
-      create: true
-      slug: "{{name}}"
-      fields:
-          - {
-                label: "Template Key",
-                name: "templateKey",
-                widget: "hidden",
-                default: "dataset",
-            }
-          - { label: "Name", name: "name", widget: "string" }
-          - { label: "Link", name: "link", widget: "string", required: false }
-          - {
-                label: "Status",
-                name: "status",
-                widget: "select",
-                options:
-                    [
-                        "Public",
-                        "Not QCed",
-                        "Preliminary",
-                        "Need to request data directly",
-                    ],
-            }
-          - { label: "Publish Date", name: "date", widget: "datetime" }
-          - {
-                label: "Description",
-                name: "description",
-                widget: "markdown",
-                required: false,
-            }
     - name: "allenite"
       label: "Allenites"
       label_singular: "Allenite"
@@ -313,36 +266,39 @@ collections:
           - { label: "Image", name: "image", widget: image, required: false }
           - { label: "Active", name: "active", widget: boolean, default: false }
 
-    - name: "software"
-      label: "Software Tools"
-      label_singular: "Software Tool"
-      folder: "src/pages/software"
+    - name: "resources"
+      label: "Resources"
+      label_singular: "Resource"
+      folder: "src/pages/resource"
       create: true
       slug: "{{name}}"
+      identifier_field: "name"
+      summary: "{{resourceDetails.type}}: {{name}}"
+      sortable_fields: ["name", "resourceDetails.type"]
+      view_groups: [
+            {
+                label: "Type",
+                field: "resourceDetails.type",
+            }
+      ]
       fields:
           - {
                 label: "Template Key",
                 name: "templateKey",
                 widget: "hidden",
-                default: "software",
+                default: "resource",
             }
-          - { label: "Name", name: "name", widget: "string" }
           - {
-                label: "Description",
-                name: "description",
-                widget: "markdown",
-                required: false,
+                label: "Name",
+                name: "name",
+                widget: "hidden",
+                default: "",
             }
-          - { label: "Link", name: "link", widget: "string", required: false }
           - {
-                label: "Status",
-                name: "status",
-                widget: "select",
-                options: ["Public", "In development", "Internal use only"],
-                required: false,
+                label: "Resource Details",
+                name: "resourceDetails",
+                widget: "resource_union", # custom widget
             }
-          - { label: "Publish Date", name: "date", widget: "datetime", required: false }
-
     - name: "pages"
       label: "Pages"
       files:

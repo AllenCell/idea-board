@@ -14,6 +14,25 @@ type Frontmatter {
     description: String
     draft: Boolean
     tags: [String!]
-    materialsAndMethods: MaterialsAndMethods!
+    authors: [String!]!
+    nextSteps: String
+    program: [String!]
+    publication: String
+    introduction: String
+    resources: [Resource!]!
     primaryContact: String
+}
+
+type Resource implements Node {
+    slug: String!
+    name: String
+    type: String
+    description: String
+    link: String
+    readmeLink: String
+    file: String
+    status: String
+    date: Date @dateformat
+    tags: [String!]
+    draft: Boolean
 }

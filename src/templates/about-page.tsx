@@ -3,7 +3,6 @@ import React from "react";
 import { graphql } from "gatsby";
 
 import Content, { HTMLContent } from "../components/Content";
-import Layout from "../components/Layout";
 
 interface QueryResult {
     data: {
@@ -56,13 +55,11 @@ const AboutPage = ({ data }: QueryResult) => {
     const { markdownRemark: post } = data;
 
     return (
-        <Layout>
-            <AboutPageTemplate
-                contentComponent={HTMLContent}
-                title={post.frontmatter.title}
-                content={post.html}
-            />
-        </Layout>
+        <AboutPageTemplate
+            contentComponent={HTMLContent}
+            title={post.frontmatter.title}
+            content={post.html}
+        />
     );
 };
 

@@ -1,4 +1,7 @@
-const { SOFTWARE_PATH } = require("../constants");
+const {
+    RESOURCES_TEMPLATE_KEY,
+    TEMPLATE_KEY_TO_TYPE,
+} = require("../constants");
 const slugify = require("slugify");
 
 /**
@@ -27,34 +30,6 @@ function resolveToArray(value) {
 }
 
 /**
- * Prepares software tool references for Gatsby's @link directive.
- * Transforms tool names into slug paths that @link(by: "fields.slug") uses
- * to resolve the actual MarkdownRemark nodes. Filters out invalid entries
- * and preserves custom descriptions.
- * @param {Array<{softwareTool?: string, customDescription?: string}>|unknown} rawSoftware - Array of software tool objects from frontmatter
- * @returns {Array<{softwareTool: string|null, customDescription: string|null}>} Array with slug keys for @link resolution
- */
-const resolveSoftwareTools = (rawSoftware) => {
-    if (!Array.isArray(rawSoftware)) {
-        return [];
-    }
-    return rawSoftware
-        .map((item) => {
-            if (item && typeof item === "object" && item.softwareTool) {
-                return {
-                    softwareTool: resolveSlug(item.softwareTool, SOFTWARE_PATH),
-                    customDescription: stringWithDefault(
-                        item.customDescription,
-                        null,
-                    ),
-                };
-            }
-            return null;
-        })
-        .filter((item) => item !== null);
-};
-
-/**
  * Builds slugs from directory paths and ids/names.
  * Uses slugs in place of names to prevent namespace
  * collisions when using @link directive in Gatsby schema.
@@ -71,9 +46,24 @@ const resolveSlug = (id, directory) => {
     return `/${directory}/${slugPart}/`;
 };
 
+/**
+ * Builds a nodeModel query for a single Resource node by display name.
+ * Returns null if the name can't be slugified (falsy input).
+ * @param {string|null|undefined} name - The resource's name (e.g., "Software Y")
+ * @returns {{ query: object, type: string } | null}
+ */
+const resourceQuery = (name) => {
+    const slug = resolveSlug(name, RESOURCES_TEMPLATE_KEY);
+    if (!slug) return null;
+    return {
+        query: { filter: { slug: { eq: slug } } },
+        type: TEMPLATE_KEY_TO_TYPE[RESOURCES_TEMPLATE_KEY], // "Resource"
+    };
+};
+
 module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
-    resolveSoftwareTools,
+    resourceQuery,
 };
