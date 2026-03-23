@@ -5,8 +5,6 @@ title: How do the number and size of holes in the basement membrane change with
 introduction: Needs background
 resources:
   - released-emt-dataset
-materialsAndMethods:
-  dataset: Released EMT dataset
 nextSteps: Need to be filled out
 program:
   - EMT

@@ -3,8 +3,13 @@ import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
+import { CustomReactMarkdown } from "../../components/CustomReactMarkdown";
 
-type ResourceNode = { slug: string; name: string | null; description?: string | null };
+type ResourceNode = {
+    slug: string;
+    name: string | null;
+    description?: string | null;
+};
 
 function renderResourceList(nodes: ResourceNode[]) {
     if (!nodes.length) return null;
@@ -13,7 +18,9 @@ function renderResourceList(nodes: ResourceNode[]) {
             {nodes.map((node) => (
                 <li key={node.slug}>
                     <Link to={node.slug}>{node.name}</Link>
-                    {node.description && <p>{node.description}</p>}
+                    {node.description && (
+                        <CustomReactMarkdown content={node.description} />
+                    )}
                 </li>
             ))}
         </ul>
@@ -47,9 +54,7 @@ const ResourcesPage: React.FC<PageProps<Queries.ResourcesIndexQuery>> = ({
             <div>
                 <h1>Resources</h1>
                 {resourceSections.map(({ keys, title: sectionTitle }) => {
-                    const nodes = keys.flatMap(
-                        (key) => data[key]?.nodes ?? []
-                    );
+                    const nodes = keys.flatMap((key) => data[key]?.nodes ?? []);
                     if (!nodes.length) return null;
                     return (
                         <React.Fragment key={sectionTitle}>

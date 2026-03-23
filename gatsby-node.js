@@ -5,15 +5,14 @@ const { createFilePath } = require("gatsby-source-filesystem");
 const {
     stringWithDefault,
     resolveToArray,
-    resolveSlug,
-    resolveSoftwareTools,
     resourceQuery,
 } = require("./gatsby/utils/gatsby-resolver-utils");
 const {
-    DATASET_PATH,
     RESOURCES_GATSBY_NODE_KEY,
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
     TEMPLATE_KEY_TO_TYPE,
+    ALLENITE_TEMPLATE_KEY,
+    PROGRAM_TEMPLATE_KEY,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
@@ -25,33 +24,12 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * and are referenced by other markdown files.
  */
 
-// TODO: use constants here when this gets revised when we migrate old resources
-// to new collection
-const DATA_ONLY_PAGES = ["software", "dataset", "allenite", "program"];
+const DATA_ONLY_PAGES = [ALLENITE_TEMPLATE_KEY, PROGRAM_TEMPLATE_KEY];
 
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `"""
-        Nested materials and methods block for idea posts.
-        """
-        type MaterialsAndMethods {
-        dataset: MarkdownRemark @link(by: "fields.slug")
-        protocols: [ProtocolItem!]!
-        cellLines: [CellLineItem!]!
-        software: [SoftwareTool!]!
-        }
-
-            type ProtocolItem {
-                protocol: String!
-            }
-
-        type CellLineItem {
-            name: String!
-            link: String
-        }
-
-        type PreliminaryFindings {
+        `type PreliminaryFindings {
             summary: String!
             figures: [ImgWithCaption!]!
         }
@@ -63,13 +41,6 @@ exports.createSchemaCustomization = ({ actions }) => {
             caption: String
         }
 
-            """
-            Software tool reference with optional custom description.
-            """
-            type SoftwareTool {
-                softwareTool: MarkdownRemark @link(by: "fields.slug")
-                customDescription: String
-            }
         `,
     ];
     createTypes(read("gatsby/schema/base.gql"));
@@ -120,32 +91,6 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
                         }
                     });
                     return results.filter(Boolean);
-                },
-            },
-            materialsAndMethods: {
-                resolve: (source) => {
-                    const raw = source.materialsAndMethods;
-                    const current = {
-                        dataset: null,
-                        cellLines: [],
-                        protocols: [],
-                        software: [],
-                    };
-
-                    if (!raw || typeof raw !== "object") {
-                        return current;
-                    }
-
-                    const resolvedDatasetSlug = resolveSlug(
-                        raw.dataset,
-                        DATASET_PATH,
-                    );
-                    current.dataset = resolvedDatasetSlug;
-                    current.cellLines = resolveToArray(raw.cellLines);
-                    current.protocols = resolveToArray(raw.protocols);
-                    current.software = resolveSoftwareTools(raw.software);
-
-                    return current;
                 },
             },
             nextSteps: {

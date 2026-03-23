@@ -14,7 +14,6 @@ import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
-import ResourcesComponent from "../components/ResourcesComponent";
 import { TagPopover } from "../components/TagPopover";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
@@ -32,13 +31,12 @@ const {
 export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
     authors,
     introduction,
-    materialsAndMethods,
     nextSteps,
     preliminaryFindings,
     publication,
     resources,
     slug,
-    tags, // TODO: migrate MaterialsAndMethods to use resources
+    tags,
     title,
 }) => {
     const getTagList = (tags: readonly string[]) => {
@@ -142,10 +140,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                         <CustomReactMarkdown content={nextSteps} />
                     </div>
                 )}
-                {!!resources?.length && (
-                    <ResourcesComponent resources={[...resources]} />
-                )}
-                <MaterialsAndMethodsComponent {...materialsAndMethods} />
+                <MaterialsAndMethodsComponent resources={[...resources]} />
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
@@ -209,34 +204,6 @@ export const pageQuery = graphql`
                 nextSteps
                 resources {
                     ...ResourceFields
-                }
-                materialsAndMethods {
-                    dataset {
-                        frontmatter {
-                            name
-                            description
-                            link
-                            status
-                            date
-                        }
-                    }
-                    protocols {
-                        protocol
-                    }
-                    cellLines {
-                        name
-                        link
-                    }
-                    software {
-                        softwareTool {
-                            frontmatter {
-                                name
-                                description
-                                link
-                            }
-                        }
-                        customDescription
-                    }
                 }
             }
         }

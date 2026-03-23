@@ -1,5 +1,4 @@
 const {
-    SOFTWARE_PATH,
     RESOURCES_TEMPLATE_KEY,
     TEMPLATE_KEY_TO_TYPE,
 } = require("../constants");
@@ -29,34 +28,6 @@ function resolveToArray(value) {
     }
     return [];
 }
-
-/**
- * Prepares software tool references for Gatsby's @link directive.
- * Transforms tool names into slug paths that @link(by: "fields.slug") uses
- * to resolve the actual MarkdownRemark nodes. Filters out invalid entries
- * and preserves custom descriptions.
- * @param {Array<{softwareTool?: string, customDescription?: string}>|unknown} rawSoftware - Array of software tool objects from frontmatter
- * @returns {Array<{softwareTool: string|null, customDescription: string|null}>} Array with slug keys for @link resolution
- */
-const resolveSoftwareTools = (rawSoftware) => {
-    if (!Array.isArray(rawSoftware)) {
-        return [];
-    }
-    return rawSoftware
-        .map((item) => {
-            if (item && typeof item === "object" && item.softwareTool) {
-                return {
-                    softwareTool: resolveSlug(item.softwareTool, SOFTWARE_PATH),
-                    customDescription: stringWithDefault(
-                        item.customDescription,
-                        null,
-                    ),
-                };
-            }
-            return null;
-        })
-        .filter((item) => item !== null);
-};
 
 /**
  * Builds slugs from directory paths and ids/names.
@@ -94,6 +65,5 @@ module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
-    resolveSoftwareTools,
     resourceQuery,
 };
