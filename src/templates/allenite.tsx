@@ -1,17 +1,15 @@
 import React from "react";
 
-import { StaticQuery, graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 
-interface QueryResult {
-    data: {
-        markdownRemark: {
-            id: string;
-            frontmatter: {
-                name: string;
-                title?: string;
-                contact?: string;
-                // program?: string;
-            };
+interface AlleniteQueryData {
+    markdownRemark: {
+        id: string;
+        frontmatter: {
+            name: string;
+            title?: string;
+            contact?: string;
+            // program?: string;
         };
     };
 }
@@ -37,7 +35,20 @@ export const AlleniteTemplate = ({
     );
 };
 
-const Allenite = ({ data }: QueryResult) => {
+const Allenite = () => {
+    const data = useStaticQuery<AlleniteQueryData>(graphql`
+        query GetAlleniteByNameStatic {
+            markdownRemark {
+                id
+                frontmatter {
+                    name
+                    title
+                    contact
+                }
+            }
+        }
+    `);
+
     const { markdownRemark: post } = data;
     return (
         <AlleniteTemplate
@@ -49,22 +60,4 @@ const Allenite = ({ data }: QueryResult) => {
     );
 };
 
-const AlleniteQuery = () => (
-    <StaticQuery
-        query={graphql`
-            query GetAlleniteByNameStatic {
-                markdownRemark {
-                    id
-                    frontmatter {
-                        name
-                        title
-                        contact
-                    }
-                }
-            }
-        `}
-        render={(data) => <Allenite data={data} />}
-    />
-);
-
-export default AlleniteQuery;
+export default Allenite;

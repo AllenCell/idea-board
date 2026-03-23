@@ -4,6 +4,11 @@ const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const { createIdeaPostResolver } = require("./gatsby/resolvers/resolvers");
 const {
+    stringWithDefault,
+    resolveToArray,
+    resourceQuery,
+} = require("./gatsby/utils/gatsby-resolver-utils");
+const {
     RESOURCES_GATSBY_NODE_KEY,
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
     TEMPLATE_KEY_TO_TYPE,
