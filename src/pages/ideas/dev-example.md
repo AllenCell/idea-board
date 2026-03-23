@@ -5,6 +5,8 @@ preliminaryFindings:
     (rapid local changes in junction length and intensity) increases ~30–60
     minutes before migration onset in a subset of fields of view. Here is a link
     for no reason: [link](https://allencell.org/).
+    minutes before migration onset in a subset of fields of view. Here is a link
+    for no reason: [link](https://allencell.org/).
   figures:
     - type: imageFile
       file: /img/228469011.jpg
@@ -29,6 +31,11 @@ introduction: >
 resources:
   - cell-line-resources
   - test-software-tool
+  - simularium
+  - timelapse-feature-explorer
+  - released-emt-dataset
+  - aics-42
+  - aics-67
 materialsAndMethods:
   dataset: Released EMT dataset
   protocols: null
