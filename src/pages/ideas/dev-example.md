@@ -7,6 +7,8 @@ preliminaryFindings:
     for no reason: [link](https://allencell.org/).
     minutes before migration onset in a subset of fields of view. Here is a link
     for no reason: [link](https://allencell.org/).
+    minutes before migration onset in a subset of fields of view. Here is a link
+    for no reason: [link](https://allencell.org/).
   figures:
     - type: imageFile
       file: /img/228469011.jpg
