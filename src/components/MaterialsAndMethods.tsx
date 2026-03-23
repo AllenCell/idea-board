@@ -5,8 +5,8 @@ import type { CollapseProps } from "antd";
 
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { ResourceNode } from "../types";
-import { CustomReactMarkdown } from "./CustomReactMarkdown";
 import { NameWithLink } from "../utils/formattingUtils";
+import { CustomReactMarkdown } from "./CustomReactMarkdown";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
 const { subText } = require("../style/materials.module.css");
@@ -15,11 +15,10 @@ interface MaterialsAndMethodsProps {
     resources: ResourceNode[];
 }
 
-export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = ({
-    resources,
-}) => {
-    const byType = (type: string) =>
-        resources.filter((r) => r.type === type);
+export const MaterialsAndMethodsComponent: React.FC<
+    MaterialsAndMethodsProps
+> = ({ resources }) => {
+    const byType = (type: string) => resources.filter((r) => r.type === type);
 
     const datasets = byType(RESOURCE_TYPES.DATASET);
     const softwareTools = byType(RESOURCE_TYPES.SOFTWARE_TOOL);
@@ -122,7 +121,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
                 </div>
             ),
         });
-    }  
+    }
 
     if (items.length === 0) {
         return null;

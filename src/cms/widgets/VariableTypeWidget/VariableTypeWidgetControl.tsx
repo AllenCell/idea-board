@@ -3,15 +3,14 @@ import React from "react";
 import CMS from "decap-cms-app";
 import type { CmsWidgetControlProps } from "decap-cms-core";
 
-import { FieldConfig, TypeConfig } from "./types";
 import { fromImmutable } from "../../utils/immutable";
+import { FieldConfig, TypeConfig } from "./types";
 
 interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
     types: TypeConfig[];
     defaultType?: string;
     baseFields?: FieldConfig[];
 }
-
 
 const DEFAULT_BASE_FIELDS: FieldConfig[] = [
     { label: "Name", name: "name", type: "input" },
@@ -197,7 +196,9 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
             return (
                 <div key={name} style={styles.fieldGroup}>
                     <label style={styles.label}>{label}</label>
-                    <div style={styles.error}>Markdown widget not available</div>
+                    <div style={styles.error}>
+                        Markdown widget not available
+                    </div>
                 </div>
             );
         }

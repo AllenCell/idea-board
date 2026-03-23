@@ -1,6 +1,10 @@
 import React from "react";
-import { ResourceDisplayProps, ResourceTemplate } from "../../templates/resource";
-import { fromImmutable, ImmutableLike } from "../utils/immutable";
+
+import {
+    ResourceDisplayProps,
+    ResourceTemplate,
+} from "../../templates/resource";
+import { ImmutableLike, fromImmutable } from "../utils/immutable";
 
 interface PreviewProps {
     entry?: ImmutableLike;
@@ -11,7 +15,11 @@ const ResourcePreview: React.FC<PreviewProps> = ({ entry, value }) => {
     // `value` is only populated after the user edits a field — it is undefined
     // on initial load. Fall back to reading resourceDetails directly from the
     // entry, mirroring the path used in copyResourceNameHandler.
-    const raw = value ?? (entry?.get("data") as ImmutableLike | undefined)?.get("resourceDetails");
+    const raw =
+        value ??
+        (entry?.get("data") as ImmutableLike | undefined)?.get(
+            "resourceDetails",
+        );
     const v = fromImmutable<ResourceDisplayProps>(raw) ?? {};
     return (
         <ResourceTemplate
