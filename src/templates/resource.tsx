@@ -27,7 +27,7 @@ export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
                 <h2>{name}</h2>
                 {status && <p>Status: {status}</p>}
                 {type && <p>Type: {type}</p>}
-                <ResourceLinks name={name} links={links ?? null} />
+                <ResourceLinks name={null} links={links ?? null} />
                 {description && (
                     <>
                         <p>Description: </p>
