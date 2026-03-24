@@ -3,6 +3,7 @@ import React from "react";
 import CMS from "decap-cms-app";
 import type { CmsWidgetControlProps } from "decap-cms-core";
 
+import { fromImmutable } from "../../utils/immutable";
 import { FieldConfig, TypeConfig } from "./types";
 
 interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
@@ -11,15 +12,9 @@ interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
     baseFields?: FieldConfig[];
 }
 
-// Decap uses Immutable.js internally - this interface helps us
-// convert their Map objects to plain JS when needed
-interface ImmutableLike {
-    toJS: () => Record<string, unknown>;
-}
-
 const DEFAULT_BASE_FIELDS: FieldConfig[] = [
     { label: "Name", name: "name", type: "input" },
-    { label: "Description", name: "description", type: "textarea", rows: 4 },
+    { label: "Description", name: "description", type: "markdown" },
     {
         label: "Links",
         name: "links",
@@ -138,10 +133,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
             return { type: getDefaultType() };
         }
 
-        const obj =
-            typeof (value as ImmutableLike).toJS === "function"
-                ? (value as ImmutableLike).toJS()
-                : (value as Record<string, unknown>);
+        const obj = fromImmutable<Record<string, unknown>>(value) ?? {};
 
         return { ...obj, type: obj.type || getDefaultType() };
     };
@@ -215,6 +207,41 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
                         </option>
                     ))}
                 </select>
+                {hint && <div style={styles.hint}>{hint}</div>}
+            </div>
+        );
+    };
+
+    const renderMarkdown = (
+        cfg: FieldConfig,
+        valueObj: Record<string, unknown>,
+    ) => {
+        const { hint = "", label, name } = cfg;
+
+        const widget = CMS.getWidget("markdown");
+        const MarkdownControl = widget?.control as
+            | React.ComponentType<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+            | undefined;
+
+        if (!MarkdownControl) {
+            return (
+                <div key={name} style={styles.fieldGroup}>
+                    <label style={styles.label}>{label}</label>
+                    <div style={styles.error}>
+                        Markdown widget not available
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div key={name} style={styles.fieldGroup}>
+                <label style={styles.label}>{label}</label>
+                <MarkdownControl
+                    {...props}
+                    value={valueObj[name] || ""}
+                    onChange={(newVal: unknown) => handleChange(name, newVal)}
+                />
                 {hint && <div style={styles.hint}>{hint}</div>}
             </div>
         );
@@ -353,6 +380,8 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
                 return renderSelect(cfg, valueObj);
             case "file":
                 return renderFileControl(cfg, valueObj);
+            case "markdown":
+                return renderMarkdown(cfg, valueObj);
             case "links":
                 return renderLinks(cfg, valueObj);
             default:

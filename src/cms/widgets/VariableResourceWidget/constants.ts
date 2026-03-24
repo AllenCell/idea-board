@@ -1,5 +1,5 @@
-import { TypeConfig } from "../VariableTypeWidget/types";
 import { RESOURCE_TYPES } from "../../../constants/resourceTypes";
+import { TypeConfig } from "../VariableTypeWidget/types";
 
 const SOFTWARE_STATUS_OPTIONS = [
     "Public",

@@ -15,11 +15,10 @@ interface MaterialsAndMethodsProps {
     resources: ResourceNode[];
 }
 
-export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = ({
-    resources,
-}) => {
-    const byType = (type: string) =>
-        resources.filter((r) => r.type === type);
+export const MaterialsAndMethodsComponent: React.FC<
+    MaterialsAndMethodsProps
+> = ({ resources }) => {
+    const byType = (type: string) => resources.filter((r) => r.type === type);
 
     const datasets = byType(RESOURCE_TYPES.DATASET);
     const softwareTools = byType(RESOURCE_TYPES.SOFTWARE_TOOL);
