@@ -31,8 +31,8 @@ export const ResourceLinks: React.FC<ResourceLinksProps> = ({
         <div>
             {name}
             <ul style={{ margin: "4px 0" }}>
-                {links.map((l, i) => (
-                    <li key={i}>
+                {links.map((l) => (
+                    <li key={`${l.url}::${l.name ?? ""}`}>
                         <a
                             href={l.url}
                             target="_blank"

@@ -7,6 +7,6 @@ resourceDetails:
   description: a cell line we made
   links:
     - name: cell line resources
-      url: allencell.org
+      url: https://allencell.org
       description: ""
 ---
