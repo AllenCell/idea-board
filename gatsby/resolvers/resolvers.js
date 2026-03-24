@@ -30,7 +30,7 @@ const createIdeaPostResolver = (reporter) => ({
             );
             results.forEach((result, i) => {
                 if (!result) {
-                    const msg = `Idea post "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                    const msg = `Idea post "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the idea post file exists with the correct templateKey.`;
                     reporter.error(msg, new Error(msg));
                 }
             });
