@@ -28,7 +28,7 @@ export const ResourceLinks: React.FC<ResourceLinksProps> = ({
     }
 
     return (
-        <span>
+        <div>
             {name}
             <ul style={{ margin: "4px 0" }}>
                 {links.map((l, i) => (
@@ -44,6 +44,6 @@ export const ResourceLinks: React.FC<ResourceLinksProps> = ({
                     </li>
                 ))}
             </ul>
-        </span>
+        </div>
     );
 };

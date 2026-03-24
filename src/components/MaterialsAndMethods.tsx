@@ -45,10 +45,10 @@ export const MaterialsAndMethodsComponent: React.FC<
                 <div>
                     {datasets.map((dataset, index) => (
                         <div key={index}>
-                            <p>
+                            <div>
                                 <strong>Name: </strong>
                                 {renderResourceName(dataset)}
-                            </p>
+                            </div>
                             {dataset.description && (
                                 <div>
                                     <strong>Description:</strong>
@@ -105,10 +105,10 @@ export const MaterialsAndMethodsComponent: React.FC<
                 <div>
                     {softwareTools.map((tool, index) => (
                         <div key={index}>
-                            <p>
+                            <div>
                                 <strong>Name: </strong>
                                 {renderResourceName(tool)}
-                            </p>
+                            </div>
                             {tool.description && (
                                 <div>
                                     <strong>Description: </strong>
