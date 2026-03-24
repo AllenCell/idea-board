@@ -146,8 +146,8 @@ export const IdeaPostTemplate: React.FC<IdeaPostNode> = ({
                 {hasRelatedIdeas && (
                     <div className={section}>
                         <h4 className={sectionTitle}>Related Ideas:</h4>
-                        {relatedIdeas!.map((idea, index) => (
-                            <div key={index}>
+                        {relatedIdeas!.map((idea) => (
+                            <div key={idea.slug || idea.title}>
                                 <Link to={idea.slug || ""}>
                                     <h5>{idea.title}</h5>
                                 </Link>
