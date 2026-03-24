@@ -22,12 +22,18 @@ type Frontmatter {
     resources: [Resource!]!
 }
 
+type ResourceLink {
+    name: String!
+    url: String!
+    description: String
+}
+
 type Resource implements Node {
     slug: String!
     name: String
     type: String
     description: String
-    link: String
+    links: [ResourceLink!]
     readmeLink: String
     file: String
     status: String

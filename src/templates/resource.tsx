@@ -3,10 +3,11 @@ import React from "react";
 import { PageProps, graphql } from "gatsby";
 
 import { ResourceNode, ResourceTemplateQuery } from "../types";
+import { ResourceLinks } from "../components/ResourceLinks";
 
 const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
     description,
-    link,
+    links,
     name,
     status,
     type,
@@ -16,13 +17,7 @@ const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
             <h2>{name}</h2>
             <p>{type}</p>
             <p>{description}</p>
-            {link ? (
-                <p>
-                    <a href={link} target="_blank" rel="noopener noreferrer">
-                        {link}
-                    </a>
-                </p>
-            ) : null}
+            <ResourceLinks name={name} links={links} />
             <p>Status: {status}</p>
         </div>
     );

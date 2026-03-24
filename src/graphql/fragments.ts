@@ -6,7 +6,11 @@ export const SoftwareToolResourceFields = graphql`
         type
         name
         description
-        link
+        links {
+            name
+            url
+            description
+        }
         readmeLink
         status
         date
@@ -19,7 +23,11 @@ export const DatasetResourceFields = graphql`
         type
         name
         description
-        link
+        links {
+            name
+            url
+            description
+        }
         status
         date
     }
@@ -30,7 +38,11 @@ export const CellLineResourceFields = graphql`
         slug
         type
         name
-        link
+        links {
+            name
+            url
+            description
+        }
     }
 `;
 
@@ -40,7 +52,11 @@ export const ProtocolLinkResourceFields = graphql`
         type
         name
         description
-        link
+        links {
+            name
+            url
+            description
+        }
     }
 `;
 
@@ -50,7 +66,11 @@ export const ProtocolFileResourceFields = graphql`
         type
         name
         description
-        link
+        links {
+            name
+            url
+            description
+        }
         file
     }
 `;

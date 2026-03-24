@@ -6,7 +6,7 @@ import type { CollapseProps } from "antd";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { ResourceNode } from "../types";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
-import { NameWithLink } from "../utils/formattingUtils";
+import { ResourceLinks } from "./ResourceLinks";
 
 const { section, sectionTitle } = require("../style/idea-post.module.css");
 const { subText } = require("../style/materials.module.css");
@@ -29,6 +29,13 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
         ...byType(RESOURCE_TYPES.PROTOCOL_FILE),
     ];
 
+    const renderResourceName = (resource: ResourceNode) =>
+        resource.links && resource.links.length > 0 ? (
+            <ResourceLinks name={resource.name} links={resource.links} />
+        ) : (
+            resource.name
+        );
+
     const items: CollapseProps["items"] = [];
 
     if (datasets.length > 0) {
@@ -41,10 +48,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
                         <div key={index}>
                             <p>
                                 <strong>Name: </strong>
-                                <NameWithLink
-                                    name={dataset.name}
-                                    link={dataset.link}
-                                />
+                                {renderResourceName(dataset)}
                             </p>
                             {dataset.description && (
                                 <div>
@@ -70,7 +74,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
                 <ul>
                     {protocols.map((item, index) => (
                         <li key={index}>
-                            <NameWithLink name={item.name} link={item.link} />
+                            {renderResourceName(item)}
                         </li>
                     ))}
                 </ul>
@@ -86,7 +90,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
                 <ul>
                     {cellLines.map((item, index) => (
                         <li key={index}>
-                            <NameWithLink name={item.name} link={item.link} />
+                            {renderResourceName(item)}
                         </li>
                     ))}
                 </ul>
@@ -104,10 +108,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
                         <div key={index}>
                             <p>
                                 <strong>Name: </strong>
-                                <NameWithLink
-                                    name={tool.name}
-                                    link={tool.link}
-                                />
+                                {renderResourceName(tool)}
                             </p>
                             {tool.description && (
                                 <div>
@@ -122,7 +123,7 @@ export const MaterialsAndMethodsComponent: React.FC<MaterialsAndMethodsProps> = 
                 </div>
             ),
         });
-    }  
+    }
 
     if (items.length === 0) {
         return null;
