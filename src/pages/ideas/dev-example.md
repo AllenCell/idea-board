@@ -16,7 +16,7 @@ date: 2025-10-28T19:10:00.000Z
 authors:
   - Gokhan Dalgin
   - Caroline Hookway
-primaryContact: Megan Riel-Mehan
+primaryContact: Idea Board
 program: EMT
 introduction: >
   Collective cell migration during EMT appears to be preceded by subtle

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { graphql, useStaticQuery } from "gatsby";
+
 import { Button, Flex, Input, Modal } from "antd";
 
 import { CONTACT_FUNCTION_PATH } from "../constants";
@@ -24,6 +26,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const [senderEmail, setSenderEmail] = useState("");
     const [message, setMessage] = useState("");
 
+    const defaultContactQueryData = useStaticQuery(graphql`
+        query DefaultContact {
+            allenite(name: { eq: "Idea Board" }) {
+                name
+                contactId
+            }
+        }
+    `);
+
     const hasPrimaryContact = !!primaryContact;
     const hasAuthors = !!authors && authors.length > 0;
 
@@ -33,12 +44,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             .filter(Boolean)
             .join(", ") ?? "the authors";
 
-    const recipientLabel = hasPrimaryContact
-        ? primaryContact.name
+    const recipient = hasPrimaryContact
+        ? primaryContact
         : hasAuthors
-          ? filteredAuthors
-          : // TODO use real contact info
-            "fake default email inbox";
+          ? authors[0]
+          : defaultContactQueryData.allenite;
 
     const handleSubmit = async () => {
         try {
@@ -50,7 +60,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 body: JSON.stringify({
                     senderName: senderName,
                     senderEmail: senderEmail,
-                    recipient: recipientLabel,
+                    recipientName: recipient.name,
+                    recipientId: recipient.contactId,
                     message: message,
                 }),
             });
@@ -88,7 +99,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 </p>
             )}
             <p>
-                Your message will be sent to <strong>{recipientLabel}</strong>.
+                Your message will be sent to <strong>{recipient.name}</strong>.
                 Reach out with questions, collaboration interest, or feedback on
                 this idea.
             </p>

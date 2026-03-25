@@ -11,14 +11,25 @@ const handler: Handler = async function (event) {
     const requestBody = JSON.parse(event.body) as {
         senderName: string;
         senderEmail: string;
-        recipient: string;
+        recipientName: string;
+        recipientId: string;
         message: string;
     };
 
+    const email = process.env[requestBody.recipientId];
+    
+    if (email) {
+        return {
+            statusCode: 200,
+            body: JSON.stringify(requestBody),
+        };
+    }
     return {
-        statusCode: 200,
-        body: JSON.stringify(requestBody),
-    };
+        statusCode: 400,
+        body: JSON.stringify("No email stored for submitted contact ID")
+    }
+
+
 };
 
 export { handler };
