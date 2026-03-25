@@ -5,6 +5,7 @@ import type { CollapseProps } from "antd";
 
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { ResourceNode } from "../types";
+import { NameWithLink } from "../utils/formattingUtils";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
 import { ResourceLinks } from "./ResourceLinks";
 
