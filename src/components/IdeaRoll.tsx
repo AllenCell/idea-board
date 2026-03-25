@@ -1,14 +1,36 @@
 import React from "react";
 
+
+
 import { Link, graphql, useStaticQuery } from "gatsby";
+
+
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
-import { MaterialsAndMethods } from "../types";
+
+
+import { ResourceNode } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const { container } = require("../style/idea-roll.module.css");
 
@@ -28,7 +50,7 @@ interface PostNode {
             authors?: string[];
             tags?: string[];
             type: string;
-            materialsAndMethods?: MaterialsAndMethods;
+            resources: ResourceNode[];
         };
     };
 }
@@ -51,7 +73,7 @@ const IdeaRollTemplate = (props: {
         authors: post.frontmatter.authors || [],
         concerns: post.frontmatter.concerns || "",
         dataset: {
-            ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter,
+            ...post.frontmatter.resources.find((r) => r.type === "dataset"),
         },
     }));
     if (props.count) {
@@ -174,15 +196,8 @@ export default function IdeaRoll({
                             type
                             authors
                             concerns
-                            materialsAndMethods {
-                                dataset {
-                                    frontmatter {
-                                        name
-                                        description
-                                        link
-                                        status
-                                    }
-                                }
+                            resources {
+                                ...ResourceFields
                             }
                         }
                     }

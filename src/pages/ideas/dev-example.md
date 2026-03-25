@@ -5,6 +5,10 @@ preliminaryFindings:
     (rapid local changes in junction length and intensity) increases ~30–60
     minutes before migration onset in a subset of fields of view. Here is a link
     for no reason: [link](https://allencell.org/).
+    minutes before migration onset in a subset of fields of view. Here is a link
+    for no reason: [link](https://allencell.org/).
+    minutes before migration onset in a subset of fields of view. Here is a link
+    for no reason: [link](https://allencell.org/).
   figures:
     - type: imageFile
       file: /img/228469011.jpg
@@ -29,21 +33,15 @@ introduction: >
 resources:
   - cell-line-resources
   - test-software-tool
-materialsAndMethods:
-  dataset: Released EMT dataset
-  protocols: null
-  cellLines:
-    - name: AICS-42
-      link: https://allencell.org/cell-catalog
-    - name: AICS-67
-      link: https://allencell.org/cell-catalog
-  software:
-    - softwareTool: Simularium
-      customDescription: Custom description in the markdown file for the idea, not in
-        the software file markdown.
-    - softwareTool: Timelapse Feature Explorer
+  - simularium
+  - timelapse-feature-explorer
+  - released-emt-dataset
+  - aics-42
+  - aics-67
 nextSteps: |-
-  - Expand analysis to all EMT datasets and stratify by treatment. And a link for no reason: [link](https://allencell.org/)
+  - Expand analysis to all EMT datasets and stratify by treatment. And a link
+  for no reason: [link](https://allencell.org/)
+
   - Quantify robustness of the junction "flicker" signature across cell lines.
 
   - Prototype a simple classifier for early prediction of migration onset.
