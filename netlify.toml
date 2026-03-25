@@ -1,6 +1,7 @@
 [build]
   publish = "public"
   command = "npm run build"
+  package = "@netlify/plugin-gatsby"
 [build.environment]
   NODE_VERSION = "22.16.0"
   YARN_VERSION = "1.22.4"
