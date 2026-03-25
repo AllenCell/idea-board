@@ -3,6 +3,7 @@ import CMS from "decap-cms-app";
 import AboutPagePreview from "./preview-templates/AboutPagePreview";
 import IdeaPostPreview from "./preview-templates/IdeaPostPreview";
 import IndexPagePreview from "./preview-templates/IndexPagePreview";
+import ResourcePreview from "./preview-templates/ResourcePreview";
 import { UrlImageControl, UrlImagePreview } from "./widgets/UrlImageWidget";
 import VariableResourceUnionControl from "./widgets/VariableResourceWidget/VariableResourceUnionControl";
 import copyResourceNameHandler from "./widgets/VariableResourceWidget/copyResourceNameHandler";
@@ -12,6 +13,7 @@ import copyResourceNameHandler from "./widgets/VariableResourceWidget/copyResour
 CMS.registerWidget({
     name: "resource_union",
     controlComponent: VariableResourceUnionControl,
+    previewComponent: ResourcePreview,
 });
 
 CMS.registerWidget("url-image", UrlImageControl, UrlImagePreview);
