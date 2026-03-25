@@ -7,7 +7,7 @@
  *   set an env var where the key matches their contactId (as defined in their
  *   allenite markdown frontmatter) and the value is their email address.
  *
- *   Example: if contactId is "JANE_DOE", set env var JANE_DOE=jane@example.com
+ *   Example: if contactId is "SOME_SCIENTIST", set env var SOME_SCIENTIST=someone@somewhere.com
  */
 
 interface ContactRequest {
