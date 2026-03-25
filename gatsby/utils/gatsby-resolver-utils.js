@@ -1,6 +1,7 @@
 const {
     RESOURCES_TEMPLATE_KEY,
     TEMPLATE_KEY_TO_TYPE,
+    ALLENITE_TEMPLATE_KEY,
 } = require("../constants");
 const slugify = require("slugify");
 
@@ -61,9 +62,25 @@ const resourceQuery = (name) => {
     };
 };
 
+/**
+ * Builds a nodeModel query for a single Allenite node by display name.
+ * Returns null if the name can't be slugified (falsy input).
+ * @param {string|null|undefined} name - The allenite's display name (e.g., "Jane Smith")
+ * @returns {{ query: object, type: string } | null}
+ */
+const alleniteQuery = (name) => {
+    const slug = resolveSlug(name, ALLENITE_TEMPLATE_KEY);
+    if (!slug) return null;
+    return {
+        query: { filter: { slug: { eq: slug } } },
+        type: TEMPLATE_KEY_TO_TYPE[ALLENITE_TEMPLATE_KEY], // "Allenite"
+    };
+};
+
 module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
     resourceQuery,
+    alleniteQuery,
 };

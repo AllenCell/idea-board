@@ -11,7 +11,7 @@ import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import FigureComponent from "../components/Figure";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
+import { Allenite, IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
@@ -50,14 +50,15 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
         );
     };
 
-    const getAuthorsList = (authors: readonly string[]) => {
+    const getAuthorsList = (authors: Allenite[]) => {
         if (authors.length === 0) {
             return null;
         }
+        const names = authors.map((author) => author.name);
         return (
             <>
                 <h4 className={sectionTitle}>Proposed by: </h4>
-                <p> {authors.join(", ")}</p>
+                <p> {names.join(", ")}</p>
             </>
         );
     };
@@ -101,7 +102,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                             <CustomReactMarkdown content={introduction} />
                         </div>
                     )}
-                    {getAuthorsList(authors)}
+                    {getAuthorsList([...authors])}
                     {publication && (
                         <>
                             <h4 className={sectionTitle}>Publication </h4>
@@ -180,13 +181,19 @@ export const pageQuery = graphql`
                 slug
             }
             frontmatter {
-                authors
                 publication
                 date(formatString: "MMMM DD, YYYY")
                 introduction
                 title
                 description
-                primaryContact
+                authors {
+                    name
+                    contactId
+                }
+                primaryContact {
+                    name
+                    contactId
+                }
                 tags
                 preliminaryFindings {
                     summary
