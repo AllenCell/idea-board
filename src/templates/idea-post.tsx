@@ -1,40 +1,17 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
-
-
 import { Link, PageProps, graphql } from "gatsby";
-
-
 
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Layout as AntdLayout, Button, Card, Flex } from "antd";
 
-
-
-import IconText from "../components/IconText";
-import Layout from "../components/Layout";
+import { ContactModal } from "../components/ContactModal";
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
+import FigureComponent from "../components/Figure";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const Header = AntdLayout.Header;
 

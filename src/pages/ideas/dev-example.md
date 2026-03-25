@@ -3,7 +3,8 @@ preliminaryFindings:
   summary: >
     Preliminary segmentation and tracking suggest that junction "flickering"
     (rapid local changes in junction length and intensity) increases ~30–60
-    minutes before migration onset in a subset of fields of view.
+    minutes before migration onset in a subset of fields of view. Here is a link
+    for no reason: [link](https://allencell.org/).
   figures:
     - figure: /img/228469011.jpg
 draft: false

@@ -2,9 +2,18 @@ import React from "react";
 
 import { PageProps, graphql } from "gatsby";
 
+import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
+import "../style/resource.css";
 import { ResourceNode, ResourceTemplateQuery } from "../types";
 
-const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
+export type ResourceDisplayProps = Partial<
+    Pick<
+        NonNullable<ResourceNode>,
+        "description" | "link" | "name" | "status" | "type"
+    >
+>;
+
+export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
     description,
     link,
     name,
@@ -12,18 +21,33 @@ const ResourceTemplate: React.FC<NonNullable<ResourceNode>> = ({
     type,
 }) => {
     return (
-        <div style={{ border: "1px solid #ccc", padding: 16, borderRadius: 8 }}>
-            <h2>{name}</h2>
-            <p>{type}</p>
-            <p>{description}</p>
-            {link ? (
-                <p>
-                    <a href={link} target="_blank" rel="noopener noreferrer">
-                        {link}
-                    </a>
-                </p>
-            ) : null}
-            <p>Status: {status}</p>
+        <div className="resource-page">
+            <div className="resource-card">
+                <h2>{name}</h2>
+                {status && <p>Status: {status}</p>}
+                {type && <p>Type: {type}</p>}
+                {link && (
+                    <>
+                        <p>Link: </p>
+                        <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {link}
+                        </a>
+                    </>
+                )}
+                {description && (
+                    <>
+                        <p>Description: </p>
+                        <CustomReactMarkdown
+                            content={description}
+                            className="resource-description"
+                        />
+                    </>
+                )}
+            </div>
         </div>
     );
 };
@@ -40,11 +64,7 @@ export const Resource: React.FC<PageProps<ResourceTemplateQuery>> = ({
         );
     }
 
-    return (
-        <div>
-            <ResourceTemplate {...resource} />
-        </div>
-    );
+    return <ResourceTemplate {...resource} />;
 };
 
 export default Resource;
