@@ -1,0 +1,24 @@
+.resource-page {
+    font-family: "Raleway", sans-serif;
+    line-height: 1.7;
+    max-width: 680px;
+    margin: 40px auto;
+
+    .resource-card {
+        background: var(--WHITE);
+        border: 1.5px solid var(--border-color);
+        border-radius: 4px;
+        padding: 28px 32px;
+
+        .resource-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--BLUE_70);
+            margin-bottom: 20px;
+        }
+    }
+
+    a {
+        overflow-wrap: break-word;
+    }
+}

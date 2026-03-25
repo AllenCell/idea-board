@@ -1,36 +1,14 @@
 import React from "react";
 
-
-
 import { Link, graphql, useStaticQuery } from "gatsby";
-
-
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
-
-
 import { ResourceNode } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const { container } = require("../style/idea-roll.module.css");
 

@@ -18,8 +18,7 @@ Content on this site — ideas, resources, programs, etc. — is managed through
 
 - Select a collection from the sidebar, then click an existing entry to edit it, or click **New** to create one
 - The editor provides form fields for structured data (title, tags, status, etc.) and a rich text editor for body content
-- Click **Publish** to save — this creates a Git commit behind the scenes and triggers a site rebuild
-- Changes typically appear on the live site within a few minutes
+- Click **Publish** to save — this creates a Git commit behind the scenes and opens a pull request.
 
 ### Content Types
 
@@ -86,7 +85,3 @@ netlify.toml      # Netlify build settings
 Gatsby 5, React 18, TypeScript (strict mode), GraphQL, Decap CMS, Ant Design, Netlify
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines and architecture details.
-
-## For LLMs
-
-See [CLAUDE.md](CLAUDE.md) for detailed information about the data pipeline, typing strategy, component patterns, and conventions used in this project.
