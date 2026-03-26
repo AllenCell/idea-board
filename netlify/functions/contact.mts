@@ -25,12 +25,18 @@ interface ContactRequest {
     ideaTitle?: string;
 }
 
+// user@domain.tld — no whitespace, requires exactly one @, at least one dot in domain
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// CR/LF in header-interpolated fields enables email header injection
+const HEADER_INJECTION_RE = /[\r\n]/;
+
 function validateRequest(body: unknown): body is ContactRequest {
     if (typeof body !== "object" || body === null) return false;
     const b = body as Record<string, unknown>;
     return (
         typeof b.senderName === "string" && b.senderName.length > 0 &&
-        typeof b.senderEmail === "string" && b.senderEmail.includes("@") &&
+        !HEADER_INJECTION_RE.test(b.senderName) &&
+        typeof b.senderEmail === "string" && EMAIL_RE.test(b.senderEmail) &&
         typeof b.recipientName === "string" && b.recipientName.length > 0 &&
         typeof b.recipientId === "string" && b.recipientId.length > 0 &&
         typeof b.message === "string" && b.message.length > 0
