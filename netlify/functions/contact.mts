@@ -38,8 +38,6 @@ function validateRequest(body: unknown): body is ContactRequest {
 }
 
 export default async function (request: Request) {
-    console.log("[contact] Received request:", request.method);
-
     if (request.method !== "POST") {
         return new Response(JSON.stringify("Method not allowed"), { status: 405 });
     }
@@ -48,19 +46,14 @@ export default async function (request: Request) {
     try {
         body = await request.json();
     } catch {
-        console.error("[contact] Failed to parse request body");
         return new Response(JSON.stringify("Invalid JSON"), { status: 400 });
     }
 
-    console.log("[contact] Parsed body:", JSON.stringify(body));
-
     if (!validateRequest(body)) {
-        console.error("[contact] Validation failed");
         return new Response(JSON.stringify("Missing or invalid fields"), { status: 400 });
     }
 
     const recipientEmail = process.env[body.recipientId];
-    console.log("[contact] Recipient lookup:", body.recipientId, "→", recipientEmail ? "(found)" : "(not found)");
     if (!recipientEmail) {
         return new Response(
             JSON.stringify("No email stored for submitted contact ID"),
@@ -68,35 +61,31 @@ export default async function (request: Request) {
         );
     }
 
-    const emailUrl = `${process.env.URL}/.netlify/functions/emails/contact`;
-    const emailPayload = {
-        from: process.env.NETLIFY_EMAILS_FROM ?? `noreply@${process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN}`,
-        reply_to: body.senderEmail,
-        to: recipientEmail,
-        subject: `Idea Board: message from ${body.senderName}`,
-        parameters: {
-            senderName: body.senderName,
-            senderEmail: body.senderEmail,
-            message: body.message,
-            ideaTitle: body.ideaTitle ?? "N/A",
-        },
-    };
-
-    console.log("[contact] Sending email to:", emailUrl);
-    console.log("[contact] Email payload:", JSON.stringify(emailPayload));
-
-    const emailResponse = await fetch(emailUrl, {
-        method: "POST",
-        headers: {
-            "netlify-emails-secret": process.env.NETLIFY_EMAILS_SECRET as string,
-        },
-        body: JSON.stringify(emailPayload),
-    });
-
-    const responseText = await emailResponse.text();
-    console.log("[contact] Email endpoint responded:", emailResponse.status, responseText);
+    const emailResponse = await fetch(
+        `${process.env.URL}/.netlify/functions/emails/contact`,
+        {
+            method: "POST",
+            headers: {
+                "netlify-emails-secret": process.env.NETLIFY_EMAILS_SECRET as string,
+            },
+            body: JSON.stringify({
+                from: process.env.NETLIFY_EMAILS_FROM ?? `noreply@${process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN}`,
+                reply_to: body.senderEmail,
+                to: recipientEmail,
+                subject: `Idea Board: message from ${body.senderName}`,
+                parameters: {
+                    senderName: body.senderName,
+                    senderEmail: body.senderEmail,
+                    message: body.message,
+                    ideaTitle: body.ideaTitle ?? "N/A",
+                },
+            }),
+        }
+    );
 
     if (!emailResponse.ok) {
+        const errorText = await emailResponse.text();
+        console.error("Email send failed:", emailResponse.status, errorText);
         return new Response(
             JSON.stringify("Failed to send email"),
             { status: 502 }

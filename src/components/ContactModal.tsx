@@ -63,6 +63,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     recipientName: recipient.name,
                     recipientId: recipient.contactId,
                     message: message,
+                    ideaTitle: title,
                 }),
             });
 
