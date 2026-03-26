@@ -61,27 +61,51 @@ export default async function (request: Request) {
         );
     }
 
-    const emailResponse = await fetch(
-        `${process.env.URL}/.netlify/functions/emails/contact`,
-        {
-            method: "POST",
-            headers: {
-                "netlify-emails-secret": process.env.NETLIFY_EMAILS_SECRET as string,
-            },
-            body: JSON.stringify({
-                from: process.env.NETLIFY_EMAILS_FROM ?? `noreply@${process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN}`,
-                reply_to: body.senderEmail,
-                to: recipientEmail,
-                subject: `Idea Board: message from ${body.senderName}`,
-                parameters: {
-                    senderName: body.senderName,
-                    senderEmail: body.senderEmail,
-                    message: body.message,
-                    ideaTitle: body.ideaTitle ?? "N/A",
+    const baseUrl = new URL(request.url).origin;
+    const emailsSecret = process.env.NETLIFY_EMAILS_SECRET;
+    const from = process.env.NETLIFY_EMAILS_FROM
+        ?? (process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN
+            ? `noreply@${process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN}`
+            : undefined);
+
+    if (!emailsSecret || !from) {
+        console.error("Email service misconfigured:", { emailsSecret: !!emailsSecret, from: !!from });
+        return new Response(
+            JSON.stringify("Email service not configured"),
+            { status: 500 }
+        );
+    }
+
+    let emailResponse: Response;
+    try {
+        emailResponse = await fetch(
+            `${baseUrl}/.netlify/functions/emails/contact`,
+            {
+                method: "POST",
+                headers: {
+                    "netlify-emails-secret": emailsSecret,
                 },
-            }),
-        }
-    );
+                body: JSON.stringify({
+                    from,
+                    reply_to: body.senderEmail,
+                    to: recipientEmail,
+                    subject: `Idea Board: message from ${body.senderName}`,
+                    parameters: {
+                        senderName: body.senderName,
+                        senderEmail: body.senderEmail,
+                        message: body.message,
+                        ideaTitle: body.ideaTitle ?? "N/A",
+                    },
+                }),
+            }
+        );
+    } catch (error) {
+        console.error("Error calling email function:", error);
+        return new Response(
+            JSON.stringify("Failed to send email"),
+            { status: 502 }
+        );
+    }
 
     if (!emailResponse.ok) {
         const errorText = await emailResponse.text();
