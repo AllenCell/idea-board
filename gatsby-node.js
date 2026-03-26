@@ -146,8 +146,9 @@ exports.createPages = ({ actions, graphql }) => {
 
     // Create pages for any markdown files that are configured to have their
     // own node type (e.g. Resource) based on their templateKey.
-    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
-        (templateKey) => {
+    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE)
+        .filter((templateKey) => !DATA_ONLY_PAGES.includes(templateKey))
+        .map((templateKey) => {
             const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
             const allKeyString = `all${nodeKey}`;
             return graphql(`
