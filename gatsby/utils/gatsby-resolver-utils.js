@@ -48,34 +48,25 @@ const resolveSlug = (id, directory) => {
 };
 
 /**
- * Builds a nodeModel query for a single Resource node by display name.
- * Returns null if the name can't be slugified (falsy input).
- * @param {string|null|undefined} name - The resource's name (e.g., "Software Y")
- * @returns {{ query: object, type: string } | null}
+ * Builds a nodeModel query for a single node by display name and template key.
+ * Uses slugs in place of names to prevent namespace collisions when querying
+ * via Gatsby's nodeModel. Returns null if the name can't be slugified (falsy input).
+ * @param {string|null|undefined} name - The node's display name (e.g., "Software Y", "Jane Smith")
+ * @param {string} templateKey - The template key used for slug resolution and type lookup (e.g., RESOURCES_TEMPLATE_KEY)
+ * @returns {{ query: object, type: string } | null} A nodeModel-compatible query/type pair, or null
  */
-const resourceQuery = (name) => {
-    const slug = resolveSlug(name, RESOURCES_TEMPLATE_KEY);
+const buildNodeQuery = (name, templateKey) => {
+    const slug = resolveSlug(name, templateKey);
     if (!slug) return null;
     return {
         query: { filter: { slug: { eq: slug } } },
-        type: TEMPLATE_KEY_TO_TYPE[RESOURCES_TEMPLATE_KEY], // "Resource"
+        type: TEMPLATE_KEY_TO_TYPE[templateKey],
     };
 };
 
-/**
- * Builds a nodeModel query for a single Allenite node by display name.
- * Returns null if the name can't be slugified (falsy input).
- * @param {string|null|undefined} name - The allenite's display name (e.g., "Jane Smith")
- * @returns {{ query: object, type: string } | null}
- */
-const alleniteQuery = (name) => {
-    const slug = resolveSlug(name, ALLENITE_TEMPLATE_KEY);
-    if (!slug) return null;
-    return {
-        query: { filter: { slug: { eq: slug } } },
-        type: TEMPLATE_KEY_TO_TYPE[ALLENITE_TEMPLATE_KEY], // "Allenite"
-    };
-};
+const resourceQuery = (name) => buildNodeQuery(name, RESOURCES_TEMPLATE_KEY);
+const alleniteQuery = (name) => buildNodeQuery(name, ALLENITE_TEMPLATE_KEY);
+
 
 module.exports = {
     stringWithDefault,
@@ -83,4 +74,5 @@ module.exports = {
     resolveSlug,
     resourceQuery,
     alleniteQuery,
+    buildNodeQuery
 };
