@@ -67,12 +67,11 @@ const buildNodeQuery = (name, templateKey) => {
 const resourceQuery = (name) => buildNodeQuery(name, RESOURCES_TEMPLATE_KEY);
 const alleniteQuery = (name) => buildNodeQuery(name, ALLENITE_TEMPLATE_KEY);
 
-
 module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
     resourceQuery,
     alleniteQuery,
-    buildNodeQuery
+    buildNodeQuery,
 };

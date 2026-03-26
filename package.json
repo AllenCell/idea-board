@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@netlify/plugin-emails": "^1.1.1",
     "@netlify/plugin-gatsby": "^3.8.4",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/antd": "^1.0.0",
