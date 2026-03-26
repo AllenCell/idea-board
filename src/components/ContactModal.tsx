@@ -44,13 +44,20 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             .filter(Boolean)
             .join(", ") ?? "the authors";
 
-    const recipient = hasPrimaryContact
+    const defaultContact = defaultContactQueryData.allenite;
+    const preferredRecipient = hasPrimaryContact
         ? primaryContact
         : hasAuthors
           ? authors[0]
-          : defaultContactQueryData.allenite;
+          : null;
+    const recipient = preferredRecipient?.contactId
+        ? preferredRecipient
+        : defaultContact;
+
+    const hasRecipient = !!recipient?.name && !!recipient?.contactId;
 
     const handleSubmit = async () => {
+        if (!hasRecipient) return;
         try {
             const response = await fetch(CONTACT_FUNCTION_PATH, {
                 method: "POST",
@@ -85,7 +92,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 <Button key="cancel" onClick={onClose}>
                     Cancel
                 </Button>,
-                <Button key="submit" type="primary" onClick={handleSubmit}>
+                <Button
+                    key="submit"
+                    type="primary"
+                    onClick={handleSubmit}
+                    disabled={!hasRecipient}
+                >
                     Send
                 </Button>,
             ]}
@@ -98,11 +110,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     <strong>Authors:</strong> {filteredAuthors}
                 </p>
             )}
-            <p>
-                Your message will be sent to <strong>{recipient.name}</strong>.
-                Reach out with questions, collaboration interest, or feedback on
-                this idea.
-            </p>
+            {hasRecipient ? (
+                <p>
+                    Your message will be sent to{" "}
+                    <strong>{recipient.name}</strong>. Reach out with questions,
+                    collaboration interest, or feedback on this idea.
+                </p>
+            ) : (
+                <p>No contact is available for this idea right now.</p>
+            )}
             <Flex vertical gap={12}>
                 <Input
                     placeholder="Your name"
