@@ -55,6 +55,5 @@ export default async function (request: Request) {
     }
 
     // TODO: send email using email service
-    console.log(JSON.stringify(body));
-    return new Response(JSON.stringify(body), { status: 200 });
+    return new Response(JSON.stringify("Message sent"), { status: 200 });
 }
