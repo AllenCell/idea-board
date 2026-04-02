@@ -1,21 +1,172 @@
 .container {
 }
 
-.header {
+/* ── Intro section ────────────────────────────────────────────── */
+
+.intro {
     max-width: 1728px;
     margin: auto;
-    padding: 32px 96px;
+    padding: 48px 96px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
 }
 
-.info {
+.introStatement h2 {
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+.introStatement p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--SERIOUS_GRAY);
+    margin: 0;
+}
+
+.audience {
+    border-left: 3px solid var(--ALLEN_LIGHT_30);
+    padding-left: 32px;
+}
+
+.audience h3 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--GRAY_30);
+    margin-bottom: 16px;
+}
+
+.audience ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.audience li {
+    font-size: 15px;
+    color: var(--MEDIUM_GRAY);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.audience li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--AQUA_BLUE);
+}
+
+/* ── Content types section ────────────────────────────────────── */
+
+.contentTypes {
+    background-color: var(--ALLEN_LIGHT_10);
+    padding: 56px 0;
+}
+
+.contentTypesInner {
+    max-width: 1728px;
+    margin: auto;
+    padding: 0 96px;
+}
+
+.contentTypesInner h2 {
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 32px;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.card {
     background-color: white;
-    border: 1px solid var(--primary-color);
+    border-top: 4px solid var(--primary-color);
     border-radius: 4px;
-    padding: 20px 32px;
+    padding: 28px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.list-wrapper {
+.cardIcon {
+    font-size: 28px;
+    color: var(--AQUA_BLUE);
+    line-height: 1;
+}
+
+.card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.card p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--MEDIUM_GRAY);
+    margin: 0;
+}
+
+/* ── CTA section ──────────────────────────────────────────────── */
+
+.cta {
+    padding: 56px 96px;
     max-width: 1728px;
     margin: auto;
-    padding: 32px 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.cta h2 {
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.ctaLink {
+    font-size: 14px;
+    color: var(--MEDIUM_GRAY);
+    text-decoration: underline;
+}
+
+.ctaLink:hover {
+    color: var(--primary-color);
+}
+
+/* ── Recent additions section ─────────────────────────────────── */
+
+.listWrapper {
+    max-width: 1728px;
+    margin: auto;
+    padding: 32px 96px 56px;
 }
