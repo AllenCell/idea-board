@@ -3,7 +3,7 @@ templateKey: index-page
 title: Open Research Ideas from Allen Institute for Cell Science
 image: /img/228469011.jpg
 heading: Project types
-subheading: "Datasets, open questions, and observations from AICS scientists — free to explore and build on"
+subheading: "Proposals, open questions, and observations from AICS scientists — free to explore and build on"
 mainpitch:
   title: What is this site?
   description: "This site adds context to AICS open-source datasets and tools by surfacing the open scientific questions they were built to answer. It's also a place to find observations, half-formed ideas, and early-stage code that could be valuable to someone with the time and knowledge to follow up."
