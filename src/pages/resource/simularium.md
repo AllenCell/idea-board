@@ -5,6 +5,9 @@ resourceDetails:
   type: softwareTool
   name: Simularium
   description: 3D Agent based modeling.
-  link: https://simularium.allencell.org/
+  links:
+    - name: Simularium
+      url: https://simularium.allencell.org/
+      description: ""
   status: Public
 ---

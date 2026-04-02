@@ -5,5 +5,8 @@ resourceDetails:
   type: cellLine
   name: cell line resources
   description: a cell line we made
-  link: allencell.org
+  links:
+    - name: cell line resources
+      url: https://allencell.org
+      description: ""
 ---
