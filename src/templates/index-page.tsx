@@ -20,7 +20,6 @@ const {
     contentTypesInner,
     cta,
     ctaButtons,
-    ctaLink,
     intro,
     introStatement,
     listWrapper,

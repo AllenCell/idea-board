@@ -153,16 +153,6 @@
     margin-top: 8px;
 }
 
-.ctaLink {
-    font-size: 14px;
-    color: var(--MEDIUM_GRAY);
-    text-decoration: underline;
-}
-
-.ctaLink:hover {
-    color: var(--primary-color);
-}
-
 /* ── Recent additions section ─────────────────────────────────── */
 
 .listWrapper {
