@@ -36,6 +36,7 @@ const FigureGallery: React.FC<FigureGalleryProps> = ({ figures }) => {
     const showNav = figures.length > 1;
 
     const getPreviewSrc = (figure: Figure): string | undefined => {
+        if (!figure) return undefined;
         if (figure.url) return figure.url;
         if (figure.file?.childImageSharp) {
             return getSrc(figure.file.childImageSharp.gatsbyImageData);
@@ -106,6 +107,7 @@ const FigureGallery: React.FC<FigureGalleryProps> = ({ figures }) => {
                     infinite={false}
                 >
                     {figures.map((figure, index) => {
+                        if (!figure) return null;
                         const gatsbyImage = figure.file?.childImageSharp
                             ? getImage(figure.file.childImageSharp)
                             : null;
