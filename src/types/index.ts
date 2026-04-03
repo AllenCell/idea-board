@@ -31,6 +31,8 @@ export type ResourceNode = Omit<
     "id"
 >;
 
+export type ResourceLink = NonNullable<ResourceNode["links"]>[number];
+
 /**
  * Other utility types
  */

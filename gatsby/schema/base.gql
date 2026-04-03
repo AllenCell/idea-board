@@ -15,13 +15,19 @@ type Frontmatter {
     title: String!
 }
 
+type ResourceLink {
+    name: String!
+    url: String!
+    description: String
+}
+
 type Resource implements Node {
     date: Date @dateformat
     description: String
     draft: Boolean
     file: String
-    link: String
     name: String
+    links: [ResourceLink!]
     readmeLink: String
     slug: String!
     status: String

@@ -26,7 +26,7 @@ const ResourcePreview: React.FC<PreviewProps> = ({ entry, value }) => {
             type={v.type}
             name={v.name}
             description={v.description}
-            link={v.link}
+            links={v.links}
             status={v.status}
         />
     );

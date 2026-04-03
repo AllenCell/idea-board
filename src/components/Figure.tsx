@@ -13,7 +13,7 @@ interface FigureProps {
 const { caption, container, image } = require("../style/figure.module.css");
 
 const FigureComponent: React.FC<FigureProps> = ({ figure }) => {
-    if (!figure.url && !figure.file) {
+    if (!figure || (!figure.url && !figure.file)) {
         return null;
     }
 

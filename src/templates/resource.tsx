@@ -3,19 +3,20 @@ import React from "react";
 import { PageProps, graphql } from "gatsby";
 
 import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
+import { ResourceLinks } from "../components/ResourceLinks";
 import "../style/resource.css";
 import { ResourceNode, ResourceTemplateQuery } from "../types";
 
 export type ResourceDisplayProps = Partial<
     Pick<
         NonNullable<ResourceNode>,
-        "description" | "link" | "name" | "status" | "type"
+        "description" | "links" | "name" | "status" | "type"
     >
 >;
 
 export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
     description,
-    link,
+    links,
     name,
     status,
     type,
@@ -26,18 +27,7 @@ export const ResourceTemplate: React.FC<ResourceDisplayProps> = ({
                 <h2>{name}</h2>
                 {status && <p>Status: {status}</p>}
                 {type && <p>Type: {type}</p>}
-                {link && (
-                    <>
-                        <p>Link: </p>
-                        <a
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {link}
-                        </a>
-                    </>
-                )}
+                <ResourceLinks name={null} links={links ?? null} />
                 {description && (
                     <>
                         <p>Description: </p>
