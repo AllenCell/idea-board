@@ -174,7 +174,7 @@ collections:
                 display_fields: ["title"],
                 multiple: true,
                 required: false,
-                hint: "Select any related ideas to associate with this one.",
+                hint: "Select any ideas that this idea this downstream of. If some answer a question leads to this one, select it here.",
             }
           - {
                 label: "Suggested next steps",
