@@ -4,9 +4,9 @@
 }
 
 .container {
-    border: 1px solid #cbcbcc;
+    border: none;
     border-radius: 0px;
-    padding: 12px 24px;
+    padding: 12px 24px 12px 48px;
     background-color: var(--white);
     line-height: 1.7;
     a {

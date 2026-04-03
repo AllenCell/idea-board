@@ -66,5 +66,8 @@ export default {
             lineWidth: 1.5,
             borderRadius: 0,
         },
+        Menu: {
+            itemSelectedBg: SOFT_WHITE
+        }
     },
 };
