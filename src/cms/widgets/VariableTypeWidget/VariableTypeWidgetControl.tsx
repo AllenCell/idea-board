@@ -3,6 +3,7 @@ import React from "react";
 import CMS from "decap-cms-app";
 import type { CmsWidgetControlProps } from "decap-cms-core";
 
+import { fromImmutable } from "../../utils/immutable";
 import { FieldConfig, TypeConfig } from "./types";
 
 interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
@@ -11,20 +12,13 @@ interface VariableTypeWidgetControlProps extends CmsWidgetControlProps {
     baseFields?: FieldConfig[];
 }
 
-// Decap uses Immutable.js internally - this interface helps us
-// convert their Map objects to plain JS when needed
-interface ImmutableLike {
-    toJS: () => Record<string, unknown>;
-}
-
 const DEFAULT_BASE_FIELDS: FieldConfig[] = [
     { label: "Name", name: "name", type: "input" },
-    { label: "Description", name: "description", type: "textarea", rows: 4 },
+    { label: "Description", name: "description", type: "markdown" },
     {
-        label: "Link",
-        name: "link",
-        type: "input",
-        hint: "https://...  ",
+        label: "Links",
+        name: "links",
+        type: "links",
     },
 ];
 
@@ -69,6 +63,38 @@ const styles = {
         fontSize: 12,
         color: "#b00",
     } as React.CSSProperties,
+    subLabel: {
+        display: "block",
+        fontWeight: 600,
+        marginBottom: 4,
+        fontSize: 12,
+    } as React.CSSProperties,
+    subField: {
+        marginBottom: 8,
+    } as React.CSSProperties,
+    linkEntry: {
+        padding: 12,
+        border: "1px solid #e0e0e0",
+        borderRadius: 4,
+        marginBottom: 8,
+        backgroundColor: "#fff",
+    } as React.CSSProperties,
+    linkEntryHeader: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 8,
+    } as React.CSSProperties,
+    linkEntryTitle: {
+        fontSize: 13,
+    } as React.CSSProperties,
+    secondaryButton: {
+        background: "none",
+        border: "1px solid #ccc",
+        borderRadius: 4,
+        cursor: "pointer",
+        color: "#666",
+    } as React.CSSProperties,
 };
 
 /**
@@ -107,10 +133,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
             return { type: getDefaultType() };
         }
 
-        const obj =
-            typeof (value as ImmutableLike).toJS === "function"
-                ? (value as ImmutableLike).toJS()
-                : (value as Record<string, unknown>);
+        const obj = fromImmutable<Record<string, unknown>>(value) ?? {};
 
         return { ...obj, type: obj.type || getDefaultType() };
     };
@@ -189,6 +212,41 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         );
     };
 
+    const renderMarkdown = (
+        cfg: FieldConfig,
+        valueObj: Record<string, unknown>,
+    ) => {
+        const { hint = "", label, name } = cfg;
+
+        const widget = CMS.getWidget("markdown");
+        const MarkdownControl = widget?.control as
+            | React.ComponentType<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+            | undefined;
+
+        if (!MarkdownControl) {
+            return (
+                <div key={name} style={styles.fieldGroup}>
+                    <label style={styles.label}>{label}</label>
+                    <div style={styles.error}>
+                        Markdown widget not available
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div key={name} style={styles.fieldGroup}>
+                <label style={styles.label}>{label}</label>
+                <MarkdownControl
+                    {...props}
+                    value={valueObj[name] || ""}
+                    onChange={(newVal: unknown) => handleChange(name, newVal)}
+                />
+                {hint && <div style={styles.hint}>{hint}</div>}
+            </div>
+        );
+    };
+
     const renderFileControl = (
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
@@ -203,9 +261,9 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
          */
         const widget = CMS.getWidget("file");
 
-        const FileControl =
-            widget?.control as // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                React.ComponentType<any> | undefined;
+        const FileControl = widget?.control as  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            | React.ComponentType<any>
+            | undefined;
 
         if (!FileControl) {
             return (
@@ -229,6 +287,104 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         );
     };
 
+    const renderLinkSubField = (
+        label: string,
+        value: string,
+        onChange: (value: string) => void,
+        placeholder?: string,
+    ) => (
+        <div style={styles.subField}>
+            <label style={styles.subLabel}>{label}</label>
+            <input
+                type="text"
+                style={styles.input}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder={placeholder}
+            />
+        </div>
+    );
+
+    const renderLinks = (
+        cfg: FieldConfig,
+        valueObj: Record<string, unknown>,
+    ) => {
+        const { label, name } = cfg;
+        const links = (valueObj[name] as Array<Record<string, string>>) || [];
+
+        const updateLink = (index: number, field: string, newValue: string) => {
+            const updated = links.map((link, i) =>
+                i === index ? { ...link, [field]: newValue } : link,
+            );
+            handleChange(name, updated);
+        };
+
+        const addLink = () => {
+            handleChange(name, [
+                ...links,
+                { name: "", url: "", description: "" },
+            ]);
+        };
+
+        const removeLink = (index: number) => {
+            handleChange(
+                name,
+                links.filter((_, i) => i !== index),
+            );
+        };
+
+        return (
+            <div key={name} style={styles.fieldGroup}>
+                <label style={styles.label}>{label}</label>
+                {links.map((link, index) => (
+                    <div key={index} style={styles.linkEntry}>
+                        <div style={styles.linkEntryHeader}>
+                            <strong style={styles.linkEntryTitle}>
+                                Link {index + 1}
+                            </strong>
+                            <button
+                                type="button"
+                                style={{
+                                    ...styles.secondaryButton,
+                                    padding: "4px 8px",
+                                    fontSize: 12,
+                                }}
+                                onClick={() => removeLink(index)}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                        {renderLinkSubField("Name", link.name || "", (v) =>
+                            updateLink(index, "name", v),
+                        )}
+                        {renderLinkSubField(
+                            "URL",
+                            link.url || "",
+                            (v) => updateLink(index, "url", v),
+                            "https://...",
+                        )}
+                        {renderLinkSubField(
+                            "Description",
+                            link.description || "",
+                            (v) => updateLink(index, "description", v),
+                        )}
+                    </div>
+                ))}
+                <button
+                    type="button"
+                    style={{
+                        ...styles.secondaryButton,
+                        padding: "6px 12px",
+                        fontSize: 13,
+                    }}
+                    onClick={addLink}
+                >
+                    + Add Link
+                </button>
+            </div>
+        );
+    };
+
     const renderField = (
         cfg: FieldConfig,
         valueObj: Record<string, unknown>,
@@ -242,6 +398,10 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
                 return renderSelect(cfg, valueObj);
             case "file":
                 return renderFileControl(cfg, valueObj);
+            case "markdown":
+                return renderMarkdown(cfg, valueObj);
+            case "links":
+                return renderLinks(cfg, valueObj);
             default:
                 return null;
         }

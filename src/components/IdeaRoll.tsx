@@ -1,12 +1,12 @@
 import React from "react";
 
-import { Link, StaticQuery, graphql } from "gatsby";
+import { Link, graphql, useStaticQuery } from "gatsby";
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
-import { MaterialsAndMethods } from "../types";
+import { ResourceNode } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
@@ -28,7 +28,7 @@ interface PostNode {
             authors?: string[];
             tags?: string[];
             type: string;
-            materialsAndMethods?: MaterialsAndMethods;
+            resources: ResourceNode[];
         };
     };
 }
@@ -51,7 +51,7 @@ const IdeaRollTemplate = (props: {
         authors: post.frontmatter.authors || [],
         concerns: post.frontmatter.concerns || "",
         dataset: {
-            ...post.frontmatter.materialsAndMethods?.dataset?.frontmatter,
+            ...post.frontmatter.resources.find((r) => r.type === "dataset"),
         },
     }));
     if (props.count) {
@@ -148,51 +148,40 @@ export default function IdeaRoll({
 }: {
     count?: number;
 }): React.JSX.Element {
-    return (
-        <StaticQuery
-            query={graphql`
-                query IdeaRollQuery {
-                    allMarkdownRemark(
-                        sort: { frontmatter: { date: DESC } }
-                        filter: {
-                            frontmatter: {
-                                templateKey: { eq: "idea-post" }
-                                draft: { ne: true }
-                            }
+    const data = useStaticQuery(graphql`
+        query IdeaRollQuery {
+            allMarkdownRemark(
+                sort: { frontmatter: { date: DESC } }
+                filter: {
+                    frontmatter: {
+                        templateKey: { eq: "idea-post" }
+                        draft: { ne: true }
+                    }
+                }
+            ) {
+                edges {
+                    node {
+                        excerpt(pruneLength: 400)
+                        id
+                        fields {
+                            slug
                         }
-                    ) {
-                        edges {
-                            node {
-                                excerpt(pruneLength: 400)
-                                id
-                                fields {
-                                    slug
-                                }
-                                frontmatter {
-                                    title
-                                    templateKey
-                                    date(formatString: "MMMM DD, YYYY")
-                                    tags
-                                    type
-                                    authors
-                                    concerns
-                                    materialsAndMethods {
-                                        dataset {
-                                            frontmatter {
-                                                name
-                                                description
-                                                link
-                                                status
-                                            }
-                                        }
-                                    }
-                                }
+                        frontmatter {
+                            title
+                            templateKey
+                            date(formatString: "MMMM DD, YYYY")
+                            tags
+                            type
+                            authors
+                            concerns
+                            resources {
+                                ...ResourceFields
                             }
                         }
                     }
                 }
-            `}
-            render={(data) => <IdeaRollTemplate data={data} count={count} />}
-        />
-    );
+            }
+        }
+    `);
+    return <IdeaRollTemplate data={data} count={count} />;
 }

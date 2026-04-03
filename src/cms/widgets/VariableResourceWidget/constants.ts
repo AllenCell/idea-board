@@ -1,3 +1,4 @@
+import { RESOURCE_TYPES } from "../../../constants/resourceTypes";
 import { TypeConfig } from "../VariableTypeWidget/types";
 
 const SOFTWARE_STATUS_OPTIONS = [
@@ -17,7 +18,7 @@ const DATASET_STATUS_OPTIONS = [
 // defaults to name, description, link.
 export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
     {
-        value: "softwareTool",
+        value: RESOURCE_TYPES.SOFTWARE_TOOL,
         label: "Software Tool",
         fields: [
             {
@@ -34,7 +35,7 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
         ],
     },
     {
-        value: "dataset",
+        value: RESOURCE_TYPES.DATASET,
         label: "Dataset",
         fields: [
             {
@@ -46,12 +47,12 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
         ],
     },
     {
-        value: "protocolLink",
+        value: RESOURCE_TYPES.PROTOCOL_LINK,
         label: "Protocol (Link)",
         fields: [],
     },
     {
-        value: "protocolFile",
+        value: RESOURCE_TYPES.PROTOCOL_FILE,
         label: "Protocol (File)",
         fields: [
             {
@@ -63,7 +64,7 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
         ],
     },
     {
-        value: "cellLine",
+        value: RESOURCE_TYPES.CELL_LINE,
         label: "Cell Line",
         fields: [],
     },

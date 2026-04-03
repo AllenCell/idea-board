@@ -12,6 +12,7 @@ import FigureGallery from "../components/FigureGallery";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { TagPopover } from "../components/TagPopover";
+import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { useExpandedContent } from "../hooks/useExpandedContent";
 import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
 
@@ -39,11 +40,11 @@ export const IdeaPostTemplate: React.FC<
 > = ({
     authors,
     introduction,
-    materialsAndMethods,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
     publication,
+    resources,
     slug,
     tags,
     title,
@@ -140,9 +141,9 @@ export const IdeaPostTemplate: React.FC<
                 </div>
             )}
 
-            {materialsAndMethods && (
+            {resources && (
                 <MaterialsAndMethodsComponent
-                    materialsAndMethods={materialsAndMethods}
+                    resources={[...resources]}
                     onExpandDescription={onExpandDescription}
                 />
             )}
@@ -151,7 +152,12 @@ export const IdeaPostTemplate: React.FC<
 };
 
 function buildIdeaNavItems(fm: IdeaFrontmatter): PageNavSiderMenuItem[] {
-    const mm = fm.materialsAndMethods;
+    const hasResourceType = (type: string) =>
+        fm.resources?.some((r) => r.type === type);
+    const hasProtocols =
+        hasResourceType(RESOURCE_TYPES.PROTOCOL_LINK) ||
+        hasResourceType(RESOURCE_TYPES.PROTOCOL_FILE);
+
     return [
         { key: "title", label: <a href="#title">{fm.title}</a> },
         fm.authors?.length && {
@@ -182,19 +188,19 @@ function buildIdeaNavItems(fm: IdeaFrontmatter): PageNavSiderMenuItem[] {
             key: "gallery",
             label: <a href="#gallery">Gallery</a>,
         },
-        mm?.dataset && {
+        hasResourceType(RESOURCE_TYPES.DATASET) && {
             key: "datasets",
             label: <a href="#datasets">Datasets</a>,
         },
-        mm?.cellLines?.length && {
+        hasResourceType(RESOURCE_TYPES.CELL_LINE) && {
             key: "cell-lines",
             label: <a href="#cell-lines">Cell Lines</a>,
         },
-        mm?.protocols?.length && {
+        hasProtocols && {
             key: "protocols",
             label: <a href="#protocols">Protocols</a>,
         },
-        mm?.software?.length && {
+        hasResourceType(RESOURCE_TYPES.SOFTWARE_TOOL) && {
             key: "software-tools",
             label: <a href="#software-tools">Software Tools</a>,
         },
@@ -297,34 +303,8 @@ export const pageQuery = graphql`
                     }
                 }
                 nextSteps
-                materialsAndMethods {
-                    dataset {
-                        frontmatter {
-                            name
-                            shortDescription
-                            description
-                            link
-                            status
-                            date
-                        }
-                    }
-                    protocols {
-                        protocol
-                    }
-                    cellLines {
-                        name
-                        link
-                    }
-                    software {
-                        softwareTool {
-                            frontmatter {
-                                name
-                                description
-                                link
-                            }
-                        }
-                        customDescription
-                    }
+                resources {
+                    ...ResourceFields
                 }
             }
         }

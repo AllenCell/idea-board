@@ -1,8 +1,15 @@
-import { LeftOutlined, RightOutlined, ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
+import React, { useRef, useState } from "react";
+
+import { GatsbyImage, getImage, getSrc } from "gatsby-plugin-image";
+
+import {
+    LeftOutlined,
+    RightOutlined,
+    ZoomInOutlined,
+    ZoomOutOutlined,
+} from "@ant-design/icons";
 import { Button, Carousel, Image, Space } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
-import { GatsbyImage, getImage, getSrc } from "gatsby-plugin-image";
-import React, { useRef, useState } from "react";
 
 import { Figure } from "../types";
 
@@ -58,7 +65,10 @@ const FigureGallery: React.FC<FigureGalleryProps> = ({ figures }) => {
                     },
                     toolbarRender: (
                         _,
-                        { actions: { onZoomIn, onZoomOut }, transform: { scale } }
+                        {
+                            actions: { onZoomIn, onZoomOut },
+                            transform: { scale },
+                        },
                     ) => (
                         <Space>
                             <ZoomOutOutlined
@@ -114,18 +124,26 @@ const FigureGallery: React.FC<FigureGalleryProps> = ({ figures }) => {
                                     {gatsbyImage ? (
                                         <GatsbyImage
                                             image={gatsbyImage}
-                                            alt={figure.caption || `Figure ${index + 1}`}
+                                            alt={
+                                                figure.caption ||
+                                                `Figure ${index + 1}`
+                                            }
                                             imgStyle={{ objectFit: "contain" }}
                                         />
                                     ) : (
                                         <img
                                             src={figure.url!}
-                                            alt={figure.caption || `Figure ${index + 1}`}
+                                            alt={
+                                                figure.caption ||
+                                                `Figure ${index + 1}`
+                                            }
                                         />
                                     )}
                                 </div>
                                 {figure.caption && (
-                                    <p className={galleryCaption}>{figure.caption}</p>
+                                    <p className={galleryCaption}>
+                                        {figure.caption}
+                                    </p>
                                 )}
                             </div>
                         );

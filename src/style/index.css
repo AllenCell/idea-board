@@ -1,9 +1,11 @@
+/* Seemingly redundant font import is necessary to get fonts into decap Preview components */
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap");
 @import "../style/colors.css";
 
 body {
     margin: 0;
     width: 100%;
-    background: #F2F2F2;
+    background: #f2f2f2;
 }
 
 

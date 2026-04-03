@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+
 import { debounce } from "lodash";
-import { useState, useEffect } from "react";
+
 import { TABLET_BREAKPOINT } from "../constants";
 
 const useWindowWidth = () => {

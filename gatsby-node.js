@@ -5,10 +5,15 @@ const { createFilePath } = require("gatsby-source-filesystem");
 const {
     stringWithDefault,
     resolveToArray,
-    resolveSlug,
-    resolveSoftwareTools,
+    resourceQuery,
 } = require("./gatsby/utils/gatsby-resolver-utils");
-const { DATASET_PATH } = require("./gatsby/constants");
+const {
+    RESOURCES_GATSBY_NODE_KEY,
+    MARKDOWN_REMARK_GATSBY_NODE_KEY,
+    TEMPLATE_KEY_TO_TYPE,
+    ALLENITE_TEMPLATE_KEY,
+    PROGRAM_TEMPLATE_KEY,
+} = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
@@ -18,37 +23,13 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
  * They serve as single source of truth, can be added/edited via CMS,
  * and are referenced by other markdown files.
  */
-const DATA_ONLY_PAGES = [
-    "software",
-    "dataset",
-    "allenite",
-    "program",
-    "resource",
-];
+
+const DATA_ONLY_PAGES = [ALLENITE_TEMPLATE_KEY, PROGRAM_TEMPLATE_KEY];
 
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
     const typeDefs = [
-        `"""
-        Nested materials and methods block for idea posts.
-        """
-        type MaterialsAndMethods {
-        dataset: MarkdownRemark @link(by: "fields.slug")
-        protocols: [ProtocolItem!]!
-        cellLines: [CellLineItem!]!
-        software: [SoftwareTool!]!
-        }
-
-        type ProtocolItem {
-        protocol: String!
-        }
-
-        type CellLineItem {
-            name: String!
-            link: String
-        }
-
-        type PreliminaryFindings {
+        `type PreliminaryFindings {
             summary: String!
             figures: [ImgWithCaption!]!
         }
@@ -60,13 +41,7 @@ exports.createSchemaCustomization = ({ actions }) => {
             caption: String
         }
 
-        """
-        Software tool reference with optional custom description.
-        """
-        type SoftwareTool {
-            softwareTool: MarkdownRemark @link(by: "fields.slug")
-            customDescription: String
-        }`,
+        `,
     ];
     createTypes(read("gatsby/schema/base.gql"));
     createTypes(typeDefs);
@@ -77,7 +52,7 @@ exports.createSchemaCustomization = ({ actions }) => {
  * custom resolution logic. Takes the place of downstream data unpacking
  * functions where possible
  */
-exports.createResolvers = ({ createResolvers }) => {
+exports.createResolvers = ({ reporter, createResolvers }) => {
     createResolvers({
         MarkdownRemark: {
             fields: {
@@ -101,30 +76,21 @@ exports.createResolvers = ({ createResolvers }) => {
                 resolve: (source) =>
                     stringWithDefault(source.title, "No title provided."),
             },
-            materialsAndMethods: {
-                resolve: (source) => {
-                    const raw = source.materialsAndMethods;
-                    const current = {
-                        dataset: null,
-                        cellLines: [],
-                        protocols: [],
-                        software: [],
-                    };
-
-                    if (!raw || typeof raw !== "object") {
-                        return current;
-                    }
-
-                    const resolvedDatasetSlug = resolveSlug(
-                        raw.dataset,
-                        DATASET_PATH,
+            resources: {
+                resolve: async (source, _args, context) => {
+                    const names = resolveToArray(source.resources);
+                    const results = await Promise.all(
+                        names.map((name) =>
+                            context.nodeModel.findOne(resourceQuery(name)),
+                        ),
                     );
-                    current.dataset = resolvedDatasetSlug;
-                    current.cellLines = resolveToArray(raw.cellLines);
-                    current.protocols = resolveToArray(raw.protocols);
-                    current.software = resolveSoftwareTools(raw.software);
-
-                    return current;
+                    results.forEach((result, i) => {
+                        if (!result) {
+                            const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                            reporter.error(msg, new Error(msg));
+                        }
+                    });
+                    return results.filter(Boolean);
                 },
             },
             nextSteps: {
@@ -160,7 +126,46 @@ exports.createResolvers = ({ createResolvers }) => {
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
-    return graphql(`
+    // Create pages for any markdown files that are configured to have their
+    // own node type (e.g. Resource) based on their templateKey.
+    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
+        (templateKey) => {
+            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+            const allKeyString = `all${nodeKey}`;
+            return graphql(`
+        {
+            ${allKeyString} {
+                nodes {
+                    id
+                    slug
+                }
+            }
+        }
+    `).then((result) => {
+                if (result.errors) {
+                    result.errors.forEach((e) => console.error(e.toString()));
+                    return Promise.reject(result.errors);
+                }
+
+                result.data[allKeyString].nodes.forEach((node) => {
+                    createPage({
+                        path: node.slug,
+                        component: path.resolve(
+                            `src/templates/${templateKey}.tsx`,
+                        ),
+                        context: { id: node.id },
+                    });
+                });
+            });
+        },
+    );
+
+    /**
+     * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
+     * unless they are specified in DATA_ONLY_PAGES, or TEMPLATE_KEY_TO_TYPE.
+     * In practice this block makes pages for idea posts and tags.
+     */
+    const markdownPages = graphql(`
         {
             allMarkdownRemark(limit: 1000) {
                 edges {
@@ -191,7 +196,10 @@ exports.createPages = ({ actions, graphql }) => {
             const templateKey = edge.node.frontmatter.templateKey;
 
             // Skip creating pages for data-only pages (software, dataset, etc.)
-            if (DATA_ONLY_PAGES.includes(templateKey)) {
+            if (
+                DATA_ONLY_PAGES.includes(templateKey) ||
+                templateKey in TEMPLATE_KEY_TO_TYPE
+            ) {
                 return;
             }
 
@@ -203,7 +211,6 @@ exports.createPages = ({ actions, graphql }) => {
 
             createPage({
                 path: edge.node.fields.slug,
-                tags: edge.node.frontmatter.tags,
                 component: path.resolve(
                     `src/templates/${String(templateKey)}.tsx`,
                 ),
@@ -238,17 +245,63 @@ exports.createPages = ({ actions, graphql }) => {
             });
         });
     });
+
+    return Promise.all([...typedNodePages, markdownPages]);
 };
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
-    const { createNodeField } = actions;
+exports.onCreateNode = ({
+    node,
+    actions,
+    getNode,
+    createNodeId,
+    createContentDigest,
+}) => {
+    const { createNodeField, createNode } = actions;
 
-    if (node.internal.type === `MarkdownRemark`) {
-        const value = createFilePath({ node, getNode });
+    // By default all markdown files are transformed into MarkdownRemark nodes by gatsby-transformer-remark.
+    // We add a slug field to these nodes.
+    if (node.internal.type === MARKDOWN_REMARK_GATSBY_NODE_KEY) {
+        const slug = createFilePath({ node, getNode });
         createNodeField({
             name: `slug`,
             node,
-            value,
+            value: slug,
         });
+
+        // Here me make nodes for any types defined in TEMPLATE_KEY_TO_TYPE
+        // Once these nodes are in the data layer, we can query them directly by their type (e.g. allResource)
+        // This type of query is used when mapping over the same TEMPLATE_KEY_TO_TYPE object
+        // in the createPages.
+        if (
+            node.frontmatter?.templateKey &&
+            Object.keys(TEMPLATE_KEY_TO_TYPE).includes(
+                node.frontmatter?.templateKey,
+            )
+        ) {
+            const nodeType = TEMPLATE_KEY_TO_TYPE[node.frontmatter.templateKey];
+
+            let fields = { ...node.frontmatter };
+
+            // The structure of our variable type widget leads to a nested field
+            // that we can flatten out here.
+            if (nodeType === RESOURCES_GATSBY_NODE_KEY) {
+                fields = {
+                    ...node.frontmatter,
+                    ...node.frontmatter.resourceDetails,
+                };
+                delete fields.resourceDetails; // avoid duplication in GraphQL node
+            }
+            createNode({
+                ...fields,
+                id: createNodeId(`${node.id}-${nodeType}`),
+                parent: node.id,
+                children: [],
+                slug,
+                internal: {
+                    type: nodeType,
+                    contentDigest: createContentDigest(node.frontmatter || {}),
+                },
+            });
+        }
     }
 };

@@ -1,7 +1,7 @@
 export interface FieldConfig {
     name: string;
     label: string;
-    type: "input" | "textarea" | "select" | "file";
+    type: "input" | "textarea" | "select" | "file" | "markdown" | "links";
     options?: string[];
     placeholder?: string;
     hint?: string;

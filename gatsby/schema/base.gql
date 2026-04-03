@@ -15,11 +15,31 @@ type Frontmatter {
     description: String
     draft: Boolean
     tags: [String!]
-    materialsAndMethods: MaterialsAndMethods!
     authors: [String!]!
     nextSteps: String
     program: [String!]
     publication: String
     introduction: String
-    preliminaryFindings: PreliminaryFindings!
+    resources: [Resource!]!
+}
+
+type ResourceLink {
+    name: String!
+    url: String!
+    description: String
+}
+
+type Resource implements Node {
+    slug: String!
+    name: String
+    type: String
+    shortDescription: String
+    description: String
+    links: [ResourceLink!]
+    readmeLink: String
+    file: String
+    status: String
+    date: Date @dateformat
+    tags: [String!]
+    draft: Boolean
 }

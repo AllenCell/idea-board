@@ -1,4 +1,3 @@
-
 export const WIDESCREEN_BREAKPOINT = 1728;
 export const MIDSCREEN_BREAKPOUNT = 1210;
 export const TABLET_BREAKPOINT = 744;

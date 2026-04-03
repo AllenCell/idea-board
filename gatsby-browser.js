@@ -1,4 +1,5 @@
 import React from "react";
+
 import { ConfigProvider } from "antd";
 
 import Layout from "./src/components/Layout";
@@ -8,6 +9,4 @@ export const wrapRootElement = ({ element }) => (
     <ConfigProvider theme={theme}>{element}</ConfigProvider>
 );
 
-export const wrapPageElement = ({ element }) => (
-    <Layout>{element}</Layout>
-);
+export const wrapPageElement = ({ element }) => <Layout>{element}</Layout>;

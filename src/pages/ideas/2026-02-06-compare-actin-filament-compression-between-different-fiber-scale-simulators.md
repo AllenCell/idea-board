@@ -29,14 +29,10 @@ preliminaryFindings:
     - type: imageFile
       file: /img/228469011.jpg
       caption: An unrelated image from our website showing lots and lots of cells.
-materialsAndMethods:
-  dataset: Actin compression simulation dataset
-  software:
-    - softwareTool: Simularium
-      customDescription: Simularium enables interactive, 3D visualization of the
-        simulation over time. For Simularium files from the Cytosim simulations,
-        see [this
-        link](https://open.quiltdata.com/b/allencell/tree/aics/subcellular_model_simulations/subcellular_model_simulations_actin_comparison/fiber_scale_cytosim/ACTIN_COMPRESSION_VELOCITY/viz/)
+resources:
+  - test-software-tool
+  - simularium
+  - actin-compression-simulation-dataset
 nextSteps: >-
   - Build a [MEDYAN](https://medyan.org/) model for compression of a single
   actin filament

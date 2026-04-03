@@ -67,7 +67,7 @@ export default {
             borderRadius: 0,
         },
         Menu: {
-            itemSelectedBg: SOFT_WHITE
-        }
+            itemSelectedBg: SOFT_WHITE,
+        },
     },
 };
