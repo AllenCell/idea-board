@@ -12,10 +12,7 @@ const createIdeaPostResolver = (reporter) => ({
     },
     description: {
         resolve: (source) =>
-            stringWithDefault(
-                source.description,
-                "No description provided.",
-            ),
+            stringWithDefault(source.description, "No description provided."),
     },
     nextSteps: {
         resolve: (source) => source.nextSteps ?? null,

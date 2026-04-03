@@ -47,8 +47,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
         (post: IdeaNode) => ({
             ...post,
             dataset:
-                post.resources.find((r) => r?.type === "dataset")?.name ??
-                null,
+                post.resources.find((r) => r?.type === "dataset")?.name ?? null,
         }),
     );
 

@@ -5,7 +5,6 @@ import type { CollapseProps } from "antd";
 
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { ResourceNode } from "../types";
-import { NameWithLink } from "../utils/formattingUtils";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
 import { ResourceLinks } from "./ResourceLinks";
 
@@ -73,9 +72,7 @@ export const MaterialsAndMethodsComponent: React.FC<
             children: (
                 <ul>
                     {protocols.map((item, index) => (
-                        <li key={index}>
-                            {renderResourceName(item)}
-                        </li>
+                        <li key={index}>{renderResourceName(item)}</li>
                     ))}
                 </ul>
             ),
@@ -89,9 +86,7 @@ export const MaterialsAndMethodsComponent: React.FC<
             children: (
                 <ul>
                     {cellLines.map((item, index) => (
-                        <li key={index}>
-                            {renderResourceName(item)}
-                        </li>
+                        <li key={index}>{renderResourceName(item)}</li>
                     ))}
                 </ul>
             ),
