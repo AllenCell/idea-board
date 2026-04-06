@@ -2,6 +2,7 @@
 templateKey: about-page
 path: /about
 title: About this site
+bannerImage: /img/228469011.jpg
 intro:
   title: "What is this site?"
   paragraphs:

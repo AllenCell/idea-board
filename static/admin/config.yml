@@ -315,6 +315,12 @@ collections:
                       default: "about-page",
                   }
                 - { label: "Title", name: "title", widget: "string" }
+                - {
+                      label: "Banner Image",
+                      name: "bannerImage",
+                      widget: "image",
+                      required: false,
+                  }
                 - label: "Intro"
                   name: "intro"
                   widget: "object"

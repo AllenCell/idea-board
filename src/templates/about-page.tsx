@@ -15,11 +15,15 @@ const {
     contentTypes,
     contentTypesInner,
     cta,
+    heroAccent,
+    heroContent,
+    heroImage,
+    heroOverlay,
+    heroSection,
     howToUse,
     howToUseInner,
     intro,
     introStatement,
-    pageHeader,
     stepCard,
     stepGrid,
     stepNumber,
@@ -43,6 +47,7 @@ interface Step {
 }
 
 interface AboutPageTemplateProps {
+    bannerImage?: string;
     title: string;
     intro: {
         title: string;
@@ -69,13 +74,16 @@ interface AboutPageTemplateProps {
 interface QueryResult {
     data: {
         markdownRemark: {
-            frontmatter: AboutPageTemplateProps;
+            frontmatter: Omit<AboutPageTemplateProps, "bannerImage"> & {
+                bannerImage?: { publicURL: string } | null;
+            };
         };
     };
 }
 
 export const AboutPageTemplate = ({
     audience: audienceData,
+    bannerImage,
     contentTypes: contentTypesData,
     cta: ctaData,
     howToUse: howToUseData,
@@ -84,10 +92,17 @@ export const AboutPageTemplate = ({
 }: AboutPageTemplateProps) => {
     return (
         <div className={container}>
-            {/* ── Page title ── */}
-            <div className={pageHeader}>
-                <h1>{title}</h1>
-            </div>
+            {/* ── Hero banner ── */}
+            <section className={heroSection}>
+                {bannerImage && (
+                    <img className={heroImage} src={bannerImage} alt="" />
+                )}
+                <div className={heroOverlay} />
+                <div className={heroContent}>
+                    <h1>{title}</h1>
+                    <div className={heroAccent} />
+                </div>
+            </section>
 
             {/* ── Intro: what is this + who it's for ── */}
             <section className={intro}>
@@ -163,6 +178,7 @@ const AboutPage = ({ data }: QueryResult) => {
 
     return (
         <AboutPageTemplate
+            bannerImage={frontmatter.bannerImage?.publicURL}
             title={frontmatter.title}
             intro={frontmatter.intro}
             audience={frontmatter.audience}
@@ -179,6 +195,9 @@ export const aboutPageQuery = graphql`
     query AboutPage($id: String!) {
         markdownRemark(id: { eq: $id }) {
             frontmatter {
+                bannerImage {
+                    publicURL
+                }
                 title
                 intro {
                     title
