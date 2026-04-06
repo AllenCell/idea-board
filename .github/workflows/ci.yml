@@ -1,4 +1,7 @@
-name: Setup packages
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
 env:
     NODE_VERSION: "22.x"
 
@@ -8,13 +11,36 @@ on:
       - main
 
 jobs:
-  setup:
-    name: Install dependencies
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v4
-        - name: Setup Node
-          uses: actions/setup-node@v4
-          with:
-            node-version: ${{env.NODE_VERSION}}
-        - run: yarn install --frozen-lockfile
+    lint:
+        name: ✅ Lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm run lint
+    format:
+        name: Format check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm run formatCheck
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{env.NODE_VERSION}}
+            - run: yarn install --frozen-lockfile
+            - run: npm test
