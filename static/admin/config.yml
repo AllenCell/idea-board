@@ -332,4 +332,53 @@ collections:
                       default: "about-page",
                   }
                 - { label: "Title", name: "title", widget: "string" }
-                - { label: "Body", name: "body", widget: "markdown" }
+                - label: "Intro"
+                  name: "intro"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Paragraphs"
+                        name: "paragraphs"
+                        widget: "list"
+                        field: { label: "Paragraph", name: "paragraph", widget: "text" }
+                - label: "Audience"
+                  name: "audience"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Items"
+                        name: "items"
+                        widget: "list"
+                        field: { label: "Item", name: "item", widget: "string" }
+                - label: "Content Types"
+                  name: "contentTypes"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Items"
+                        name: "items"
+                        widget: "list"
+                        fields:
+                            - { label: "Title", name: "title", widget: "string" }
+                            - { label: "Description", name: "description", widget: "text" }
+                            - label: "Icon"
+                              name: "icon"
+                              widget: "select"
+                              options: ["bulb", "database", "eye"]
+                - label: "How to Use"
+                  name: "howToUse"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Steps"
+                        name: "steps"
+                        widget: "list"
+                        fields:
+                            - { label: "Title", name: "title", widget: "string" }
+                            - { label: "Description", name: "description", widget: "text" }
+                - label: "CTA"
+                  name: "cta"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - { label: "Button Text", name: "buttonText", widget: "string" }

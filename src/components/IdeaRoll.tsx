@@ -3,7 +3,6 @@ import React from "react";
 import { Link, graphql, useStaticQuery } from "gatsby";
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
-import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
 import { ResourceNode } from "../types";
@@ -37,8 +36,6 @@ const IdeaRollTemplate = (props: {
     count?: number;
     data: { allMarkdownRemark: { edges: PostNode[] } };
 }) => {
-    const path = useLocation().pathname;
-
     const { edges: posts } = props.data.allMarkdownRemark;
 
     const data = posts.map(({ node: post }) => ({
@@ -64,14 +61,14 @@ const IdeaRollTemplate = (props: {
             bordered={true}
             dataSource={data}
             footer={
-                path.includes("ideas") ? (
-                    ""
-                ) : (
+                props.count ? (
                     <div>
-                        <Link className="btn" to="/ideas">
+                        <Link className="btn" to="/">
                             See more
                         </Link>
                     </div>
+                ) : (
+                    ""
                 )
             }
             renderItem={(item) => (
