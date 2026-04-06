@@ -262,3 +262,78 @@
     color: var(--MEDIUM_GRAY);
     margin: 0;
 }
+
+/* ── Tablet (≤1024px) ─────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+    .contentTypesInner {
+        padding: 0 48px;
+    }
+
+    .cardGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .howToUseInner {
+        padding: 0 48px;
+    }
+
+    .stepGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Mobile (≤768px) ──────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .heroOverlay {
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 48, 87, 0.55) 35%,
+            #003057 65%
+        );
+    }
+
+    .heroContent {
+        justify-content: flex-end;
+        padding: 0 24px 32px;
+    }
+
+    .heroContent h1 {
+        font-size: 28px;
+    }
+
+    .intro {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+        gap: 36px;
+    }
+
+    .audience {
+        border-left: none;
+        border-top: 3px solid var(--ALLEN_LIGHT_30);
+        padding-left: 0;
+        padding-top: 32px;
+    }
+
+    .contentTypesInner {
+        padding: 0 24px;
+    }
+
+    .cardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .howToUseInner {
+        padding: 0 24px;
+    }
+
+    .stepGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta {
+        padding: 48px 24px;
+    }
+}
