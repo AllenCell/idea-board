@@ -17,11 +17,7 @@ export const ResourceLinks: React.FC<ResourceLinksProps> = ({
 
     if (links.length === 1) {
         return (
-            <a
-                href={links[0].url}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a href={links[0].url} target="_blank" rel="noopener noreferrer">
                 {links[0].name || name}
             </a>
         );

@@ -312,11 +312,7 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         const { label, name } = cfg;
         const links = (valueObj[name] as Array<Record<string, string>>) || [];
 
-        const updateLink = (
-            index: number,
-            field: string,
-            newValue: string,
-        ) => {
+        const updateLink = (index: number, field: string, newValue: string) => {
             const updated = links.map((link, i) =>
                 i === index ? { ...link, [field]: newValue } : link,
             );
@@ -324,7 +320,10 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
         };
 
         const addLink = () => {
-            handleChange(name, [...links, { name: "", url: "", description: "" }]);
+            handleChange(name, [
+                ...links,
+                { name: "", url: "", description: "" },
+            ]);
         };
 
         const removeLink = (index: number) => {
@@ -345,20 +344,39 @@ const VariableTypeWidgetControl = (props: VariableTypeWidgetControlProps) => {
                             </strong>
                             <button
                                 type="button"
-                                style={{ ...styles.secondaryButton, padding: "4px 8px", fontSize: 12 }}
+                                style={{
+                                    ...styles.secondaryButton,
+                                    padding: "4px 8px",
+                                    fontSize: 12,
+                                }}
                                 onClick={() => removeLink(index)}
                             >
                                 Remove
                             </button>
                         </div>
-                        {renderLinkSubField("Name", link.name || "", (v) => updateLink(index, "name", v))}
-                        {renderLinkSubField("URL", link.url || "", (v) => updateLink(index, "url", v), "https://...")}
-                        {renderLinkSubField("Description", link.description || "", (v) => updateLink(index, "description", v))}
+                        {renderLinkSubField("Name", link.name || "", (v) =>
+                            updateLink(index, "name", v),
+                        )}
+                        {renderLinkSubField(
+                            "URL",
+                            link.url || "",
+                            (v) => updateLink(index, "url", v),
+                            "https://...",
+                        )}
+                        {renderLinkSubField(
+                            "Description",
+                            link.description || "",
+                            (v) => updateLink(index, "description", v),
+                        )}
                     </div>
                 ))}
                 <button
                     type="button"
-                    style={{ ...styles.secondaryButton, padding: "6px 12px", fontSize: 13 }}
+                    style={{
+                        ...styles.secondaryButton,
+                        padding: "6px 12px",
+                        fontSize: 13,
+                    }}
                     onClick={addLink}
                 >
                     + Add Link
