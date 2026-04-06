@@ -1,8 +1,9 @@
 import React from "react";
 
+import { Link, graphql } from "gatsby";
+
 import { BulbOutlined, DatabaseOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { Link, graphql } from "gatsby";
 
 const {
     audience,
@@ -119,7 +120,7 @@ export const AboutPageTemplate = ({
                                     <h3>{cardTitle}</h3>
                                     <p>{description}</p>
                                 </div>
-                            )
+                            ),
                         )}
                     </div>
                 </div>
@@ -134,9 +135,7 @@ export const AboutPageTemplate = ({
                             <div className={stepCard} key={step.title}>
                                 <span className={stepNumber}>{i + 1}</span>
                                 <h3>{step.title}</h3>
-                                {step.description && (
-                                    <p>{step.description}</p>
-                                )}
+                                {step.description && <p>{step.description}</p>}
                             </div>
                         ))}
                     </div>
@@ -146,11 +145,11 @@ export const AboutPageTemplate = ({
             {/* ── Call to action ── */}
             <section className={cta}>
                 <h2>{ctaData.title}</h2>
-                    <Link to="/">
-                        <Button size="large" type="primary">
-                            {ctaData.buttonText}
-                        </Button>
-                    </Link>
+                <Link to="/">
+                    <Button size="large" type="primary">
+                        {ctaData.buttonText}
+                    </Button>
+                </Link>
             </section>
         </div>
     );

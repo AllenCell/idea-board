@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Layout as AntdLayout, Flex } from "antd";
 import { graphql } from "gatsby";
 
+import { Layout as AntdLayout, Flex } from "antd";
 import PropTypes from "prop-types";
 
 import IdeaRoll from "../components/IdeaRoll";
