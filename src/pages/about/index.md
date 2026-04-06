@@ -6,7 +6,7 @@ intro:
   title: "What is this site?"
   paragraphs:
     - "At the Allen Institute for Cell Science we are committed to being of service to the larger scientific community. That includes making our data, tools, and results accessible — but large datasets are not useful if it's unclear what can be done with them."
-    - "This site surfaces the open scientific questions behind our datasets and tools, alongside observations, half-formed ideas, and early-stage code that could be valuable to someone with the time and knowledge to follow up."
+    - "This site surfaces the open scientific questions that can be addressed using our datasets and tools, alongside observations, and early-stage code that could be valuable to someone with the time and knowledge to follow up."
 audience:
   title: "Who this is for"
   items:
