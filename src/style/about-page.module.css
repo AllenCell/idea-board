@@ -131,6 +131,13 @@
     line-height: 1;
 }
 
+.cardHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
 .card h3 {
     font-size: 17px;
     font-weight: 700;

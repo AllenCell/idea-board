@@ -9,6 +9,7 @@ const {
     audience,
     card,
     cardGrid,
+    cardHeader,
     cardIcon,
     container,
     contentTypes,
@@ -114,10 +115,12 @@ export const AboutPageTemplate = ({
                         {contentTypesData.items.map(
                             ({ description, icon, title: cardTitle }) => (
                                 <div className={card} key={cardTitle}>
-                                    <span className={cardIcon}>
-                                        {ICON_MAP[icon]}
-                                    </span>
-                                    <h3>{cardTitle}</h3>
+                                    <div className={cardHeader}>
+                                        <span className={cardIcon}>
+                                            {ICON_MAP[icon]}
+                                        </span>
+                                        <h3>{cardTitle}</h3>
+                                    </div>
                                     <p>{description}</p>
                                 </div>
                             ),
