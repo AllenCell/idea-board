@@ -1,75 +1,79 @@
-/* Offset anchor scroll targets so the sticky header doesn't cover them */
-:global([id]) {
-    scroll-margin-top: 80px;
-}
-
-.container {
+.idea-post {
+    font-family: "Raleway", sans-serif;
     border: none;
     border-radius: 0px;
     padding: 12px 24px 12px 48px;
-    background-color: var(--white);
+    background-color: var(--WHITE);
     line-height: 1.7;
+
     a {
         overflow-wrap: break-word;
     }
-    .section {
+
+    [id] {
+        scroll-margin-top: 80px;
+    }
+
+    .idea-post-section {
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
-    .mainTitle {
+
+    .idea-post-main-title {
         font-size: 2rem;
         color: var(--primary-color);
         line-height: 1.5;
+
         @media screen and (max-width: 576px) {
             font-size: 1.5rem;
             line-height: 1;
         }
     }
-    .authorsClass {
+
+    .idea-post-authors {
         margin-top: 0px;
         margin-bottom: 0px;
         font-size: 1rem;
         font-weight: 500;
         color: rgb(from var(--primary-color) r g b / 0.9);
+
         @media screen and (max-width: 576px) {
-            margin-top: .5rem;
+            margin-top: 0.5rem;
         }
     }
-    h4.sectionTitle {
+
+    h4.idea-post-section-title {
         margin-bottom: 0.5rem;
         margin-top: 1rem;
     }
-    h3.sectionTitle {
+
+    h3.idea-post-section-title {
         font-size: 1.7rem;
         font-weight: 600;
         margin-top: 1.5rem;
         margin-bottom: 1.75rem;
     }
 
-    .actionIcons {
-        font-size: 16px;
-    }
-
-    .taglist {
+    .idea-post-taglist {
         list-style: none;
         padding: 0;
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+
+        li {
+            display: inline-block;
+        }
     }
 
-    .taglist li {
-        display: inline-block;
-    }
-
-    .proposalTitle {
+    .idea-post-proposal-title {
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 0.5rem;
     }
 
-    .proposal {
+    .idea-post-proposal {
         font-size: 16px;
         font-weight: 500;
         border: 1px solid #cbcbcc;
@@ -77,28 +81,21 @@
         border-radius: 4px;
         padding: 12px;
         line-height: 1.5;
+
         ul {
             padding-inline-start: 20px;
         }
     }
 
-    .sectionBorder {
-        border: 1px solid #cbcbcc;
-        border-radius: 4px;
-        padding: 12px;
+    .idea-post-section-text {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
-    .sectionText {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 1.5;
-               margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .backBar {
+    .idea-post-back-bar {
         position: sticky;
         top: 64px;
         z-index: 10;

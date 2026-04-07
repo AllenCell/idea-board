@@ -3,10 +3,9 @@ import React from "react";
 import { Button } from "antd";
 
 import { MAX_RESOURCE_DESCRIPTION_LENGTH } from "../constants";
+import "../style/idea-post.css";
 import { truncateAtWord } from "../utils/utils";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
-
-const { sectionText } = require("../style/idea-post.module.css");
 
 interface ExpandableTextProps {
     fullText?: string | null;
@@ -30,7 +29,10 @@ export const ExpandableText: React.FC<ExpandableTextProps> = ({
     // shortText only — show as-is
     if (shortText && !fullText) {
         return (
-            <CustomReactMarkdown className={sectionText} content={shortText} />
+            <CustomReactMarkdown
+                className={"idea-post-section-text"}
+                content={shortText}
+            />
         );
     }
 
@@ -41,7 +43,7 @@ export const ExpandableText: React.FC<ExpandableTextProps> = ({
         return (
             <>
                 <CustomReactMarkdown
-                    className={sectionText}
+                    className={"idea-post-section-text"}
                     content={
                         needsTruncation
                             ? truncateAtWord(
@@ -63,7 +65,10 @@ export const ExpandableText: React.FC<ExpandableTextProps> = ({
     // Both — show shortText, "See more" opens full-page view
     return (
         <>
-            <CustomReactMarkdown className={sectionText} content={shortText!} />
+            <CustomReactMarkdown
+                className={"idea-post-section-text"}
+                content={shortText!}
+            />
             {fullText && onExpand && (
                 <Button type="link" onClick={onExpand}>
                     See more

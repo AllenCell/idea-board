@@ -14,19 +14,8 @@ import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { TagPopover } from "../components/TagPopover";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { useExpandedContent } from "../hooks/useExpandedContent";
+import "../style/idea-post.css";
 import { IdeaPostNode, IdeaPostQuery } from "../types";
-
-const {
-    authorsClass,
-    container,
-    mainTitle,
-    proposal,
-    proposalTitle,
-    section,
-    sectionText,
-    sectionTitle,
-    taglist,
-} = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<
     IdeaPostNode & {
@@ -51,7 +40,7 @@ export const IdeaPostTemplate: React.FC<
 }) => {
     const getTagList = (tags: readonly string[]) => {
         return (
-            <ul className={taglist}>
+            <ul className={"idea-post-taglist"}>
                 {tags.map((tag) => (
                     <li key={tag}>
                         <TagPopover tag={tag} currentSlug={slug} />
@@ -66,7 +55,7 @@ export const IdeaPostTemplate: React.FC<
             return null;
         }
         return (
-            <p id="authors" className={authorsClass}>
+            <p id="authors" className={"idea-post-authors"}>
                 {" "}
                 {authors.join(", ")}
             </p>
@@ -80,42 +69,49 @@ export const IdeaPostTemplate: React.FC<
     const hasRelatedIdeas = relatedIdeas && relatedIdeas.length > 0;
 
     return (
-        <div className={container}>
+        <div className="idea-post">
             <div>
                 <Flex
                     justify="space-between"
                     align="center"
-                    className={sectionTitle}
+                    className={"idea-post-section-title"}
                 >
-                    <h3 id="title" className={mainTitle}>
+                    <h3 id="title" className={"idea-post-main-title"}>
                         {title}
                     </h3>
                 </Flex>
                 {getAuthorsList(authors)}
                 {introduction && (
-                    <div id="introduction" className={section}>
+                    <div id="introduction" className={"idea-post-section"}>
                         <CustomReactMarkdown
-                            className={sectionText}
+                            className={"idea-post-section-text"}
                             content={introduction}
                         />
                     </div>
                 )}
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
                 {nextSteps && (
-                    <div id="proposal" className={proposal}>
-                        <h4 className={proposalTitle}>Project proposal:</h4>
+                    <div id="proposal" className={"idea-post-proposal"}>
+                        <h4 className={"idea-post-proposal-title"}>
+                            Project proposal:
+                        </h4>
                         <CustomReactMarkdown
-                            className={sectionText}
+                            className={"idea-post-section-text"}
                             content={nextSteps}
                         />
                     </div>
                 )}
-                <h3 id="relevant-resources" className={sectionTitle}>
+                <h3
+                    id="relevant-resources"
+                    className={"idea-post-section-title"}
+                >
                     Relevant Resources{" "}
                 </h3>
                 {publication && (
                     <div id="publication">
-                        <h4 className={sectionTitle}>Publications </h4>
+                        <h4 className={"idea-post-section-title"}>
+                            Publications{" "}
+                        </h4>
                         {/* TODO I think it only makes sense to have publications that are links */}
                         <a> {publication}</a>
                     </div>
@@ -123,17 +119,21 @@ export const IdeaPostTemplate: React.FC<
             </div>
 
             {hasPreliminaryFindings && (
-                <div id="preliminary-findings" className={section}>
-                    <h4 className={sectionTitle}>Preliminary Findings</h4>
+                <div id="preliminary-findings" className={"idea-post-section"}>
+                    <h4 className={"idea-post-section-title"}>
+                        Preliminary Findings
+                    </h4>
                     {preliminaryFindings.summary && (
                         <CustomReactMarkdown
-                            className={sectionText}
+                            className={"idea-post-section-text"}
                             content={preliminaryFindings.summary}
                         />
                     )}
                     {hasFigures && (
                         <>
-                            <h4 className={sectionTitle}>Figures</h4>
+                            <h4 className={"idea-post-section-title"}>
+                                Figures
+                            </h4>
                             <FigureGallery
                                 figures={preliminaryFindings.figures}
                             />
@@ -149,8 +149,10 @@ export const IdeaPostTemplate: React.FC<
                 />
             )}
             {hasRelatedIdeas && (
-                <div className={section}>
-                    <h4 className={sectionTitle}>Related Ideas:</h4>
+                <div className={"idea-post-section"}>
+                    <h4 className={"idea-post-section-title"}>
+                        Related Ideas:
+                    </h4>
                     {relatedIdeas!.map((idea) => (
                         <div key={idea.slug || idea.title}>
                             <Link to={idea.slug || ""}>

@@ -1,10 +1,9 @@
 import React from "react";
 
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
+import "../style/idea-post.css";
 import { ResourceNode } from "../types";
 import ResourceItem from "./ResourceItem";
-
-const { section, sectionTitle } = require("../style/idea-post.module.css");
 
 interface MaterialsAndMethodsProps {
     resources: ResourceNode[];
@@ -48,8 +47,8 @@ export const MaterialsAndMethodsComponent: React.FC<
     return (
         <>
             {datasets.length > 0 && (
-                <div id="datasets" className={section}>
-                    <h4 className={sectionTitle}>Datasets</h4>
+                <div id="datasets" className={"idea-post-section"}>
+                    <h4 className={"idea-post-section-title"}>Datasets</h4>
                     {datasets.map((dataset, index) => (
                         <ResourceItem
                             key={index}
@@ -73,8 +72,8 @@ export const MaterialsAndMethodsComponent: React.FC<
             )}
 
             {cellLines.length > 0 && (
-                <div id="cell-lines" className={section}>
-                    <h4 className={sectionTitle}>Cell Lines</h4>
+                <div id="cell-lines" className={"idea-post-section"}>
+                    <h4 className={"idea-post-section-title"}>Cell Lines</h4>
                     {cellLines.map((item, index) => (
                         <ResourceItem
                             key={index}
@@ -86,8 +85,8 @@ export const MaterialsAndMethodsComponent: React.FC<
             )}
 
             {protocols.length > 0 && (
-                <div id="protocols" className={section}>
-                    <h4 className={sectionTitle}>Protocols</h4>
+                <div id="protocols" className={"idea-post-section"}>
+                    <h4 className={"idea-post-section-title"}>Protocols</h4>
                     {protocols.map((item, index) => (
                         <ResourceItem
                             key={index}
@@ -99,8 +98,10 @@ export const MaterialsAndMethodsComponent: React.FC<
             )}
 
             {softwareTools.length > 0 && (
-                <div id="software-tools" className={section}>
-                    <h4 className={sectionTitle}>Software Tools</h4>
+                <div id="software-tools" className={"idea-post-section"}>
+                    <h4 className={"idea-post-section-title"}>
+                        Software Tools
+                    </h4>
                     {softwareTools.map((tool, index) => (
                         <ResourceItem
                             key={index}
