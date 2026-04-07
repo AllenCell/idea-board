@@ -35,6 +35,18 @@ type Resource implements Node {
     type: String
 }
 
+type PreliminaryFindings {
+    figures: [ImgWithCaption!]!
+    summary: String!
+}
+
+type ImgWithCaption @dontInfer {
+    caption: String
+    file: File @fileByRelativePath
+    type: String!
+    url: String
+}
+
 type IdeaPost implements Node {
     authors: [String!]!
     date: Date @dateformat
@@ -50,16 +62,4 @@ type IdeaPost implements Node {
     slug: String!
     tags: [String!]!
     title: String!
-}
-
-type PreliminaryFindings {
-    figures: [ImgWithCaption!]!
-    summary: String!
-}
-
-type ImgWithCaption @dontInfer {
-    caption: String
-    file: File @fileByRelativePath
-    type: String!
-    url: String
 }
