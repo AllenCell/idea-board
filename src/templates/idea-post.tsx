@@ -15,7 +15,7 @@ import FigureComponent from "../components/Figure";
 import IconText from "../components/IconText";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { TagPopover } from "../components/TagPopover";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
+import { IdeaPostNode, IdeaPostQuery } from "../types";
 
 const Header = AntdLayout.Header;
 
@@ -28,12 +28,13 @@ const {
     taglist,
 } = require("../style/idea-post.module.css");
 
-export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
+export const IdeaPostTemplate: React.FC<IdeaPostNode> = ({
     authors,
     introduction,
     nextSteps,
     preliminaryFindings,
     publication,
+    relatedIdeas,
     resources,
     slug,
     tags,
@@ -67,6 +68,7 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
         preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
     const hasPreliminaryFindings =
         preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
+    const hasRelatedIdeas = relatedIdeas && relatedIdeas.length > 0;
 
     return (
         <div>
@@ -141,6 +143,18 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
                     </div>
                 )}
                 <MaterialsAndMethodsComponent resources={[...resources]} />
+                {hasRelatedIdeas && (
+                    <div className={section}>
+                        <h4 className={sectionTitle}>Related Ideas:</h4>
+                        {relatedIdeas!.map((idea) => (
+                            <div key={idea.slug || idea.title}>
+                                <Link to={idea.slug || ""}>
+                                    <h5>{idea.title}</h5>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
             </Card>
         </div>
@@ -148,13 +162,13 @@ export const IdeaPostTemplate: React.FC<IdeaFrontmatter & IdeaFields> = ({
 };
 
 const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
-    const markdownRemark = data.markdownRemark;
-    // Runtime guard - markdownRemark can be null if query doesn't find matching ID
-    if (!markdownRemark) {
+    const ideaPost = data.ideaPost;
+    // Runtime guard - ideaPost can be null if query doesn't find matching ID
+    if (!ideaPost) {
         return <p>Post not found.</p>;
     }
 
-    const { description, title } = markdownRemark.frontmatter;
+    const { description, title } = ideaPost;
 
     return (
         <>
@@ -162,10 +176,7 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 <title>{title}</title>
                 <meta name="description" content={description ?? ""} />
             </Helmet>
-            <IdeaPostTemplate
-                {...markdownRemark.frontmatter}
-                {...markdownRemark.fields}
-            />
+            <IdeaPostTemplate {...ideaPost} />
         </>
     );
 };
@@ -174,37 +185,35 @@ export default IdeaPost;
 
 export const pageQuery = graphql`
     query IdeaPostByID($id: String!) {
-        markdownRemark(id: { eq: $id }) {
-            id
-            html
-            fields {
-                slug
-            }
-            frontmatter {
-                authors
-                publication
-                date(formatString: "MMMM DD, YYYY")
-                introduction
-                title
-                description
-                tags
-                preliminaryFindings {
-                    summary
-                    figures {
-                        type
-                        url
-                        file {
-                            childImageSharp {
-                                gatsbyImageData(width: 600, quality: 90)
-                            }
+        ideaPost(id: { eq: $id }) {
+            slug
+            authors
+            publication
+            date(formatString: "MMMM DD, YYYY")
+            introduction
+            title
+            description
+            tags
+            preliminaryFindings {
+                summary
+                figures {
+                    type
+                    url
+                    file {
+                        childImageSharp {
+                            gatsbyImageData(width: 600, quality: 90)
                         }
-                        caption
                     }
+                    caption
                 }
-                nextSteps
-                resources {
-                    ...ResourceFields
-                }
+            }
+            nextSteps
+            resources {
+                ...ResourceFields
+            }
+            relatedIdeas {
+                title
+                slug
             }
         }
     }

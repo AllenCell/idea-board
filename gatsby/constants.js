@@ -1,9 +1,12 @@
 const ALLENITE_TEMPLATE_KEY = `allenite`;
 const PROGRAM_TEMPLATE_KEY = `program`;
 const RESOURCES_TEMPLATE_KEY = `resource`;
+const IDEA_POST_TEMPLATE_KEY = `idea-post`;
 
 const RESOURCES_GATSBY_NODE_KEY = `Resource`;
+const IDEA_POST_GATSBY_NODE_KEY = `IdeaPost`;
 const MARKDOWN_REMARK_GATSBY_NODE_KEY = `MarkdownRemark`;
+const IDEAS_SLUG_DIRECTORY = `ideas`;
 
 /**
  * Maps frontmatter templateKey → a distinct GraphQL node type.
@@ -14,7 +17,9 @@ const MARKDOWN_REMARK_GATSBY_NODE_KEY = `MarkdownRemark`;
  */
 const TEMPLATE_KEY_TO_TYPE = {
     [RESOURCES_TEMPLATE_KEY]: RESOURCES_GATSBY_NODE_KEY,
+    [IDEA_POST_TEMPLATE_KEY]: IDEA_POST_GATSBY_NODE_KEY,
 };
+
 module.exports = {
     ALLENITE_TEMPLATE_KEY,
     PROGRAM_TEMPLATE_KEY,
@@ -22,4 +27,7 @@ module.exports = {
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
     TEMPLATE_KEY_TO_TYPE,
     RESOURCES_GATSBY_NODE_KEY,
+    IDEA_POST_TEMPLATE_KEY,
+    IDEA_POST_GATSBY_NODE_KEY,
+    IDEAS_SLUG_DIRECTORY,
 };
