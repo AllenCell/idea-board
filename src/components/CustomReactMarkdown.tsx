@@ -1,7 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
-import "../style/markdown.css";
+const { codeBlock } = require("../style/markdown.module.css");
 
 interface CustomReactMarkdownProps {
     content: string;
@@ -16,10 +16,10 @@ export const CustomReactMarkdown: React.FC<CustomReactMarkdownProps> = ({
         <ReactMarkdown
             components={{
                 p: ({ node: _node, ...props }) => (
-                    <p className={className} style={{ margin: 0 }} {...props} />
+                    <p className={className} {...props} />
                 ),
                 pre: ({ node: _node, ...props }) => (
-                    <pre className="code-block" {...props} />
+                    <pre className={codeBlock} {...props} />
                 ),
             }}
         >

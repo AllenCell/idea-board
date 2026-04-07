@@ -9,6 +9,7 @@ type MarkdownRemark implements Node {
 
 type Frontmatter {
     date: Date @dateformat
+    title: String!
     description: String
     draft: Boolean
     tags: [String!]
@@ -22,8 +23,11 @@ type ResourceLink {
 }
 
 type Resource implements Node {
-    date: Date @dateformat
+    slug: String!
+    name: String
+    type: String
     description: String
+    shortDescription: String
     draft: Boolean
     file: String
     name: String

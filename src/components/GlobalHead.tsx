@@ -30,6 +30,10 @@ const GlobalHead = () => {
                 rel="stylesheet"
             />
 
+            <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+            />
             <meta name="theme-color" content="#fff" />
             <meta property="og:type" content="business.business" />
             <meta property="og:title" content={title} />
