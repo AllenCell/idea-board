@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 
-import { PageProps, graphql } from "gatsby";
+import { Link, PageProps, graphql } from "gatsby";
 
 import { Flex } from "antd";
 
@@ -14,7 +14,7 @@ import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { TagPopover } from "../components/TagPopover";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { useExpandedContent } from "../hooks/useExpandedContent";
-import { IdeaFields, IdeaFrontmatter, IdeaPostQuery } from "../types";
+import { IdeaPostNode, IdeaPostQuery } from "../types";
 
 const {
     authorsClass,
@@ -29,14 +29,13 @@ const {
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<
-    IdeaFrontmatter &
-        IdeaFields & {
-            onExpandDescription?: (
-                content: string,
-                label: string,
-                sectionKey: string,
-            ) => void;
-        }
+    IdeaPostNode & {
+        onExpandDescription?: (
+            content: string,
+            label: string,
+            sectionKey: string,
+        ) => void;
+    }
 > = ({
     authors,
     introduction,
@@ -44,6 +43,7 @@ export const IdeaPostTemplate: React.FC<
     onExpandDescription,
     preliminaryFindings,
     publication,
+    relatedIdeas,
     resources,
     slug,
     tags,
@@ -77,6 +77,7 @@ export const IdeaPostTemplate: React.FC<
         preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
     const hasPreliminaryFindings =
         preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
+    const hasRelatedIdeas = relatedIdeas && relatedIdeas.length > 0;
 
     return (
         <div className={container}>
@@ -147,11 +148,23 @@ export const IdeaPostTemplate: React.FC<
                     onExpandDescription={onExpandDescription}
                 />
             )}
+            {hasRelatedIdeas && (
+                <div className={section}>
+                    <h4 className={sectionTitle}>Related Ideas:</h4>
+                    {relatedIdeas!.map((idea) => (
+                        <div key={idea.slug || idea.title}>
+                            <Link to={idea.slug || ""}>
+                                <h5>{idea.title}</h5>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
-function buildIdeaNavItems(fm: IdeaFrontmatter): PageNavSiderMenuItem[] {
+function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
     const hasResourceType = (type: string) =>
         fm.resources?.some((r) => r.type === type);
     const hasProtocols =
@@ -209,18 +222,17 @@ function buildIdeaNavItems(fm: IdeaFrontmatter): PageNavSiderMenuItem[] {
 
 const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
     const setLayout = useSetLayoutConfig();
-    const markdownRemark = data.markdownRemark;
+    const ideaPost = data.ideaPost;
     const { expandedContent, handleBack, handleExpand, handleNavItemClick } =
         useExpandedContent();
 
     const PageNavSiderItems = useMemo(
-        () =>
-            markdownRemark ? buildIdeaNavItems(markdownRemark.frontmatter) : [],
-        [markdownRemark],
+        () => (ideaPost ? buildIdeaNavItems(ideaPost) : []),
+        [ideaPost],
     );
 
     useEffect(() => {
-        if (!markdownRemark) return;
+        if (!ideaPost) return;
         setLayout({
             showPageNavSider: true,
             PageNavSiderItems,
@@ -231,7 +243,7 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 PageNavSiderItems: [],
             });
         };
-    }, [markdownRemark, PageNavSiderItems, setLayout]);
+    }, [ideaPost, PageNavSiderItems, setLayout]);
 
     // Register nav click handler + active key override when in expanded view
     useEffect(() => {
@@ -242,11 +254,11 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
     }, [expandedContent, handleNavItemClick, setLayout]);
 
     // Runtime guard - markdownRemark can be null if query doesn't find matching ID
-    if (!markdownRemark) {
+    if (!ideaPost) {
         return <p>Post not found.</p>;
     }
 
-    const { description, title } = markdownRemark.frontmatter;
+    const { description, title } = ideaPost;
 
     return (
         <>
@@ -262,8 +274,7 @@ const IdeaPost: React.FC<PageProps<IdeaPostQuery>> = ({ data }) => {
                 />
             ) : (
                 <IdeaPostTemplate
-                    {...markdownRemark.frontmatter}
-                    {...markdownRemark.fields}
+                    {...ideaPost}
                     onExpandDescription={handleExpand}
                 />
             )}
@@ -275,37 +286,35 @@ export default IdeaPost;
 
 export const pageQuery = graphql`
     query IdeaPostByID($id: String!) {
-        markdownRemark(id: { eq: $id }) {
-            id
-            html
-            fields {
-                slug
-            }
-            frontmatter {
-                authors
-                publication
-                date(formatString: "MMMM DD, YYYY")
-                introduction
-                title
-                description
-                tags
-                preliminaryFindings {
-                    summary
-                    figures {
-                        type
-                        url
-                        file {
-                            childImageSharp {
-                                gatsbyImageData(width: 600, quality: 90)
-                            }
+        ideaPost(id: { eq: $id }) {
+            slug
+            authors
+            publication
+            date(formatString: "MMMM DD, YYYY")
+            introduction
+            title
+            description
+            tags
+            preliminaryFindings {
+                summary
+                figures {
+                    type
+                    url
+                    file {
+                        childImageSharp {
+                            gatsbyImageData(width: 600, quality: 90)
                         }
-                        caption
                     }
+                    caption
                 }
-                nextSteps
-                resources {
-                    ...ResourceFields
-                }
+            }
+            nextSteps
+            resources {
+                ...ResourceFields
+            }
+            relatedIdeas {
+                title
+                slug
             }
         }
     }

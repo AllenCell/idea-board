@@ -2,11 +2,7 @@ const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
-const {
-    stringWithDefault,
-    resolveToArray,
-    resourceQuery,
-} = require("./gatsby/utils/gatsby-resolver-utils");
+const { createIdeaPostResolver } = require("./gatsby/resolvers/resolvers");
 const {
     RESOURCES_GATSBY_NODE_KEY,
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
@@ -26,25 +22,11 @@ const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
 
 const DATA_ONLY_PAGES = [ALLENITE_TEMPLATE_KEY, PROGRAM_TEMPLATE_KEY];
 
+const templateKeysWithNodes = Object.keys(TEMPLATE_KEY_TO_TYPE);
+
 exports.createSchemaCustomization = ({ actions }) => {
     const { createTypes } = actions;
-    const typeDefs = [
-        `type PreliminaryFindings {
-            summary: String!
-            figures: [ImgWithCaption!]!
-        }
-
-        type ImgWithCaption @dontInfer {
-            type: String!
-            url: String
-            file: File @fileByRelativePath
-            caption: String
-        }
-
-        `,
-    ];
     createTypes(read("gatsby/schema/base.gql"));
-    createTypes(typeDefs);
 };
 
 /**
@@ -61,60 +43,7 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
                 }),
             },
         },
-        Frontmatter: {
-            description: {
-                resolve: (source) =>
-                    stringWithDefault(
-                        source.description,
-                        "No description provided.",
-                    ),
-            },
-            authors: {
-                resolve: (source) => resolveToArray(source.authors),
-            },
-            title: {
-                resolve: (source) =>
-                    stringWithDefault(source.title, "No title provided."),
-            },
-            resources: {
-                resolve: async (source, _args, context) => {
-                    const names = resolveToArray(source.resources);
-                    const results = await Promise.all(
-                        names.map((name) =>
-                            context.nodeModel.findOne(resourceQuery(name)),
-                        ),
-                    );
-                    results.forEach((result, i) => {
-                        if (!result) {
-                            const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
-                            reporter.error(msg, new Error(msg));
-                        }
-                    });
-                    return results.filter(Boolean);
-                },
-            },
-            nextSteps: {
-                resolve: (source) => source.nextSteps ?? null,
-            },
-            program: {
-                resolve: (source) => resolveToArray(source.program),
-            },
-            preliminaryFindings: {
-                resolve: (source) => {
-                    const raw = source.preliminaryFindings;
-                    if (!raw || typeof raw !== "object") {
-                        return {
-                            summary: "",
-                            figures: [],
-                        };
-                    }
-                    return {
-                        summary: stringWithDefault(raw.summary, ""),
-                        figures: resolveToArray(raw.figures),
-                    };
-                },
-            },
-        },
+        IdeaPost: createIdeaPostResolver(reporter),
     });
 };
 
@@ -128,11 +57,10 @@ exports.createPages = ({ actions, graphql }) => {
 
     // Create pages for any markdown files that are configured to have their
     // own node type (e.g. Resource) based on their templateKey.
-    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
-        (templateKey) => {
-            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
-            const allKeyString = `all${nodeKey}`;
-            return graphql(`
+    const typedNodePages = templateKeysWithNodes.map((templateKey) => {
+        const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+        const allKeyString = `all${nodeKey}`;
+        return graphql(`
         {
             ${allKeyString} {
                 nodes {
@@ -142,23 +70,20 @@ exports.createPages = ({ actions, graphql }) => {
             }
         }
     `).then((result) => {
-                if (result.errors) {
-                    result.errors.forEach((e) => console.error(e.toString()));
-                    return Promise.reject(result.errors);
-                }
+            if (result.errors) {
+                result.errors.forEach((e) => console.error(e.toString()));
+                return Promise.reject(result.errors);
+            }
 
-                result.data[allKeyString].nodes.forEach((node) => {
-                    createPage({
-                        path: node.slug,
-                        component: path.resolve(
-                            `src/templates/${templateKey}.tsx`,
-                        ),
-                        context: { id: node.id },
-                    });
+            result.data[allKeyString].nodes.forEach((node) => {
+                createPage({
+                    path: node.slug,
+                    component: path.resolve(`src/templates/${templateKey}.tsx`),
+                    context: { id: node.id },
                 });
             });
-        },
-    );
+        });
+    });
 
     /**
      * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
@@ -198,7 +123,7 @@ exports.createPages = ({ actions, graphql }) => {
             // Skip creating pages for data-only pages (software, dataset, etc.)
             if (
                 DATA_ONLY_PAGES.includes(templateKey) ||
-                templateKey in TEMPLATE_KEY_TO_TYPE
+                templateKeysWithNodes.includes(templateKey)
             ) {
                 return;
             }
@@ -274,9 +199,7 @@ exports.onCreateNode = ({
         // in the createPages.
         if (
             node.frontmatter?.templateKey &&
-            Object.keys(TEMPLATE_KEY_TO_TYPE).includes(
-                node.frontmatter?.templateKey,
-            )
+            templateKeysWithNodes.includes(node.frontmatter?.templateKey)
         ) {
             const nodeType = TEMPLATE_KEY_TO_TYPE[node.frontmatter.templateKey];
 
