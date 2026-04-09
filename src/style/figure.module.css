@@ -23,3 +23,70 @@
         font-size: 10px;
     }
 }
+
+/* ── FigureGallery carousel ── */
+
+.galleryContainer {
+    position: relative;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.galleryTrack {
+    position: relative;
+}
+
+.gallerySlide {
+    cursor: zoom-in;
+    text-align: center;
+    max-height: 520px;
+    overflow: hidden;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* GatsbyImage inside carousel slide */
+.gallerySlide > div {
+    width: 100%;
+    max-height: 520px;
+}
+
+.gallerySlide img {
+    max-width: 100%;
+    max-height: 520px;
+    object-fit: contain;
+}
+
+.galleryCaption {
+    font-style: italic;
+    font-size: 12px;
+    text-align: center;
+    margin: 6px 0 0;
+    color: var(--color-text-secondary, #666);
+}
+
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    border-color: var(--color-border, #d9d9d9) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.navButtonLeft {
+    left: 8px;
+}
+
+.navButtonRight {
+    right: 8px;
+}
+
+.slideCounter {
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-text-secondary, #888);
+    margin: 4px 0 0;
+}

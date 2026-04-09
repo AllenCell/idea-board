@@ -6,6 +6,7 @@ export const SoftwareToolResourceFields = graphql`
         type
         name
         description
+        shortDescription
         links {
             name
             url
@@ -23,6 +24,7 @@ export const DatasetResourceFields = graphql`
         type
         name
         description
+        shortDescription
         links {
             name
             url
@@ -52,6 +54,7 @@ export const ProtocolLinkResourceFields = graphql`
         type
         name
         description
+        shortDescription
         links {
             name
             url
@@ -66,6 +69,7 @@ export const ProtocolFileResourceFields = graphql`
         type
         name
         description
+        shortDescription
         links {
             name
             url

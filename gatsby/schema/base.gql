@@ -3,23 +3,17 @@ type MarkdownRemarkFields {
 }
 
 type MarkdownRemark implements Node {
-    frontmatter: Frontmatter!
     fields: MarkdownRemarkFields!
+    frontmatter: Frontmatter!
 }
 
-# Shared frontmatter fields for idea posts (and other markdown).
 type Frontmatter {
     date: Date @dateformat
     title: String!
     description: String
     draft: Boolean
     tags: [String!]
-    authors: [String!]!
-    nextSteps: String
-    program: [String!]
-    publication: String
-    introduction: String
-    resources: [Resource!]!
+    title: String!
 }
 
 type ResourceLink {
@@ -33,11 +27,43 @@ type Resource implements Node {
     name: String
     type: String
     description: String
+    shortDescription: String
+    draft: Boolean
+    file: String
+    name: String
     links: [ResourceLink!]
     readmeLink: String
-    file: String
+    slug: String!
     status: String
-    date: Date @dateformat
     tags: [String!]
+    type: String
+}
+
+type PreliminaryFindings {
+    figures: [ImgWithCaption!]!
+    summary: String!
+}
+
+type ImgWithCaption @dontInfer {
+    caption: String
+    file: File @fileByRelativePath
+    type: String!
+    url: String
+}
+
+type IdeaPost implements Node {
+    authors: [String!]!
+    date: Date @dateformat
+    description: String
     draft: Boolean
+    introduction: String
+    nextSteps: String
+    preliminaryFindings: PreliminaryFindings
+    program: [String!]!
+    publication: String
+    relatedIdeas: [IdeaPost!]!
+    resources: [Resource!]!
+    slug: String!
+    tags: [String!]!
+    title: String!
 }

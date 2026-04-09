@@ -1,62 +1,62 @@
 @import "../style/colors.css";
 
 .container {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    max-width: 1728px;
     margin: auto;
-}
-
-.container h1,
-h2,
-h3,
-h4 {
-    margin: 0;
-}
-
-.container h1 {
+    min-height: 100vh;
+    background-color: var(--color-bg-base);
     font-family: "Raleway", sans-serif;
-    font-size: 32px;
-    font-weight: 400;
-    font-style: normal;
+    h1,
+    h2,
+    h3,
+    h4 {
+        margin: 0;
+    }
+    h1 {
+        font-family: "Raleway", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        font-style: normal;
+    }
+    h2 {
+        font-family: "Open Sans", sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    h3 {
+        font-weight: 700;
+        color: var(--primary-color);
+        font-size: 24px;
+    }
+
+    h4 {
+        font-family: Raleway;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--primary-color);
+    }
 }
 
-.container h2 {
-    font-family: "Open Sans", sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-.container h3 {
-    font-weight: 700;
-    color: var(--primary-color);
-    font-size: 24px;
-}
-
-.container h4 {
-    font-family: Raleway;
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--primary-color);
-}
-
-/* Global AntD Layout Header styling */
-.container :global(.ant-layout-header), .container :global(.ant-layout-header) a {
-    background-color: var(--primary-color);
-    padding: 0 24px;
-    color: white;
-    font-family: "Raleway", sans-serif;
-    font-size: 32px;
-}
-
-.container :global(.ant-layout-header) a {
-    border-radius: 4px;
-    padding: 8px;
-}
-
-.container :global(.ant-layout-header) a:hover {
-    border: 1px solid white;
+.contentWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    background-color: var(--color-bg-base);
+    overflow: visible;
+    /* AntD applies overflow-x: hidden to content inside a has-sider layout,
+   which makes overflow-y compute to auto, stealing scroll from the body
+   and breaking position: sticky on the header. */
+    :global(.ant-layout-content) {
+        overflow: visible;
+    }
+    /* Add padding on very wide screens */
+    @media screen and (min-width: 1800px) {
+        padding: 0 24px;
+    }
 }

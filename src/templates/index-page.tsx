@@ -2,7 +2,6 @@ import React from "react";
 
 import { graphql } from "gatsby";
 
-import { Layout as AntdLayout, Flex } from "antd";
 import PropTypes from "prop-types";
 
 import IdeaRoll from "../components/IdeaRoll";
@@ -17,19 +16,10 @@ interface QueryResult {
     };
 }
 
-const Header = AntdLayout.Header;
-
 export const IndexPageTemplate: React.FC = () => {
     return (
-        <div>
-            <Header>
-                <Flex>
-                    <span>Browse Ideas</span>
-                </Flex>
-            </Header>
-            <div className={listWrapper}>
-                <IdeaRoll />
-            </div>
+        <div className={listWrapper}>
+            <IdeaRoll />
         </div>
     );
 };

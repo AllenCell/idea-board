@@ -23,4 +23,5 @@
     --small-table-border-color: var(--RAIN_SHADOW);
     --main-card-header-color: var(--primary-color);
     --footer-text: var(--BLUE_70);
+    --color-bg-base: var(--WHITE);
 }
