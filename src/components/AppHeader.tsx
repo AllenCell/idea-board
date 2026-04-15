@@ -13,7 +13,9 @@ const {
     header,
     headerContent,
     headerLeft,
+    headerRight,
     homeLink,
+    navLink,
 } = require("../style/header.module.css");
 
 const AntdHeader = AntdLayout.Header;
@@ -29,7 +31,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     pageNavItems = [],
     pageNavTitle = "On This Page",
     showHamburger,
-    title = "AICS Idea Board",
+    title = "Idea Board",
 }) => {
     const isBelowTablet = useTabletBreakpoint();
     const { data: layoutData } = useLayoutContext();
@@ -77,6 +79,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                         <span>{title}</span>
                     </Link>
                 </Flex>
+                <div className={headerRight}>
+                    <Link className={navLink} to="/about">
+                        <span>About</span>
+                    </Link>
+                </div>
             </Flex>
         </AntdHeader>
     );
