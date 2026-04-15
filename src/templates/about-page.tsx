@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Link, graphql } from "gatsby";
 
 import { BulbOutlined, DatabaseOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+
+import { useSetLayoutConfig } from "../LayoutContext";
 
 const {
     audience,
@@ -175,6 +177,12 @@ export const AboutPageTemplate = ({
 
 const AboutPage = ({ data }: QueryResult) => {
     const { frontmatter } = data.markdownRemark;
+    const setLayout = useSetLayoutConfig();
+
+    useEffect(() => {
+        setLayout({ fullWidthPage: true });
+        return () => setLayout({ fullWidthPage: undefined });
+    }, []);
 
     return (
         <AboutPageTemplate

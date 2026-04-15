@@ -13,7 +13,12 @@ import { PageNavSider } from "./PageNavSider";
 
 const { Content } = AntLayout;
 
-const { container, contentWrapper } = require("../style/layout.module.css");
+const {
+    container,
+    content,
+    contentWrapper,
+    contentWrapperFullWidth,
+} = require("../style/layout.module.css");
 
 const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { data } = useLayoutContext();
@@ -27,7 +32,9 @@ const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     pageNavTitle={data.PageNavSiderTitle}
                     showHamburger={data.showHamburger}
                 />
-                <AntLayout className={contentWrapper}>
+                <AntLayout
+                    className={`${contentWrapper}${data.fullWidthPage ? ` ${contentWrapperFullWidth}` : ""}`}
+                >
                     {data.showPageNavSider &&
                         data.PageNavSiderItems.length > 0 && (
                             <PageNavSider
@@ -35,7 +42,7 @@ const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                 title={data.PageNavSiderTitle}
                             />
                         )}
-                    <Content>{children}</Content>
+                    <Content className={content}>{children}</Content>
                 </AntLayout>
                 <AppFooter />
             </AntLayout>

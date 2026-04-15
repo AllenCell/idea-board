@@ -31,9 +31,9 @@
 .heroContent {
     position: absolute;
     inset: 0;
-    max-width: 1728px;
+    max-width: 1200px;
     margin: auto;
-    padding: 0 96px;
+    padding: 0 48px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -58,9 +58,9 @@
 /* ── Intro section ────────────────────────────────────────────── */
 
 .intro {
-    max-width: 1728px;
+    max-width: 1200px;
     margin: auto;
-    padding: 48px 96px;
+    padding: 48px 48px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 64px;
@@ -128,9 +128,9 @@
 }
 
 .contentTypesInner {
-    max-width: 1728px;
+    max-width: 1200px;
     margin: auto;
-    padding: 0 96px;
+    padding: 0 48px;
 }
 
 .contentTypesInner h2 {
@@ -187,8 +187,8 @@
 /* ── CTA section ──────────────────────────────────────────────── */
 
 .cta {
-    padding: 56px 96px;
-    max-width: 1728px;
+    padding: 56px 48px;
+    max-width: 1200px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -213,9 +213,9 @@
 }
 
 .howToUseInner {
-    max-width: 1728px;
+    max-width: 1200px;
     margin: auto;
-    padding: 0 96px;
+    padding: 0 48px;
 }
 
 .howToUseInner h2 {
