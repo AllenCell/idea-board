@@ -30,14 +30,10 @@ const placeholderStyle: React.CSSProperties = {
 
 const ResourcePlaceholder: React.FC = () => (
     <div className="idea-post-section">
-        <h4 className="idea-post-section-title">Datasets</h4>
         <div style={placeholderStyle}>
-            <p style={{ fontWeight: 600, marginBottom: "4px" }}>
-                Example Resource Name
-            </p>
             <p style={{ margin: 0 }}>
-                Resource details cannot be previewed — they are loaded from
-                related entries at build time. The published page will display
+                Resource details are loaded from related entries at build time
+                and cannot be previewed here. The published page will display
                 full resource cards with descriptions and links.
             </p>
         </div>
@@ -59,7 +55,7 @@ const IdeaPostPreview: React.FC<PreviewProps> = ({ entry }) => {
             </div>
             <IdeaPostTemplate
                 title={data.title}
-                authors={data.authors}
+                authors={data.authors ?? []}
                 introduction={data.introduction}
                 tags={[]}
                 nextSteps={data.nextSteps}
