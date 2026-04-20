@@ -6,7 +6,7 @@ import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { useLocation } from "@reach/router";
 import { Avatar, List, Space } from "antd";
 
-import { ResourceNode } from "../types";
+import { Allenite, ResourceNode } from "../types";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
@@ -25,7 +25,7 @@ interface PostNode {
             templateKey: string;
             concerns?: string;
             program: string;
-            authors?: string[];
+            authors?: Allenite[];
             tags?: string[];
             type: string;
             resources: ResourceNode[];
@@ -111,12 +111,12 @@ const IdeaRollTemplate = (props: {
                             <Avatar.Group>
                                 {item.authors.map((author) => (
                                     <Avatar
-                                        key={author}
+                                        key={author.name}
                                         style={{
                                             backgroundColor: "gray",
                                         }}
                                     >
-                                        {author[0].toUpperCase()}
+                                        {author.name[0].toUpperCase()}
                                     </Avatar>
                                 ))}
                             </Avatar.Group>
@@ -172,7 +172,10 @@ export default function IdeaRoll({
                             date(formatString: "MMMM DD, YYYY")
                             tags
                             type
-                            authors
+                            authors {
+                                name
+                                contactId
+                            }
                             concerns
                             resources {
                                 ...ResourceFields

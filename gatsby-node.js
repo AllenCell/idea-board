@@ -6,6 +6,7 @@ const {
     stringWithDefault,
     resolveToArray,
     resourceQuery,
+    alleniteQuery,
 } = require("./gatsby/utils/gatsby-resolver-utils");
 const {
     RESOURCES_GATSBY_NODE_KEY,
@@ -70,7 +71,24 @@ exports.createResolvers = ({ reporter, createResolvers }) => {
                     ),
             },
             authors: {
-                resolve: (source) => resolveToArray(source.authors),
+                resolve: async (source, _args, context) => {
+                    const names = resolveToArray(source.authors);
+                    const results = await Promise.all(
+                        names
+                            .filter(Boolean)
+                            .map((name) =>
+                                context.nodeModel.findOne(alleniteQuery(name)),
+                            ),
+                    );
+                    return results.filter(Boolean);
+                },
+            },
+            primaryContact: {
+                resolve: async (source, _args, context) => {
+                    const query = alleniteQuery(source.primaryContact);
+                    if (!query) return null;
+                    return context.nodeModel.findOne(query);
+                },
             },
             title: {
                 resolve: (source) =>
@@ -128,8 +146,9 @@ exports.createPages = ({ actions, graphql }) => {
 
     // Create pages for any markdown files that are configured to have their
     // own node type (e.g. Resource) based on their templateKey.
-    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE).map(
-        (templateKey) => {
+    const typedNodePages = Object.keys(TEMPLATE_KEY_TO_TYPE)
+        .filter((templateKey) => !DATA_ONLY_PAGES.includes(templateKey))
+        .map((templateKey) => {
             const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
             const allKeyString = `all${nodeKey}`;
             return graphql(`

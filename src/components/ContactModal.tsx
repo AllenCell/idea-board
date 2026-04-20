@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
+import { graphql, useStaticQuery } from "gatsby";
+
 import { Button, Flex, Input, Modal } from "antd";
 
 import { CONTACT_FUNCTION_PATH } from "../constants";
+import { Allenite } from "../types";
 
 interface ContactModalProps {
-    authors: readonly (string | null)[] | null | undefined;
+    authors: ReadonlyArray<Allenite> | null;
     open: boolean;
-    primaryContact: string | null | undefined;
+    primaryContact: Allenite | null;
     title: string;
     onClose: () => void;
 }
@@ -23,20 +26,38 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     const [senderEmail, setSenderEmail] = useState("");
     const [message, setMessage] = useState("");
 
+    const defaultContactQueryData = useStaticQuery(graphql`
+        query DefaultContact {
+            allenite(name: { eq: "Idea Board" }) {
+                name
+                contactId
+            }
+        }
+    `);
+
     const hasPrimaryContact = !!primaryContact;
     const hasAuthors = !!authors && authors.length > 0;
 
     const filteredAuthors =
-        authors?.filter(Boolean).join(", ") ?? "the authors";
+        authors
+            ?.map((author) => author.name)
+            .filter(Boolean)
+            .join(", ") ?? "the authors";
 
-    const recipientLabel = hasPrimaryContact
+    const defaultContact = defaultContactQueryData.allenite;
+    const preferredRecipient = hasPrimaryContact
         ? primaryContact
         : hasAuthors
-          ? filteredAuthors
-          : // TODO use real contact info
-            "fake default email inbox";
+          ? authors[0]
+          : null;
+    const recipient = preferredRecipient?.contactId
+        ? preferredRecipient
+        : defaultContact;
+
+    const hasRecipient = !!recipient?.name && !!recipient?.contactId;
 
     const handleSubmit = async () => {
+        if (!hasRecipient) return;
         try {
             const response = await fetch(CONTACT_FUNCTION_PATH, {
                 method: "POST",
@@ -46,7 +67,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 body: JSON.stringify({
                     senderName: senderName,
                     senderEmail: senderEmail,
-                    recipient: recipientLabel,
+                    recipientName: recipient.name,
+                    recipientId: recipient.contactId,
                     message: message,
                 }),
             });
@@ -70,7 +92,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 <Button key="cancel" onClick={onClose}>
                     Cancel
                 </Button>,
-                <Button key="submit" type="primary" onClick={handleSubmit}>
+                <Button
+                    key="submit"
+                    type="primary"
+                    onClick={handleSubmit}
+                    disabled={!hasRecipient}
+                >
                     Send
                 </Button>,
             ]}
@@ -83,11 +110,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     <strong>Authors:</strong> {filteredAuthors}
                 </p>
             )}
-            <p>
-                Your message will be sent to <strong>{recipientLabel}</strong>.
-                Reach out with questions, collaboration interest, or feedback on
-                this idea.
-            </p>
+            {hasRecipient ? (
+                <p>
+                    Your message will be sent to{" "}
+                    <strong>{recipient.name}</strong>. Reach out with questions,
+                    collaboration interest, or feedback on this idea.
+                </p>
+            ) : (
+                <p>No contact is available for this idea right now.</p>
+            )}
             <Flex vertical gap={12}>
                 <Input
                     placeholder="Your name"
