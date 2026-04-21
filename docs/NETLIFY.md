@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed (`npm install netlify-cli -g`)
-- Access to the team's Netlify site (ask a team member for the site ID)
+- Access to the team's Netlify site (ask a team member for the site ID) 
 
 ## Initial Setup
 
