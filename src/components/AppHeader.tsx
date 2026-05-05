@@ -76,7 +76,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                         </Dropdown>
                     )}
                     <Link className={homeLink} to="/">
-                        <span>{title}</span>
+                        <span>{title}/</span>
                     </Link>
                 </Flex>
                 <div className={headerRight}>

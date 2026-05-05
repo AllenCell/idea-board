@@ -93,12 +93,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                         avatar={
                             <Avatar.Group>
                                 {item.authors.map((author) => (
-                                    <Avatar
-                                        key={author}
-                                        style={{
-                                            backgroundColor: "gray",
-                                        }}
-                                    >
+                                    <Avatar key={author}>
                                         {author[0].toUpperCase()}
                                     </Avatar>
                                 ))}
