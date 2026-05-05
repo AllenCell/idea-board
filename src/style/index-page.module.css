@@ -1,6 +1,7 @@
 .container {
 }
 
+
 .header {
     max-width: 1728px;
     margin: auto;
@@ -11,9 +12,9 @@
 }
 
 .info {
-    background-color: white;
+    background-color: var(--WHITE);
     border: 1px solid var(--primary-color);
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 20px 32px;
     @media (max-width: 768px) {
         padding: 16px 24px;

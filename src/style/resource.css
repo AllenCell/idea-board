@@ -1,5 +1,5 @@
 .resource-page {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-body);
     line-height: 1.7;
     max-width: 680px;
     margin: 40px auto;
@@ -7,13 +7,13 @@
     .resource-card {
         background: var(--WHITE);
         border: 1.5px solid var(--border-color);
-        border-radius: 4px;
+        border-radius: 2px;
         padding: 28px 32px;
 
         .resource-description {
             font-size: 15px;
             line-height: 1.7;
-            color: var(--BLUE_70);
+            color: var(--GRAY_2);
             margin-bottom: 20px;
         }
     }

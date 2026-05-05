@@ -4,11 +4,10 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    /* color transformations darkens to account for added opacity */
-    background-color: hsl(from var(--primary-color) h s calc(l - 4) / 0.9);
+    background-color: var(--BLACK);
     padding: 0;
     color: var(--WHITE);
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
 }
 
 .headerContent {
@@ -21,7 +20,7 @@
 .headerLeft {
     flex-shrink: 1;
     min-width: 0;
-    overflow: hidden;
+    overflow-x: clip;
 }
 
 .headerRight {
@@ -33,13 +32,15 @@
 
 a.homeLink {
     background-color: transparent;
+    font-family: var(--font-display);
     font-size: 24px;
-    font-weight: 500;
-    color: var(--color-text-heading);
+    font-weight: 600;
+    color: var(--WHITE);
     padding: 0px;
     white-space: nowrap;
     display: flex;
     align-items: center;
+    letter-spacing: -0.02em;
 }
 
 @media screen and (min-width: 1800px) {
@@ -63,9 +64,9 @@ a.homeLink {
 }
 
 a.navLink {
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--font-body);
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--WHITE);
     text-decoration: none;
     white-space: nowrap;
@@ -73,8 +74,9 @@ a.navLink {
     align-items: center;
 }
 
+a.homeLink:hover,
 a.navLink:hover {
-    color: var(--RAIN_SHADOW);
+    color: var(--ALLEN_GREEN);
 }
 
 @media screen and (max-width: 744px) {
