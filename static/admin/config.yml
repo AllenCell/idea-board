@@ -100,7 +100,8 @@ collections:
                                         label: "Image link",
                                         name: "imageLink",
                                         widget: "object",
-                                        fields: [
+                                        fields:
+                                            [
                                                 {
                                                     label: "Figure URL",
                                                     name: "url",
@@ -119,7 +120,8 @@ collections:
                                         label: "Image file",
                                         name: "imageFile",
                                         widget: "object",
-                                        fields: [
+                                        fields:
+                                            [
                                                 {
                                                     label: "Figure",
                                                     name: "file",
@@ -149,7 +151,8 @@ collections:
                 multiple: true,
                 required: false,
                 hint: "Select datasets from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
-                filters: [{ field: "resourceDetails.type", values: ["dataset"] }],
+                filters:
+                    [{ field: "resourceDetails.type", values: ["dataset"] }],
             }
           - {
                 label: "Resources",
@@ -158,7 +161,8 @@ collections:
                 collection: "resources",
                 search_fields: ["resourceDetails.name", "resourceDetails.type"],
                 value_field: "{{slug}}",
-                display_fields: ["resourceDetails.type", "resourceDetails.name"],
+                display_fields:
+                    ["resourceDetails.type", "resourceDetails.name"],
                 multiple: true,
                 required: false,
                 hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
@@ -226,7 +230,12 @@ collections:
                 default: "allenite",
             }
           - { label: "Name", name: "name", widget: "string" }
-          - { label: "Position", name: "position", widget: "string", required: false }
+          - {
+                label: "Position",
+                name: "position",
+                widget: "string",
+                required: false,
+            }
           - {
                 label: "Contact method",
                 name: "contact",
@@ -277,12 +286,7 @@ collections:
       identifier_field: "name"
       summary: "{{resourceDetails.type}}: {{name}}"
       sortable_fields: ["name", "resourceDetails.type"]
-      view_groups: [
-            {
-                label: "Type",
-                field: "resourceDetails.type",
-            }
-      ]
+      view_groups: [{ label: "Type", field: "resourceDetails.type" }]
       fields:
           - {
                 label: "Template Key",
@@ -290,12 +294,7 @@ collections:
                 widget: "hidden",
                 default: "resource",
             }
-          - {
-                label: "Name",
-                name: "name",
-                widget: "hidden",
-                default: "",
-            }
+          - { label: "Name", name: "name", widget: "hidden", default: "" }
           - {
                 label: "Resource Details",
                 name: "resourceDetails",
@@ -316,22 +315,6 @@ collections:
                   }
                 - { label: Title, name: title, widget: string }
                 - { label: Image, name: image, widget: image }
-                - { label: Heading, name: heading, widget: string }
-                - { label: Subheading, name: subheading, widget: string }
-                - {
-                      label: Mainpitch,
-                      name: mainpitch,
-                      widget: object,
-                      fields:
-                          [
-                              { label: Title, name: title, widget: string },
-                              {
-                                  label: Description,
-                                  name: description,
-                                  widget: text,
-                              },
-                          ],
-                  }
                 - { label: "Body", name: "body", widget: "markdown" }
 
           - file: "src/pages/about/index.md"
@@ -345,4 +328,84 @@ collections:
                       default: "about-page",
                   }
                 - { label: "Title", name: "title", widget: "string" }
-                - { label: "Body", name: "body", widget: "markdown" }
+                - {
+                      label: "Banner Image",
+                      name: "bannerImage",
+                      widget: "image",
+                      required: false,
+                  }
+                - label: "Intro"
+                  name: "intro"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Paragraphs"
+                        name: "paragraphs"
+                        widget: "list"
+                        field:
+                            {
+                                label: "Paragraph",
+                                name: "paragraph",
+                                widget: "text",
+                            }
+                - label: "Audience"
+                  name: "audience"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Items"
+                        name: "items"
+                        widget: "list"
+                        field: { label: "Item", name: "item", widget: "string" }
+                - label: "Content Types"
+                  name: "contentTypes"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Items"
+                        name: "items"
+                        widget: "list"
+                        fields:
+                            - {
+                                  label: "Title",
+                                  name: "title",
+                                  widget: "string",
+                              }
+                            - {
+                                  label: "Description",
+                                  name: "description",
+                                  widget: "text",
+                              }
+                            - label: "Icon"
+                              name: "icon"
+                              widget: "select"
+                              options: ["bulb", "database", "eye"]
+                - label: "How to Use"
+                  name: "howToUse"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - label: "Steps"
+                        name: "steps"
+                        widget: "list"
+                        fields:
+                            - {
+                                  label: "Title",
+                                  name: "title",
+                                  widget: "string",
+                              }
+                            - {
+                                  label: "Description",
+                                  name: "description",
+                                  widget: "text",
+                              }
+                - label: "CTA"
+                  name: "cta"
+                  widget: "object"
+                  fields:
+                      - { label: "Title", name: "title", widget: "string" }
+                      - {
+                            label: "Button Text",
+                            name: "buttonText",
+                            widget: "string",
+                        }

@@ -3,7 +3,6 @@ import React from "react";
 import { Link, graphql, useStaticQuery } from "gatsby";
 
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
-import { useLocation } from "@reach/router";
 import { Avatar, List } from "antd";
 
 import { IconText } from "./IconText";
@@ -22,8 +21,6 @@ interface IdeaRollProps {
 }
 
 const IdeaRoll = ({ count }: IdeaRollProps) => {
-    const path = useLocation().pathname;
-
     const queryData = useStaticQuery(graphql`
         query IdeaRoll {
             allIdeaPost(sort: { date: DESC }, filter: { draft: { ne: true } }) {
@@ -58,14 +55,14 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
             bordered={true}
             dataSource={ideasForIdeaRoll}
             footer={
-                path.includes("ideas") ? (
-                    ""
-                ) : (
+                count ? (
                     <div>
-                        <Link className="btn" to="/ideas">
+                        <Link className="btn" to="/">
                             See more
                         </Link>
                     </div>
+                ) : (
+                    ""
                 )
             }
             renderItem={(item) => (

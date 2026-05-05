@@ -14,16 +14,21 @@
 .headerContent {
     height: 64px;
     flex-wrap: nowrap;
-    max-width: 1200px;
-    margin: 0 auto;
     width: 100%;
-    padding: 0 24px;
+    padding: 0 32px;
 }
 
 .headerLeft {
     flex-shrink: 1;
     min-width: 0;
     overflow: hidden;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
 }
 
 a.homeLink {
@@ -33,7 +38,7 @@ a.homeLink {
     color: var(--color-text-heading);
     padding: 0px;
     white-space: nowrap;
-    display:flex;
+    display: flex;
     align-items: center;
 }
 
@@ -54,5 +59,26 @@ a.homeLink {
 @media screen and (max-width: 576px) {
     a.homeLink {
         font-size: 16px;
+    }
+}
+
+a.navLink {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--WHITE);
+    text-decoration: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+a.navLink:hover {
+    color: var(--RAIN_SHADOW);
+}
+
+@media screen and (max-width: 744px) {
+    a.navLink {
+        font-size: 14px;
     }
 }

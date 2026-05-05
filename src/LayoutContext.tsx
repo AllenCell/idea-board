@@ -10,6 +10,7 @@ import { PageNavSiderMenuItem } from "./components/PageNavSider";
 
 export interface LayoutData {
     activeNavKey: string | null;
+    fullWidthPage?: boolean;
     onNavItemClick: ((key: string) => void) | null;
     PageNavSiderItems: PageNavSiderMenuItem[];
     PageNavSiderTitle: string | undefined;
@@ -20,6 +21,7 @@ export interface LayoutData {
 
 const defaultLayoutData: LayoutData = {
     activeNavKey: null,
+    fullWidthPage: undefined,
     onNavItemClick: null,
     PageNavSiderItems: [],
     PageNavSiderTitle: undefined,
