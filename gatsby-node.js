@@ -61,9 +61,9 @@ exports.createPages = ({ actions, graphql }) => {
     const typedNodePages = templateKeysWithNodes
         .filter((templateKey) => !DATA_ONLY_PAGES.includes(templateKey))
         .map((templateKey) => {
-        const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
-        const allKeyString = `all${nodeKey}`;
-        return graphql(`
+            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+            const allKeyString = `all${nodeKey}`;
+            return graphql(`
         {
             ${allKeyString} {
                 nodes {
@@ -73,20 +73,22 @@ exports.createPages = ({ actions, graphql }) => {
             }
         }
     `).then((result) => {
-            if (result.errors) {
-                result.errors.forEach((e) => console.error(e.toString()));
-                return Promise.reject(result.errors);
-            }
+                if (result.errors) {
+                    result.errors.forEach((e) => console.error(e.toString()));
+                    return Promise.reject(result.errors);
+                }
 
-            result.data[allKeyString].nodes.forEach((node) => {
-                createPage({
-                    path: node.slug,
-                    component: path.resolve(`src/templates/${templateKey}.tsx`),
-                    context: { id: node.id },
+                result.data[allKeyString].nodes.forEach((node) => {
+                    createPage({
+                        path: node.slug,
+                        component: path.resolve(
+                            `src/templates/${templateKey}.tsx`,
+                        ),
+                        context: { id: node.id },
+                    });
                 });
             });
         });
-    });
 
     /**
      * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
