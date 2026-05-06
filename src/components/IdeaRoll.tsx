@@ -29,7 +29,9 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                     slug
                     title
                     tags
-                    authors
+                    authors {
+                        name
+                    }
                     resources {
                         type
                         name
@@ -94,12 +96,12 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                             <Avatar.Group>
                                 {item.authors.map((author) => (
                                     <Avatar
-                                        key={author}
+                                        key={author.name}
                                         style={{
                                             backgroundColor: "gray",
                                         }}
                                     >
-                                        {author[0].toUpperCase()}
+                                        {author.name[0].toUpperCase()}
                                     </Avatar>
                                 ))}
                             </Avatar.Group>

@@ -52,13 +52,14 @@ type ImgWithCaption @dontInfer {
 }
 
 type IdeaPost implements Node {
-    authors: [String!]!
+    authors: [Allenite!]!
     date: Date @dateformat
     description: String
     draft: Boolean
     introduction: String
     nextSteps: String
     preliminaryFindings: PreliminaryFindings
+    primaryContact: Allenite
     program: [String!]!
     publication: String
     relatedIdeas: [IdeaPost!]!
@@ -66,4 +67,13 @@ type IdeaPost implements Node {
     slug: String!
     tags: [String!]!
     title: String!
+}
+
+type Allenite implements Node {
+    slug: String!
+    name: String!
+    contactId: String
+    position: String
+    contact: String
+    program: [String!]
 }

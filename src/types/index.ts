@@ -14,6 +14,7 @@ import { IGatsbyImageData } from "gatsby-plugin-image";
  */
 export type IdeaPostQuery = Queries.IdeaPostByIDQuery;
 export type IdeaPostNode = NonNullable<IdeaPostQuery["ideaPost"]>;
+export type Allenite = NonNullable<IdeaPostNode["primaryContact"]>;
 
 export type IdeasForTags =
     Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];

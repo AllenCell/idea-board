@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
-import { Flex } from "antd";
+import { Button, Flex } from "antd";
 
 import { useSetLayoutConfig } from "../LayoutContext";
+import { ContactModal } from "../components/ContactModal";
 import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import ExpandedDescriptionView from "../components/ExpandableDescriptionView";
 import FigureGallery from "../components/FigureGallery";
@@ -14,7 +15,7 @@ import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { TagPopover } from "../components/TagPopover";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { useExpandedContent } from "../hooks/useExpandedContent";
-import { IdeaPostNode, IdeaPostQuery } from "../types";
+import { Allenite, IdeaPostNode, IdeaPostQuery } from "../types";
 
 const {
     authorsClass,
@@ -42,6 +43,7 @@ export const IdeaPostTemplate: React.FC<
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
+    primaryContact,
     publication,
     relatedIdeas,
     resources,
@@ -49,6 +51,8 @@ export const IdeaPostTemplate: React.FC<
     tags,
     title,
 }) => {
+    const [contactModalOpen, setContactModalOpen] = useState(false);
+
     const getTagList = (tags: readonly string[]) => {
         return (
             <ul className={taglist}>
@@ -61,14 +65,14 @@ export const IdeaPostTemplate: React.FC<
         );
     };
 
-    const getAuthorsList = (authors: readonly string[]) => {
+    const getAuthorsList = (authors: ReadonlyArray<Allenite>) => {
         if (authors.length === 0) {
             return null;
         }
         return (
             <p id="authors" className={authorsClass}>
                 {" "}
-                {authors.join(", ")}
+                {authors.map((a) => a.name).join(", ")}
             </p>
         );
     };
@@ -90,8 +94,18 @@ export const IdeaPostTemplate: React.FC<
                     <h3 id="title" className={mainTitle}>
                         {title}
                     </h3>
+                    <Button onClick={() => setContactModalOpen(true)}>
+                        Contact
+                    </Button>
                 </Flex>
                 {getAuthorsList(authors)}
+                <ContactModal
+                    authors={authors}
+                    primaryContact={primaryContact}
+                    title={title}
+                    open={contactModalOpen}
+                    onClose={() => setContactModalOpen(false)}
+                />
                 {introduction && (
                     <div id="introduction" className={section}>
                         <CustomReactMarkdown
@@ -288,7 +302,14 @@ export const pageQuery = graphql`
     query IdeaPostByID($id: String!) {
         ideaPost(id: { eq: $id }) {
             slug
-            authors
+            authors {
+                name
+                contactId
+            }
+            primaryContact {
+                name
+                contactId
+            }
             publication
             date(formatString: "MMMM DD, YYYY")
             introduction

@@ -3,6 +3,7 @@ const {
     TEMPLATE_KEY_TO_TYPE,
     IDEA_POST_TEMPLATE_KEY,
     IDEAS_SLUG_DIRECTORY,
+    ALLENITE_TEMPLATE_KEY,
 } = require("../constants");
 const slugify = require("slugify");
 
@@ -72,10 +73,20 @@ const ideaPostQuery = (name) => {
     };
 };
 
+const alleniteQuery = (name) => {
+    const slug = resolveSlug(name, ALLENITE_TEMPLATE_KEY);
+    if (!slug) return null;
+    return {
+        query: { filter: { slug: { eq: slug } } },
+        type: TEMPLATE_KEY_TO_TYPE[ALLENITE_TEMPLATE_KEY],
+    };
+};
+
 module.exports = {
     stringWithDefault,
     resolveToArray,
     resolveSlug,
     resourceQuery,
     ideaPostQuery,
+    alleniteQuery,
 };
