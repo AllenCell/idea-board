@@ -57,10 +57,13 @@ exports.createPages = ({ actions, graphql }) => {
 
     // Create pages for any markdown files that are configured to have their
     // own node type (e.g. Resource) based on their templateKey.
-    const typedNodePages = templateKeysWithNodes.map((templateKey) => {
-        const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
-        const allKeyString = `all${nodeKey}`;
-        return graphql(`
+    // Skip data-only types (e.g. Allenite) which don't have their own template.
+    const typedNodePages = templateKeysWithNodes
+        .filter((templateKey) => !DATA_ONLY_PAGES.includes(templateKey))
+        .map((templateKey) => {
+            const nodeKey = TEMPLATE_KEY_TO_TYPE[templateKey];
+            const allKeyString = `all${nodeKey}`;
+            return graphql(`
         {
             ${allKeyString} {
                 nodes {
@@ -70,20 +73,22 @@ exports.createPages = ({ actions, graphql }) => {
             }
         }
     `).then((result) => {
-            if (result.errors) {
-                result.errors.forEach((e) => console.error(e.toString()));
-                return Promise.reject(result.errors);
-            }
+                if (result.errors) {
+                    result.errors.forEach((e) => console.error(e.toString()));
+                    return Promise.reject(result.errors);
+                }
 
-            result.data[allKeyString].nodes.forEach((node) => {
-                createPage({
-                    path: node.slug,
-                    component: path.resolve(`src/templates/${templateKey}.tsx`),
-                    context: { id: node.id },
+                result.data[allKeyString].nodes.forEach((node) => {
+                    createPage({
+                        path: node.slug,
+                        component: path.resolve(
+                            `src/templates/${templateKey}.tsx`,
+                        ),
+                        context: { id: node.id },
+                    });
                 });
             });
         });
-    });
 
     /**
      * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
