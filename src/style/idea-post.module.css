@@ -7,7 +7,6 @@
     border: none;
     border-radius: 0px;
     padding: 12px 24px 12px 48px;
-    background-color: var(--color-bg-base);
     line-height: 1.7;
     a {
         overflow-wrap: break-word;
@@ -18,7 +17,7 @@
     }
     .mainTitle {
         font-size: 2rem;
-        color: var(--BLACK);
+        color: var(--color-text-primary);
         line-height: 1.5;
         @media screen and (max-width: 576px) {
             font-size: 1.5rem;

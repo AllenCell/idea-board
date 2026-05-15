@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
 
 import IdeaRoll from "../components/IdeaRoll";
 
-const { listWrapper } = require("../style/index-page.module.css");
+const {
+    listWrapper,
+    pageBackground,
+} = require("../style/index-page.module.css");
 
 interface QueryResult {
     data: {
@@ -18,8 +21,10 @@ interface QueryResult {
 
 export const IndexPageTemplate: React.FC = () => {
     return (
-        <div className={listWrapper}>
-            <IdeaRoll />
+        <div className={pageBackground}>
+            <div className={listWrapper}>
+                <IdeaRoll />
+            </div>
         </div>
     );
 };

@@ -17,7 +17,7 @@ export default {
     token: {
         colorPrimary: PRIMARY_COLOR,
         colorBgContainer: PAGE_1,
-        colorBgLayout: PAGE_1,
+        colorBgLayout: PAGE_2,
         colorLink: ALLEN_VIOLET,
         colorLinkActive: ALLEN_GREEN,
         colorLinkHover: ALLEN_GREEN,
