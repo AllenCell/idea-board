@@ -84,3 +84,26 @@ a.navLink:hover {
         font-size: 14px;
     }
 }
+
+.logoImg {
+    height: 28px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+.subLabel {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ALLEN_GREEN);
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    padding-left: 8px;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 744px) {
+    .subLabel {
+        display: none;
+    }
+}
