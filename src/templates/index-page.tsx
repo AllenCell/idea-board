@@ -26,7 +26,7 @@ interface QueryResult {
 export const IndexPageTemplate: React.FC = () => {
     return (
         <div className={pageBackground}>
-            <div className={hero}>
+            <section className={hero}>
                 <p className={heroBreadcrumb}>
                     allen institute / cell science / open ideas/
                 </p>
@@ -35,7 +35,7 @@ export const IndexPageTemplate: React.FC = () => {
                     A living collection of early-stage ideas, proposals, and
                     open questions from Allen Institute scientists.
                 </p>
-            </div>
+            </section>
             <div className={listWrapper}>
                 <IdeaRoll />
             </div>
