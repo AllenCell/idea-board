@@ -15,7 +15,9 @@ const {
     headerLeft,
     headerRight,
     homeLink,
+    logoImg,
     navLink,
+    subLabel,
 } = require("../style/header.module.css");
 
 const AntdHeader = AntdLayout.Header;
@@ -31,7 +33,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     pageNavItems = [],
     pageNavTitle = "On This Page",
     showHamburger,
-    title = "Idea Board",
+    title: _title = "Idea Board",
 }) => {
     const isBelowTablet = useTabletBreakpoint();
     const { data: layoutData } = useLayoutContext();
@@ -76,7 +78,12 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                         </Dropdown>
                     )}
                     <Link className={homeLink} to="/">
-                        <span>{title}/</span>
+                        <img
+                            src="/img/AI_medium_black.svg"
+                            alt="Allen Institute"
+                            className={logoImg}
+                        />
+                        <span className={subLabel}>idea board/</span>
                     </Link>
                 </Flex>
                 <div className={headerRight}>
