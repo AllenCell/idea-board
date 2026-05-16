@@ -23,7 +23,6 @@ const {
 const AntdHeader = AntdLayout.Header;
 
 interface AppHeaderProps {
-    title?: string;
     showHamburger?: boolean;
     pageNavItems?: PageNavSiderMenuItem[];
     pageNavTitle?: string;
@@ -33,7 +32,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     pageNavItems = [],
     pageNavTitle = "On This Page",
     showHamburger,
-    title: _title = "Idea Board",
 }) => {
     const isBelowTablet = useTabletBreakpoint();
     const { data: layoutData } = useLayoutContext();
