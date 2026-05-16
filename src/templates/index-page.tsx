@@ -7,6 +7,10 @@ import PropTypes from "prop-types";
 import IdeaRoll from "../components/IdeaRoll";
 
 const {
+    hero,
+    heroBreadcrumb,
+    heroSubtitle,
+    heroTitle,
     listWrapper,
     pageBackground,
 } = require("../style/index-page.module.css");
@@ -22,6 +26,16 @@ interface QueryResult {
 export const IndexPageTemplate: React.FC = () => {
     return (
         <div className={pageBackground}>
+            <div className={hero}>
+                <p className={heroBreadcrumb}>
+                    allen institute / cell science / open ideas/
+                </p>
+                <h1 className={heroTitle}>Idea Board</h1>
+                <p className={heroSubtitle}>
+                    A living collection of early-stage ideas, proposals, and
+                    open questions from Allen Institute scientists.
+                </p>
+            </div>
             <div className={listWrapper}>
                 <IdeaRoll />
             </div>
