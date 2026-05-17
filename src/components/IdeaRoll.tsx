@@ -79,7 +79,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                 const accentColor = hashColor(item.title);
                 return (
                     <List.Item
-                        key={item.title}
+                        key={item.id}
                         style={
                             {
                                 "--item-color": accentColor,
