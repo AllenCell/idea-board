@@ -2,8 +2,13 @@
     margin: auto;
     background-color: var(--color-bg-base);
 
+    :global(.ant-list-item) {
+        border-left: 3px solid var(--item-color);
+        padding-left: 20px;
+    }
+
     :global(.ant-list-item-meta-title a) {
-        color: var(--ALLEN_BLUE) !important;
+        color: var(--item-color);
         font-weight: 600;
     }
 
