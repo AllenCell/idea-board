@@ -77,7 +77,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     )}
                     <Link className={homeLink} to="/">
                         <img
-                            src="/img/AI_medium_black.svg"
+                            src="/img/AI_icon.svg"
                             alt="Allen Institute"
                             className={logoImg}
                         />

@@ -5,10 +5,13 @@ import { Link, graphql, useStaticQuery } from "gatsby";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { Avatar, List } from "antd";
 
+import { ALLEN_TEAL } from "../style/theme";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
 const { container } = require("../style/idea-roll.module.css");
+
+const avatarColor = ALLEN_TEAL;
 
 type IdeaNode = Queries.IdeaRollQuery["allIdeaPost"]["nodes"][number];
 
@@ -93,7 +96,13 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                         avatar={
                             <Avatar.Group>
                                 {item.authors.map((author) => (
-                                    <Avatar key={author}>
+                                    <Avatar
+                                        key={author}
+                                        style={{
+                                            backgroundColor: avatarColor,
+                                            color: "#fff",
+                                        }}
+                                    >
                                         {author[0].toUpperCase()}
                                     </Avatar>
                                 ))}
