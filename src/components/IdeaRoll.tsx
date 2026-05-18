@@ -113,8 +113,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                         <Avatar
                                             key={author}
                                             style={{
-                                                backgroundColor:
-                                                    hashColor(author),
+                                                backgroundColor: accentColor,
                                                 color: "#fff",
                                             }}
                                         >
