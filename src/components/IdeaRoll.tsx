@@ -5,20 +5,11 @@ import { Link, graphql, useStaticQuery } from "gatsby";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { Avatar, List } from "antd";
 
+import { ALLEN_VIOLET } from "../style/theme";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
 const { container } = require("../style/idea-roll.module.css");
-
-const ACCENT_COLORS = ["#6464FF", "#8246E1", "#00A59B", "#CD0F55"];
-
-function hashColor(str: string): string {
-    let h = 0;
-    for (let i = 0; i < str.length; i++) {
-        h = (h * 31 + str.charCodeAt(i)) >>> 0;
-    }
-    return ACCENT_COLORS[h % ACCENT_COLORS.length];
-}
 
 type IdeaNode = Queries.IdeaRollQuery["allIdeaPost"]["nodes"][number];
 
@@ -75,62 +66,52 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                     ""
                 )
             }
-            renderItem={(item) => {
-                const accentColor = hashColor(item.title);
-                return (
-                    <List.Item
-                        key={item.id}
-                        style={
-                            {
-                                "--item-color": accentColor,
-                            } as React.CSSProperties
+            renderItem={(item) => (
+                <List.Item
+                    key={item.id}
+                    actions={[
+                        <IconText
+                            icon={StarOutlined}
+                            text="2"
+                            key="list-vertical-star-o"
+                        />,
+                        <IconText
+                            icon={MessageOutlined}
+                            text="2"
+                            key="list-vertical-message"
+                        />,
+                        ...item.tags.map((tag) => (
+                            <TagPopover
+                                key={tag}
+                                tag={tag}
+                                currentSlug={item.slug}
+                            />
+                        )),
+                    ]}
+                >
+                    <List.Item.Meta
+                        title={<a href={item.slug}>{item.title}</a>}
+                        avatar={
+                            <Avatar.Group>
+                                {item.authors.map((author) => (
+                                    <Avatar
+                                        key={author}
+                                        style={{
+                                            backgroundColor: ALLEN_VIOLET,
+                                            color: "#fff",
+                                        }}
+                                    >
+                                        {author[0].toUpperCase()}
+                                    </Avatar>
+                                ))}
+                            </Avatar.Group>
                         }
-                        actions={[
-                            <IconText
-                                icon={StarOutlined}
-                                text="2"
-                                key="list-vertical-star-o"
-                            />,
-                            <IconText
-                                icon={MessageOutlined}
-                                text="2"
-                                key="list-vertical-message"
-                            />,
-                            ...item.tags.map((tag) => (
-                                <TagPopover
-                                    key={tag}
-                                    tag={tag}
-                                    currentSlug={item.slug}
-                                />
-                            )),
-                        ]}
-                    >
-                        <List.Item.Meta
-                            title={<a href={item.slug}>{item.title}</a>}
-                            avatar={
-                                <Avatar.Group>
-                                    {item.authors.map((author) => (
-                                        <Avatar
-                                            key={author}
-                                            style={{
-                                                backgroundColor: accentColor,
-                                                color: "#fff",
-                                            }}
-                                        >
-                                            {author[0].toUpperCase()}
-                                        </Avatar>
-                                    ))}
-                                </Avatar.Group>
-                            }
-                            description={
-                                <span>
-                                    {item.dataset ?? "No public dataset"}
-                                </span>
-                            }
-                        />
-                    </List.Item>
-                );
-            }}
+                        description={
+                            <span>{item.dataset ?? "No public dataset"}</span>
+                        }
+                    />
+                </List.Item>
+            )}
         />
     );
 };
