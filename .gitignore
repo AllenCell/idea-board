@@ -11,3 +11,6 @@ gatsby-types.d.ts
 .claude/
 .superpowers/
 docs/superpowers/
+
+# Local Netlify folder
+.netlify
