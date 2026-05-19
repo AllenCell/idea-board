@@ -3,108 +3,268 @@
     scroll-margin-top: 80px;
 }
 
+/* ── Blue header block ───────────────────────────────────────── */
+.postHeader {
+    background: var(--ALLEN_BLUE);
+    color: var(--WHITE);
+    padding: 22px 48px 20px 24px;
+    font-family: var(--font-display);
+}
+
+.eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    opacity: 0.75;
+    text-transform: lowercase;
+    margin-bottom: 10px;
+}
+
+.postTitle {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--WHITE);
+    @media screen and (max-width: 576px) {
+        font-size: 1.5rem;
+    }
+}
+
+/* ── Metadata strip ──────────────────────────────────────────── */
+.metaStrip {
+    background: var(--PAGE_2);
+    border-bottom: 1px solid var(--GRAY_1);
+    padding: 10px 48px 10px 24px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    @media screen and (max-width: 576px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px 16px;
+    }
+}
+
+.metaGroup {
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+    margin-right: 20px;
+    border-right: 1px solid var(--GRAY_1);
+    line-height: 1.3;
+    @media screen and (max-width: 576px) {
+        border-right: none;
+        padding-right: 0;
+        margin-right: 0;
+    }
+}
+
+.metaKey {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--GRAY_2);
+    margin-bottom: 2px;
+}
+
+.metaVal {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--BLACK);
+}
+
+.metaValBlue {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ALLEN_BLUE);
+}
+
+.metaContact {
+    margin-left: auto;
+    @media screen and (max-width: 576px) {
+        margin-left: 0;
+    }
+}
+
+/* ── Tag row ─────────────────────────────────────────────────── */
+.tagRow {
+    background: var(--color-bg-base);
+    padding: 10px 48px 10px 24px;
+    border-bottom: 1px solid var(--GRAY_1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.tagRowLabel {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--GRAY_2);
+    font-weight: 700;
+    margin-right: 4px;
+}
+
+.tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1.5px solid var(--ALLEN_BLUE);
+    color: var(--ALLEN_BLUE);
+    background: transparent;
+    text-decoration: none;
+}
+
+/* ── Body ────────────────────────────────────────────────────── */
 .container {
     background-color: var(--color-bg-base);
-    border: none;
-    border-radius: 0px;
-    padding: 12px 48px 12px 24px;
+    padding: 24px 48px 40px 24px;
     line-height: 1.7;
     a {
         overflow-wrap: break-word;
     }
-    .section {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-    .mainTitle {
-        font-size: 2rem;
-        color: var(--color-text-primary);
-        line-height: 1.5;
-        @media screen and (max-width: 576px) {
-            font-size: 1.5rem;
-            line-height: 1;
-        }
-    }
-    .authorsClass {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        font-size: 1rem;
-        font-weight: 500;
-        color: rgb(from var(--primary-color) r g b / 0.9);
-        @media screen and (max-width: 576px) {
-            margin-top: 0.5rem;
-        }
-    }
-    h4.sectionTitle {
-        margin-bottom: 0.5rem;
-        margin-top: 1rem;
-    }
-    h3.sectionTitle {
-        font-size: 1.7rem;
-        font-weight: 600;
-        margin-top: 1.5rem;
-        margin-bottom: 1.75rem;
-    }
+}
 
-    .actionIcons {
-        font-size: 16px;
-    }
+/* Slash-motif section label (top-level) */
+.sectionLabel {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ALLEN_BLUE);
+    margin-bottom: 10px;
+    margin-top: 36px;
+}
 
-    .taglist {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
+.sectionLabel::after {
+    content: " /";
+    font-weight: 300;
+    opacity: 0.7;
+}
 
-    .taglist li {
-        display: inline-block;
-    }
+.sectionText {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--BLACK);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
 
-    .proposalTitle {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
+/* ── Proposal callout ────────────────────────────────────────── */
+.proposal {
+    background: var(--ALLEN_GREEN);
+    border-left: 4px solid var(--BLACK);
+    padding: 14px 18px;
+    margin: 6px 0;
+    ul {
+        padding-inline-start: 20px;
     }
+}
 
-    .proposal {
-        font-size: 16px;
-        font-weight: 500;
-        border: 1px solid var(--callout-box-border-color);
-        background-color: var(--callout-box-bg-color);
-        border-radius: 2px;
-        padding: 12px;
-        line-height: 1.5;
-        ul {
-            padding-inline-start: 20px;
-        }
-    }
+.proposalTitle {
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--BLACK);
+    margin-bottom: 8px;
+    margin-top: 0;
+}
 
-    .sectionBorder {
-        border: 1px solid var(--color-border);
-        border-radius: 2px;
-        padding: 12px;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+/* ── Resources ───────────────────────────────────────────────── */
+.resourcesIndent {
+    padding-left: 20px;
+    border-left: 2px solid var(--GRAY_1);
+    margin-top: 4px;
+}
 
-    .sectionText {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 1.5;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+/* Sub-section label (Datasets, Cell Lines, etc.) */
+.sectionTitle {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--BLACK);
+    margin: 20px 0 6px;
+}
 
-    .backBar {
-        position: sticky;
-        top: 64px;
-        z-index: 10;
-        background-color: var(--color-bg-base, #fff);
-        padding: 10px 0 12px;
-        border-bottom: 1px solid var(--color-border, #e8e8e8);
-        margin-bottom: 20px;
-    }
+/* Resource and Related Ideas lists — dot bullets, no lines */
+.resourceList,
+.relatedList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resourceList li,
+.relatedList li {
+    padding: 3px 0;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resourceList li::before,
+.relatedList li::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ALLEN_BLUE);
+    flex-shrink: 0;
+}
+
+.resourceList a,
+.relatedList a {
+    color: var(--ALLEN_BLUE);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.resourceList a:hover,
+.relatedList a:hover {
+    text-decoration: underline;
+}
+
+/* ── Legacy — kept for any references not yet migrated ───────── */
+.section {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.taglist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.taglist li {
+    display: inline-block;
+}
+
+.authorsClass {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--ALLEN_BLUE);
+}
+
+.mainTitle {
+    font-size: 2rem;
+    color: var(--WHITE);
+    line-height: 1.5;
 }
