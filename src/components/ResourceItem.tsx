@@ -17,9 +17,9 @@ const ResourceItem: React.FC<ResourceItemProps> = ({
     onExpand,
     shortDescription,
 }) => (
-    <div>
+    <li>
         {name && (
-            <p>
+            <span>
                 {link ? (
                     <a href={link} target="_blank" rel="noreferrer">
                         {name}
@@ -27,14 +27,14 @@ const ResourceItem: React.FC<ResourceItemProps> = ({
                 ) : (
                     name
                 )}
-            </p>
+            </span>
         )}
         <ExpandableText
             fullText={description}
             onExpand={onExpand}
             shortText={shortDescription}
         />
-    </div>
+    </li>
 );
 
 export default ResourceItem;
