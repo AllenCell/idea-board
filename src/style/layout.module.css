@@ -44,6 +44,7 @@
 .contentWrapper {
     margin: 0 auto;
     width: 100%;
+    max-width: 1200px;
     flex: 1;
     overflow: visible;
 
@@ -52,10 +53,6 @@
    and breaking position: sticky on the header. */
     :global(.ant-layout-content) {
         overflow: visible;
-    }
-    /* Add padding on very wide screens */
-    @media screen and (min-width: 1800px) {
-        padding: 0 24px;
     }
 }
 
