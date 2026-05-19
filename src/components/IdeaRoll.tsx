@@ -5,7 +5,7 @@ import { Link, graphql, useStaticQuery } from "gatsby";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { Avatar, List } from "antd";
 
-import { ALLEN_VIOLET } from "../style/theme";
+import { PRIMARY_COLOR } from "../style/theme";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
@@ -97,7 +97,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                     <Avatar
                                         key={author}
                                         style={{
-                                            backgroundColor: ALLEN_VIOLET,
+                                            backgroundColor: PRIMARY_COLOR,
                                             color: "#fff",
                                         }}
                                     >

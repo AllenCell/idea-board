@@ -1,7 +1,4 @@
-
 .footer {
-    background-color: var(--color-bg-secondary);
-    border-top: 1px solid var(--color-border);
     padding: 24px;
     margin-top: auto;
 }
@@ -26,6 +23,6 @@
 }
 
 .footerCopyright {
-    color: var(--color-text-secondary);
+    color: var(--color-text-light);
     font-size: 14px;
 }

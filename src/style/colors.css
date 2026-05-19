@@ -32,6 +32,7 @@
     --color-border: var(--GRAY_1);
     --color-text-primary: var(--BLACK);
     --color-text-secondary: var(--GRAY_2);
+    --color-text-light: var(--PAGE_1);
     --color-text-heading: var(--WHITE);
     --color-primary: var(--ALLEN_BLUE);
     --small-table-border-color: var(--GRAY_1);

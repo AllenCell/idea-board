@@ -4,6 +4,7 @@
 }
 
 .container {
+    background-color: var(--color-bg-base);
     border: none;
     border-radius: 0px;
     padding: 12px 48px 12px 24px;

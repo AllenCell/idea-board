@@ -3,12 +3,12 @@
     background-color: var(--color-bg-base);
 
     :global(.ant-list-item) {
-        border-left: 3px solid var(--ALLEN_VIOLET);
+        border-left: 3px solid var(--ALLEN_BLUE);
         padding-left: 20px;
     }
 
     :global(.ant-list-item-meta-title a) {
-        color: var(--ALLEN_VIOLET);
+        color: var(--ALLEN_BLUE) !important;
         font-weight: 600;
     }
 
