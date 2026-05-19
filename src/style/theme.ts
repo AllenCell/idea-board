@@ -1,54 +1,85 @@
 // Allen Institute Brand 2025
-export const WHITE = "#FFFFFF";
-export const PAGE_1 = "#F3F0E8"; // warm off-white
-export const PAGE_2 = "#DED9D1"; // warm light gray
-export const GRAY_1 = "#AAA39F"; // borders
-export const GRAY_2 = "#737373"; // muted text
-export const BLACK = "#000000";
 
+// Base — neutrals
+export const WHITE = "#FFFFFF";
+export const BLACK = "#000000";
+export const PAGE_1 = "#F3F0E8"; // warm off-white — page background
+export const PAGE_2 = "#DED9D1"; // warm light gray — alt surfaces, cards
+export const GRAY_1 = "#AAA39F"; // medium warm gray — borders, dividers
+export const GRAY_2 = "#737373"; // mid gray — muted text
+
+// Primary — used as backgrounds
 export const ALLEN_BLUE = "#6464FF";
 export const ALLEN_VIOLET = "#8246E1";
 export const ALLEN_TEAL = "#00A59B";
-export const ALLEN_GREEN = "#CDEB05";
+export const ALLEN_MAROON = "#CD0F55";
 
+// Accent — highlights, used sparingly
+export const ALLEN_GREEN = "#CDEB05";
+export const ALLEN_ROSE = "#FF00FF";
+export const ALLEN_ORANGE = "#FF6E00";
+export const ALLEN_OCHRE = "#DC9600";
+export const ALLEN_YELLOW = "#FFEB23";
+
+// Semantic aliases
 export const PRIMARY_COLOR = ALLEN_BLUE;
+export const BORDER_COLOR = GRAY_1;
+export const DISABLED = GRAY_1;
+export const LINK_COLOR = ALLEN_BLUE;
+export const FOOTER_TEXT = GRAY_2;
+export const COLOR_BG_BASE = PAGE_1;
+export const COLOR_BG_SECONDARY = PAGE_2;
+export const COLOR_BORDER = GRAY_1;
+export const COLOR_TEXT_PRIMARY = BLACK;
+export const COLOR_TEXT_SECONDARY = GRAY_2;
+export const COLOR_TEXT_HEADING = WHITE;
+export const COLOR_PRIMARY = ALLEN_BLUE;
+export const SMALL_TABLE_BORDER_COLOR = GRAY_1;
+export const MAIN_CARD_HEADER_COLOR = ALLEN_BLUE;
+export const CALLOUT_BOX_BG_COLOR = PAGE_2;
+export const CALLOUT_BOX_BORDER_COLOR = GRAY_1;
+
+// Ant Design theme token overrides
+const BG_CONTAINER = PAGE_1;
+const BG_LAYOUT = PAGE_2;
 
 export default {
     token: {
         colorPrimary: PRIMARY_COLOR,
-        colorBgContainer: PAGE_1,
-        colorBgLayout: PAGE_2,
+        colorBgContainer: BG_CONTAINER,
+        colorBgLayout: BG_LAYOUT,
         colorLink: ALLEN_VIOLET,
         colorLinkActive: ALLEN_GREEN,
         colorLinkHover: ALLEN_GREEN,
         borderRadius: 2,
-        colorBorder: GRAY_1,
+        colorBorder: BORDER_COLOR,
         fontFamily: "Instrument Sans",
     },
     components: {
         Layout: {
-            bodyBg: PAGE_1,
+            bodyBg: BG_LAYOUT,
+            footerBg: GRAY_1,
         },
         Modal: {
             motionDurationMid: "0.1s",
-            contentBg: PAGE_2,
-            headerBg: PAGE_2,
-            footerBg: PAGE_2,
+            contentBg: BG_CONTAINER,
+            headerBg: BG_CONTAINER,
+            footerBg: BG_CONTAINER,
             titleColor: PRIMARY_COLOR,
         },
         Button: {
-            defaultBg: PAGE_1,
+            defaultBg: BG_CONTAINER,
             defaultBorderColor: PRIMARY_COLOR,
-            defaultHoverBg: PAGE_2,
+            defaultHoverBg: BG_LAYOUT,
             primaryShadow: "none",
         },
         Table: {
             headerColor: BLACK,
-            borderColor: GRAY_1,
-            headerBg: PAGE_1,
+            borderColor: BORDER_COLOR,
+            headerBg: BG_CONTAINER,
             cellFontSize: 16,
             borderRadius: 2,
-            rowHoverBg: PAGE_2,
+            rowHoverBg: BG_LAYOUT,
         },
         Descriptions: {
             itemPaddingBottom: 0,
@@ -57,12 +88,12 @@ export default {
             defaultColor: PRIMARY_COLOR,
         },
         Card: {
-            colorBorder: GRAY_1,
+            colorBorder: BORDER_COLOR,
             lineWidth: 1.5,
             borderRadius: 0,
         },
         Menu: {
-            itemSelectedBg: PAGE_2,
+            itemSelectedBg: BG_LAYOUT,
         },
         Dropdown: {
             colorBgElevated: BLACK,
