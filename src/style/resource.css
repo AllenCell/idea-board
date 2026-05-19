@@ -5,7 +5,7 @@
     margin: 40px auto;
 
     .resource-card {
-        background: var(--WHITE);
+        background: var(--color-surface);
         border: 1.5px solid var(--border-color);
         border-radius: 2px;
         padding: 28px 32px;
@@ -13,7 +13,7 @@
         .resource-description {
             font-size: 15px;
             line-height: 1.7;
-            color: var(--GRAY_2);
+            color: var(--color-text-secondary);
             margin-bottom: 20px;
         }
     }

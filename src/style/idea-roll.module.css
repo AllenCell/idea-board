@@ -3,16 +3,16 @@
     background-color: var(--color-bg-base);
 
     :global(.ant-list-item) {
-        border-left: 3px solid var(--ALLEN_BLUE);
+        border-left: 3px solid var(--color-primary);
         padding-left: 20px;
     }
 
     :global(.ant-list-item-meta-title a) {
-        color: var(--ALLEN_BLUE) !important;
+        color: var(--color-primary) !important;
         font-weight: 600;
     }
 
     :global(.ant-list-item-meta-title a:hover) {
-        color: var(--ALLEN_BLUE);
+        color: var(--color-primary);
     }
 }

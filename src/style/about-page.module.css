@@ -4,7 +4,7 @@
     position: relative;
     height: 320px;
     overflow-x: clip;
-    background-color: var(--ALLEN_VIOLET);
+    background-color: var(--color-feature);
 }
 
 .heroImage {
@@ -21,9 +21,9 @@
     inset: 0;
     background: linear-gradient(
         to right,
-        var(--ALLEN_VIOLET) 0%,
-        var(--ALLEN_VIOLET) 32%,
-        rgb(from var(--ALLEN_VIOLET) r g b / 0.65) 55%,
+        var(--color-feature) 0%,
+        var(--color-feature) 32%,
+        rgb(from var(--color-feature) r g b / 0.65) 55%,
         transparent 100%
     );
 }
@@ -44,7 +44,7 @@
     font-family: var(--font-display);
     font-size: 44px;
     font-weight: 700;
-    color: var(--WHITE);
+    color: var(--color-text-heading);
     margin: 0;
     letter-spacing: -0.03em;
 }
@@ -52,7 +52,7 @@
 .heroAccent {
     width: 48px;
     height: 3px;
-    background-color: var(--ALLEN_GREEN);
+    background-color: var(--color-accent);
 }
 
 /* ── Intro section ────────────────────────────────────────────── */
@@ -71,19 +71,19 @@
     font-family: var(--font-display);
     font-size: 22px;
     font-weight: 700;
-    color: var(--BLACK);
+    color: var(--color-text-primary);
     margin-bottom: 16px;
 }
 
 .introStatement p {
     font-size: 16px;
     line-height: 1.7;
-    color: var(--GRAY_2);
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
 .audience {
-    border-left: 3px solid var(--GRAY_1);
+    border-left: 3px solid var(--color-border);
     padding-left: 32px;
 }
 
@@ -92,7 +92,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--GRAY_1);
+    color: var(--color-border);
     margin-bottom: 16px;
 }
 
@@ -107,7 +107,7 @@
 
 .audience li {
     font-size: 15px;
-    color: var(--GRAY_2);
+    color: var(--color-text-secondary);
     padding-left: 16px;
     position: relative;
     line-height: 1.5;
@@ -117,14 +117,14 @@
     content: "/";
     position: absolute;
     left: 0;
-    color: var(--ALLEN_TEAL);
+    color: var(--color-secondary);
     font-weight: 700;
 }
 
 /* ── Content types section ────────────────────────────────────── */
 
 .contentTypes {
-    background-color: var(--PAGE_2);
+    background-color: var(--color-bg-secondary);
     padding: 56px 0;
 }
 
@@ -138,7 +138,7 @@
     font-family: var(--font-display);
     font-size: 22px;
     font-weight: 700;
-    color: var(--BLACK);
+    color: var(--color-text-primary);
     margin-bottom: 32px;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .card {
-    background-color: var(--WHITE);
+    background-color: var(--color-surface);
     border-top: 4px solid var(--primary-color);
     border-radius: 2px;
     padding: 28px 28px 32px;
@@ -160,7 +160,7 @@
 
 .cardIcon {
     font-size: 28px;
-    color: var(--ALLEN_TEAL);
+    color: var(--color-secondary);
     line-height: 1;
 }
 
@@ -174,14 +174,14 @@
 .card h3 {
     font-size: 17px;
     font-weight: 700;
-    color: var(--BLACK);
+    color: var(--color-text-primary);
     margin: 0;
 }
 
 .card p {
     font-size: 14px;
     line-height: 1.65;
-    color: var(--GRAY_2);
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
@@ -202,14 +202,14 @@
     font-family: var(--font-display);
     font-size: 22px;
     font-weight: 700;
-    color: var(--BLACK);
+    color: var(--color-text-primary);
     margin-bottom: 8px;
 }
 
 /* ── How to use this site ─────────────────────────────────────── */
 
 .howToUse {
-    background-color: var(--WHITE);
+    background-color: var(--color-surface);
     padding: 56px 0;
 }
 
@@ -223,7 +223,7 @@
     font-family: var(--font-display);
     font-size: 22px;
     font-weight: 700;
-    color: var(--BLACK);
+    color: var(--color-text-primary);
     margin-bottom: 32px;
 }
 
@@ -253,14 +253,14 @@
 .stepCard h3 {
     font-size: 17px;
     font-weight: 700;
-    color: var(--BLACK);
+    color: var(--color-text-primary);
     margin: 0;
 }
 
 .stepCard p {
     font-size: 14px;
     line-height: 1.65;
-    color: var(--GRAY_2);
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
@@ -291,8 +291,8 @@
         background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgb(from var(--ALLEN_VIOLET) r g b / 0.55) 35%,
-            var(--ALLEN_VIOLET) 65%
+            rgb(from var(--color-feature) r g b / 0.55) 35%,
+            var(--color-feature) 65%
         );
     }
 
@@ -313,7 +313,7 @@
 
     .audience {
         border-left: none;
-        border-top: 3px solid var(--GRAY_1);
+        border-top: 3px solid var(--color-border);
         padding-left: 0;
         padding-top: 32px;
     }

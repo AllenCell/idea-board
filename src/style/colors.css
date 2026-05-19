@@ -39,6 +39,11 @@
     --main-card-header-color: var(--primary-color);
     --callout-box-bg-color: var(--PAGE_2);
     --callout-box-border-color: var(--GRAY_1);
+    --color-accent: var(--ALLEN_GREEN);
+    --color-surface: var(--WHITE);
+    --color-bg-dark: var(--BLACK);
+    --color-feature: var(--ALLEN_VIOLET);
+    --color-secondary: var(--ALLEN_TEAL);
 
     /* Typography */
     --font-display: "Urbanist", sans-serif;
