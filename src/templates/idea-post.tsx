@@ -312,6 +312,8 @@ export const pageQuery = graphql`
             title
             description
             tags
+            program
+            type
             preliminaryFindings {
                 summary
                 figures {
