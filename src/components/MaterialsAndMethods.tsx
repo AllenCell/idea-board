@@ -4,7 +4,7 @@ import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { ResourceNode } from "../types";
 import ResourceItem from "./ResourceItem";
 
-const { section, sectionTitle } = require("../style/idea-post.module.css");
+const { resourceList, sectionTitle } = require("../style/idea-post.module.css");
 
 interface MaterialsAndMethodsProps {
     resources: ResourceNode[];
@@ -48,78 +48,86 @@ export const MaterialsAndMethodsComponent: React.FC<
     return (
         <>
             {datasets.length > 0 && (
-                <div id="datasets" className={section}>
+                <div id="datasets">
                     <h4 className={sectionTitle}>Datasets</h4>
-                    {datasets.map((dataset, index) => (
-                        <ResourceItem
-                            key={index}
-                            description={dataset.description}
-                            link={getPrimaryLink(dataset)}
-                            name={dataset.name}
-                            shortDescription={dataset.shortDescription}
-                            onExpand={
-                                onExpandDescription && dataset.description
-                                    ? () =>
-                                          onExpandDescription(
-                                              dataset.description!,
-                                              dataset.name ?? "Dataset",
-                                              "datasets",
-                                          )
-                                    : undefined
-                            }
-                        />
-                    ))}
+                    <ul className={resourceList}>
+                        {datasets.map((dataset, index) => (
+                            <ResourceItem
+                                key={index}
+                                description={dataset.description}
+                                link={getPrimaryLink(dataset)}
+                                name={dataset.name}
+                                shortDescription={dataset.shortDescription}
+                                onExpand={
+                                    onExpandDescription && dataset.description
+                                        ? () =>
+                                              onExpandDescription(
+                                                  dataset.description!,
+                                                  dataset.name ?? "Dataset",
+                                                  "datasets",
+                                              )
+                                        : undefined
+                                }
+                            />
+                        ))}
+                    </ul>
                 </div>
             )}
 
             {cellLines.length > 0 && (
-                <div id="cell-lines" className={section}>
+                <div id="cell-lines">
                     <h4 className={sectionTitle}>Cell Lines</h4>
-                    {cellLines.map((item, index) => (
-                        <ResourceItem
-                            key={index}
-                            link={getPrimaryLink(item)}
-                            name={item.name}
-                        />
-                    ))}
+                    <ul className={resourceList}>
+                        {cellLines.map((item, index) => (
+                            <ResourceItem
+                                key={index}
+                                link={getPrimaryLink(item)}
+                                name={item.name}
+                            />
+                        ))}
+                    </ul>
                 </div>
             )}
 
             {protocols.length > 0 && (
-                <div id="protocols" className={section}>
+                <div id="protocols">
                     <h4 className={sectionTitle}>Protocols</h4>
-                    {protocols.map((item, index) => (
-                        <ResourceItem
-                            key={index}
-                            link={getPrimaryLink(item)}
-                            name={item.name}
-                        />
-                    ))}
+                    <ul className={resourceList}>
+                        {protocols.map((item, index) => (
+                            <ResourceItem
+                                key={index}
+                                link={getPrimaryLink(item)}
+                                name={item.name}
+                            />
+                        ))}
+                    </ul>
                 </div>
             )}
 
             {softwareTools.length > 0 && (
-                <div id="software-tools" className={section}>
+                <div id="software-tools">
                     <h4 className={sectionTitle}>Software Tools</h4>
-                    {softwareTools.map((tool, index) => (
-                        <ResourceItem
-                            key={index}
-                            description={tool.description}
-                            link={getPrimaryLink(tool)}
-                            name={tool.name}
-                            shortDescription={tool.shortDescription}
-                            onExpand={
-                                onExpandDescription && tool.description
-                                    ? () =>
-                                          onExpandDescription(
-                                              tool.description!,
-                                              tool.name ?? "Software Tool",
-                                              "software-tools",
-                                          )
-                                    : undefined
-                            }
-                        />
-                    ))}
+                    <ul className={resourceList}>
+                        {softwareTools.map((tool, index) => (
+                            <ResourceItem
+                                key={index}
+                                description={tool.description}
+                                link={getPrimaryLink(tool)}
+                                name={tool.name}
+                                shortDescription={tool.shortDescription}
+                                onExpand={
+                                    onExpandDescription && tool.description
+                                        ? () =>
+                                              onExpandDescription(
+                                                  tool.description!,
+                                                  tool.name ?? "Software Tool",
+                                                  "software-tools",
+                                              )
+                                        : undefined
+                                }
+                            />
+                        ))}
+                    </ul>
                 </div>
             )}
         </>
