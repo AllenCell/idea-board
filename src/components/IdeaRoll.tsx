@@ -55,7 +55,6 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
         <List
             className={container}
             itemLayout="vertical"
-            bordered={true}
             dataSource={ideasForIdeaRoll}
             footer={
                 count ? (

@@ -48,7 +48,7 @@ export default {
         colorPrimary: PRIMARY_COLOR,
         colorBgContainer: BG_CONTAINER,
         colorBgLayout: BG_LAYOUT,
-        colorLink: ALLEN_VIOLET,
+        colorLink: PRIMARY_COLOR,
         colorLinkActive: ALLEN_GREEN,
         colorLinkHover: ALLEN_GREEN,
         borderRadius: 2,
@@ -58,7 +58,7 @@ export default {
     components: {
         Layout: {
             bodyBg: BG_LAYOUT,
-            footerBg: GRAY_1,
+            footerBg: COLOR_BORDER,
         },
         Modal: {
             motionDurationMid: "0.1s",
