@@ -12,7 +12,6 @@ const {
     heroSubtitle,
     heroTitle,
     listWrapper,
-    pageBackground,
 } = require("../style/index-page.module.css");
 
 interface QueryResult {
@@ -25,7 +24,7 @@ interface QueryResult {
 
 export const IndexPageTemplate: React.FC = () => {
     return (
-        <div className={pageBackground}>
+        <div>
             <section className={hero}>
                 <p className={heroBreadcrumb}>
                     allen institute / cell science / open ideas/
