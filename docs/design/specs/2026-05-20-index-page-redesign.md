@@ -89,14 +89,14 @@ Items separated by a bottom border. No avatars. No star/message counts (removed 
 
 ### Typography spec
 
-| Element    | Size  | Weight | Color                      | Other                        |
-|------------|-------|--------|----------------------------|------------------------------|
-| Tag eyebrow | 10px | 700    | `var(--primary-color)`     | uppercase, `letter-spacing: 0.15em` |
-| Separator ·  | 10px | 400    | `var(--GRAY_1)`            | `margin: 0 5px`              |
-| Title      | 19px  | 800    | `var(--BLACK)`             | `letter-spacing: -0.02em`, `line-height: 1.25` |
-| Byline     | 11px  | 400    | `var(--GRAY_2)`            | —                            |
-| Item border | —   | —      | `var(--border-color)`      | bottom only, `1px solid`     |
-| Item padding | — | —      | —                          | `22px 0` top/bottom          |
+| Element     | Size  | Weight | Color                         | Other                               |
+|-------------|-------|--------|-------------------------------|-------------------------------------|
+| Tag eyebrow | 10px  | 700    | `var(--primary-color)`        | uppercase, `letter-spacing: 0.15em` |
+| Separator · | 10px  | 400    | `var(--border-color)`         | `margin: 0 5px`                     |
+| Title       | 19px  | 800    | `var(--color-text-primary)`   | `letter-spacing: -0.02em`, `line-height: 1.25` |
+| Byline      | 11px  | 400    | `var(--color-text-secondary)` | —                                   |
+| Item border | —     | —      | `var(--border-color)`         | bottom only, `1px solid`            |
+| Item padding | —    | —      | —                             | `22px 0` top/bottom                 |
 
 ## Files Changed
 
