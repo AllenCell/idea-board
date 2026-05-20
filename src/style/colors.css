@@ -23,27 +23,29 @@
 
     /* Semantic aliases */
     --primary-color: var(--ALLEN_BLUE);
-    --border-color: var(--GRAY_1);
-    --disabled: var(--GRAY_1);
+    --secondary-color: var(--ALLEN_TEAL);
+    --feature-color: var(--ALLEN_VIOLET);
+    --accent-color: var(--ALLEN_GREEN);
     --link-color: var(--ALLEN_BLUE);
-    --footer-text: var(--GRAY_2);
-    --color-bg-base: var(--PAGE_1);
-    --color-bg-secondary: var(--PAGE_2);
-    --color-border: var(--GRAY_1);
-    --color-text-primary: var(--BLACK);
-    --color-text-secondary: var(--GRAY_2);
-    --color-text-light: var(--PAGE_1);
-    --color-text-heading: var(--WHITE);
-    --color-primary: var(--ALLEN_BLUE);
+    --border-color: var(--GRAY_1);
+    --disabled-color: var(--GRAY_1);
+    --surface-color: var(--WHITE);
+    --bg-base-color: var(--PAGE_1);
+    --bg-secondary-color: var(--PAGE_2);
+    --bg-dark-color: var(--BLACK);
+    --text-primary-color: var(--BLACK);
+    --text-secondary-color: var(--GRAY_2);
+    --text-heading-color: var(--WHITE);
+    --text-light-color: var(--PAGE_1);
+    --footer-text-color: var(--GRAY_2);
     --small-table-border-color: var(--GRAY_1);
     --main-card-header-color: var(--primary-color);
     --callout-box-bg-color: var(--PAGE_2);
     --callout-box-border-color: var(--GRAY_1);
-    --color-accent: var(--ALLEN_GREEN);
-    --color-surface: var(--WHITE);
-    --color-bg-dark: var(--BLACK);
-    --color-feature: var(--ALLEN_VIOLET);
-    --color-secondary: var(--ALLEN_TEAL);
+
+    /* Layout */
+    --content-padding-x: 48px;
+    --content-padding-x-sm: 24px;
 
     /* Typography */
     --font-display: "Urbanist", sans-serif;

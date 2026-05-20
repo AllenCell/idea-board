@@ -14,15 +14,15 @@
 }
 
 .footerLinks a {
-    color: var(--color-text-primary);
+    color: var(--text-primary-color);
     text-decoration: none;
 }
 
 .footerLinks a:hover {
-    color: var(--color-primary);
+    color: var(--primary-color);
 }
 
 .footerCopyright {
-    color: var(--color-text-light);
+    color: var(--text-light-color);
     font-size: 14px;
 }
