@@ -6,7 +6,7 @@
 /* ── Blue header block ───────────────────────────────────────── */
 .postHeader {
     background: var(--primary-color);
-    color: var(--WHITE);
+    color: var(--text-heading-color);
     padding: 22px 48px 20px 24px;
     font-family: var(--font-display);
 }
@@ -25,7 +25,7 @@
     font-weight: 800;
     line-height: 1.25;
     letter-spacing: -0.01em;
-    color: var(--WHITE);
+    color: var(--text-heading-color);
     @media screen and (max-width: 576px) {
         font-size: 1.5rem;
     }
@@ -33,7 +33,7 @@
 
 /* ── Metadata strip ──────────────────────────────────────────── */
 .metaStrip {
-    background: var(--PAGE_2);
+    background: var(--bg-secondary-color);
     border-bottom: 1px solid var(--border-color);
     padding: 10px 48px 10px 24px;
     display: flex;
@@ -196,7 +196,7 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--BLACK);
+    color: var(--text-primary-color);
     margin: 20px 0 6px;
 }
 
@@ -237,36 +237,4 @@
 .resourceList a:hover,
 .relatedList a:hover {
     text-decoration: underline;
-}
-
-/* ── Legacy — kept for any references not yet migrated ───────── */
-.section {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.taglist {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.taglist li {
-    display: inline-block;
-}
-
-.authorsClass {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-primary-color);
-}
-
-.mainTitle {
-    font-size: 2rem;
-    color: var(--text-primary-color);
-    line-height: 1.5;
 }
