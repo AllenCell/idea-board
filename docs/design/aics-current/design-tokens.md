@@ -69,14 +69,14 @@ Custom typeface: **Allen Institute** (licensed — self-host from brand assets).
 }
 ```
 
-| Use case         | Edition  | Size    | Weight    | Notes                          |
-|-----------------|----------|---------|-----------|--------------------------------|
-| Section label    | Headline | 48px+   | Bold      | e.g., `section/`               |
-| Headline         | Headline | 32–48px | Bold      | Tight letter-spacing           |
-| Sub-head         | Headline | 24–32px | Semi-bold |                                |
-| Body / articulated | Text   | 16px    | Regular   | Do not alter letter-spacing    |
-| Italic / numbers | Text     | 16px    | Light Italic |                             |
-| Nav / breadcrumb | Text     | 16–20px | Regular   | e.g., `about / people / research` |
+| Use case           | Edition  | Size    | Weight       | Notes                             |
+| ------------------ | -------- | ------- | ------------ | --------------------------------- |
+| Section label      | Headline | 48px+   | Bold         | e.g., `section/`                  |
+| Headline           | Headline | 32–48px | Bold         | Tight letter-spacing              |
+| Sub-head           | Headline | 24–32px | Semi-bold    |                                   |
+| Body / articulated | Text     | 16px    | Regular      | Do not alter letter-spacing       |
+| Italic / numbers   | Text     | 16px    | Light Italic |                                   |
+| Nav / breadcrumb   | Text     | 16–20px | Regular      | e.g., `about / people / research` |
 
 ## Spacing
 
@@ -92,20 +92,20 @@ Custom typeface: **Allen Institute** (licensed — self-host from brand assets).
 ## Breakpoints
 
 ```css
-/* --breakpoint-lg: 1280px */
-/* --breakpoint-sm: 744px  */
+  --breakpoint-lg: 1280px
+  --breakpoint-sm: 744px 
 ```
 
 ## Surfaces
 
-| Token          | Value     | Usage                                     |
-|----------------|-----------|-------------------------------------------|
-| Page bg        | `#F3F0E8` | Primary light background (warm off-white) |
-| Page bg alt    | `#DED9D1` | Secondary background, cards               |
-| Gray mid       | `#AAA39F` | Borders, dividers                         |
-| Gray dark      | `#737373` | Muted text, secondary UI                  |
-| Black          | `#000000` | High-contrast text, headlines             |
-| Primary bg     | `#6464FF` | Brand section backgrounds                 |
+| Token       | Value     | Usage                                     |
+| ----------- | --------- | ----------------------------------------- |
+| Page bg     | `#F3F0E8` | Primary light background (warm off-white) |
+| Page bg alt | `#DED9D1` | Secondary background, cards               |
+| Gray mid    | `#AAA39F` | Borders, dividers                         |
+| Gray dark   | `#737373` | Muted text, secondary UI                  |
+| Black       | `#000000` | High-contrast text, headlines             |
+| Primary bg  | `#6464FF` | Brand section backgrounds                 |
 
 ## Ant Design Token Overrides
 
