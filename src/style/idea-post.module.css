@@ -123,8 +123,10 @@
 
 /* ── Body ────────────────────────────────────────────────────── */
 .container {
-    background-color: var(--color-bg-base);
-    padding: 24px 48px 40px 24px;
+    background-color: var(--bg-base-color);
+    border: none;
+    border-radius: 0px;
+    padding: 12px 48px 12px 24px;
     line-height: 1.7;
     a {
         overflow-wrap: break-word;
@@ -160,7 +162,7 @@
 
 /* ── Proposal callout ────────────────────────────────────────── */
 .proposal {
-    background: var(--color-accent);
+    background: var(--accent-color);
     border-left: 4px solid var(--BLACK);
     padding: 14px 18px;
     margin: 6px 0;

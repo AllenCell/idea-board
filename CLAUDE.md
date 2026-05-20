@@ -1,94 +1,75 @@
-# claude-configs
+# AICS Idea Board
 
-A library of reusable Claude Code skills, patterns, design systems, and configs.
+A Gatsby site for sharing proposed research directions using AICS datasets and tools. Content is managed via Decap CMS and deployed on Netlify.
 
-## Purpose
+## Tech Stack
 
-This repo is a reference library, not a runnable project. Use it by:
+- **Framework**: Gatsby 5 (React 18, TypeScript)
+- **UI**: Ant Design v5
+- **CMS**: Decap CMS (git-based, content in `src/pages/`)
+- **Deploy**: Netlify (CI/CD via `.github/` workflows)
+- **Testing**: Vitest
+- **Linting**: ESLint + Prettier
+- **Hooks**: Lefthook (format/lint on commit, typecheck/test on push)
 
-1. **Copying files** into a target repo's `.claude/`, `docs/design/`, or root
-2. **Pointing an agent here** as a guide (e.g. via `--directory` or file reads)
+## Directory Structure
 
-## Layout
+```
+src/
+  cms/          # Decap CMS preview templates
+  components/   # Shared React components
+  constants/    # App-wide constants
+  hooks/        # Custom React hooks
+  pages/        # Content (markdown) + page components
+  style/        # Global CSS
+  templates/    # Gatsby page templates
+  types/        # TypeScript types
+  utils/        # Utility functions
+gatsby/         # Gatsby plugin helpers
+netlify/        # Netlify function handlers
+scripts/        # Build/utility scripts
+docs/
+  design/aics-current/  # Brand identity and design tokens
+```
 
-| Directory    | Contains                                     | Copy to                            |
-|-------------|----------------------------------------------|------------------------------------|
-| `base/`     | Universal code style and design principles   | Target repo's `CLAUDE.md` or `docs/` |
-| `brands/`   | Composable design system bundles             | `<repo>/docs/design/`              |
-| `skills/`   | Skill folders (each with `SKILL.md`)         | `<repo>/.claude/skills/`           |
-| `patterns/` | Agent orchestration patterns and templates   | `<repo>/.claude/` or `CLAUDE.md`   |
-| `settings/` | `settings.json` examples and templates       | `<repo>/.claude/settings.json`     |
-| `hooks/`    | Hook scripts                                 | `<repo>/.claude/hooks/`            |
-| `tasks/`    | Research and exploration tasks for this repo  | (internal use)                     |
+## Common Commands
 
-## Base (universal defaults)
+```bash
+yarn develop      # Start dev server (cleans first)
+yarn dev          # Dev server + Decap CMS proxy (for local CMS editing)
+yarn build        # Production build (cleans first)
+yarn test         # Run Vitest suite
+yarn typeCheck    # TypeScript check (no emit)
+yarn lint         # ESLint with auto-fix
+yarn format       # Prettier with auto-fix
+```
 
-| File | Description |
-|------|-------------|
-| `code-style.md` | When to extract functions, create utils, modularize (living document) |
-| `design-principles.md` | CSS-first philosophy, layout, typography, color, accessibility baseline |
+## Design System
 
-These always apply. Brand and project docs override specific choices.
+Brand tokens and identity guidelines live in `docs/design/aics-current/`:
+- `BRAND.md` — visual identity, philosophy, usage rules
+- `design-tokens.md` — CSS custom properties (colors, spacing, typography)
 
-## Brands (composable design systems)
+Use Ant Design v5 components as the base UI layer. Override with design tokens; avoid inline styles.
 
-Layered: `base/` → `brands/<brand>/` → project-specific overrides in target repo.
+## Code Conventions
 
-| Brand | Description |
-|-------|-------------|
-| `aics-legacy/` | Older AICS brand (Ant Design heavy, being phased out) |
-| `aics-current/` | Current AICS brand direction |
-| `personal/` | Personal projects default (vanilla CSS, modern features) |
-| `clients/wife-site/` | Client: wife's website |
-| `clients/the-wheel/` | Client: The Wheel project |
+- TypeScript everywhere — no `any`, no skipping type checks
+- Prefer functional components with hooks
+- Co-locate component styles with the component when possible
+- Content changes go in `src/pages/` markdown files, not in components
 
-Each brand has `BRAND.md` (identity, philosophy) and `design-tokens.md` (CSS custom properties).
-See `brands/README.md` for conventions and setup instructions.
+## Pre-commit Hooks (Lefthook)
 
-## Skills
+These run automatically — do not skip with `--no-verify`:
+- **pre-commit**: Prettier format + ESLint fix on staged `.ts/.tsx` files
+- **pre-push**: `tsc --noEmit` typecheck + `vitest run`
 
-| Skill | Description |
-|-------|-------------|
-| `grill-me` | Stress-test a plan or design through relentless interviewing |
-| `write-a-prd` | Create a PRD through interview, codebase exploration, and module design |
-| `prd-to-issues` | Break a PRD into GitHub issues using tracer-bullet vertical slices |
-| `tdd` | Test-driven development with red-green-refactor loop |
-| `improve-codebase-architecture` | Find architectural improvement opportunities, propose deep module refactors |
-| `setup-pre-commit` | Set up Lefthook pre-commit hooks with lint-staged and Prettier |
-| `write-a-skill` | Create new agent skills with proper structure |
-| `git-guardrails` | Block dangerous git commands via Claude Code hooks |
-| `design-an-interface` | Generate multiple radically different interface designs using parallel agents |
-| `code-review` | Review a PR or changes for quality, correctness, and team standards |
-| `pre-commit` | Update docs and run repo checks before committing |
+## Available Skills
 
-## Patterns
-
-| Pattern | Description |
-|---------|-------------|
-| `agent-types.md` | Planner / Worker / Reviewer agent role definitions |
-| `task-system.md` | File-based task management system for agent orchestration |
-| `task-templates/` | Worker, Planner, and Reviewer task file templates |
-| `claude-md-template.md` | Starter `CLAUDE.md` template for new repos |
-| `local-scheduled-tasks.md` | Guide to `/loop`, headless mode (`claude -p`), and Desktop scheduled tasks |
-| `github-actions/` | Workflow templates for Claude in CI/CD (interactive, PR review, scheduled) |
-
-## Settings
-
-| Template | Description |
-|----------|-------------|
-| `settings-template.json` | Broad permissions whitelist for autonomous exploration |
-| `settings-with-hooks-template.json` | Permissions + alert sound on stop + git guardrails hook |
-
-## How to set up a new project
-
-1. Copy `settings/settings-template.json` → `<repo>/.claude/settings.json`
-2. Copy `patterns/claude-md-template.md` → `<repo>/CLAUDE.md`, customize
-3. Pick a brand, copy its folder → `<repo>/docs/design/`
-4. Add project-specific overrides to the copied design docs
-5. Copy any skills you need → `<repo>/.claude/skills/`
-
-## Attribution
-
-Skills adapted from [Matt Pocock's skills repo](https://github.com/mattpocock/skills).
-Patterns derived from the simularium-2 project's agent orchestration system.
-CSS-first philosophy inspired by https://lyra.horse/blog/2025/08/you-dont-need-js/.
+| Skill         | Purpose                                        |
+| ------------- | ---------------------------------------------- |
+| `pre-commit`  | Update docs and run checks before committing   |
+| `tdd`         | Red-green-refactor loop for new features       |
+| `code-review` | Review changes for quality and team standards  |
+| `grill-me`    | Stress-test a plan before implementation       |

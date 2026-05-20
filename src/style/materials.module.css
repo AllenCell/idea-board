@@ -1,6 +1,6 @@
 .subText {
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary-color);
     border-radius: 2px;
     margin: 12px;
     padding: 6px;

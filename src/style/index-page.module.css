@@ -2,7 +2,7 @@
 }
 
 .header {
-    max-width: 1728px;
+    max-width: var(--page-max-width);
     margin: auto;
     padding: 32px 96px;
     @media (max-width: 768px) {
@@ -11,7 +11,7 @@
 }
 
 .info {
-    background-color: var(--color-surface);
+    background-color: var(--surface-color);
     border: 1px solid var(--primary-color);
     border-radius: 2px;
     padding: 20px 32px;
@@ -21,7 +21,7 @@
 }
 
 .list-wrapper {
-    max-width: 1728px;
+    max-width: var(--page-max-width);
     margin: auto;
     padding: 32px 96px;
     @media (max-width: 768px) {
@@ -35,8 +35,8 @@
 }
 
 .hero {
-    background-color: var(--color-primary);
-    max-width: 1728px;
+    background-color: var(--primary-color);
+    max-width: var(--page-max-width);
     margin: 0 auto;
     padding: 32px 96px;
     @media (max-width: 768px) {
@@ -70,7 +70,7 @@
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 400;
-    color: var(--color-accent);
+    color: var(--accent-color);
     line-height: 1.55;
     margin: 0;
     max-width: 640px;

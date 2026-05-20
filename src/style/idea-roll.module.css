@@ -1,18 +1,18 @@
 .container {
     margin: auto;
-    background-color: var(--color-bg-base);
+    background-color: var(--bg-base-color);
 
     :global(.ant-list-item) {
-        border-left: 3px solid var(--color-primary);
+        border-left: 3px solid var(--primary-color);
         padding-left: 20px;
     }
 
     :global(.ant-list-item-meta-title a) {
-        color: var(--color-primary) !important;
+        color: var(--primary-color) !important;
         font-weight: 600;
     }
 
     :global(.ant-list-item-meta-title a:hover) {
-        color: var(--color-primary);
+        color: var(--primary-color);
     }
 }
