@@ -45,6 +45,10 @@
     --color-feature: var(--ALLEN_VIOLET);
     --color-secondary: var(--ALLEN_TEAL);
 
+    /* Layout */
+    --content-padding-x: 48px;
+    --content-padding-x-sm: 24px;
+
     /* Typography */
     --font-display: "Urbanist", sans-serif;
     --font-body: "Instrument Sans", sans-serif;
