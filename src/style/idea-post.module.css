@@ -67,14 +67,14 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary-color);
     margin-bottom: 2px;
 }
 
 .metaVal {
     font-size: 12px;
     font-weight: 500;
-    color: var(--BLACK);
+    color: var(--text-primary-color);
 }
 
 .metaValBlue {
@@ -92,7 +92,7 @@
 
 /* ── Tag row ─────────────────────────────────────────────────── */
 .tagRow {
-    background: var(--color-bg-base);
+    background: var(--bg-base-color);
     padding: 10px 48px 10px 24px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -105,7 +105,7 @@
     font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary-color);
     font-weight: 700;
     margin-right: 4px;
 }
@@ -140,7 +140,7 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary-color);
     margin-bottom: 10px;
     margin-top: 36px;
 }
@@ -155,7 +155,7 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.7;
-    color: var(--color-text-primary);
+    color: var(--text-primary-color);
     margin-top: 0;
     margin-bottom: 1rem;
 }
@@ -163,7 +163,7 @@
 /* ── Proposal callout ────────────────────────────────────────── */
 .proposal {
     background: var(--accent-color);
-    border-left: 4px solid var(--BLACK);
+    border-left: 4px solid var(--bg-dark-color);
     padding: 14px 18px;
     margin: 6px 0;
     ul {
@@ -177,7 +177,7 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--BLACK);
+    color: var(--text-primary-color);
     margin-bottom: 8px;
     margin-top: 0;
 }
@@ -262,11 +262,11 @@
     margin-bottom: 0;
     font-size: 1rem;
     font-weight: 500;
-    color: var(--color-text-primary);
+    color: var(--text-primary-color);
 }
 
 .mainTitle {
     font-size: 2rem;
-    color: var(--color-text-primary);
+    color: var(--text-primary-color);
     line-height: 1.5;
 }
