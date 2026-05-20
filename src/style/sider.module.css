@@ -1,6 +1,6 @@
 .sider {
     padding: 24px 0px 0px 0px;
-    border-left: 1px solid var(--GRAY_1);
+    border-left: 1px solid var(--border-color);
     background-color: var(--bg-secondary-color);
     position: sticky;
     top: 64px;
