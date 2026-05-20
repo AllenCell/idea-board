@@ -54,7 +54,7 @@ export default {
         colorBgLayout: BG_LAYOUT,
         colorLink: ALLEN_VIOLET,
         colorLinkActive: ALLEN_GREEN,
-        colorLinkHover: ALLEN_GREEN,
+        colorLinkHover: ALLEN_VIOLET,
         borderRadius: 2,
         colorBorder: BORDER_COLOR,
         fontFamily: "Instrument Sans",
