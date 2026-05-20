@@ -87,7 +87,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                     </li>
                 ))}
             </ul>
-            {count && (
+            {count !== undefined && (
                 <div>
                     <Link className="btn" to="/">
                         See more
