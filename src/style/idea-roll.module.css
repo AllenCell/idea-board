@@ -1,18 +1,66 @@
 .container {
-    margin: auto;
-    background-color: var(--bg-base-color);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: var(--color-bg-base);
+}
 
-    :global(.ant-list-item) {
-        border-left: 3px solid var(--primary-color);
-        padding-left: 20px;
-    }
+.listItem {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border-color);
+}
 
-    :global(.ant-list-item-meta-title a) {
-        color: var(--primary-color) !important;
-        font-weight: 600;
-    }
+.listItem:last-child {
+    border-bottom: none;
+}
 
-    :global(.ant-list-item-meta-title a:hover) {
-        color: var(--primary-color);
-    }
+.tagEyebrow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-bottom: 6px;
+}
+
+.eyebrowTag {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
+    color: var(--primary-color) !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: inherit !important;
+    cursor: pointer;
+}
+
+.tagSeparator {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--border-color);
+    margin: 0 5px;
+    user-select: none;
+}
+
+.title {
+    display: block;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 6px;
+}
+
+.title:hover {
+    text-decoration: underline;
+}
+
+.byline {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
 }

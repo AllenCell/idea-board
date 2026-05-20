@@ -2,14 +2,17 @@ import React from "react";
 
 import { Link, graphql, useStaticQuery } from "gatsby";
 
-import { MessageOutlined, StarOutlined } from "@ant-design/icons";
-import { Avatar, List } from "antd";
-
-import { PRIMARY_COLOR } from "../style/theme";
-import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
-const { container } = require("../style/idea-roll.module.css");
+const {
+    byline,
+    container,
+    eyebrowTag,
+    listItem,
+    tagEyebrow,
+    tagSeparator,
+    title,
+} = require("../style/idea-roll.module.css");
 
 type IdeaNode = Queries.IdeaRollQuery["allIdeaPost"]["nodes"][number];
 
@@ -42,78 +45,56 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
         }
     `);
 
-    const filteredNodes = queryData.allIdeaPost.nodes.slice(0, count);
-    const ideasForIdeaRoll: IdeaListItem[] = filteredNodes.map(
-        (post: IdeaNode) => ({
-            ...post,
-            dataset:
-                post.resources.find((r) => r?.type === "dataset")?.name ?? null,
-        }),
-    );
+    const nodes: IdeaNode[] = queryData.allIdeaPost.nodes.slice(0, count);
+    const ideas: IdeaListItem[] = nodes.map((post) => ({
+        ...post,
+        dataset:
+            post.resources.find((r) => r?.type === "dataset")?.name ?? null,
+    }));
 
     return (
-        <List
-            className={container}
-            itemLayout="vertical"
-            dataSource={ideasForIdeaRoll}
-            footer={
-                count ? (
-                    <div>
-                        <Link className="btn" to="/">
-                            See more
-                        </Link>
-                    </div>
-                ) : (
-                    ""
-                )
-            }
-            renderItem={(item) => (
-                <List.Item
-                    key={item.id}
-                    actions={[
-                        <IconText
-                            icon={StarOutlined}
-                            text="2"
-                            key="list-vertical-star-o"
-                        />,
-                        <IconText
-                            icon={MessageOutlined}
-                            text="2"
-                            key="list-vertical-message"
-                        />,
-                        ...item.tags.map((tag) => (
-                            <TagPopover
-                                key={tag}
-                                tag={tag}
-                                currentSlug={item.slug}
-                            />
-                        )),
-                    ]}
-                >
-                    <List.Item.Meta
-                        title={<a href={item.slug}>{item.title}</a>}
-                        avatar={
-                            <Avatar.Group>
-                                {item.authors.map((author) => (
-                                    <Avatar
-                                        key={author.name}
-                                        style={{
-                                            backgroundColor: PRIMARY_COLOR,
-                                            color: "#fff",
-                                        }}
-                                    >
-                                        {author.name[0].toUpperCase()}
-                                    </Avatar>
+        <>
+            <ul className={container}>
+                {ideas.map((item) => (
+                    <li key={item.id} className={listItem}>
+                        {item.tags.length > 0 && (
+                            <div className={tagEyebrow}>
+                                {item.tags.map((tag, i) => (
+                                    <React.Fragment key={tag}>
+                                        {i > 0 && (
+                                            <span className={tagSeparator}>
+                                                ·
+                                            </span>
+                                        )}
+                                        <TagPopover
+                                            tag={tag}
+                                            currentSlug={item.slug}
+                                            className={eyebrowTag}
+                                        />
+                                    </React.Fragment>
                                 ))}
-                            </Avatar.Group>
-                        }
-                        description={
-                            <span>{item.dataset ?? "No public dataset"}</span>
-                        }
-                    />
-                </List.Item>
+                            </div>
+                        )}
+                        <a href={item.slug} className={title}>
+                            {item.title}
+                        </a>
+                        <div className={byline}>
+                            by {item.authors.map((a) => a.name).join(" · ")}
+                            {item.dataset
+                                ? ` — ${item.dataset}`
+                                : " — No public dataset"}
+                        </div>
+                    </li>
+                ))}
+            </ul>
+            {count && (
+                <div>
+                    <Link className="btn" to="/">
+                        See more
+                    </Link>
+                </div>
             )}
-        />
+        </>
     );
 };
 
