@@ -1,27 +1,56 @@
-/* Semantic color names */
+/* Allen Institute Brand 2025 */
 :root {
-    --WHITE: #FFFFFF;
-    --OFF_WHITE: #F2F2F2;
-    --RAIN_SHADOW: #CBCBCC;
-    --GRAY_30: #A3A4A5;
-    --MEDIUM_GRAY: #575859;
-    --SERIOUS_GRAY: #323233;
-    --BLUE_90: #002441;
-    --AQUA_BLUE: #0B9AAB;
-    --RED: #FF0000;
-    --BLUE_70: #204A6C;
+    /* Base — neutrals */
+    --BLACK: #000000;
+    --WHITE: #ffffff;
+    --PAGE_1: #f3f0e8; /* warm off-white — page background */
+    --PAGE_2: #ded9d1; /* warm light gray — alt surfaces, cards */
+    --GRAY_1: #aaa39f; /* medium warm gray — borders, dividers */
+    --GRAY_2: #737373; /* mid gray — muted text */
 
-    --ALLEN_LIGHT_10: #DFE5EA;
-    --ALLEN_LIGHT_30: #9FB1C0;
-    --ALLEN_LIGHT_60: #607E96;
-    --ALLEN_BLUE: #003057;
+    /* Primary — used as backgrounds */
+    --ALLEN_BLUE: #6464ff;
+    --ALLEN_VIOLET: #8246e1;
+    --ALLEN_TEAL: #00a59b;
+    --ALLEN_MAROON: #cd0f55;
 
+    /* Accent — highlights, used sparingly */
+    --ALLEN_GREEN: #cdeb05;
+    --ALLEN_ROSE: #ff00ff;
+    --ALLEN_ORANGE: #ff6e00;
+    --ALLEN_OCHRE: #dc9600;
+    --ALLEN_YELLOW: #ffeb23;
+
+    /* Semantic aliases */
     --primary-color: var(--ALLEN_BLUE);
-    --border-color: var(--RAIN_SHADOW);
-    --disabled: var(--RAIN_SHADOW);
-    --link-color: #0094FF;
-    --small-table-border-color: var(--RAIN_SHADOW);
+    --secondary-color: var(--ALLEN_TEAL);
+    --feature-color: var(--ALLEN_VIOLET);
+    --accent-color: var(--ALLEN_GREEN);
+    --link-color: var(--ALLEN_BLUE);
+    --border-color: var(--GRAY_1);
+    --disabled-color: var(--GRAY_1);
+    --surface-color: var(--WHITE);
+    --bg-base-color: var(--PAGE_1);
+    --bg-secondary-color: var(--PAGE_2);
+    --bg-dark-color: var(--BLACK);
+    --text-primary-color: var(--BLACK);
+    --text-secondary-color: var(--GRAY_2);
+    --text-heading-color: var(--WHITE);
+    --text-light-color: var(--PAGE_1);
+    --footer-text-color: var(--GRAY_2);
+    --small-table-border-color: var(--GRAY_1);
     --main-card-header-color: var(--primary-color);
-    --footer-text: var(--BLUE_70);
-    --color-bg-base: var(--WHITE);
+    --callout-box-bg-color: var(--PAGE_2);
+    --callout-box-border-color: var(--GRAY_1);
+
+    /* Layout */
+    --content-max-width: 1200px;
+    --page-max-width: 1728px;
+    --content-padding-x: 48px;
+    --content-padding-x-sm: 24px;
+
+    /* Typography */
+    --font-display: "Urbanist", sans-serif;
+    --font-body: "Instrument Sans", sans-serif;
+    --font-mono: "Courier New", Courier, monospace;
 }

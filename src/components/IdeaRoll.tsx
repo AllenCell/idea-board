@@ -5,6 +5,7 @@ import { Link, graphql, useStaticQuery } from "gatsby";
 import { MessageOutlined, StarOutlined } from "@ant-design/icons";
 import { Avatar, List } from "antd";
 
+import { PRIMARY_COLOR } from "../style/theme";
 import { IconText } from "./IconText";
 import { TagPopover } from "./TagPopover";
 
@@ -69,7 +70,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
             }
             renderItem={(item) => (
                 <List.Item
-                    key={item.title}
+                    key={item.id}
                     actions={[
                         <IconText
                             icon={StarOutlined}
@@ -98,7 +99,8 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                     <Avatar
                                         key={author.name}
                                         style={{
-                                            backgroundColor: "gray",
+                                            backgroundColor: PRIMARY_COLOR,
+                                            color: "#fff",
                                         }}
                                     >
                                         {author.name[0].toUpperCase()}

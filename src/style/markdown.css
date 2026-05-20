@@ -1,10 +1,10 @@
 .code-block {
-    background-color: var(--color-bg-secondary, #f6f8fa);
-    border: 1px solid var(--color-border, #e0e0e0);
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 12px 16px;
     overflow-x: auto;
-    font-family: "Courier New", Courier, monospace;
+    font-family: var(--font-mono);
     font-size: 13px;
     line-height: 1.6;
     white-space: pre;
@@ -21,10 +21,10 @@
 /* react-markdown renders <code> without a class we can target.
    Fenced blocks are excluded via :not(pre > code) since those are handled by .code-block above. */
 code:not(pre > code) {
-    background-color: var(--color-bg-secondary, #f6f8fa);
-    border: 1px solid var(--color-border, #e0e0e0);
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 1px 5px;
-    font-family: "Courier New", Courier, monospace;
+    font-family: var(--font-mono);
     font-size: 0.875em;
 }

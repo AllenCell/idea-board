@@ -71,7 +71,6 @@ export const PageNavSider: React.FC<PageNavSiderProps> = ({
                 items={items}
                 selectedKeys={[selectedKey]}
                 onClick={handleMenuClick}
-                style={{ height: "100%", borderRight: 0 }}
             />
         </AntdSider>
     );

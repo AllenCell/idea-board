@@ -1,4 +1,18 @@
 .container {
     margin: auto;
-    background-color: white;
+    background-color: var(--bg-base-color);
+
+    :global(.ant-list-item) {
+        border-left: 3px solid var(--primary-color);
+        padding-left: 20px;
+    }
+
+    :global(.ant-list-item-meta-title a) {
+        color: var(--primary-color) !important;
+        font-weight: 600;
+    }
+
+    :global(.ant-list-item-meta-title a:hover) {
+        color: var(--primary-color);
+    }
 }

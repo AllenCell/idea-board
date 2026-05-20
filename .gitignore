@@ -8,6 +8,9 @@ static/admin/*.bundle.*
 .DS_Store
 yarn-error.log
 gatsby-types.d.ts
+.claude/
+.superpowers/
+docs/superpowers/
 
 # Local Netlify folder
 .netlify

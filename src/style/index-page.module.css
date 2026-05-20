@@ -2,7 +2,7 @@
 }
 
 .header {
-    max-width: 1728px;
+    max-width: var(--page-max-width);
     margin: auto;
     padding: 32px 96px;
     @media (max-width: 768px) {
@@ -11,9 +11,9 @@
 }
 
 .info {
-    background-color: white;
+    background-color: var(--surface-color);
     border: 1px solid var(--primary-color);
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 20px 32px;
     @media (max-width: 768px) {
         padding: 16px 24px;
@@ -21,7 +21,7 @@
 }
 
 .list-wrapper {
-    max-width: 1728px;
+    max-width: var(--page-max-width);
     margin: auto;
     padding: 32px 96px;
     @media (max-width: 768px) {
@@ -32,4 +32,46 @@
             padding: 6px 12px;
         }
     }
+}
+
+.hero {
+    background-color: var(--primary-color);
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 32px 96px;
+    @media (max-width: 768px) {
+        padding: 24px 24px;
+    }
+}
+
+.heroBreadcrumb {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: 0.04em;
+    margin: 0 0 8px;
+}
+
+.heroTitle {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 0 0 10px;
+    @media (max-width: 768px) {
+        font-size: 28px;
+    }
+}
+
+.heroSubtitle {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--accent-color);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 640px;
 }
