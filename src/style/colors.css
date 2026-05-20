@@ -44,6 +44,8 @@
     --callout-box-border-color: var(--GRAY_1);
 
     /* Layout */
+    --content-max-width: 1200px;
+    --page-max-width: 1728px;
     --content-padding-x: 48px;
     --content-padding-x-sm: 24px;
 

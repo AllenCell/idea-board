@@ -31,7 +31,7 @@
 .heroContent {
     position: absolute;
     inset: 0;
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 0 48px;
     display: flex;
@@ -58,7 +58,7 @@
 /* ── Intro section ────────────────────────────────────────────── */
 
 .intro {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 48px 48px;
     display: grid;
@@ -129,7 +129,7 @@
 }
 
 .contentTypesInner {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 0 48px;
 }
@@ -189,7 +189,7 @@
 
 .cta {
     padding: 56px 48px;
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -214,7 +214,7 @@
 }
 
 .howToUseInner {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 0 48px;
 }

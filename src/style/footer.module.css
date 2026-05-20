@@ -4,7 +4,7 @@
 }
 
 .footerContent {
-    max-width: 1728px;
+    max-width: var(--page-max-width);
     margin: 0 auto;
     text-align: center;
 }
