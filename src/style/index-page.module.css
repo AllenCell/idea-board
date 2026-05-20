@@ -1,46 +1,13 @@
-.container {
-}
-
-.header {
-    max-width: 1728px;
-    margin: auto;
-    padding: 32px 96px;
-    @media (max-width: 768px) {
-        padding: 16px 24px;
-    }
-}
-
-.info {
-    background-color: var(--color-surface);
-    border: 1px solid var(--primary-color);
-    border-radius: 2px;
-    padding: 20px 32px;
-    @media (max-width: 768px) {
-        padding: 16px 24px;
-    }
-}
-
-.list-wrapper {
-    max-width: 1728px;
-    margin: auto;
-    padding: 32px 96px;
-    @media (max-width: 768px) {
-        padding: 16px 24px;
-    }
-    li:global(.ant-list-item) {
-        @media (max-width: 768px) {
-            padding: 6px 12px;
-        }
-    }
-}
-
 .hero {
     background-color: var(--color-primary);
-    max-width: 1728px;
+}
+
+.heroInner {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 96px;
+    padding: 32px var(--content-padding-x);
     @media (max-width: 768px) {
-        padding: 24px 24px;
+        padding: 24px var(--content-padding-x-sm);
     }
 }
 
@@ -74,4 +41,13 @@
     line-height: 1.55;
     margin: 0;
     max-width: 640px;
+}
+
+.listWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px var(--content-padding-x);
+    @media (max-width: 768px) {
+        padding: 16px var(--content-padding-x-sm);
+    }
 }
