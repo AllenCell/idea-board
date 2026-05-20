@@ -18,22 +18,24 @@ const ResourceItem: React.FC<ResourceItemProps> = ({
     shortDescription,
 }) => (
     <li>
-        {name && (
-            <span>
-                {link ? (
-                    <a href={link} target="_blank" rel="noreferrer">
-                        {name}
-                    </a>
-                ) : (
-                    name
-                )}
-            </span>
-        )}
-        <ExpandableText
-            fullText={description}
-            onExpand={onExpand}
-            shortText={shortDescription}
-        />
+        <div>
+            {name && (
+                <span>
+                    {link ? (
+                        <a href={link} target="_blank" rel="noreferrer">
+                            {name}
+                        </a>
+                    ) : (
+                        name
+                    )}
+                </span>
+            )}
+            <ExpandableText
+                fullText={description}
+                onExpand={onExpand}
+                shortText={shortDescription}
+            />
+        </div>
     </li>
 );
 
