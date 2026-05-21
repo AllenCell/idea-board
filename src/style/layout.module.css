@@ -66,6 +66,6 @@
     border-left: none;
     border-right: none;
     background-color: var(
-        --color-bg-base
+        --bg-base-color
     ); /* full page layouts shouldnt have a gutter that is colored differently from the page background than the container */
 }
