@@ -35,6 +35,7 @@ const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <AntLayout
                     className={`${contentWrapper}${data.fullWidthPage ? ` ${contentWrapperFullWidth}` : ""}`}
                 >
+                    <Content className={content}>{children}</Content>
                     {data.showPageNavSider &&
                         data.PageNavSiderItems.length > 0 && (
                             <PageNavSider
@@ -42,7 +43,6 @@ const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                 title={data.PageNavSiderTitle}
                             />
                         )}
-                    <Content className={content}>{children}</Content>
                 </AntLayout>
                 <AppFooter />
             </AntLayout>

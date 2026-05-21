@@ -124,6 +124,25 @@ export const IdeaPostTemplate: React.FC<
                         />
                     </div>
                 )}
+                {hasPreliminaryFindings && (
+                    <div id="preliminary-findings" className={section}>
+                        <h4 className={sectionTitle}>Preliminary Findings</h4>
+                        {preliminaryFindings.summary && (
+                            <CustomReactMarkdown
+                                className={sectionText}
+                                content={preliminaryFindings.summary}
+                            />
+                        )}
+                        {hasFigures && (
+                            <>
+                                <h4 className={sectionTitle}>Figures</h4>
+                                <FigureGallery
+                                    figures={preliminaryFindings.figures}
+                                />
+                            </>
+                        )}
+                    </div>
+                )}
                 <h3 id="relevant-resources" className={sectionTitle}>
                     Relevant Resources{" "}
                 </h3>
@@ -135,26 +154,6 @@ export const IdeaPostTemplate: React.FC<
                     </div>
                 )}
             </div>
-
-            {hasPreliminaryFindings && (
-                <div id="preliminary-findings" className={section}>
-                    <h4 className={sectionTitle}>Preliminary Findings</h4>
-                    {preliminaryFindings.summary && (
-                        <CustomReactMarkdown
-                            className={sectionText}
-                            content={preliminaryFindings.summary}
-                        />
-                    )}
-                    {hasFigures && (
-                        <>
-                            <h4 className={sectionTitle}>Figures</h4>
-                            <FigureGallery
-                                figures={preliminaryFindings.figures}
-                            />
-                        </>
-                    )}
-                </div>
-            )}
 
             {resources && (
                 <MaterialsAndMethodsComponent
@@ -187,10 +186,6 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
 
     return [
         { key: "title", label: <a href="#title">{fm.title}</a> },
-        fm.authors?.length && {
-            key: "authors",
-            label: <a href="#authors">Authors</a>,
-        },
         fm.introduction && {
             key: "introduction",
             label: <a href="#introduction">Introduction</a>,
@@ -198,14 +193,6 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
         fm.nextSteps?.length && {
             key: "proposal",
             label: <a href="#proposal">Proposal</a>,
-        },
-        {
-            key: "relevant-resources",
-            label: <a href="#relevant-resources">Relevant Resources</a>,
-        },
-        fm.publication && {
-            key: "publication",
-            label: <a href="#publication">Publication</a>,
         },
         fm.preliminaryFindings && {
             key: "preliminary-findings",
@@ -215,6 +202,15 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
             key: "gallery",
             label: <a href="#gallery">Gallery</a>,
         },
+        {
+            key: "relevant-resources",
+            label: <a href="#relevant-resources">Relevant Resources</a>,
+        },
+        fm.publication && {
+            key: "publication",
+            label: <a href="#publication">Publication</a>,
+        },
+
         hasResourceType(RESOURCE_TYPES.DATASET) && {
             key: "datasets",
             label: <a href="#datasets">Datasets</a>,

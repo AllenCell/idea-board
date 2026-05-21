@@ -3,8 +3,8 @@
 .heroSection {
     position: relative;
     height: 320px;
-    overflow: hidden;
-    background-color: var(--primary-color);
+    overflow-x: clip;
+    background-color: var(--feature-color);
 }
 
 .heroImage {
@@ -21,9 +21,9 @@
     inset: 0;
     background: linear-gradient(
         to right,
-        #003057 0%,
-        #003057 32%,
-        rgba(0, 48, 87, 0.65) 55%,
+        var(--feature-color) 0%,
+        var(--feature-color) 32%,
+        rgb(from var(--feature-color) r g b / 0.65) 55%,
         transparent 100%
     );
 }
@@ -31,7 +31,7 @@
 .heroContent {
     position: absolute;
     inset: 0;
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 0 48px;
     display: flex;
@@ -41,24 +41,24 @@
 }
 
 .heroContent h1 {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
     font-size: 44px;
-    font-weight: 300;
-    color: white;
+    font-weight: 700;
+    color: var(--text-heading-color);
     margin: 0;
-    letter-spacing: 0.03em;
+    letter-spacing: -0.03em;
 }
 
 .heroAccent {
     width: 48px;
     height: 3px;
-    background-color: var(--AQUA_BLUE);
+    background-color: var(--accent-color);
 }
 
 /* ── Intro section ────────────────────────────────────────────── */
 
 .intro {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 48px 48px;
     display: grid;
@@ -68,22 +68,22 @@
 }
 
 .introStatement h2 {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
     font-size: 22px;
-    font-weight: 600;
-    color: var(--primary-color);
+    font-weight: 700;
+    color: var(--text-primary-color);
     margin-bottom: 16px;
 }
 
 .introStatement p {
     font-size: 16px;
     line-height: 1.7;
-    color: var(--SERIOUS_GRAY);
+    color: var(--text-secondary-color);
     margin: 0;
 }
 
 .audience {
-    border-left: 3px solid var(--ALLEN_LIGHT_30);
+    border-left: 3px solid var(--border-color);
     padding-left: 32px;
 }
 
@@ -92,7 +92,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--GRAY_30);
+    color: var(--border-color);
     margin-bottom: 16px;
 }
 
@@ -107,37 +107,38 @@
 
 .audience li {
     font-size: 15px;
-    color: var(--MEDIUM_GRAY);
+    color: var(--text-secondary-color);
     padding-left: 16px;
     position: relative;
     line-height: 1.5;
 }
 
 .audience li::before {
-    content: "→";
+    content: "/";
     position: absolute;
     left: 0;
-    color: var(--AQUA_BLUE);
+    color: var(--secondary-color);
+    font-weight: 700;
 }
 
 /* ── Content types section ────────────────────────────────────── */
 
 .contentTypes {
-    background-color: var(--ALLEN_LIGHT_10);
+    background-color: var(--bg-secondary-color);
     padding: 56px 0;
 }
 
 .contentTypesInner {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 0 48px;
 }
 
 .contentTypesInner h2 {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
     font-size: 22px;
-    font-weight: 600;
-    color: var(--primary-color);
+    font-weight: 700;
+    color: var(--text-primary-color);
     margin-bottom: 32px;
 }
 
@@ -148,9 +149,9 @@
 }
 
 .card {
-    background-color: white;
+    background-color: var(--surface-color);
     border-top: 4px solid var(--primary-color);
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 28px 28px 32px;
     display: flex;
     flex-direction: column;
@@ -159,7 +160,7 @@
 
 .cardIcon {
     font-size: 28px;
-    color: var(--AQUA_BLUE);
+    color: var(--secondary-color);
     line-height: 1;
 }
 
@@ -173,14 +174,14 @@
 .card h3 {
     font-size: 17px;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--text-primary-color);
     margin: 0;
 }
 
 .card p {
     font-size: 14px;
     line-height: 1.65;
-    color: var(--MEDIUM_GRAY);
+    color: var(--text-secondary-color);
     margin: 0;
 }
 
@@ -188,7 +189,7 @@
 
 .cta {
     padding: 56px 48px;
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -198,31 +199,31 @@
 }
 
 .cta h2 {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
     font-size: 22px;
-    font-weight: 600;
-    color: var(--primary-color);
+    font-weight: 700;
+    color: var(--text-primary-color);
     margin-bottom: 8px;
 }
 
 /* ── How to use this site ─────────────────────────────────────── */
 
 .howToUse {
-    background-color: white;
+    background-color: var(--surface-color);
     padding: 56px 0;
 }
 
 .howToUseInner {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: auto;
     padding: 0 48px;
 }
 
 .howToUseInner h2 {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
     font-size: 22px;
-    font-weight: 600;
-    color: var(--primary-color);
+    font-weight: 700;
+    color: var(--text-primary-color);
     margin-bottom: 32px;
 }
 
@@ -234,7 +235,7 @@
 
 .stepCard {
     border-top: 4px solid var(--primary-color);
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 28px 28px 32px;
     display: flex;
     flex-direction: column;
@@ -242,9 +243,9 @@
 }
 
 .stepNumber {
-    font-family: "Raleway", sans-serif;
+    font-family: var(--font-display);
     font-size: 36px;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--primary-color);
     line-height: 1;
 }
@@ -252,14 +253,14 @@
 .stepCard h3 {
     font-size: 17px;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--text-primary-color);
     margin: 0;
 }
 
 .stepCard p {
     font-size: 14px;
     line-height: 1.65;
-    color: var(--MEDIUM_GRAY);
+    color: var(--text-secondary-color);
     margin: 0;
 }
 
@@ -290,8 +291,8 @@
         background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(0, 48, 87, 0.55) 35%,
-            #003057 65%
+            rgb(from var(--feature-color) r g b / 0.55) 35%,
+            var(--feature-color) 65%
         );
     }
 
@@ -312,7 +313,7 @@
 
     .audience {
         border-left: none;
-        border-top: 3px solid var(--ALLEN_LIGHT_30);
+        border-top: 3px solid var(--border-color);
         padding-left: 0;
         padding-top: 32px;
     }

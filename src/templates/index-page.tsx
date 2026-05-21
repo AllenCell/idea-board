@@ -6,7 +6,13 @@ import PropTypes from "prop-types";
 
 import IdeaRoll from "../components/IdeaRoll";
 
-const { listWrapper } = require("../style/index-page.module.css");
+const {
+    hero,
+    heroBreadcrumb,
+    heroSubtitle,
+    heroTitle,
+    listWrapper,
+} = require("../style/index-page.module.css");
 
 interface QueryResult {
     data: {
@@ -18,8 +24,20 @@ interface QueryResult {
 
 export const IndexPageTemplate: React.FC = () => {
     return (
-        <div className={listWrapper}>
-            <IdeaRoll />
+        <div>
+            <section className={hero}>
+                <p className={heroBreadcrumb}>
+                    allen institute / cell science / open ideas/
+                </p>
+                <h1 className={heroTitle}>Idea Board</h1>
+                <p className={heroSubtitle}>
+                    A living collection of early-stage ideas, proposals, and
+                    open questions from Allen Institute scientists.
+                </p>
+            </section>
+            <div className={listWrapper}>
+                <IdeaRoll />
+            </div>
         </div>
     );
 };
