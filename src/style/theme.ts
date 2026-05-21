@@ -52,7 +52,7 @@ export default {
         colorPrimary: PRIMARY_COLOR,
         colorBgContainer: BG_CONTAINER,
         colorBgLayout: BG_LAYOUT,
-        colorLink: PRIMARY_COLOR,
+        colorLink: ALLEN_VIOLET,
         colorLinkActive: ALLEN_GREEN,
         colorLinkHover: ALLEN_GREEN,
         borderRadius: 2,
