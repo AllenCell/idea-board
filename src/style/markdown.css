@@ -1,6 +1,6 @@
 .code-block {
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 12px 16px;
     overflow-x: auto;
@@ -21,8 +21,8 @@
 /* react-markdown renders <code> without a class we can target.
    Fenced blocks are excluded via :not(pre > code) since those are handled by .code-block above. */
 code:not(pre > code) {
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 1px 5px;
     font-family: var(--font-mono);

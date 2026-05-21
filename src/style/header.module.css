@@ -4,9 +4,9 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: var(--color-bg-dark);
+    background-color: var(--bg-dark-color);
     padding: 0;
-    color: var(--color-text-heading);
+    color: var(--text-heading-color);
     font-family: var(--font-display);
 }
 
@@ -35,7 +35,7 @@ a.homeLink {
     font-family: var(--font-display);
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-text-heading);
+    color: var(--text-heading-color);
     padding: 0px;
     white-space: nowrap;
     display: flex;
@@ -67,7 +67,7 @@ a.navLink {
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 400;
-    color: var(--color-text-heading);
+    color: var(--text-heading-color);
     text-decoration: none;
     white-space: nowrap;
     display: flex;
@@ -76,7 +76,7 @@ a.navLink {
 
 a.homeLink:hover,
 a.navLink:hover {
-    color: var(--color-accent);
+    color: var(--accent-color);
 }
 
 @media screen and (max-width: 744px) {
@@ -95,7 +95,7 @@ a.navLink:hover {
     font-family: var(--font-body);
     font-size: 13px;
     font-weight: 500;
-    color: var(--color-accent);
+    color: var(--accent-color);
     padding-left: 8px;
     white-space: nowrap;
 }

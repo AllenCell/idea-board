@@ -6,7 +6,7 @@
 /* ── Blue header block ───────────────────────────────────────── */
 .postHeader {
     background: var(--primary-color);
-    color: var(--WHITE);
+    color: var(--text-heading-color);
     padding: 22px 48px 20px 24px;
     font-family: var(--font-display);
 }
@@ -25,7 +25,7 @@
     font-weight: 800;
     line-height: 1.25;
     letter-spacing: -0.01em;
-    color: var(--WHITE);
+    color: var(--text-heading-color);
     @media screen and (max-width: 576px) {
         font-size: 1.5rem;
     }
@@ -33,7 +33,7 @@
 
 /* ── Metadata strip ──────────────────────────────────────────── */
 .metaStrip {
-    background: var(--PAGE_2);
+    background: var(--bg-secondary-color);
     border-bottom: 1px solid var(--border-color);
     padding: 10px 48px 10px 24px;
     display: flex;
@@ -67,14 +67,14 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary-color);
     margin-bottom: 2px;
 }
 
 .metaVal {
     font-size: 12px;
     font-weight: 500;
-    color: var(--BLACK);
+    color: var(--text-primary-color);
 }
 
 .metaValBlue {
@@ -92,7 +92,7 @@
 
 /* ── Tag row ─────────────────────────────────────────────────── */
 .tagRow {
-    background: var(--color-bg-base);
+    background: var(--bg-base-color);
     padding: 10px 48px 10px 24px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -105,7 +105,7 @@
     font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary-color);
     font-weight: 700;
     margin-right: 4px;
 }
@@ -123,8 +123,10 @@
 
 /* ── Body ────────────────────────────────────────────────────── */
 .container {
-    background-color: var(--color-bg-base);
-    padding: 24px 48px 40px 24px;
+    background-color: var(--bg-base-color);
+    border: none;
+    border-radius: 0px;
+    padding: 12px 48px 12px 24px;
     line-height: 1.7;
     a {
         overflow-wrap: break-word;
@@ -138,7 +140,7 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
+    color: var(--text-secondary-color);
     margin-bottom: 10px;
     margin-top: 36px;
 }
@@ -153,15 +155,15 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.7;
-    color: var(--color-text-primary);
+    color: var(--text-primary-color);
     margin-top: 0;
     margin-bottom: 1rem;
 }
 
 /* ── Proposal callout ────────────────────────────────────────── */
 .proposal {
-    background: var(--color-accent);
-    border-left: 4px solid var(--BLACK);
+    background: var(--accent-color);
+    border-left: 4px solid var(--bg-dark-color);
     padding: 14px 18px;
     margin: 6px 0;
     ul {
@@ -175,7 +177,7 @@
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--BLACK);
+    color: var(--text-primary-color);
     margin-bottom: 8px;
     margin-top: 0;
 }
@@ -194,7 +196,7 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--BLACK);
+    color: var(--text-primary-color);
     margin: 20px 0 6px;
 }
 
@@ -235,36 +237,4 @@
 .resourceList a:hover,
 .relatedList a:hover {
     text-decoration: underline;
-}
-
-/* ── Legacy — kept for any references not yet migrated ───────── */
-.section {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.taglist {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.taglist li {
-    display: inline-block;
-}
-
-.authorsClass {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color-text-primary);
-}
-
-.mainTitle {
-    font-size: 2rem;
-    color: var(--color-text-primary);
-    line-height: 1.5;
 }

@@ -1,5 +1,5 @@
 .hero {
-    background-color: var(--color-primary);
+    background-color: var(--primary-color);
 }
 
 .heroInner {
@@ -37,7 +37,7 @@
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 400;
-    color: var(--color-accent);
+    color: var(--accent-color);
     line-height: 1.55;
     margin: 0;
     max-width: 640px;
