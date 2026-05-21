@@ -200,7 +200,7 @@
     margin: 20px 0 6px;
 }
 
-/* Resource and Related Ideas lists — dot bullets, no lines */
+/* Resource and Related Ideas lists */
 .resourceList,
 .relatedList {
     list-style: none;
