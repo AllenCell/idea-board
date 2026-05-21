@@ -211,13 +211,14 @@ export const IdeaPostTemplate: React.FC<
                     <div id="related-ideas">
                         <div className={sectionLabel}>Related Ideas</div>
                         <ul className={relatedList}>
-                            {relatedIdeas!.map((idea) => (
-                                <li key={idea.slug || idea.title}>
-                                    <Link to={idea.slug || ""}>
-                                        {idea.title}
-                                    </Link>
-                                </li>
-                            ))}
+                            {relatedIdeas!.map((idea) => {
+                                if (!idea.slug && !idea.title) return null;
+                                return (
+                                    <li key={idea.slug}>
+                                        <Link to={idea.slug}>{idea.title}</Link>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 )}
