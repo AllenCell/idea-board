@@ -75,9 +75,9 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                 ))}
                             </div>
                         )}
-                        <a href={item.slug} className={title}>
+                        <Link to={item.slug} className={title}>
                             {item.title}
-                        </a>
+                        </Link>
                         <div className={byline}>
                             by {item.authors.map((a) => a.name).join(" · ")}
                             {item.dataset
