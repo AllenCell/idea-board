@@ -62,7 +62,7 @@ export default {
     components: {
         Layout: {
             bodyBg: BG_LAYOUT,
-            footerBg: GRAY_1,
+            footerBg: BORDER_COLOR,
         },
         Modal: {
             motionDurationMid: "0.1s",

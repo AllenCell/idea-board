@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
 
-import { Button, Flex } from "antd";
+import { Button } from "antd";
 
 import { useSetLayoutConfig } from "../LayoutContext";
 import { ContactModal } from "../components/ContactModal";
@@ -15,18 +15,30 @@ import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { TagPopover } from "../components/TagPopover";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { useExpandedContent } from "../hooks/useExpandedContent";
-import { Allenite, IdeaPostNode, IdeaPostQuery } from "../types";
+import { IdeaPostNode, IdeaPostQuery } from "../types";
 
 const {
-    authorsClass,
     container,
-    mainTitle,
+    eyebrow,
+    metaContact,
+    metaGroup,
+    metaKey,
+    metaStrip,
+    metaVal,
+    metaValBlue,
+    postHeader,
+    postTitle,
     proposal,
     proposalTitle,
-    section,
+    relatedList,
+    resourceList,
+    resourcesIndent,
+    sectionLabel,
     sectionText,
     sectionTitle,
-    taglist,
+    tag,
+    tagRow,
+    tagRowLabel,
 } = require("../style/idea-post.module.css");
 
 export const IdeaPostTemplate: React.FC<
@@ -39,43 +51,22 @@ export const IdeaPostTemplate: React.FC<
     }
 > = ({
     authors,
+    date,
     introduction,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
     primaryContact,
+    program,
     publication,
     relatedIdeas,
     resources,
     slug,
     tags,
     title,
+    type,
 }) => {
     const [contactModalOpen, setContactModalOpen] = useState(false);
-
-    const getTagList = (tags: readonly string[]) => {
-        return (
-            <ul className={taglist}>
-                {tags.map((tag) => (
-                    <li key={tag}>
-                        <TagPopover tag={tag} currentSlug={slug} />
-                    </li>
-                ))}
-            </ul>
-        );
-    };
-
-    const getAuthorsList = (authors: ReadonlyArray<Allenite>) => {
-        if (authors.length === 0) {
-            return null;
-        }
-        return (
-            <p id="authors" className={authorsClass}>
-                {" "}
-                {authors.map((a) => a.name).join(", ")}
-            </p>
-        );
-    };
 
     const hasFigures =
         preliminaryFindings?.figures && preliminaryFindings.figures.length > 0;
@@ -84,49 +75,104 @@ export const IdeaPostTemplate: React.FC<
     const hasRelatedIdeas = relatedIdeas && relatedIdeas.length > 0;
 
     return (
-        <div className={container}>
-            <div>
-                <Flex
-                    justify="space-between"
-                    align="center"
-                    className={sectionTitle}
-                >
-                    <h3 id="title" className={mainTitle}>
-                        {title}
-                    </h3>
+        <>
+            {/* Blue header block */}
+            <div className={postHeader}>
+                <div className={eyebrow}>
+                    allen institute / ideas
+                    {program && program.length > 0
+                        ? ` / ${program.join(" / ")} /`
+                        : " /"}
+                </div>
+                <h1 id="title" className={postTitle}>
+                    {title}
+                </h1>
+            </div>
+
+            {/* Metadata strip */}
+            <div className={metaStrip}>
+                {authors && authors.length > 0 && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Authors</span>
+                        <span className={metaValBlue}>
+                            {authors.map((a) => a.name).join(" · ")}
+                        </span>
+                    </div>
+                )}
+                <div className={metaGroup}>
+                    <span className={metaKey}>Date</span>
+                    <span className={metaVal}>{date}</span>
+                </div>
+                {type && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Type</span>
+                        <span className={metaVal}>{type}</span>
+                    </div>
+                )}
+                {program && program.length > 0 && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Program</span>
+                        <span className={metaVal}>{program.join(", ")}</span>
+                    </div>
+                )}
+                <div className={metaContact}>
                     <Button onClick={() => setContactModalOpen(true)}>
                         Contact
                     </Button>
-                </Flex>
-                {getAuthorsList(authors)}
-                <ContactModal
-                    authors={authors}
-                    primaryContact={primaryContact}
-                    title={title}
-                    open={contactModalOpen}
-                    onClose={() => setContactModalOpen(false)}
-                />
+                </div>
+            </div>
+
+            <ContactModal
+                authors={authors}
+                primaryContact={primaryContact}
+                title={title}
+                open={contactModalOpen}
+                onClose={() => setContactModalOpen(false)}
+            />
+
+            {/* Tag row */}
+            {tags && tags.length > 0 && (
+                <div className={tagRow}>
+                    <span className={tagRowLabel}>Topics</span>
+                    {tags.map((t) => (
+                        <TagPopover
+                            key={t}
+                            tag={t}
+                            currentSlug={slug}
+                            className={tag}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* Body */}
+            <div className={container}>
                 {introduction && (
-                    <div id="introduction" className={section}>
+                    <div id="introduction">
+                        <div className={sectionLabel}>Introduction</div>
                         <CustomReactMarkdown
                             className={sectionText}
                             content={introduction}
                         />
                     </div>
                 )}
-                {tags && tags.length ? <div>{getTagList(tags)}</div> : null}
+
                 {nextSteps && (
-                    <div id="proposal" className={proposal}>
-                        <h4 className={proposalTitle}>Project proposal:</h4>
-                        <CustomReactMarkdown
-                            className={sectionText}
-                            content={nextSteps}
-                        />
+                    <div id="proposal">
+                        <div className={sectionLabel}>Project Proposal</div>
+                        <div className={proposal}>
+                            <h4 className={proposalTitle}>Next steps</h4>
+                            <CustomReactMarkdown
+                                className={sectionText}
+                                content={nextSteps}
+                            />
+                        </div>
                     </div>
                 )}
+
                 {hasPreliminaryFindings && (
-                    <div id="preliminary-findings" className={section}>
-                        <h4 className={sectionTitle}>Preliminary Findings</h4>
+                    <div id="preliminary-findings">
+                        <div className={sectionLabel}>Preliminary Findings</div>
                         {preliminaryFindings.summary && (
                             <CustomReactMarkdown
                                 className={sectionText}
@@ -134,46 +180,50 @@ export const IdeaPostTemplate: React.FC<
                             />
                         )}
                         {hasFigures && (
-                            <>
-                                <h4 className={sectionTitle}>Figures</h4>
-                                <FigureGallery
-                                    figures={preliminaryFindings.figures}
-                                />
-                            </>
+                            <FigureGallery
+                                figures={preliminaryFindings.figures}
+                            />
                         )}
                     </div>
                 )}
-                <h3 id="relevant-resources" className={sectionTitle}>
-                    Relevant Resources{" "}
-                </h3>
-                {publication && (
-                    <div id="publication">
-                        <h4 className={sectionTitle}>Publications </h4>
-                        {/* TODO I think it only makes sense to have publications that are links */}
-                        <a> {publication}</a>
+
+                <div id="relevant-resources">
+                    <div className={sectionLabel}>Relevant Resources</div>
+                    <div className={resourcesIndent}>
+                        {publication && (
+                            <div id="publication">
+                                <h4 className={sectionTitle}>Publication</h4>
+                                <ul className={resourceList}>
+                                    <li>{publication}</li>
+                                </ul>
+                            </div>
+                        )}
+                        {resources && (
+                            <MaterialsAndMethodsComponent
+                                resources={[...resources]}
+                                onExpandDescription={onExpandDescription}
+                            />
+                        )}
+                    </div>
+                </div>
+
+                {hasRelatedIdeas && (
+                    <div id="related-ideas">
+                        <div className={sectionLabel}>Related Ideas</div>
+                        <ul className={relatedList}>
+                            {relatedIdeas!.map((idea) => {
+                                if (!idea.slug && !idea.title) return null;
+                                return (
+                                    <li key={idea.slug}>
+                                        <Link to={idea.slug}>{idea.title}</Link>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
                 )}
             </div>
-
-            {resources && (
-                <MaterialsAndMethodsComponent
-                    resources={[...resources]}
-                    onExpandDescription={onExpandDescription}
-                />
-            )}
-            {hasRelatedIdeas && (
-                <div className={section}>
-                    <h4 className={sectionTitle}>Related Ideas:</h4>
-                    {relatedIdeas!.map((idea) => (
-                        <div key={idea.slug || idea.title}>
-                            <Link to={idea.slug || ""}>
-                                <h5>{idea.title}</h5>
-                            </Link>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+        </>
     );
 };
 
@@ -198,10 +248,6 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
             key: "preliminary-findings",
             label: <a href="#preliminary-findings">Preliminary Findings</a>,
         },
-        fm.preliminaryFindings?.figures?.length && {
-            key: "gallery",
-            label: <a href="#gallery">Gallery</a>,
-        },
         {
             key: "relevant-resources",
             label: <a href="#relevant-resources">Relevant Resources</a>,
@@ -210,7 +256,6 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
             key: "publication",
             label: <a href="#publication">Publication</a>,
         },
-
         hasResourceType(RESOURCE_TYPES.DATASET) && {
             key: "datasets",
             label: <a href="#datasets">Datasets</a>,
@@ -226,6 +271,10 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
         hasResourceType(RESOURCE_TYPES.SOFTWARE_TOOL) && {
             key: "software-tools",
             label: <a href="#software-tools">Software Tools</a>,
+        },
+        fm.relatedIdeas?.length && {
+            key: "related-ideas",
+            label: <a href="#related-ideas">Related Ideas</a>,
         },
     ].filter(Boolean) as PageNavSiderMenuItem[];
 }
@@ -312,6 +361,8 @@ export const pageQuery = graphql`
             title
             description
             tags
+            program
+            type
             preliminaryFindings {
                 summary
                 figures {

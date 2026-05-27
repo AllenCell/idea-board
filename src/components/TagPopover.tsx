@@ -7,11 +7,16 @@ import { Popover, Tag } from "antd";
 import * as styles from "../style/tag-popover.module.css";
 
 interface TagPopoverProps {
-    tag: string;
+    className?: string;
     currentSlug?: string;
+    tag: string;
 }
 
-export const TagPopover: React.FC<TagPopoverProps> = ({ currentSlug, tag }) => {
+export const TagPopover: React.FC<TagPopoverProps> = ({
+    className,
+    currentSlug,
+    tag,
+}) => {
     const data: Queries.AllIdeasForTagsQuery = useStaticQuery(graphql`
         query AllIdeasForTags {
             allMarkdownRemark(
@@ -68,7 +73,7 @@ export const TagPopover: React.FC<TagPopoverProps> = ({ currentSlug, tag }) => {
 
     return (
         <Popover content={content} trigger="click">
-            <Tag className={styles.tag}>{tag}</Tag>
+            <Tag className={className ?? styles.tag}>{tag}</Tag>
         </Popover>
     );
 };
