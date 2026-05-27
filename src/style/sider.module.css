@@ -1,7 +1,7 @@
 .sider {
     padding: 24px 0px 0px 0px;
     border-left: 1px solid var(--border-color);
-    background-color: var(--bg-secondary-color);
+    background-color: var(--bg-base-color);
     position: sticky;
     top: 64px;
     align-self: flex-start;
@@ -12,5 +12,5 @@
 
 .siderMenu {
     color: var(--text-secondary-color);
-    background-color: var(--bg-secondary-color);
+    background-color: var(--bg-base-color);
 }
