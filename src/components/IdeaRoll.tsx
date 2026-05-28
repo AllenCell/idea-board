@@ -62,7 +62,12 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                 {item.tags.map((tag, i) => (
                                     <React.Fragment key={tag}>
                                         {i > 0 && (
-                                            <span className={tagSeparator} aria-hidden="true">·</span>
+                                            <span
+                                                className={tagSeparator}
+                                                aria-hidden="true"
+                                            >
+                                                ·
+                                            </span>
                                         )}
                                         <TagPopover
                                             tag={tag}
