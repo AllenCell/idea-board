@@ -102,7 +102,7 @@ Items separated by a bottom border. No avatars. No star/message counts (removed 
 
 | File | Change |
 |------|--------|
-| `src/style/colors.css` | Add `--content-padding-x` and `--content-padding-x-sm` tokens |
+| `src/style/colors.css` | `--content-padding-x` and `--content-padding-x-sm` tokens already exist (no code changes required in this PR) |
 | `src/templates/index-page.tsx` | Add `useSetLayoutConfig` + `fullWidthPage: true`; restructure hero with `heroInner` wrapper |
 | `src/style/index-page.module.css` | Rewrite `.hero` (bg only), add `.heroInner` (constrained wrapper), update `.listWrapper` to use token |
 | `src/components/IdeaRoll.tsx` | Replace `antd/List` with native `<ul>/<li>`; editorial item layout; remove `Avatar`, `StarOutlined`, `MessageOutlined` imports |
