@@ -3,7 +3,7 @@
 }
 
 .heroInner {
-    max-width: 1200px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
     padding: 32px var(--content-padding-x);
     @media (max-width: 768px) {
