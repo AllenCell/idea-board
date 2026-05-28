@@ -93,8 +93,8 @@ Items separated by a bottom border. No avatars. No star/message counts (removed 
 |-------------|-------|--------|-------------------------------|-------------------------------------|
 | Tag eyebrow | 10px  | 700    | `var(--primary-color)`        | uppercase, `letter-spacing: 0.15em` |
 | Separator · | 10px  | 400    | `var(--border-color)`         | `margin: 0 5px`                     |
-| Title       | 19px  | 800    | `var(--color-text-primary)`   | `letter-spacing: -0.02em`, `line-height: 1.25` |
-| Byline      | 11px  | 400    | `var(--color-text-secondary)` | —                                   |
+| Title       | 19px  | 800    | `var(--text-primary-color)`   | `letter-spacing: -0.02em`, `line-height: 1.25` |
+| Byline      | 11px  | 400    | `var(--text-secondary-color)` | —                                   |
 | Item border | —     | —      | `var(--border-color)`         | bottom only, `1px solid`            |
 | Item padding | —    | —      | —                             | `22px 0` top/bottom                 |
 
