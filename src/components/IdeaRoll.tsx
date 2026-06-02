@@ -50,8 +50,8 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                             file {
                                 childImageSharp {
                                     gatsbyImageData(
-                                        width: 80
-                                        height: 64
+                                        width: 88
+                                        height: 56
                                         layout: FIXED
                                         quality: 80
                                     )
@@ -130,13 +130,27 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                             image={gatsbyImage}
                                             alt=""
                                             className={thumbnail}
+                                            imgStyle={{
+                                                transform: "scale(1.2)",
+                                                transformOrigin: "center",
+                                            }}
                                         />
                                     ) : (
-                                        <img
-                                            src={firstFigure!.url!}
-                                            alt=""
-                                            className={thumbnail}
-                                        />
+                                        <div className={thumbnail}>
+                                            <img
+                                                src={firstFigure!.url!}
+                                                alt=""
+                                                style={{
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    objectFit: "cover",
+                                                    objectPosition: "center",
+                                                    transform: "scale(1.2)",
+                                                    transformOrigin: "center",
+                                                    display: "block",
+                                                }}
+                                            />
+                                        </div>
                                     )}
                                 </Link>
                             )}
