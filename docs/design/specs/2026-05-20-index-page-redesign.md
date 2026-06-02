@@ -89,24 +89,24 @@ Items separated by a bottom border. No avatars. No star/message counts (removed 
 
 ### Typography spec
 
-| Element     | Size  | Weight | Color                         | Other                               |
-|-------------|-------|--------|-------------------------------|-------------------------------------|
-| Tag eyebrow | 10px  | 700    | `var(--primary-color)`        | uppercase, `letter-spacing: 0.15em` |
-| Separator · | 10px  | 400    | `var(--border-color)`         | `margin: 0 5px`                     |
-| Title       | 19px  | 800    | `var(--text-primary-color)`   | `letter-spacing: -0.02em`, `line-height: 1.25` |
-| Byline      | 11px  | 400    | `var(--text-secondary-color)` | —                                   |
-| Item border | —     | —      | `var(--border-color)`         | bottom only, `1px solid`            |
-| Item padding | —    | —      | —                             | `22px 0` top/bottom                 |
+| Element      | Size | Weight | Color                         | Other                                          |
+| ------------ | ---- | ------ | ----------------------------- | ---------------------------------------------- |
+| Tag eyebrow  | 10px | 700    | `var(--primary-color)`        | uppercase, `letter-spacing: 0.15em`            |
+| Separator ·  | 10px | 400    | `var(--border-color)`         | `margin: 0 5px`                                |
+| Title        | 19px | 800    | `var(--primary-color)`        | `letter-spacing: -0.02em`, `line-height: 1.25` |
+| Byline       | 11px | 400    | `var(--text-secondary-color)` | —                                              |
+| Item border  | —    | —      | `var(--border-color)`         | bottom only, `1px solid`                       |
+| Item padding | —    | —      | —                             | `22px 0` top/bottom                            |
 
 ## Files Changed
 
-| File | Change |
-|------|--------|
-| `src/style/colors.css` | `--content-padding-x` and `--content-padding-x-sm` tokens already exist (no code changes required in this PR) |
-| `src/templates/index-page.tsx` | Add `useSetLayoutConfig` + `fullWidthPage: true`; restructure hero with `heroInner` wrapper |
-| `src/style/index-page.module.css` | Rewrite `.hero` (bg only), add `.heroInner` (constrained wrapper), update `.listWrapper` to use token |
-| `src/components/IdeaRoll.tsx` | Replace `antd/List` with native `<ul>/<li>`; editorial item layout; remove `Avatar`, `StarOutlined`, `MessageOutlined` imports |
-| `src/style/idea-roll.module.css` | Replace `.container` antd overrides with editorial styles; add `.listItem`, `.tagEyebrow`, `.eyebrowTag`, `.tagSeparator`, `.title`, `.byline` |
+| File                              | Change                                                                                                                                         |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/style/colors.css`            | `--content-padding-x` and `--content-padding-x-sm` tokens already exist (no code changes required in this PR)                                  |
+| `src/templates/index-page.tsx`    | Add `useSetLayoutConfig` + `fullWidthPage: true`; restructure hero with `heroInner` wrapper                                                    |
+| `src/style/index-page.module.css` | Rewrite `.hero` (bg only), add `.heroInner` (constrained wrapper), update `.listWrapper` to use token                                          |
+| `src/components/IdeaRoll.tsx`     | Replace `antd/List` with native `<ul>/<li>`; editorial item layout; remove `Avatar`, `StarOutlined`, `MessageOutlined` imports                 |
+| `src/style/idea-roll.module.css`  | Replace `.container` antd overrides with editorial styles; add `.listItem`, `.tagEyebrow`, `.eyebrowTag`, `.tagSeparator`, `.title`, `.byline` |
 
 ## Out of Scope
 
