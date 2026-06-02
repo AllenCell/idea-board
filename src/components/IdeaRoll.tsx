@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Link, graphql, useStaticQuery } from "gatsby";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
 
+import FigureThumbnail from "./FigureThumbnail";
 import { TagPopover } from "./TagPopover";
 
 const {
@@ -77,9 +77,6 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                 {ideas.map((item) => {
                     const firstFigure =
                         item.preliminaryFindings?.figures?.[0] ?? null;
-                    const gatsbyImage = firstFigure?.file?.childImageSharp
-                        ? getImage(firstFigure.file.childImageSharp)
-                        : null;
 
                     return (
                         <li key={item.id} className={listItem}>
@@ -119,39 +116,16 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                 </div>
                             </div>
 
-                            {(gatsbyImage || firstFigure?.url) && (
+                            {firstFigure && (
                                 <Link
                                     to={item.slug}
                                     tabIndex={-1}
                                     aria-hidden="true"
                                 >
-                                    {gatsbyImage ? (
-                                        <GatsbyImage
-                                            image={gatsbyImage}
-                                            alt=""
-                                            className={thumbnail}
-                                            imgStyle={{
-                                                transform: "scale(1.2)",
-                                                transformOrigin: "center",
-                                            }}
-                                        />
-                                    ) : (
-                                        <div className={thumbnail}>
-                                            <img
-                                                src={firstFigure!.url!}
-                                                alt=""
-                                                style={{
-                                                    width: "100%",
-                                                    height: "100%",
-                                                    objectFit: "cover",
-                                                    objectPosition: "center",
-                                                    transform: "scale(1.2)",
-                                                    transformOrigin: "center",
-                                                    display: "block",
-                                                }}
-                                            />
-                                        </div>
-                                    )}
+                                    <FigureThumbnail
+                                        figure={firstFigure}
+                                        className={thumbnail}
+                                    />
                                 </Link>
                             )}
                         </li>
