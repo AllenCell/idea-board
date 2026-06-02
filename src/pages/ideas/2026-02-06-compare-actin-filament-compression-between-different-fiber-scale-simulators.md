@@ -4,7 +4,9 @@ title: Compare actin filament compression between different fiber-scale simulato
 type: micropublication
 date: 2026-02-06T11:42:00.000Z
 authors:
-  - Megan Riel-Mehan
+  - Jessica Yu
+  - Saurabh Mogre
+primaryContact: Jessica Yu
 program:
   - Other
 introduction: >-
@@ -25,10 +27,7 @@ preliminaryFindings:
   figures:
     - type: imageLink
       url: https://www.micropublication.org/static/figures/micropub-biology-001347.png
-      caption: "an externally linked image"
-    - type: imageFile
-      file: /img/228469011.jpg
-      caption: An unrelated image from our website showing lots and lots of cells.
+      caption: an externally linked image
 resources:
   - test-software-tool
   - simularium
@@ -44,4 +43,5 @@ publication: https://www.micropublication.org/journals/biology/micropub-biology-
 tags:
   - actin
   - computational modeling
+acknowledgment: citation
 ---
