@@ -43,6 +43,36 @@ collections:
                         "analysis of existing data",
                         "hypothesis that requires new experimentation",
                         "micropublication",
+                        "interesting observation",
+                        "converting code to production product",
+                        "applying method or tool to new data",
+                        "other",
+                    ],
+            }
+          - {
+                label: "Maturity",
+                name: "maturity",
+                widget: "select",
+                required: true,
+                default: "speculative",
+                options:
+                    [
+                        {
+                            label: "🌱 Speculative — Untested, shared to invite discussion",
+                            value: "speculative",
+                        },
+                        {
+                            label: "🌿 Exploratory — Early investigation, findings are preliminary",
+                            value: "exploratory",
+                        },
+                        {
+                            label: "🌳 Supported — Backed by data or analysis, not yet exhaustive",
+                            value: "supported",
+                        },
+                        {
+                            label: "🍎 Validated — Well-evidenced and reproducible",
+                            value: "validated",
+                        },
                     ],
             }
           - {
@@ -179,7 +209,6 @@ collections:
                 hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
             }
           - {
-
                 label: "Related Ideas",
                 name: "related_ideas",
                 widget: "relation",
