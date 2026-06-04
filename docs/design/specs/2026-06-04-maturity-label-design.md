@@ -125,9 +125,9 @@ interface MaturityBadgeProps {
 - Add `maturity` to the `IdeaPostByID` page query
 - Render `<MaturityBadge>` as a new `metaGroup` in the `metaStrip` alongside Authors / Date / Type / Program
 
-### Type update (`src/types/index.ts`)
+### Type update
 
-Add `maturity: string` to `IdeaPostNode` to stay in sync with the GraphQL schema.
+`IdeaPostNode` in `src/types/index.ts` is auto-derived from the GraphQL query via `Queries.IdeaPostByIDQuery`. No manual edit is needed — running `gatsby develop` after updating the query regenerates the Gatsby type and `maturity` flows through automatically. The inline `IdeaListItem` type in `IdeaRoll.tsx` similarly picks up the field once the query is updated.
 
 ---
 
