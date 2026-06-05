@@ -6,27 +6,30 @@
     font-weight: 600;
     cursor: default;
     white-space: nowrap;
-    background: var(--surface-color);
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     margin-left: 8px;
 }
 
 .speculative {
     color: #4a9090;
     border-color: #b8dede;
+    background: color-mix(in srgb, #b8dede 20%, transparent);
 }
 
 .exploratory {
-    color: #2a7070;
-    border-color: #7dbaba;
+    color: #367474;
+    border-color: #83b1b1;
+    background: color-mix(in srgb, #83b1b1 20%, transparent);
 }
 
 .supported {
-    color: #1a5555;
-    border-color: #2a7070;
+    color: #225959;
+    border-color: #4f8585;
+    background: color-mix(in srgb, #4f8585 30%, transparent);
 }
 
 .validated {
     color: #0d3d3d;
-    border-color: #0d3d3d;
+    border-color: #1a5858;
+    background: color-mix(in srgb, #1a5858 40%, transparent);
 }
