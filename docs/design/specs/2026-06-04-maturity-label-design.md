@@ -82,24 +82,16 @@ The emoji in the CMS dropdown helps authors scan options visually. The rendered 
 
 ### Level config
 
-| Value | Label | Tooltip hint |
-|---|---|---|
-| `speculative` | Speculative | Untested — shared to invite discussion, not as a claim |
-| `exploratory` | Exploratory | Early investigation — findings are preliminary |
-| `supported` | Supported | Backed by data or analysis, but not yet exhaustive |
-| `validated` | Validated | Well-evidenced and reproducible |
+| Value         | Label       | Tooltip hint                                                                 |
+| ------------- | ----------- | ---------------------------------------------------------------------------- |
+| `speculative` | Speculative | Untested: shared to invite discussion and future investigation. Not a claim. |
+| `exploratory` | Exploratory | Early investigation — findings are preliminary                               |
+| `supported`   | Supported   | Backed by data or analysis, but not yet exhaustive. Needs further work.      |
+| `validated`   | Validated   | Well-evidenced and reproducible                                              |
 
 ### Visual
 
-Four CSS classes (`.speculative`, `.exploratory`, `.supported`, `.validated`) on a shared pill shape. Colors progress from light to dark teal:
-
-| Level | Background | Text | Border |
-|---|---|---|---|
-| Speculative | `#e6f4f4` | `#4a9090` | `#b8dede` |
-| Exploratory | `#b8dede` | `#2a7070` | `#7dbaba` |
-| Supported | `#2a7070` | `#fff` | none |
-| Validated | `#0d3d3d` | `#fff` | none |
-
+Four CSS classes (`.speculative`, `.exploratory`, `.supported`, `.validated`) on a shared pill shape. Colors progress from light to dark teal
 Tooltip uses Ant Design `<Tooltip>` component. Unknown values fall back to Speculative rendering.
 
 ### Props

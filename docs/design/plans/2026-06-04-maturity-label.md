@@ -12,18 +12,18 @@
 
 ## File Map
 
-| Action | Path | Responsibility |
-|---|---|---|
-| Create | `src/constants/maturityLevels.ts` | MATURITY_CONFIG record + getMaturityConfig pure function |
-| Create | `src/constants/maturityLevels.test.ts` | Unit tests for MATURITY_CONFIG and getMaturityConfig |
-| Create | `src/components/MaturityBadge.tsx` | Pill badge + Ant Design Tooltip wrapper |
-| Create | `src/style/maturity-badge.module.css` | Teal light-to-dark color scale |
-| Create | `gatsby/resolvers/test/resolvers.test.js` | Resolver default test |
-| Modify | `gatsby/resolvers/resolvers.js` | Add maturity field to createIdeaPostResolver |
-| Modify | `gatsby/schema/base.gql` | Add `maturity: String` to IdeaPost type |
-| Modify | `static/admin/config.yml` | Add maturity select widget after type field |
-| Modify | `src/components/IdeaRoll.tsx` | Add maturity to query; render MaturityBadge in tagEyebrow |
-| Modify | `src/templates/idea-post.tsx` | Add maturity to query; render MaturityBadge in metaStrip |
+| Action | Path                                      | Responsibility                                            |
+| ------ | ----------------------------------------- | --------------------------------------------------------- |
+| Create | `src/constants/maturityLevels.ts`         | MATURITY_CONFIG record + getMaturityConfig pure function  |
+| Create | `src/constants/maturityLevels.test.ts`    | Unit tests for MATURITY_CONFIG and getMaturityConfig      |
+| Create | `src/components/MaturityBadge.tsx`        | Pill badge + Ant Design Tooltip wrapper                   |
+| Create | `src/style/maturity-badge.module.css`     | Teal light-to-dark color scale                            |
+| Create | `gatsby/resolvers/test/resolvers.test.js` | Resolver default test                                     |
+| Modify | `gatsby/resolvers/resolvers.js`           | Add maturity field to createIdeaPostResolver              |
+| Modify | `gatsby/schema/base.gql`                  | Add `maturity: String` to IdeaPost type                   |
+| Modify | `static/admin/config.yml`                 | Add maturity select widget after type field               |
+| Modify | `src/components/IdeaRoll.tsx`             | Add maturity to query; render MaturityBadge in tagEyebrow |
+| Modify | `src/templates/idea-post.tsx`             | Add maturity to query; render MaturityBadge in metaStrip  |
 
 ---
 
@@ -184,11 +184,11 @@ In `static/admin/config.yml`, locate the `type` widget block in the `ideas` coll
                 options:
                     [
                         {
-                            label: "🌱 Speculative — Untested, shared to invite discussion",
+                            label: "🌱 Untested: shared to invite discussion and future investigation. Not a claim",
                             value: "speculative",
                         },
                         {
-                            label: "🌿 Exploratory — Early investigation, findings are preliminary",
+                            label: "🌿 Exploratory — Early investigation, findings are preliminary.",
                             value: "exploratory",
                         },
                         {
@@ -236,13 +236,13 @@ describe("getMaturityConfig", () => {
 
     it("returns the correct hint for each level", () => {
         expect(getMaturityConfig("speculative").hint).toBe(
-            "Untested — shared to invite discussion, not as a claim",
+            "Untested: shared to invite discussion and future investigation. Not a claim.",
         );
         expect(getMaturityConfig("exploratory").hint).toBe(
             "Early investigation — findings are preliminary",
         );
         expect(getMaturityConfig("supported").hint).toBe(
-            "Backed by data or analysis, but not yet exhaustive",
+            "Backed by data or analysis, but not yet exhaustive. Needs further work.",
         );
         expect(getMaturityConfig("validated").hint).toBe(
             "Well-evidenced and reproducible",
@@ -277,7 +277,7 @@ interface MaturityConfig {
 export const MATURITY_CONFIG: Record<string, MaturityConfig> = {
     speculative: {
         label: "Speculative",
-        hint: "Untested — shared to invite discussion, not as a claim",
+        hint: "Untested: shared to invite discussion and future investigation. Not a claim.",
     },
     exploratory: {
         label: "Exploratory",
@@ -285,7 +285,7 @@ export const MATURITY_CONFIG: Record<string, MaturityConfig> = {
     },
     supported: {
         label: "Supported",
-        hint: "Backed by data or analysis, but not yet exhaustive",
+        hint: "Backed by data or analysis, but not yet exhaustive. Needs further work.",
     },
     validated: {
         label: "Validated",
