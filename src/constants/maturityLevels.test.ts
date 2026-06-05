@@ -12,13 +12,13 @@ describe("getMaturityConfig", () => {
 
     it("returns the correct hint for each level", () => {
         expect(getMaturityConfig("speculative").hint).toBe(
-            "Untested — shared to invite discussion, not as a claim",
+            "Untested: shared to invite discussion and future investigation. Not a claim.",
         );
         expect(getMaturityConfig("exploratory").hint).toBe(
             "Early investigation — findings are preliminary",
         );
         expect(getMaturityConfig("supported").hint).toBe(
-            "Backed by data or analysis, but not yet exhaustive",
+            "Backed by data or analysis, but not yet exhaustive. Needs further work.",
         );
         expect(getMaturityConfig("validated").hint).toBe(
             "Well-evidenced and reproducible",

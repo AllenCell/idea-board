@@ -6,7 +6,7 @@ interface MaturityConfig {
 export const MATURITY_CONFIG: Record<string, MaturityConfig> = {
     speculative: {
         label: "Speculative",
-        hint: "Untested — shared to invite discussion, not as a claim",
+        hint: "Untested: shared to invite discussion and future investigation. Not a claim.",
     },
     exploratory: {
         label: "Exploratory",
@@ -14,7 +14,7 @@ export const MATURITY_CONFIG: Record<string, MaturityConfig> = {
     },
     supported: {
         label: "Supported",
-        hint: "Backed by data or analysis, but not yet exhaustive",
+        hint: "Backed by data or analysis, but not yet exhaustive. Needs further work.",
     },
     validated: {
         label: "Validated",
