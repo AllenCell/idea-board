@@ -3,8 +3,7 @@ import React from "react";
 import { Tooltip } from "antd";
 
 import { getMaturityConfig } from "../constants/maturityLevels";
-
-const styles = require("../style/maturity-badge.module.css");
+import * as styles from "../style/maturity-badge.module.css";
 
 interface MaturityBadgeProps {
     maturity: string;
