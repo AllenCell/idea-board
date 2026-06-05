@@ -14,11 +14,17 @@
     border-bottom: none;
 }
 
+.tagEyebrowWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
 .tagEyebrow {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 6px;
+    gap: 6px;
 }
 
 /* Overrides antd Tag's scoped styles, which win without !important */
@@ -40,7 +46,6 @@
     font-size: 10px;
     font-weight: 400;
     color: var(--border-color);
-    margin: 0 5px;
     user-select: none;
 }
 

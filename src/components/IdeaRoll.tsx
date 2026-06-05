@@ -11,6 +11,7 @@ const {
     eyebrowTag,
     listItem,
     tagEyebrow,
+    tagEyebrowWrapper,
     tagSeparator,
     title,
 } = require("../style/idea-roll.module.css");
@@ -59,24 +60,26 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
             <ul className={container}>
                 {ideas.map((item) => (
                     <li key={item.id} className={listItem}>
-                        <div className={tagEyebrow}>
-                            {item.tags.map((tag, i) => (
-                                <React.Fragment key={tag}>
-                                    {i > 0 && (
-                                        <span
-                                            className={tagSeparator}
-                                            aria-hidden="true"
-                                        >
-                                            ·
-                                        </span>
-                                    )}
-                                    <TagPopover
-                                        tag={tag}
-                                        currentSlug={item.slug}
-                                        className={eyebrowTag}
-                                    />
-                                </React.Fragment>
-                            ))}
+                        <div className={tagEyebrowWrapper}>
+                            <div className={tagEyebrow}>
+                                {item.tags.map((tag, i) => (
+                                    <React.Fragment key={tag}>
+                                        {i > 0 && (
+                                            <span
+                                                className={tagSeparator}
+                                                aria-hidden="true"
+                                            >
+                                                ·
+                                            </span>
+                                        )}
+                                        <TagPopover
+                                            tag={tag}
+                                            currentSlug={item.slug}
+                                            className={eyebrowTag}
+                                        />
+                                    </React.Fragment>
+                                ))}
+                            </div>
                             <MaturityBadge
                                 maturity={item.maturity ?? "speculative"}
                             />
