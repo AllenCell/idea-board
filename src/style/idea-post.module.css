@@ -162,8 +162,8 @@
 
 /* ── Proposal callout ────────────────────────────────────────── */
 .proposal {
-    background: var(--accent-color);
-    border-left: 4px solid var(--bg-dark-color);
+    background: var(--callout-box-bg-color);
+    border-left: 4px solid var(--callout-box-border-color);
     padding: 14px 18px;
     margin: 6px 0;
     ul {
