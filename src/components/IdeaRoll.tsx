@@ -2,6 +2,7 @@ import React from "react";
 
 import { Link, graphql, useStaticQuery } from "gatsby";
 
+import { MaturityBadge } from "./MaturityBadge";
 import { TagPopover } from "./TagPopover";
 
 const {
@@ -33,6 +34,7 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                     slug
                     title
                     tags
+                    maturity
                     authors {
                         name
                     }
@@ -57,27 +59,28 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
             <ul className={container}>
                 {ideas.map((item) => (
                     <li key={item.id} className={listItem}>
-                        {item.tags.length > 0 && (
-                            <div className={tagEyebrow}>
-                                {item.tags.map((tag, i) => (
-                                    <React.Fragment key={tag}>
-                                        {i > 0 && (
-                                            <span
-                                                className={tagSeparator}
-                                                aria-hidden="true"
-                                            >
-                                                ·
-                                            </span>
-                                        )}
-                                        <TagPopover
-                                            tag={tag}
-                                            currentSlug={item.slug}
-                                            className={eyebrowTag}
-                                        />
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        )}
+                        <div className={tagEyebrow}>
+                            {item.tags.map((tag, i) => (
+                                <React.Fragment key={tag}>
+                                    {i > 0 && (
+                                        <span
+                                            className={tagSeparator}
+                                            aria-hidden="true"
+                                        >
+                                            ·
+                                        </span>
+                                    )}
+                                    <TagPopover
+                                        tag={tag}
+                                        currentSlug={item.slug}
+                                        className={eyebrowTag}
+                                    />
+                                </React.Fragment>
+                            ))}
+                            <MaturityBadge
+                                maturity={item.maturity ?? "speculative"}
+                            />
+                        </div>
                         <Link to={item.slug} className={title}>
                             {item.title}
                         </Link>
