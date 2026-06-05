@@ -1,9 +1,10 @@
 import React from "react";
 
-import { Tooltip } from "antd";
+import { Popover } from "antd";
 
 import { getMaturityConfig } from "../constants/maturityLevels";
 import * as styles from "../style/maturity-badge.module.css";
+import * as popoverStyles from "../style/tag-popover.module.css";
 
 interface MaturityBadgeProps {
     maturity: string;
@@ -17,7 +18,7 @@ export const MaturityBadge: React.FC<MaturityBadgeProps> = ({
     const config = getMaturityConfig(maturity);
     const levelClass = styles[maturity] ?? styles.speculative;
     return (
-        <Tooltip title={config.hint}>
+        <Popover title={config.hint} className={popoverStyles.popoverContent}>
             <span
                 className={[styles.badge, levelClass, className]
                     .filter(Boolean)
@@ -25,6 +26,6 @@ export const MaturityBadge: React.FC<MaturityBadgeProps> = ({
             >
                 {config.label}
             </span>
-        </Tooltip>
+        </Popover>
     );
 };
