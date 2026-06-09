@@ -1,5 +1,5 @@
 ---
 templateKey: program
-name: lumenoid
+name: Lumenoid
 active: true
 ---
