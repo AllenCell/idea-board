@@ -2,6 +2,8 @@ import React from "react";
 
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image";
 
+const { imgFill, scale } = require("../style/figure-thumbnail.module.css");
+
 interface FigureThumbnailProps {
     figure: {
         url?: string | null;
@@ -13,20 +15,6 @@ interface FigureThumbnailProps {
     };
     className?: string;
 }
-
-const scaleStyle: React.CSSProperties = {
-    transform: "scale(1.2)",
-    transformOrigin: "center",
-};
-
-const imgFillStyle: React.CSSProperties = {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    objectPosition: "center",
-    display: "block",
-    ...scaleStyle,
-};
 
 const FigureThumbnail: React.FC<FigureThumbnailProps> = ({
     className,
@@ -42,7 +30,7 @@ const FigureThumbnail: React.FC<FigureThumbnailProps> = ({
                 image={gatsbyImage}
                 alt=""
                 className={className}
-                imgStyle={scaleStyle}
+                imgClassName={scale}
             />
         );
     }
@@ -50,7 +38,7 @@ const FigureThumbnail: React.FC<FigureThumbnailProps> = ({
     if (figure.url) {
         return (
             <div className={className}>
-                <img src={figure.url} alt="" style={imgFillStyle} />
+                <img src={figure.url} alt="" className={imgFill} />
             </div>
         );
     }
