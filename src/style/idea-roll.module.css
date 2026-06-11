@@ -61,11 +61,12 @@
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 6px;
 }
 
 .title {
-    display: block;
+    display: inline;
     font-size: 19px;
     font-weight: 800;
     color: var(--primary-color);
