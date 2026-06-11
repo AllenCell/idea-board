@@ -11,25 +11,35 @@
 }
 
 .speculative {
-    color: #4a9090;
-    border-color: #b8dede;
-    background: color-mix(in srgb, #b8dede 20%, transparent);
+    color: color-mix(in srgb, var(--ALLEN_BLUE) 45%, transparent);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 25%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 8%, transparent);
 }
 
 .exploratory {
-    color: #367474;
-    border-color: #83b1b1;
-    background: color-mix(in srgb, #83b1b1 20%, transparent);
+    color: color-mix(in srgb, var(--ALLEN_BLUE) 65%, transparent);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 40%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 12%, transparent);
 }
 
 .supported {
-    color: #225959;
-    border-color: #4f8585;
-    background: color-mix(in srgb, #4f8585 30%, transparent);
+    color: color-mix(in srgb, var(--ALLEN_BLUE) 85%, transparent);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 60%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 16%, transparent);
 }
 
 .validated {
-    color: #0d3d3d;
-    border-color: #1a5858;
-    background: color-mix(in srgb, #1a5858 40%, transparent);
+    color: var(--ALLEN_BLUE);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 80%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 20%, transparent);
+}
+
+.inlineDotted {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+    text-decoration-color: currentColor;
+    cursor: help;
 }

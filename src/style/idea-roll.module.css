@@ -8,6 +8,9 @@
 .listItem {
     padding: 22px 0;
     border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
 }
 
 .listItem:last-child {
@@ -17,6 +20,11 @@
 .tagEyebrowWrapper {
     display: flex;
     justify-content: space-between;
+}
+
+.textBlock {
+    flex: 1;
+    min-width: 0;
 }
 
 .tagEyebrow {
@@ -68,4 +76,20 @@
     font-size: 11px;
     font-weight: 400;
     color: var(--text-secondary-color);
+}
+
+.thumbnail {
+    width: 88px;
+    height: 56px;
+    border-radius: 28px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: block;
+    box-sizing: border-box;
+    box-shadow:
+        0 0 0 1.5px
+            color-mix(in srgb, var(--thumbnail-border-color) 40%, transparent),
+        0 0 10px 2px
+            color-mix(in srgb, var(--thumbnail-border-color) 20%, transparent),
+        0 2px 8px rgba(0, 0, 0, 0.15);
 }

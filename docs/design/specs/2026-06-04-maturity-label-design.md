@@ -1,6 +1,6 @@
 # Maturity Label Feature Design
 
-**Date:** 2026-06-04
+**Date:** 2026-06-04 (updated 2026-06-11)
 **Branch:** feature/maturity-attribution
 
 ## Problem
@@ -10,8 +10,9 @@ Scientists are reluctant to share early-stage ideas because they don't want to b
 ## Decision Summary
 
 - 4 fixed levels with evidence-based labels: Speculative, Exploratory, Supported, Validated
-- Visual: light-to-dark teal pill badge with tooltip hint text (no emoji on rendered badge)
-- Appears in both the idea list (eyebrow row) and the idea detail page (metadata strip)
+- Visual: ALLEN_BLUE opacity ramp pill badge with tooltip hint text (no emoji on rendered badge)
+- Two rendering contexts: pill badge in the idea list (after title), plain text with dotted underline in the idea detail metadata strip
+- Appears in both the idea list and the idea detail page (metadata strip)
 - Required in the CMS for new ideas; existing ideas default to Speculative via a schema resolver
 
 ---
@@ -70,7 +71,7 @@ New `select` widget in the `ideas` collection, placed after the `type` field:
     - { label: "🍎 Validated — Well-evidenced and reproducible", value: "validated" }
 ```
 
-The emoji in the CMS dropdown helps authors scan options visually. The rendered badge on the site uses the teal color scale only (no emoji).
+The emoji in the CMS dropdown helps authors scan options visually. The rendered badge on the site uses the ALLEN_BLUE color scale only (no emoji).
 
 ---
 
@@ -78,7 +79,7 @@ The emoji in the CMS dropdown helps authors scan options visually. The rendered 
 
 **Files:**
 - `src/components/MaturityBadge.tsx`
-- `src/components/MaturityBadge.module.css`
+- `src/style/maturity-badge.module.css`
 
 ### Level config
 
@@ -91,8 +92,18 @@ The emoji in the CMS dropdown helps authors scan options visually. The rendered 
 
 ### Visual
 
-Four CSS classes (`.speculative`, `.exploratory`, `.supported`, `.validated`) on a shared pill shape. Colors progress from light to dark teal
-Tooltip uses Ant Design `<Tooltip>` component. Unknown values fall back to Speculative rendering.
+Four CSS classes (`.speculative`, `.exploratory`, `.supported`, `.validated`) on a shared pill shape. Colors use `--ALLEN_BLUE` with a `color-mix` opacity ramp — faint at Speculative, full blue at Validated:
+
+| Level       | Text opacity | Border opacity | Background opacity |
+|-------------|-------------|----------------|-------------------|
+| speculative | 45%         | 25%            | 8%                |
+| exploratory | 65%         | 40%            | 12%               |
+| supported   | 85%         | 60%            | 16%               |
+| validated   | 100%        | 80%            | 20%               |
+
+Tooltip uses Ant Design `<Popover>` component. Unknown values fall back to Speculative rendering.
+
+A `.inlineDotted` class provides the non-pill rendering: `text-decoration: underline dotted`, `cursor: help`, no border or background. Used with the `"inline"` variant (see Props).
 
 ### Props
 
@@ -100,8 +111,12 @@ Tooltip uses Ant Design `<Tooltip>` component. Unknown values fall back to Specu
 interface MaturityBadgeProps {
   maturity: string;
   className?: string;
+  variant?: "badge" | "inline";  // default: "badge"
 }
 ```
+
+- **`"badge"`** (default): pill rendering using `.badge` + level class. Used in the idea list.
+- **`"inline"`**: plain text rendering using `.inlineDotted` + level class (color only, no pill). Used in the post detail metadata strip. The `Popover` wraps both variants.
 
 ---
 
@@ -109,13 +124,15 @@ interface MaturityBadgeProps {
 
 ### List view (`src/components/IdeaRoll.tsx`)
 
-- Add `maturity` to the `IdeaRoll` GraphQL query
-- Render `<MaturityBadge maturity={item.maturity} />` in the existing `tagEyebrow` row alongside topic tags
+- `maturity` is already in the GraphQL query
+- Render `<MaturityBadge maturity={item.maturity} />` (default `"badge"` variant) inline after the title `<Link>`, as a sibling element
+- `FigureThumbnail` appears on the right side of each list row (88×56px pill shape). Rows without a figure have no reserved gap.
+- **Note:** `IdeaRoll.tsx` and `idea-roll.module.css` have unresolved merge conflicts (`UU` git status) from integrating the thumbnail branch. Resolution keeps both the thumbnail and the badge rendering.
 
 ### Detail page (`src/templates/idea-post.tsx`)
 
-- Add `maturity` to the `IdeaPostByID` page query
-- Render `<MaturityBadge>` as a new `metaGroup` in the `metaStrip` alongside Authors / Date / Type / Program
+- `maturity` is already in the `IdeaPostByID` page query
+- `<MaturityBadge maturity={maturity} variant="inline" />` renders as colored text with a dotted underline in the `metaGroup` — no pill. The `Popover` hint remains active on hover.
 
 ### Type update
 
@@ -144,3 +161,4 @@ No changes to existing tests are required — the new field is additive.
 - Allowing authors to update the maturity level of existing ideas in bulk (authors update individually via CMS)
 - Filtering or sorting ideas by maturity level on the index page
 - Any automated progression of maturity level
+- Thumbnail design changes (size, shape, shadow — kept as-is)
