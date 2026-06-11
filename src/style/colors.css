@@ -42,6 +42,7 @@
     --main-card-header-color: var(--primary-color);
     --callout-box-bg-color: var(--PAGE_2);
     --callout-box-border-color: var(--ALLEN_ORANGE);
+    --thumbnail-border-color: var(--ALLEN_ORANGE);
 
     /* Layout */
     --content-max-width: 1200px;
