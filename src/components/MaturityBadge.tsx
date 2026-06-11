@@ -9,18 +9,21 @@ import * as popoverStyles from "../style/tag-popover.module.css";
 interface MaturityBadgeProps {
     maturity: string;
     className?: string;
+    variant?: "badge" | "inline";
 }
 
 export const MaturityBadge: React.FC<MaturityBadgeProps> = ({
     className,
     maturity,
+    variant = "badge",
 }) => {
     const config = getMaturityConfig(maturity);
     const levelClass = styles[maturity] ?? styles.speculative;
+    const baseClass = variant === "inline" ? styles.inlineDotted : styles.badge;
     return (
         <Popover title={config.hint} className={popoverStyles.popoverContent}>
             <span
-                className={[styles.badge, levelClass, className]
+                className={[baseClass, levelClass, className]
                     .filter(Boolean)
                     .join(" ")}
             >
