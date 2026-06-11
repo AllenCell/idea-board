@@ -35,6 +35,8 @@
 }
 
 .inlineDotted {
+    font-size: inherit;
+    font-weight: inherit;
     background: transparent;
     border: none;
     text-decoration: underline dotted currentColor;
