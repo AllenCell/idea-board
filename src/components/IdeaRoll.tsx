@@ -3,6 +3,7 @@ import React from "react";
 import { Link, graphql, useStaticQuery } from "gatsby";
 
 import FigureThumbnail from "./FigureThumbnail";
+import { MaturityBadge } from "./MaturityBadge";
 import { TagPopover } from "./TagPopover";
 
 const {
@@ -15,6 +16,7 @@ const {
     textBlock,
     thumbnail,
     title,
+    titleRow,
 } = require("../style/idea-roll.module.css");
 
 type IdeaNode = Queries.IdeaRollQuery["allIdeaPost"]["nodes"][number];
@@ -105,9 +107,16 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                         ))}
                                     </div>
                                 )}
-                                <Link to={item.slug} className={title}>
-                                    {item.title}
-                                </Link>
+                                <div className={titleRow}>
+                                    <Link to={item.slug} className={title}>
+                                        {item.title}
+                                    </Link>
+                                    {item.maturity && (
+                                        <MaturityBadge
+                                            maturity={item.maturity}
+                                        />
+                                    )}
+                                </div>
                                 <div className={byline}>
                                     by{" "}
                                     {item.authors
