@@ -14,11 +14,13 @@ interface FigureThumbnailProps {
         } | null;
     };
     className?: string;
+    style?: React.CSSProperties;
 }
 
 const FigureThumbnail: React.FC<FigureThumbnailProps> = ({
     className,
     figure,
+    style,
 }) => {
     const gatsbyImage = figure.file?.childImageSharp
         ? getImage(figure.file.childImageSharp)
@@ -31,13 +33,14 @@ const FigureThumbnail: React.FC<FigureThumbnailProps> = ({
                 alt=""
                 className={className}
                 imgClassName={scale}
+                style={style}
             />
         );
     }
 
     if (figure.url) {
         return (
-            <div className={className}>
+            <div className={className} style={style}>
                 <img src={figure.url} alt="" className={imgFill} />
             </div>
         );

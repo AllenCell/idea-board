@@ -27,6 +27,8 @@ interface IdeaRollProps {
     count?: number;
 }
 
+const THUMBNAIL_SIZE = { width: 88, height: 56 };
+
 const IdeaRoll = ({ count }: IdeaRollProps) => {
     const queryData = useStaticQuery(graphql`
         query IdeaRoll {
@@ -123,6 +125,10 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                                     aria-hidden="true"
                                 >
                                     <FigureThumbnail
+                                        style={{
+                                            width: THUMBNAIL_SIZE.width,
+                                            height: THUMBNAIL_SIZE.height,
+                                        }}
                                         figure={firstFigure}
                                         className={thumbnail}
                                     />
