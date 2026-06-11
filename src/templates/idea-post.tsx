@@ -114,7 +114,7 @@ export const IdeaPostTemplate: React.FC<
                 {maturity && (
                     <div className={metaGroup}>
                         <span className={metaKey}>Maturity</span>
-                        <MaturityBadge maturity={maturity} />
+                        <MaturityBadge maturity={maturity} variant="inline" />
                     </div>
                 )}
                 {program && program.length > 0 && (
