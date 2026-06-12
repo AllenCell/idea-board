@@ -29,9 +29,9 @@ preliminaryFindings:
       url: https://www.micropublication.org/static/figures/micropub-biology-001347.png
       caption: an externally linked image
 resources:
-  - test-software-tool
   - simularium
   - actin-compression-simulation-dataset
+  - subcellular-model-simulation-and-analysis-pipeline
 nextSteps: >-
   - Build a [MEDYAN](https://medyan.org/) model for compression of a single
   actin filament
