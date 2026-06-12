@@ -14,7 +14,7 @@ introduction: >-
   at monomer- and fiber-scales using the [ReaDDy](https://readdy.github.io/) and
   [Cytosim](https://gitlab.com/f-nedelec/cytosim) simulation engines,
   respectively, under different compression velocities. To better understand how
-  these difference we observed may be specific to the choice of simulators, we
+  the differences we observed may be specific to the choice of simulators, we
   proposed running an additional comparison between two simulators at fiber
   scale.
 
