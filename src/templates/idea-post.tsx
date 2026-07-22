@@ -41,18 +41,20 @@ const {
     tagRowLabel,
 } = require("../style/idea-post.module.css");
 
-export const IdeaPostTemplate: React.FC<
-    IdeaPostNode & {
-        onExpandDescription?: (
-            content: string,
-            label: string,
-            sectionKey: string,
-        ) => void;
-    }
-> = ({
+export type IdeaPostTemplateProps = IdeaPostNode & {
+    isPreview?: boolean;
+    onExpandDescription?: (
+        content: string,
+        label: string,
+        sectionKey: string,
+    ) => void;
+};
+
+export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     authors,
     date,
     introduction,
+    isPreview,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
@@ -121,27 +123,34 @@ export const IdeaPostTemplate: React.FC<
                     </Button>
                 </div>
             </div>
-
-            <ContactModal
-                authors={authors}
-                primaryContact={primaryContact}
-                title={title}
-                open={contactModalOpen}
-                onClose={() => setContactModalOpen(false)}
-            />
+            {!isPreview && (
+                <ContactModal
+                    authors={authors}
+                    primaryContact={primaryContact}
+                    title={title}
+                    open={contactModalOpen}
+                    onClose={() => setContactModalOpen(false)}
+                />
+            )}
 
             {/* Tag row */}
             {tags && tags.length > 0 && (
                 <div className={tagRow}>
                     <span className={tagRowLabel}>Topics</span>
-                    {tags.map((t) => (
-                        <TagPopover
-                            key={t}
-                            tag={t}
-                            currentSlug={slug}
-                            className={tag}
-                        />
-                    ))}
+                    {tags.map((t) =>
+                        isPreview ? (
+                            <span key={t} className={tag}>
+                                {t}
+                            </span>
+                        ) : (
+                            <TagPopover
+                                key={t}
+                                tag={t}
+                                currentSlug={slug}
+                                className={tag}
+                            />
+                        ),
+                    )}
                 </div>
             )}
 
@@ -198,16 +207,25 @@ export const IdeaPostTemplate: React.FC<
                                 </ul>
                             </div>
                         )}
-                        {resources && (
-                            <MaterialsAndMethodsComponent
-                                resources={[...resources]}
-                                onExpandDescription={onExpandDescription}
-                            />
-                        )}
+                        {resources &&
+                            (isPreview ? (
+                                <ul className={resourceList}>
+                                    {(resources as unknown as string[]).map(
+                                        (slug) => (
+                                            <li key={slug}>{slug}</li>
+                                        ),
+                                    )}
+                                </ul>
+                            ) : (
+                                <MaterialsAndMethodsComponent
+                                    resources={[...resources]}
+                                    onExpandDescription={onExpandDescription}
+                                />
+                            ))}
                     </div>
                 </div>
 
-                {hasRelatedIdeas && (
+                {hasRelatedIdeas && !isPreview && (
                     <div id="related-ideas">
                         <div className={sectionLabel}>Related Ideas</div>
                         <ul className={relatedList}>
