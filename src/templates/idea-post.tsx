@@ -207,16 +207,25 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                                 </ul>
                             </div>
                         )}
-                        {resources && (
-                            <MaterialsAndMethodsComponent
-                                resources={[...resources]}
-                                onExpandDescription={onExpandDescription}
-                            />
-                        )}
+                        {resources &&
+                            (isPreview ? (
+                                <ul className={resourceList}>
+                                    {(resources as unknown as string[]).map(
+                                        (slug) => (
+                                            <li key={slug}>{slug}</li>
+                                        ),
+                                    )}
+                                </ul>
+                            ) : (
+                                <MaterialsAndMethodsComponent
+                                    resources={[...resources]}
+                                    onExpandDescription={onExpandDescription}
+                                />
+                            ))}
                     </div>
                 </div>
 
-                {hasRelatedIdeas && (
+                {hasRelatedIdeas && !isPreview && (
                     <div id="related-ideas">
                         <div className={sectionLabel}>Related Ideas</div>
                         <ul className={relatedList}>
