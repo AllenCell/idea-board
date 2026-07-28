@@ -207,33 +207,32 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                                 </ul>
                             </div>
                         )}
-                        {resources &&
-                            (isPreview ? (
-                                <ul className={resourceList}>
-                                    {(resources as unknown as string[]).map(
-                                        (slug) => (
-                                            <li key={slug}>{slug}</li>
-                                        ),
-                                    )}
-                                </ul>
-                            ) : (
-                                <MaterialsAndMethodsComponent
-                                    resources={[...resources]}
-                                    onExpandDescription={onExpandDescription}
-                                />
-                            ))}
+                        {resources && (
+                            <MaterialsAndMethodsComponent
+                                resources={[...resources]}
+                                onExpandDescription={onExpandDescription}
+                            />
+                        )}
                     </div>
                 </div>
 
-                {hasRelatedIdeas && !isPreview && (
+                {hasRelatedIdeas && (
                     <div id="related-ideas">
                         <div className={sectionLabel}>Related Ideas</div>
                         <ul className={relatedList}>
                             {relatedIdeas!.map((idea) => {
                                 if (!idea.slug && !idea.title) return null;
                                 return (
-                                    <li key={idea.slug}>
-                                        <Link to={idea.slug}>{idea.title}</Link>
+                                    <li key={idea.slug || idea.title}>
+                                        {/* Gatsby's Link needs the app runtime
+                                            the Decap preview iframe lacks */}
+                                        {isPreview ? (
+                                            <a href={idea.slug}>{idea.title}</a>
+                                        ) : (
+                                            <Link to={idea.slug}>
+                                                {idea.title}
+                                            </Link>
+                                        )}
                                     </li>
                                 );
                             })}
