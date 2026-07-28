@@ -20,7 +20,7 @@ CMS.registerWidget("url-image", UrlImageControl, UrlImagePreview);
 
 CMS.registerPreviewTemplate("index", IndexPagePreview);
 CMS.registerPreviewTemplate("about", AboutPagePreview);
-CMS.registerPreviewTemplate("idea", IdeaPostPreview);
+CMS.registerPreviewTemplate("ideas", IdeaPostPreview);
 
 // Decap exposes a number of lifecycle stages we can hook into and register.
 CMS.registerEventListener({
