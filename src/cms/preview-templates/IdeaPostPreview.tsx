@@ -4,11 +4,23 @@ import {
     IdeaPostTemplate,
     IdeaPostTemplateProps,
 } from "../../templates/idea-post";
+import { PreliminaryFindings } from "../../types";
 import { ImmutableLike, fromImmutable } from "../utils/immutable";
+import {
+    FieldsMetaData,
+    GetAsset,
+    resolveAllenite,
+    resolveFigures,
+    resolveRelatedIdea,
+    resolveRelationList,
+    resolveResource,
+} from "../utils/resolvers";
 
 interface PreviewProps {
     entry?: ImmutableLike;
     value?: unknown;
+    fieldsMetaData?: FieldsMetaData;
+    getAsset?: GetAsset;
 }
 
 /**
@@ -19,6 +31,8 @@ interface PreviewProps {
  */
 function normalizeCmsData(
     raw: Record<string, unknown>,
+    fieldsMetaData?: FieldsMetaData,
+    getAsset?: GetAsset,
 ): Partial<IdeaPostTemplateProps> {
     const v = raw as Partial<IdeaPostTemplateProps>;
 
@@ -30,12 +44,45 @@ function normalizeCmsData(
             : [String(program)]
         : undefined;
 
-    // authors: relation gives ["name1", "name2"] → [{ name, contactId }]
-    const authors = v.authors
-        ? (v.authors as unknown as string[]).map((a) =>
-              typeof a === "string" ? { name: a, contactId: "" } : a,
-          )
-        : undefined;
+    // authors: relation gives ["name1", "name2"]; resolve each to its
+    // { name, contactId } node via metadata (falls back to the bare name).
+    const authors = resolveRelationList(v.authors, (name) =>
+        resolveAllenite(fieldsMetaData, "authors", name),
+    );
+
+    // primaryContact: single relation → a name string; resolve the same way.
+    const rawPrimaryContact = v.primaryContact;
+    const primaryContact =
+        typeof rawPrimaryContact === "string"
+            ? resolveAllenite(
+                  fieldsMetaData,
+                  "primaryContact",
+                  rawPrimaryContact,
+              )
+            : rawPrimaryContact;
+
+    // resources: relation gives slugs; resolve each to its flattened ResourceNode
+    // so MaterialsAndMethodsComponent can render (unhydrated entries dropped).
+    const resources = resolveRelationList(v.resources, (slug) =>
+        resolveResource(fieldsMetaData, slug),
+    );
+
+    // related_ideas: relation gives slugs; resolve each to { title, slug }.
+    const relatedIdeas = resolveRelationList(raw.related_ideas, (slug) =>
+        resolveRelatedIdea(fieldsMetaData, slug),
+    );
+
+    // preliminaryFindings.figures: uploaded images arrive as raw paths (no
+    // childImageSharp yet); resolve them to URLs so FigureGallery can render.
+    const rawFindings = raw.preliminaryFindings as
+        | Record<string, unknown>
+        | undefined;
+    const preliminaryFindings = rawFindings
+        ? ({
+              ...rawFindings,
+              figures: resolveFigures(rawFindings.figures, getAsset),
+          } as unknown as PreliminaryFindings)
+        : (rawFindings as PreliminaryFindings | undefined);
 
     // date: datetime widget returns a Date/object, template expects a string
     const rawDate = raw.date;
@@ -54,11 +101,20 @@ function normalizeCmsData(
         authors,
         date,
         isPreview: true,
+        preliminaryFindings,
+        primaryContact,
         program: normalizedProgram,
+        relatedIdeas,
+        resources,
     };
 }
 
-const IdeaPostPreview: React.FC<PreviewProps> = ({ entry, value }) => {
+const IdeaPostPreview: React.FC<PreviewProps> = ({
+    entry,
+    fieldsMetaData,
+    getAsset,
+    value,
+}) => {
     const raw = value ?? (entry?.get("data") as ImmutableLike | undefined);
     const v = fromImmutable<Record<string, unknown>>(raw) ?? {};
     return (
@@ -79,7 +135,11 @@ const IdeaPostPreview: React.FC<PreviewProps> = ({ entry, value }) => {
                 available.
             </div>
             <IdeaPostTemplate
-                {...(normalizeCmsData(v) as IdeaPostTemplateProps)}
+                {...(normalizeCmsData(
+                    v,
+                    fieldsMetaData,
+                    getAsset,
+                ) as IdeaPostTemplateProps)}
             />
         </>
     );
