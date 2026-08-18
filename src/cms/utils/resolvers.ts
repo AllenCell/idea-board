@@ -7,7 +7,7 @@ export interface FieldsMetaData {
 }
 
 /**
- * Relation widgets (referenced via dropdowns in the CMS) need their cotent resolved
+ * Relation widgets (referenced via dropdowns in the CMS) need their content resolved
  * via Decap's metadata side-channel.
  *
  * Relation widgets store only the value_field (a name or slug) in entry data;
