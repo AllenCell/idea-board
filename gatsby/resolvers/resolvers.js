@@ -20,7 +20,7 @@ const createIdeaPostResolver = (reporter) => ({
     },
     relatedIdeas: {
         resolve: async (source, _args, context) => {
-            const names = resolveToArray(source.related_ideas);
+            const names = resolveToArray(source.related_ideas).filter(Boolean);
             const results = await Promise.all(
                 names.map((name) =>
                     context.nodeModel.findOne(ideaPostQuery(name)),
@@ -63,7 +63,7 @@ const createIdeaPostResolver = (reporter) => ({
     },
     resources: {
         resolve: async (source, _args, context) => {
-            const names = resolveToArray(source.resources);
+            const names = resolveToArray(source.resources).filter(Boolean);
             const results = await Promise.all(
                 names.map((name) =>
                     context.nodeModel.findOne(resourceQuery(name)),
