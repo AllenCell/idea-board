@@ -42,19 +42,21 @@ const {
     tagRowLabel,
 } = require("../style/idea-post.module.css");
 
-export const IdeaPostTemplate: React.FC<
-    IdeaPostNode & {
-        onExpandDescription?: (
-            content: string,
-            label: string,
-            sectionKey: string,
-        ) => void;
-    }
-> = ({
+export type IdeaPostTemplateProps = IdeaPostNode & {
+    isPreview?: boolean;
+    onExpandDescription?: (
+        content: string,
+        label: string,
+        sectionKey: string,
+    ) => void;
+};
+
+export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     authors,
     date,
     introduction,
     maturity,
+    isPreview,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
@@ -129,27 +131,34 @@ export const IdeaPostTemplate: React.FC<
                     </Button>
                 </div>
             </div>
-
-            <ContactModal
-                authors={authors}
-                primaryContact={primaryContact}
-                title={title}
-                open={contactModalOpen}
-                onClose={() => setContactModalOpen(false)}
-            />
+            {!isPreview && (
+                <ContactModal
+                    authors={authors}
+                    primaryContact={primaryContact}
+                    title={title}
+                    open={contactModalOpen}
+                    onClose={() => setContactModalOpen(false)}
+                />
+            )}
 
             {/* Tag row */}
             {tags && tags.length > 0 && (
                 <div className={tagRow}>
                     <span className={tagRowLabel}>Topics</span>
-                    {tags.map((t) => (
-                        <TagPopover
-                            key={t}
-                            tag={t}
-                            currentSlug={slug}
-                            className={tag}
-                        />
-                    ))}
+                    {tags.map((t) =>
+                        isPreview ? (
+                            <span key={t} className={tag}>
+                                {t}
+                            </span>
+                        ) : (
+                            <TagPopover
+                                key={t}
+                                tag={t}
+                                currentSlug={slug}
+                                className={tag}
+                            />
+                        ),
+                    )}
                 </div>
             )}
 
@@ -222,8 +231,16 @@ export const IdeaPostTemplate: React.FC<
                             {relatedIdeas!.map((idea) => {
                                 if (!idea.slug && !idea.title) return null;
                                 return (
-                                    <li key={idea.slug}>
-                                        <Link to={idea.slug}>{idea.title}</Link>
+                                    <li key={idea.slug || idea.title}>
+                                        {/* Gatsby's Link needs the app runtime
+                                            the Decap preview iframe lacks */}
+                                        {isPreview ? (
+                                            <a href={idea.slug}>{idea.title}</a>
+                                        ) : (
+                                            <Link to={idea.slug}>
+                                                {idea.title}
+                                            </Link>
+                                        )}
                                     </li>
                                 );
                             })}
