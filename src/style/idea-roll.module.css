@@ -17,11 +17,6 @@
     border-bottom: none;
 }
 
-.tagEyebrowWrapper {
-    display: flex;
-    justify-content: space-between;
-}
-
 .textBlock {
     flex: 1;
     min-width: 0;
