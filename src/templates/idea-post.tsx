@@ -11,6 +11,7 @@ import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import ExpandedDescriptionView from "../components/ExpandableDescriptionView";
 import FigureGallery from "../components/FigureGallery";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
+import { MaturityBadge } from "../components/MaturityBadge";
 import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { TagPopover } from "../components/TagPopover";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
@@ -54,6 +55,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     authors,
     date,
     introduction,
+    maturity,
     isPreview,
     nextSteps,
     onExpandDescription,
@@ -109,6 +111,12 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                     <div className={metaGroup}>
                         <span className={metaKey}>Type</span>
                         <span className={metaVal}>{type}</span>
+                    </div>
+                )}
+                {maturity && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Maturity</span>
+                        <MaturityBadge maturity={maturity} variant="inline" />
                     </div>
                 )}
                 {program && program.length > 0 && (
@@ -375,6 +383,7 @@ export const pageQuery = graphql`
             publication
             date(formatString: "MMMM DD, YYYY")
             introduction
+            maturity
             title
             description
             tags

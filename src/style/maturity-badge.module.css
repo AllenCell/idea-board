@@ -1,0 +1,44 @@
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78em;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    border: 2px solid transparent;
+}
+
+.speculative {
+    color: color-mix(in srgb, var(--ALLEN_BLUE) 45%, transparent);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 25%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 8%, transparent);
+}
+
+.exploratory {
+    color: color-mix(in srgb, var(--ALLEN_BLUE) 65%, transparent);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 40%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 12%, transparent);
+}
+
+.supported {
+    color: color-mix(in srgb, var(--ALLEN_BLUE) 85%, transparent);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 60%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 16%, transparent);
+}
+
+.validated {
+    color: var(--ALLEN_BLUE);
+    border-color: color-mix(in srgb, var(--ALLEN_BLUE) 80%, transparent);
+    background: color-mix(in srgb, var(--ALLEN_BLUE) 20%, transparent);
+}
+
+.inlineDotted {
+    font-size: inherit;
+    font-weight: inherit;
+    background: transparent;
+    border: none;
+    text-decoration: underline dotted currentColor;
+    text-underline-offset: 2px;
+    cursor: help;
+}

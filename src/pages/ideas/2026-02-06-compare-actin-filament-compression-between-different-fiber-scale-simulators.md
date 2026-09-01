@@ -2,6 +2,7 @@
 templateKey: idea-post
 title: Compare actin filament compression between different fiber-scale simulators
 type: micropublication
+maturity: validated
 date: 2026-02-06T11:42:00.000Z
 authors:
   - Jessica Yu

@@ -90,6 +90,9 @@ const createIdeaPostResolver = (reporter) => ({
             };
         },
     },
+    maturity: {
+        resolve: (source) => source.maturity ?? "speculative",
+    },
 });
 
 module.exports = { createIdeaPostResolver };

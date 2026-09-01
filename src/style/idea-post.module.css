@@ -119,6 +119,7 @@
     color: var(--primary-color);
     background: transparent;
     text-decoration: none;
+    cursor: pointer;
 }
 
 /* ── Body ────────────────────────────────────────────────────── */

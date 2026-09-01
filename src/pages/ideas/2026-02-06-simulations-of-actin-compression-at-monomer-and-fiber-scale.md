@@ -2,6 +2,7 @@
 templateKey: idea-post
 title: Simulations of actin compression at monomer- and fiber-scale
 type: micropublication
+maturity: supported
 date: 2026-02-06T11:28:00.000Z
 authors:
   - Jessica Yu

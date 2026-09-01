@@ -57,6 +57,7 @@ type IdeaPost implements Node {
     description: String
     draft: Boolean
     introduction: String
+    maturity: String
     nextSteps: String
     preliminaryFindings: PreliminaryFindings
     primaryContact: Allenite

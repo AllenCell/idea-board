@@ -73,3 +73,4 @@ These run automatically — do not skip with `--no-verify`:
 | `tdd`         | Red-green-refactor loop for new features       |
 | `code-review` | Review changes for quality and team standards  |
 | `grill-me`    | Stress-test a plan before implementation       |
+| `pre-pr`      | Retire shipped plans/specs into `CHANGELOG.md` before opening a PR |

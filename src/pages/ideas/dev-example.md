@@ -16,6 +16,7 @@ templateKey: idea-post
 title: Investigate role of cell-cell junctions in collective cell migration (dev
   example)
 type: analysis of existing data
+maturity: supported
 date: 2025-10-28T19:10:00.000Z
 authors:
   - Gokhan Dalgin
