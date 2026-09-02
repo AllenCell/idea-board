@@ -5,6 +5,7 @@ import {
     buildAuthorizeUrl,
     clearStateCookie,
     errorMessage,
+    hasWriteAccess,
     makeStateCookie,
     parseCookies,
     renderCallbackPage,
@@ -72,6 +73,21 @@ describe("parseCookies", () => {
 
     it("keeps '=' characters inside cookie values", () => {
         expect(parseCookies("token=abc==")).toEqual({ token: "abc==" });
+    });
+});
+
+describe("hasWriteAccess", () => {
+    it("allows push access", () => {
+        expect(hasWriteAccess({ push: true })).toBe(true);
+    });
+
+    it("denies read-only access", () => {
+        expect(hasWriteAccess({ push: false })).toBe(false);
+    });
+
+    it("denies when permissions are missing entirely", () => {
+        expect(hasWriteAccess(undefined)).toBe(false);
+        expect(hasWriteAccess({})).toBe(false);
     });
 });
 

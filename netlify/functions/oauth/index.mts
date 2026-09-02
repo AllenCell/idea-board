@@ -29,10 +29,12 @@ import { randomBytes } from "node:crypto";
 import {
     GITHUB_TOKEN_URL,
     PROVIDER,
+    REPO,
     STATE_COOKIE,
     buildAuthorizeUrl,
     clearStateCookie,
     errorMessage,
+    hasWriteAccess,
     makeStateCookie,
     parseCookies,
     renderCallbackPage,
@@ -169,7 +171,47 @@ async function exchangeCodeForToken(
         );
     }
 
+    if (process.env.OAUTH_REQUIRE_WRITE_ACCESS === "true") {
+        const denial = await checkWriteAccess(data.access_token);
+        if (denial) {
+            return popupResponse(url.origin, errorMessage(denial));
+        }
+    }
+
     return popupResponse(url.origin, successMessage(data.access_token));
+}
+
+/**
+ * Optional login gate (enable with OAUTH_REQUIRE_WRITE_ACCESS=true): refuse
+ * to hand the CMS a token for users who cannot publish, so they see a clear
+ * message at login instead of a publish error later. GitHub blocks writes
+ * for such users regardless, so this check fails open on API errors rather
+ * than lock editors out. Returns the denial message, or undefined to allow.
+ */
+async function checkWriteAccess(token: string): Promise<string | undefined> {
+    let response: Response;
+    try {
+        response = await fetch(`https://api.github.com/repos/${REPO}`, {
+            headers: {
+                Accept: "application/vnd.github+json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    } catch (error) {
+        console.error("Write-access check failed:", error);
+        return undefined;
+    }
+    if (!response.ok) {
+        console.error("Write-access check failed:", response.status);
+        return undefined;
+    }
+    const repo = (await response.json()) as {
+        permissions?: { push?: boolean };
+    };
+    if (hasWriteAccess(repo.permissions)) {
+        return undefined;
+    }
+    return `Your GitHub account does not have write access to ${REPO} — ask an Idea Board admin to add you`;
 }
 
 function popupResponse(origin: string, message: string): Response {

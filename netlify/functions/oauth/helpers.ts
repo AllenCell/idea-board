@@ -7,6 +7,8 @@ export const PROVIDER = "github";
 export const GITHUB_AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
 export const GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token";
 export const STATE_COOKIE = "decap_oauth_state";
+// Must match backend.repo in static/admin/config.yml.
+export const REPO = "AllenCell/idea-board";
 
 const STATE_COOKIE_MAX_AGE_SECONDS = 600;
 // Path=/oauth keeps the cookie off every other request to the site.
@@ -45,6 +47,14 @@ export function parseCookies(header: string | null): Record<string, string> {
             .trim();
     }
     return cookies;
+}
+
+/**
+ * `permissions` as returned by GET /repos/{owner}/{repo} for the
+ * authenticated user. `push` is true for admin and maintain roles too.
+ */
+export function hasWriteAccess(permissions?: { push?: boolean }): boolean {
+    return permissions?.push === true;
 }
 
 /**
