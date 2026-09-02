@@ -4,6 +4,12 @@ backend:
     name: github
     repo: AllenCell/idea-board
     branch: main
+    # Auth runs through the GitHub App token exchange in netlify/functions/oauth
+    # (see docs/cms-auth.md). base_url must be this site's exact production
+    # origin, no trailing slash — Decap checks popup postMessage origins
+    # against it, so a mismatch breaks login silently.
+    base_url: https://project-idea-board.netlify.app
+    auth_endpoint: oauth
     commit_messages:
         create: "Create {{collection}} “{{slug}}”"
         update: "Update {{collection}} “{{slug}}”"
