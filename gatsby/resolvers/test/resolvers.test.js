@@ -53,3 +53,19 @@ describe("createIdeaPostResolver - accelerator", () => {
         ).toEqual([]);
     });
 });
+
+describe("createIdeaPostResolver - scope", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the scope value when present", () => {
+        expect(resolver.scope.resolve({ scope: "Summer project" })).toBe(
+            "Summer project",
+        );
+    });
+
+    it("returns null when scope is absent", () => {
+        expect(resolver.scope.resolve({})).toBeNull();
+        expect(resolver.scope.resolve({ scope: null })).toBeNull();
+        expect(resolver.scope.resolve({ scope: undefined })).toBeNull();
+    });
+});
