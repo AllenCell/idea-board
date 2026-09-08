@@ -30,6 +30,7 @@ export const DatasetResourceFields = graphql`
             url
             description
         }
+        host
         status
         date
     }
