@@ -8,6 +8,8 @@ authors:
   - Gokhan Dalgin
 program:
   - EMT
+accelerator:
+  - Cell Science
 resources:
   - released-emt-dataset
 tags:

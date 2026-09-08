@@ -1,5 +1,6 @@
 const ALLENITE_TEMPLATE_KEY = `allenite`;
 const PROGRAM_TEMPLATE_KEY = `program`;
+const ACCELERATOR_TEMPLATE_KEY = `accelerator`;
 const RESOURCES_TEMPLATE_KEY = `resource`;
 const IDEA_POST_TEMPLATE_KEY = `idea-post`;
 
@@ -23,6 +24,7 @@ const TEMPLATE_KEY_TO_TYPE = {
 };
 
 module.exports = {
+    ACCELERATOR_TEMPLATE_KEY,
     ALLENITE_TEMPLATE_KEY,
     ALLENITE_GATSBY_NODE_KEY,
     PROGRAM_TEMPLATE_KEY,
