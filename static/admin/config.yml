@@ -137,6 +137,21 @@ collections:
                 hint: "Roughly how much work this idea represents.",
             }
           - {
+                label: "Expected Researcher Level",
+                name: "researcherLevel",
+                widget: "select",
+                multiple: true,
+                required: false,
+                options:
+                    [
+                        "Undergraduate",
+                        "Graduate student",
+                        "Postdoc",
+                        "Staff scientist",
+                    ],
+                hint: "Every level this idea would suit.",
+            }
+          - {
                 label: "Introduction",
                 name: "introduction",
                 widget: "markdown",
