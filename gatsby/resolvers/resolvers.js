@@ -61,6 +61,9 @@ const createIdeaPostResolver = (reporter) => ({
     program: {
         resolve: (source) => resolveToArray(source.program),
     },
+    accelerator: {
+        resolve: (source) => resolveToArray(source.accelerator),
+    },
     resources: {
         resolve: async (source, _args, context) => {
             const names = resolveToArray(source.resources);

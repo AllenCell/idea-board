@@ -9,6 +9,8 @@ authors:
   - Saurabh Mogre
 program:
   - Other
+accelerator:
+  - Cell Science
 materialsAndMethods:
   software: []
 primaryContact: Jessica Yu

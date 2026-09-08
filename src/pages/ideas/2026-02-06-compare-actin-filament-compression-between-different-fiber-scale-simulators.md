@@ -10,6 +10,8 @@ authors:
 primaryContact: Jessica Yu
 program:
   - Other
+accelerator:
+  - Cell Science
 introduction: >-
   We have previously compared simulations of single actin filament compression
   at monomer- and fiber-scales using the [ReaDDy](https://readdy.github.io/) and

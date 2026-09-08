@@ -6,6 +6,8 @@ nextSteps: Investigate ECM-driven basement membrane production e.g. which
   secretion and affect migration?
 program:
   - EMT
+accelerator:
+  - Cell Science
 date: 2025-10-28T19:06:00.000Z
 type: hypothesis that requires new experimentation
 authors:

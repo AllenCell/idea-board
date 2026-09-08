@@ -52,6 +52,7 @@ type ImgWithCaption @dontInfer {
 }
 
 type IdeaPost implements Node {
+    accelerator: [String!]!
     authors: [Allenite!]!
     date: Date @dateformat
     description: String
