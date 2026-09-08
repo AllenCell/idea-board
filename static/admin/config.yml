@@ -148,6 +148,7 @@ collections:
                         "Graduate student",
                         "Postdoc",
                         "Staff scientist",
+                        "Senior Scientist/PI"
                     ],
                 hint: "Every level this idea would suit.",
             }
