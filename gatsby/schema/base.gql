@@ -26,10 +26,13 @@ type Resource implements Node {
     slug: String!
     name: String
     type: String
+    altText: String
     description: String
     shortDescription: String
     draft: Boolean
     file: String
+    imageFile: File @fileByRelativePath
+    imageUrl: String
     name: String
     links: [ResourceLink!]
     readmeLink: String
@@ -37,6 +40,7 @@ type Resource implements Node {
     status: String
     tags: [String!]
     type: String
+    viewerUrl: String
 }
 
 type PreliminaryFindings {
