@@ -44,6 +44,7 @@ flagshipResources:
   - released-emt-dataset
   - timelapse-feature-explorer
 resources:
+  - microns-explorer-view
   - cell-line-resources
   - test-software-tool
   - simularium
