@@ -123,6 +123,20 @@ collections:
                 hint: "Which accelerator(s) this idea belongs to, if any.",
             }
           - {
+                label: "Scope",
+                name: "scope",
+                widget: "select",
+                required: false,
+                options:
+                    [
+                        "Weeks",
+                        "Summer project",
+                        "1-2 years",
+                        "Multi-year",
+                    ],
+                hint: "Roughly how much work this idea represents.",
+            }
+          - {
                 label: "Introduction",
                 name: "introduction",
                 widget: "markdown",

@@ -64,6 +64,9 @@ const createIdeaPostResolver = (reporter) => ({
     accelerator: {
         resolve: (source) => resolveToArray(source.accelerator),
     },
+    scope: {
+        resolve: (source) => source.scope ?? null,
+    },
     resources: {
         resolve: async (source, _args, context) => {
             const names = resolveToArray(source.resources);
