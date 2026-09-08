@@ -6,6 +6,32 @@ const {
     alleniteQuery,
 } = require("../utils/gatsby-resolver-utils");
 
+/**
+ * Resolves a frontmatter list of resource names into Resource nodes.
+ * Names that don't match an existing resource file are reported and dropped.
+ * @param {object} reporter - Gatsby reporter
+ * @param {string} frontmatterKey - the idea frontmatter field holding the names
+ */
+const createResourceListResolver = (reporter, frontmatterKey) => ({
+    resolve: async (source, _args, context) => {
+        const names = resolveToArray(source[frontmatterKey]);
+        const results = await Promise.all(
+            names.map((name) => {
+                // A blank entry can't be slugified into a query; treat as not found
+                const query = resourceQuery(name);
+                return query ? context.nodeModel.findOne(query) : null;
+            }),
+        );
+        results.forEach((result, i) => {
+            if (!result) {
+                const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
+                reporter.error(msg, new Error(msg));
+            }
+        });
+        return results.filter(Boolean);
+    },
+});
+
 const createIdeaPostResolver = (reporter) => ({
     title: {
         resolve: (source) =>
@@ -70,23 +96,11 @@ const createIdeaPostResolver = (reporter) => ({
     researcherLevel: {
         resolve: (source) => resolveToArray(source.researcherLevel),
     },
-    resources: {
-        resolve: async (source, _args, context) => {
-            const names = resolveToArray(source.resources);
-            const results = await Promise.all(
-                names.map((name) =>
-                    context.nodeModel.findOne(resourceQuery(name)),
-                ),
-            );
-            results.forEach((result, i) => {
-                if (!result) {
-                    const msg = `Resource "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the resource file exists with the correct templateKey.`;
-                    reporter.error(msg, new Error(msg));
-                }
-            });
-            return results.filter(Boolean);
-        },
-    },
+    resources: createResourceListResolver(reporter, "resources"),
+    flagshipResources: createResourceListResolver(
+        reporter,
+        "flagshipResources",
+    ),
     preliminaryFindings: {
         resolve: (source) => {
             const raw = source.preliminaryFindings;

@@ -57,6 +57,7 @@ type IdeaPost implements Node {
     date: Date @dateformat
     description: String
     draft: Boolean
+    flagshipResources: [Resource!]!
     introduction: String
     maturity: String
     nextSteps: String

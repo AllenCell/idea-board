@@ -35,6 +35,9 @@ introduction: >
   Collective cell migration during EMT appears to be preceded by subtle
   remodeling of cell-cell junctions. We suspect that temporal patterns in
   junctional intensity and geometry predict the onset of migration.
+flagshipResources:
+  - released-emt-dataset
+  - timelapse-feature-explorer
 resources:
   - cell-line-resources
   - test-software-tool
