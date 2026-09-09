@@ -152,6 +152,39 @@
     opacity: 0.7;
 }
 
+/*
+ * Section heading with its framing question: "INTRODUCTION / Why is this
+ * interesting?". Same typography as .sectionLabel but the slash is a real
+ * element, so the question can sit after it. Kept separate so existing
+ * .sectionLabel usages are untouched until they're migrated.
+ */
+.sectionHeading {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-secondary-color);
+    margin-bottom: 10px;
+    margin-top: 36px;
+}
+
+.sectionHeadingSlash {
+    font-weight: 300;
+    opacity: 0.7;
+    margin: 0 0.5em 0 0.25em;
+}
+
+/* The question carries plain-language framing, so it drops the uppercase
+   tracking of the label and reads as a sentence. */
+.sectionHeadingQuestion {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-primary-color);
+}
+
 .sectionText {
     font-size: 16px;
     font-weight: 400;

@@ -62,7 +62,10 @@ export function resolveAllenite(
 }
 
 /**
- * resource relation (slug) → flattened ResourceNode. The full frontmatter lives
+ * resource relation (slug) → flattened ResourceNode. `field` is the idea's
+ * relation field name, since Decap keys its metadata by field: `resources` and
+ * `flagshipResources` both point at the resources collection but are stashed
+ * separately. The full frontmatter lives
  * in metadata as `{ name, resourceDetails: {...} }`; Gatsby flattens
  * resourceDetails up onto the node (see createNode in gatsby-node.js), so we
  * mirror that. Returns null until hydrated; the caller filters those out.
@@ -70,13 +73,9 @@ export function resolveAllenite(
 export function resolveResource(
     fieldsMetaData: FieldsMetaData | undefined,
     slug: string,
+    field = "resources",
 ): ResourceNode | null {
-    const node = resolveRelation(
-        fieldsMetaData,
-        "resources",
-        "resources",
-        slug,
-    );
+    const node = resolveRelation(fieldsMetaData, field, "resources", slug);
     if (!node) return null;
     const { resourceDetails, ...rest } = node;
     const details =
