@@ -1,8 +1,7 @@
 publish_mode: editorial_workflow
 
 backend:
-    name: github
-    repo: AllenCell/idea-board
+    name: git-gateway
     branch: main
     commit_messages:
         create: "Create {{collection}} “{{slug}}”"
