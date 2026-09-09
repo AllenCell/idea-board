@@ -13,15 +13,12 @@ import {
 } from "../utils/resourceDetail";
 import { truncateAtWord } from "../utils/utils";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
-import FigureThumbnail from "./FigureThumbnail";
 
 const {
     resourceItem,
     resourceItemBlurb,
-    resourceItemBody,
     resourceItemMeta,
     resourceItemName,
-    resourceItemThumb,
     resourceTextButton,
 } = require("../style/idea-post.module.css");
 
@@ -31,11 +28,7 @@ interface ResourceItemProps {
     onExpand?: (content: string, label: string, sectionKey: string) => void;
 }
 
-/**
- * A one-line-ish blurb. Authors give wildly varying amounts here — some
- * resources have nothing but a name, others a full document — so the short
- * description wins and a long description is clipped rather than dumped.
- */
+/** Short description if there is one, otherwise a clipped description. */
 function getBlurb(resource: ResourceDetailSource): string | null {
     if (resource.shortDescription?.trim()) {
         return resource.shortDescription.trim();
@@ -59,18 +52,10 @@ const ResourceItem: React.FC<ResourceItemProps> = ({
     const blurb = getBlurb(detail);
     const facts = getResourceFacts(detail);
     const canExpand = Boolean(onExpand) && hasExpandableDetail(detail);
-    const hasThumb = Boolean(resource.imageFile || detail.imageUrl);
 
     return (
         <li className={resourceItem}>
-            {hasThumb && (
-                <FigureThumbnail
-                    alt={detail.altText ?? ""}
-                    className={resourceItemThumb}
-                    figure={{ file: resource.imageFile, url: detail.imageUrl }}
-                />
-            )}
-            <div className={resourceItemBody}>
+            <div>
                 {resource.name && (
                     <span className={resourceItemName}>
                         {link ? (

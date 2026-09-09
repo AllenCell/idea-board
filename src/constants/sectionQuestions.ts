@@ -22,7 +22,7 @@ export const SECTION_HEADINGS = {
         question: "What else connects to this?",
     },
     proposal: {
-        title: "Next Steps",
+        title: "How to start working on this",
         question: "What would you do first?",
     },
     "flagship-resources": {
@@ -36,9 +36,5 @@ export type SectionKey = keyof typeof SECTION_HEADINGS;
 /** Title of the nested page that details how to take an idea on. */
 export const HOW_TO_START_TITLE = "How to start working on this";
 
-/**
- * Path segment appended to an idea's slug for its nested page.
- * Kept in sync with HOW_TO_START_PATH in gatsby/constants.js, which creates the
- * page (that file is CommonJS and can't import from here).
- */
+// Kept in sync with HOW_TO_START_PATH in gatsby/constants.js
 export const HOW_TO_START_PATH = "how-to-start";

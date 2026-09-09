@@ -18,10 +18,7 @@ export const FlagshipResources: React.FC<FlagshipResourcesProps> = ({
     onExpandDescription,
     resources,
 }) => {
-    /*
-     * Decap's preview hands back raw relation values (slug strings) for any
-     * field it hasn't hydrated yet, so anything that isn't an object is skipped.
-     */
+    // Decap's preview yields slug strings until a relation hydrates.
     const resolved = resources.filter(
         (r): r is ResourceNode => typeof r === "object" && r !== null,
     );

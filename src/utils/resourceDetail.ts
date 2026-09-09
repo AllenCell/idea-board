@@ -1,13 +1,6 @@
 /**
- * Helpers for presenting a resource.
- *
- * Both the flagship cards and the grouped resource list need the same three
- * things — the facts worth showing at a glance, which link is the primary one,
- * and a full record for the expanded view — so they live here rather than being
- * derived twice and drifting apart.
- *
- * The input is declared structurally rather than as the generated `ResourceNode`
- * so these functions and their tests don't depend on GraphQL codegen.
+ * Shared by the flagship cards and the grouped resource list, so the two can't
+ * drift. Typed structurally to stay independent of GraphQL codegen.
  */
 
 export interface ResourceDetailLink {
@@ -16,8 +9,15 @@ export interface ResourceDetailLink {
     description?: string | null;
 }
 
+interface GatsbyImageLike {
+    childImageSharp?: {
+        gatsbyImageData?: { images?: { fallback?: { src?: string } } };
+    } | null;
+}
+
 export interface ResourceDetailSource {
     altText?: string | null;
+    imageFile?: GatsbyImageLike | null;
     description?: string | null;
     file?: string | null;
     host?: string | null;
@@ -37,10 +37,7 @@ export interface LabelledValue {
 const isNonEmpty = (value?: string | null): value is string =>
     typeof value === "string" && value.trim() !== "";
 
-/**
- * Structured attributes worth showing at a glance. Order is fixed rather than
- * type-driven; a type simply leaves the ones it doesn't use empty.
- */
+/** Attributes worth showing at a glance, in fixed display order. */
 export function getResourceFacts(
     resource: ResourceDetailSource,
 ): LabelledValue[] {
@@ -51,6 +48,17 @@ export function getResourceFacts(
     return candidates
         .filter((f) => isNonEmpty(f.value))
         .map((f) => ({ label: f.label, value: f.value as string }));
+}
+
+/** A plain URL for the resource's image, usable in markdown or an <img>. */
+export function getResourceImageSrc(
+    resource: ResourceDetailSource,
+): string | null {
+    if (isNonEmpty(resource.imageUrl)) return resource.imageUrl;
+    return (
+        resource.imageFile?.childImageSharp?.gatsbyImageData?.images?.fallback
+            ?.src ?? null
+    );
 }
 
 /**
@@ -89,10 +97,7 @@ export function getPrimaryResourceLink(
     return getResourceLinks(resource)[0]?.url ?? null;
 }
 
-/**
- * Links shown as chips beside a resource: the primary one is omitted because
- * the title already points at it.
- */
+/** All links bar the primary, which the title already points at. */
 export function getSecondaryResourceLinks(
     resource: ResourceDetailSource,
 ): ResourceDetailLink[] {
@@ -100,11 +105,7 @@ export function getSecondaryResourceLinks(
     return rest;
 }
 
-/**
- * True when expanding would reveal more than is already on screen. Callers show
- * the short description, facts and link chips in full, so only the full
- * description and per-link notes are held back.
- */
+/** True when expanding would reveal more than is already on screen. */
 export function hasExpandableDetail(resource: ResourceDetailSource): boolean {
     return (
         isNonEmpty(resource.description) ||
@@ -112,17 +113,16 @@ export function hasExpandableDetail(resource: ResourceDetailSource): boolean {
     );
 }
 
-/**
- * Composes the markdown shown in the expanded view: everything known about the
- * resource, not just its description.
- *
- * Headings are `###` to sit under the view's own `<h3>` title and to match the
- * heading level authors already use inside `description`.
- */
+/** Everything known about a resource, as markdown for the expanded view. */
 export function buildResourceDetailMarkdown(
     resource: ResourceDetailSource,
 ): string {
     const sections: string[] = [];
+
+    const imageSrc = getResourceImageSrc(resource);
+    if (imageSrc) {
+        sections.push(`![${resource.altText ?? ""}](${imageSrc})`);
+    }
 
     const body = isNonEmpty(resource.description)
         ? resource.description

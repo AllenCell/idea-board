@@ -15,7 +15,7 @@ import {
 } from "../utils/resourceDetail";
 import { truncateAtWord } from "../utils/utils";
 import { CustomReactMarkdown } from "./CustomReactMarkdown";
-import FigureThumbnail from "./FigureThumbnail";
+import ResourceImage from "./ResourceImage";
 
 const {
     flagshipCard,
@@ -71,17 +71,14 @@ export const FlagshipResourceCard: React.FC<FlagshipResourceCardProps> = ({
     const hasFooter =
         facts.length > 0 || secondaryLinks.length > 0 || canExpand;
 
-    /*
-     * An image resource may be a plain image or a still of an interactive view.
-     * Either way the picture is the point, so it sits above the copy, and it
-     * links through to the viewer when there is one.
-     */
+    // For an image resource the picture is the point, so it leads the card.
     const hasImage = Boolean(resource.imageFile || detail.imageUrl);
     const image = hasImage ? (
-        <FigureThumbnail
+        <ResourceImage
             alt={detail.altText ?? ""}
             className={flagshipImage}
-            figure={{ file: resource.imageFile, url: detail.imageUrl }}
+            imageFile={resource.imageFile}
+            imageUrl={detail.imageUrl}
         />
     ) : null;
 

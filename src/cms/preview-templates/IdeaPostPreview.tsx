@@ -75,8 +75,7 @@ function normalizeCmsData(
         return node && resolveResourceImage(node, getAsset);
     });
 
-    // flagshipResources: a separate relation field, so Decap stashes its
-    // metadata under its own key — hence passing the field name explicitly.
+    // Separate relation field, so Decap keys its metadata separately.
     const flagshipResources = resolveRelationList(
         v.flagshipResources,
         (slug) => {
@@ -141,11 +140,7 @@ const IdeaPostPreview: React.FC<PreviewProps> = ({
 }) => {
     const raw = value ?? (entry?.get("data") as ImmutableLike | undefined);
     const v = fromImmutable<Record<string, unknown>>(raw) ?? {};
-    /*
-     * An idea renders as two pages but Decap registers one preview per
-     * collection, so without this switch `nextSteps` and `flagshipResources`
-     * would be uneditable-by-feel: filled in with nothing to check them against.
-     */
+    // One preview per collection, so switch between the idea's two pages.
     const [page, setPage] = useState<"overview" | "howToStart">("overview");
     const normalized = normalizeCmsData(v, fieldsMetaData, getAsset);
     return (

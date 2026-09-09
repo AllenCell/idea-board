@@ -15,7 +15,6 @@ import { MaturityBadge } from "../components/MaturityBadge";
 import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { SectionLabel } from "../components/SectionLabel";
 import { TagPopover } from "../components/TagPopover";
-import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import {
     HOW_TO_START_PATH,
     HOW_TO_START_TITLE,
@@ -30,10 +29,11 @@ const {
     howToStartBlurb,
     metaContact,
     metaGroup,
+    metaGroups,
     metaKey,
     metaStrip,
     metaVal,
-    metaValBlue,
+    postByline,
     postHeader,
     postTitle,
     relatedCard,
@@ -89,10 +89,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     const hasFlagshipResources =
         flagshipResources && flagshipResources.length > 0;
 
-    /*
-     * Flagship resources are featured on the "how to start" page, so they're
-     * dropped from the grouped list here to avoid listing them twice.
-     */
+    // Flagship resources are featured on the how-to-start page, not listed twice
     const flagshipSlugs = new Set(
         (flagshipResources ?? []).map((r) => r?.slug).filter(Boolean),
     );
@@ -116,62 +113,63 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                 <h1 id="title" className={postTitle}>
                     {title}
                 </h1>
+                <div className={postByline}>
+                    {authors && authors.length > 0 && (
+                        <span>{authors.map((a) => a.name).join(" · ")}</span>
+                    )}
+                    {date && <span>{date}</span>}
+                </div>
             </div>
 
             {/* Metadata strip */}
             <div className={metaStrip}>
-                {authors && authors.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Authors</span>
-                        <span className={metaValBlue}>
-                            {authors.map((a) => a.name).join(" · ")}
-                        </span>
-                    </div>
-                )}
-                <div className={metaGroup}>
-                    <span className={metaKey}>Date</span>
-                    <span className={metaVal}>{date}</span>
+                <div className={metaGroups}>
+                    {type && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Type</span>
+                            <span className={metaVal}>{type}</span>
+                        </div>
+                    )}
+                    {maturity && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Maturity</span>
+                            <MaturityBadge
+                                maturity={maturity}
+                                variant="inline"
+                            />
+                        </div>
+                    )}
+                    {program && program.length > 0 && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Program</span>
+                            <span className={metaVal}>
+                                {program.join(", ")}
+                            </span>
+                        </div>
+                    )}
+                    {accelerator && accelerator.length > 0 && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Accelerator</span>
+                            <span className={metaVal}>
+                                {accelerator.join(", ")}
+                            </span>
+                        </div>
+                    )}
+                    {scope && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Scope</span>
+                            <span className={metaVal}>{scope}</span>
+                        </div>
+                    )}
+                    {researcherLevel && researcherLevel.length > 0 && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Level</span>
+                            <span className={metaVal}>
+                                {researcherLevel.join(", ")}
+                            </span>
+                        </div>
+                    )}
                 </div>
-                {type && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Type</span>
-                        <span className={metaVal}>{type}</span>
-                    </div>
-                )}
-                {maturity && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Maturity</span>
-                        <MaturityBadge maturity={maturity} variant="inline" />
-                    </div>
-                )}
-                {program && program.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Program</span>
-                        <span className={metaVal}>{program.join(", ")}</span>
-                    </div>
-                )}
-                {accelerator && accelerator.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Accelerator</span>
-                        <span className={metaVal}>
-                            {accelerator.join(", ")}
-                        </span>
-                    </div>
-                )}
-                {scope && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Scope</span>
-                        <span className={metaVal}>{scope}</span>
-                    </div>
-                )}
-                {researcherLevel && researcherLevel.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Level</span>
-                        <span className={metaVal}>
-                            {researcherLevel.join(", ")}
-                        </span>
-                    </div>
-                )}
                 <div className={metaContact}>
                     <Button onClick={() => setContactModalOpen(true)}>
                         Contact
@@ -221,11 +219,6 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                     </div>
                 )}
 
-                {/*
-                 * The route into the detail page. Sits where the proposal used
-                 * to, so the overview stays "what and why" and the specifics of
-                 * taking the idea on live one level down.
-                 */}
                 {hasHowToStart && (
                     <div className={howToStart}>
                         <p className={howToStartBlurb}>
@@ -317,23 +310,6 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
 };
 
 function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
-    /*
-     * Mirror the template's split: flagship resources render on the how-to-start
-     * page and are excluded from the grouped sections here, so a type that only
-     * appears as a flagship must not produce a link to an unrendered section.
-     */
-    const flagshipSlugs = new Set(
-        (fm.flagshipResources ?? []).map((r) => r?.slug).filter(Boolean),
-    );
-    const groupedResources = (fm.resources ?? []).filter(
-        (r) => !flagshipSlugs.has(r?.slug),
-    );
-    const hasResourceType = (type: string) =>
-        groupedResources.some((r) => r.type === type);
-    const hasProtocols =
-        hasResourceType(RESOURCE_TYPES.PROTOCOL_LINK) ||
-        hasResourceType(RESOURCE_TYPES.PROTOCOL_FILE);
-
     return [
         { key: "title", label: <a href="#title">{fm.title}</a> },
         fm.introduction && {
@@ -356,30 +332,6 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
         {
             key: "relevant-resources",
             label: <a href="#relevant-resources">Relevant Resources</a>,
-        },
-        fm.publication && {
-            key: "publication",
-            label: <a href="#publication">Publication</a>,
-        },
-        hasResourceType(RESOURCE_TYPES.DATASET) && {
-            key: "datasets",
-            label: <a href="#datasets">Datasets</a>,
-        },
-        hasResourceType(RESOURCE_TYPES.CELL_LINE) && {
-            key: "cell-lines",
-            label: <a href="#cell-lines">Cell Lines</a>,
-        },
-        hasProtocols && {
-            key: "protocols",
-            label: <a href="#protocols">Protocols</a>,
-        },
-        hasResourceType(RESOURCE_TYPES.SOFTWARE_TOOL) && {
-            key: "software-tools",
-            label: <a href="#software-tools">Software Tools</a>,
-        },
-        hasResourceType(RESOURCE_TYPES.IMAGE) && {
-            key: "images",
-            label: <a href="#images">Images</a>,
         },
         fm.relatedIdeas?.length && {
             key: "related-ideas",

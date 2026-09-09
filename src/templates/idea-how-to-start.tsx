@@ -86,7 +86,6 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
 
                 {nextSteps && (
                     <div id="proposal">
-                        <SectionLabel section="proposal" />
                         <div className={proposal}>
                             <CustomReactMarkdown
                                 className={sectionText}
@@ -109,7 +108,7 @@ function buildNavItems(fm: IdeaHowToStartNode): PageNavSiderMenuItem[] {
         },
         fm.nextSteps?.length && {
             key: "proposal",
-            label: <a href="#proposal">Next Steps</a>,
+            label: <a href="#proposal">{HOW_TO_START_TITLE}</a>,
         },
     ].filter(Boolean) as PageNavSiderMenuItem[];
 }

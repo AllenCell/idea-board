@@ -5,6 +5,7 @@ import {
     buildResourceDetailMarkdown,
     getPrimaryResourceLink,
     getResourceFacts,
+    getResourceImageSrc,
     getResourceLinks,
     getSecondaryResourceLinks,
     hasExpandableDetail,
@@ -160,5 +161,43 @@ describe("buildResourceDetailMarkdown", () => {
 
     it("returns an empty string for an empty resource", () => {
         expect(buildResourceDetailMarkdown({})).toBe("");
+    });
+});
+
+describe("resource images", () => {
+    it("prefers an explicit imageUrl", () => {
+        expect(
+            getResourceImageSrc({ imageUrl: "https://example.com/a.png" }),
+        ).toBe("https://example.com/a.png");
+    });
+
+    it("falls back to the processed image's src", () => {
+        expect(
+            getResourceImageSrc({
+                imageFile: {
+                    childImageSharp: {
+                        gatsbyImageData: {
+                            images: { fallback: { src: "/static/a.png" } },
+                        },
+                    },
+                },
+            }),
+        ).toBe("/static/a.png");
+    });
+
+    it("returns null when there is no image", () => {
+        expect(getResourceImageSrc({})).toBeNull();
+    });
+
+    it("leads the expanded view with the image", () => {
+        const md = buildResourceDetailMarkdown({
+            altText: "A view",
+            imageUrl: "https://example.com/a.png",
+            description: "Body text.",
+        });
+        expect(md.startsWith("![A view](https://example.com/a.png)")).toBe(
+            true,
+        );
+        expect(md).toContain("Body text.");
     });
 });

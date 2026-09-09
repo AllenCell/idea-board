@@ -142,14 +142,8 @@ export function resolveRelatedIdea(
 }
 
 /**
- * Normalize an image resource's uploaded file for preview.
- *
- * Same gap `resolveFigures` closes for preliminary-findings figures: in
- * production `imageFile` is processed by gatsby-transformer-sharp into
- * `file.childImageSharp`, but the preview only has the raw upload path. We
- * resolve it through getAsset and expose it as `imageUrl`, the shape
- * FigureThumbnail falls back to. Resources already carrying an `imageUrl`, or
- * with no upload, pass through untouched.
+ * Uploaded images arrive as raw paths in preview, not childImageSharp nodes —
+ * the same gap resolveFigures closes for figures.
  */
 export function resolveResourceImage(
     resource: ResourceNode,

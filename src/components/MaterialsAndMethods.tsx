@@ -26,11 +26,7 @@ interface MaterialsAndMethodsProps {
     ) => void;
 }
 
-/**
- * A collapsible group in the Relevant Resources section. `content` is a node
- * rather than a resource list so non-resource entries (the publication) can sit
- * in the same accordion instead of being a one-off block beside it.
- */
+// `content` is a node so the publication can sit in the accordion too
 interface ResourceGroup {
     key: string;
     label: string;
@@ -116,21 +112,14 @@ export const MaterialsAndMethodsComponent: React.FC<
 
     const total = groups.reduce((sum, group) => sum + group.count, 0);
 
-    /*
-     * A short list is more useful open than hidden behind a click; a long one is
-     * what the accordion is for. Decided once from the initial data so a
-     * reader's own expand/collapse choices are never overridden.
-     */
+    // Short lists open; long ones are what the accordion is for.
     const [openKeys, setOpenKeys] = useState<string[]>(() =>
         total <= RESOURCE_GROUP_AUTO_EXPAND_LIMIT
             ? groups.map((group) => group.key)
             : [],
     );
 
-    /*
-     * The page nav links to #datasets, #software-tools and friends. Without
-     * this, following one of those would land the reader on a collapsed header.
-     */
+    // Open a group when a shared link points at it.
     useEffect(() => {
         const openFromHash = () => {
             const key = window.location.hash.replace("#", "");

@@ -10,12 +10,7 @@ const ALLENITE_GATSBY_NODE_KEY = `Allenite`;
 const MARKDOWN_REMARK_GATSBY_NODE_KEY = `MarkdownRemark`;
 const IDEAS_SLUG_DIRECTORY = `ideas`;
 
-/**
- * Path segment appended to an idea's slug for its nested "how to start" page.
- * Kept in sync with HOW_TO_START_PATH in src/constants/sectionQuestions.ts,
- * which the React side uses to build links (this file is CommonJS and can't be
- * imported from the TypeScript sources).
- */
+// Kept in sync with HOW_TO_START_PATH in src/constants/sectionQuestions.ts
 const HOW_TO_START_PATH = `how-to-start`;
 
 /**
