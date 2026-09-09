@@ -13,14 +13,21 @@ import FigureGallery from "../components/FigureGallery";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { MaturityBadge } from "../components/MaturityBadge";
 import { PageNavSiderMenuItem } from "../components/PageNavSider";
+import { SectionLabel } from "../components/SectionLabel";
 import { TagPopover } from "../components/TagPopover";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
+import {
+    HOW_TO_START_PATH,
+    HOW_TO_START_TITLE,
+} from "../constants/sectionQuestions";
 import { useExpandedContent } from "../hooks/useExpandedContent";
 import { IdeaPostNode, IdeaPostQuery } from "../types";
 
 const {
     container,
     eyebrow,
+    howToStart,
+    howToStartBlurb,
     metaContact,
     metaGroup,
     metaKey,
@@ -29,14 +36,11 @@ const {
     metaValBlue,
     postHeader,
     postTitle,
-    proposal,
-    proposalTitle,
-    relatedList,
-    resourceList,
+    relatedCard,
+    relatedGrid,
     resourcesIndent,
-    sectionLabel,
+    sectionIntro,
     sectionText,
-    sectionTitle,
     tag,
     tagRow,
     tagRowLabel,
@@ -52,11 +56,13 @@ export type IdeaPostTemplateProps = IdeaPostNode & {
 };
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
+    accelerator,
     authors,
     date,
+    flagshipResources,
     introduction,
-    maturity,
     isPreview,
+    maturity,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
@@ -64,7 +70,10 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     program,
     publication,
     relatedIdeas,
+    researcherLevel,
     resources,
+    resourcesIntro,
+    scope,
     slug,
     tags,
     title,
@@ -77,6 +86,22 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     const hasPreliminaryFindings =
         preliminaryFindings && (preliminaryFindings!.summary || hasFigures);
     const hasRelatedIdeas = relatedIdeas && relatedIdeas.length > 0;
+    const hasFlagshipResources =
+        flagshipResources && flagshipResources.length > 0;
+
+    /*
+     * Flagship resources are featured on the "how to start" page, so they're
+     * dropped from the grouped list here to avoid listing them twice.
+     */
+    const flagshipSlugs = new Set(
+        (flagshipResources ?? []).map((r) => r?.slug).filter(Boolean),
+    );
+    const groupedResources = (resources ?? []).filter(
+        (r) => !flagshipSlugs.has(r?.slug),
+    );
+
+    const hasHowToStart = Boolean(nextSteps) || hasFlagshipResources;
+    const howToStartPath = `${slug}${HOW_TO_START_PATH}/`;
 
     return (
         <>
@@ -125,6 +150,28 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         <span className={metaVal}>{program.join(", ")}</span>
                     </div>
                 )}
+                {accelerator && accelerator.length > 0 && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Accelerator</span>
+                        <span className={metaVal}>
+                            {accelerator.join(", ")}
+                        </span>
+                    </div>
+                )}
+                {scope && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Scope</span>
+                        <span className={metaVal}>{scope}</span>
+                    </div>
+                )}
+                {researcherLevel && researcherLevel.length > 0 && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Level</span>
+                        <span className={metaVal}>
+                            {researcherLevel.join(", ")}
+                        </span>
+                    </div>
+                )}
                 <div className={metaContact}>
                     <Button onClick={() => setContactModalOpen(true)}>
                         Contact
@@ -166,7 +213,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
             <div className={container}>
                 {introduction && (
                     <div id="introduction">
-                        <div className={sectionLabel}>Introduction</div>
+                        <SectionLabel section="introduction" />
                         <CustomReactMarkdown
                             className={sectionText}
                             content={introduction}
@@ -174,22 +221,33 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                     </div>
                 )}
 
-                {nextSteps && (
-                    <div id="proposal">
-                        <div className={sectionLabel}>Project Proposal</div>
-                        <div className={proposal}>
-                            <h4 className={proposalTitle}>Next steps</h4>
-                            <CustomReactMarkdown
-                                className={sectionText}
-                                content={nextSteps}
-                            />
-                        </div>
+                {/*
+                 * The route into the detail page. Sits where the proposal used
+                 * to, so the overview stays "what and why" and the specifics of
+                 * taking the idea on live one level down.
+                 */}
+                {hasHowToStart && (
+                    <div className={howToStart}>
+                        <p className={howToStartBlurb}>
+                            Next steps, and the resources to start with.
+                        </p>
+                        {isPreview ? (
+                            <Button type="primary" disabled>
+                                {HOW_TO_START_TITLE}
+                            </Button>
+                        ) : (
+                            <Link to={howToStartPath}>
+                                <Button type="primary">
+                                    {HOW_TO_START_TITLE}
+                                </Button>
+                            </Link>
+                        )}
                     </div>
                 )}
 
                 {hasPreliminaryFindings && (
                     <div id="preliminary-findings">
-                        <div className={sectionLabel}>Preliminary Findings</div>
+                        <SectionLabel section="preliminary-findings" />
                         {preliminaryFindings.summary && (
                             <CustomReactMarkdown
                                 className={sectionText}
@@ -205,33 +263,39 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                 )}
 
                 <div id="relevant-resources">
-                    <div className={sectionLabel}>Relevant Resources</div>
+                    <SectionLabel section="relevant-resources" />
+                    {resourcesIntro ? (
+                        <CustomReactMarkdown
+                            className={sectionIntro}
+                            content={resourcesIntro}
+                        />
+                    ) : (
+                        <p className={sectionIntro}>
+                            {hasFlagshipResources
+                                ? "Other resources from the Allen Institute that may be useful in pursuing this idea."
+                                : "Resources from the Allen Institute that may be useful in pursuing this idea."}
+                        </p>
+                    )}
                     <div className={resourcesIndent}>
-                        {publication && (
-                            <div id="publication">
-                                <h4 className={sectionTitle}>Publication</h4>
-                                <ul className={resourceList}>
-                                    <li>{publication}</li>
-                                </ul>
-                            </div>
-                        )}
-                        {resources && (
-                            <MaterialsAndMethodsComponent
-                                resources={[...resources]}
-                                onExpandDescription={onExpandDescription}
-                            />
-                        )}
+                        <MaterialsAndMethodsComponent
+                            resources={[...groupedResources]}
+                            publication={publication}
+                            onExpandDescription={onExpandDescription}
+                        />
                     </div>
                 </div>
 
                 {hasRelatedIdeas && (
                     <div id="related-ideas">
-                        <div className={sectionLabel}>Related Ideas</div>
-                        <ul className={relatedList}>
+                        <SectionLabel section="related-ideas" />
+                        <ul className={relatedGrid}>
                             {relatedIdeas!.map((idea) => {
                                 if (!idea.slug && !idea.title) return null;
                                 return (
-                                    <li key={idea.slug || idea.title}>
+                                    <li
+                                        className={relatedCard}
+                                        key={idea.slug || idea.title}
+                                    >
                                         {/* Gatsby's Link needs the app runtime
                                             the Decap preview iframe lacks */}
                                         {isPreview ? (
@@ -253,8 +317,19 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
 };
 
 function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
+    /*
+     * Mirror the template's split: flagship resources render on the how-to-start
+     * page and are excluded from the grouped sections here, so a type that only
+     * appears as a flagship must not produce a link to an unrendered section.
+     */
+    const flagshipSlugs = new Set(
+        (fm.flagshipResources ?? []).map((r) => r?.slug).filter(Boolean),
+    );
+    const groupedResources = (fm.resources ?? []).filter(
+        (r) => !flagshipSlugs.has(r?.slug),
+    );
     const hasResourceType = (type: string) =>
-        fm.resources?.some((r) => r.type === type);
+        groupedResources.some((r) => r.type === type);
     const hasProtocols =
         hasResourceType(RESOURCE_TYPES.PROTOCOL_LINK) ||
         hasResourceType(RESOURCE_TYPES.PROTOCOL_FILE);
@@ -265,9 +340,14 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
             key: "introduction",
             label: <a href="#introduction">Introduction</a>,
         },
-        fm.nextSteps?.length && {
-            key: "proposal",
-            label: <a href="#proposal">Proposal</a>,
+        // Next steps and flagship resources live on the nested page now
+        (fm.nextSteps?.length || fm.flagshipResources?.length) && {
+            key: "how-to-start",
+            label: (
+                <Link to={`${fm.slug}${HOW_TO_START_PATH}/`}>
+                    {HOW_TO_START_TITLE}
+                </Link>
+            ),
         },
         fm.preliminaryFindings && {
             key: "preliminary-findings",
@@ -296,6 +376,10 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
         hasResourceType(RESOURCE_TYPES.SOFTWARE_TOOL) && {
             key: "software-tools",
             label: <a href="#software-tools">Software Tools</a>,
+        },
+        hasResourceType(RESOURCE_TYPES.IMAGE) && {
+            key: "images",
+            label: <a href="#images">Images</a>,
         },
         fm.relatedIdeas?.length && {
             key: "related-ideas",
@@ -388,7 +472,11 @@ export const pageQuery = graphql`
             description
             tags
             program
+            accelerator
+            scope
+            researcherLevel
             type
+            resourcesIntro
             preliminaryFindings {
                 summary
                 figures {
@@ -403,6 +491,9 @@ export const pageQuery = graphql`
                 }
             }
             nextSteps
+            flagshipResources {
+                ...ResourceFields
+            }
             resources {
                 ...ResourceFields
             }

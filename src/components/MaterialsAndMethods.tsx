@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import { Collapse } from "antd";
+
+import { RESOURCE_GROUP_AUTO_EXPAND_LIMIT } from "../constants";
 import { RESOURCE_TYPES } from "../constants/resourceTypes";
 import { ResourceNode } from "../types";
+import { CustomReactMarkdown } from "./CustomReactMarkdown";
 import ResourceItem from "./ResourceItem";
 
-const { resourceList, sectionTitle } = require("../style/idea-post.module.css");
+const {
+    publicationText,
+    resourceCount,
+    resourceGroup,
+    resourceGroupLabel,
+    resourceList,
+} = require("../style/idea-post.module.css");
 
 interface MaterialsAndMethodsProps {
     resources: ResourceNode[];
+    publication?: string | null;
     onExpandDescription?: (
         content: string,
         label: string,
@@ -15,121 +26,158 @@ interface MaterialsAndMethodsProps {
     ) => void;
 }
 
+/**
+ * A collapsible group in the Relevant Resources section. `content` is a node
+ * rather than a resource list so non-resource entries (the publication) can sit
+ * in the same accordion instead of being a one-off block beside it.
+ */
+interface ResourceGroup {
+    key: string;
+    label: string;
+    count: number;
+    content: React.ReactNode;
+}
+
 export const MaterialsAndMethodsComponent: React.FC<
     MaterialsAndMethodsProps
-> = ({ onExpandDescription, resources }) => {
+> = ({ onExpandDescription, publication, resources }) => {
     const byType = (type: string) => resources.filter((r) => r.type === type);
 
-    const datasets = byType(RESOURCE_TYPES.DATASET);
-    const softwareTools = byType(RESOURCE_TYPES.SOFTWARE_TOOL);
-    const cellLines = byType(RESOURCE_TYPES.CELL_LINE);
-    const protocols = [
-        ...byType(RESOURCE_TYPES.PROTOCOL_LINK),
-        ...byType(RESOURCE_TYPES.PROTOCOL_FILE),
+    const typeGroups = [
+        {
+            key: "datasets",
+            label: "Datasets",
+            items: byType(RESOURCE_TYPES.DATASET),
+        },
+        {
+            key: "cell-lines",
+            label: "Cell Lines",
+            items: byType(RESOURCE_TYPES.CELL_LINE),
+        },
+        {
+            key: "protocols",
+            label: "Protocols",
+            items: [
+                ...byType(RESOURCE_TYPES.PROTOCOL_LINK),
+                ...byType(RESOURCE_TYPES.PROTOCOL_FILE),
+            ],
+        },
+        {
+            key: "software-tools",
+            label: "Software Tools",
+            items: byType(RESOURCE_TYPES.SOFTWARE_TOOL),
+        },
+        {
+            key: "images",
+            label: "Images",
+            items: byType(RESOURCE_TYPES.IMAGE),
+        },
+    ].filter((group) => group.items.length > 0);
+
+    const groups: ResourceGroup[] = [
+        // Publication leads, matching the order of the page nav
+        ...(publication?.trim()
+            ? [
+                  {
+                      key: "publication",
+                      label: "Publication",
+                      count: 1,
+                      content: (
+                          <ul className={resourceList}>
+                              <li>
+                                  <CustomReactMarkdown
+                                      className={publicationText}
+                                      content={publication}
+                                  />
+                              </li>
+                          </ul>
+                      ),
+                  },
+              ]
+            : []),
+        ...typeGroups.map((group) => ({
+            key: group.key,
+            label: group.label,
+            count: group.items.length,
+            content: (
+                <ul className={resourceList}>
+                    {group.items.map((item, index) => (
+                        <ResourceItem
+                            key={item.slug ?? index}
+                            resource={item}
+                            sectionKey={group.key}
+                            onExpand={onExpandDescription}
+                        />
+                    ))}
+                </ul>
+            ),
+        })),
     ];
 
-    const hasContent =
-        datasets.length > 0 ||
-        cellLines.length > 0 ||
-        protocols.length > 0 ||
-        softwareTools.length > 0;
+    const total = groups.reduce((sum, group) => sum + group.count, 0);
 
-    if (!hasContent) {
+    /*
+     * A short list is more useful open than hidden behind a click; a long one is
+     * what the accordion is for. Decided once from the initial data so a
+     * reader's own expand/collapse choices are never overridden.
+     */
+    const [openKeys, setOpenKeys] = useState<string[]>(() =>
+        total <= RESOURCE_GROUP_AUTO_EXPAND_LIMIT
+            ? groups.map((group) => group.key)
+            : [],
+    );
+
+    /*
+     * The page nav links to #datasets, #software-tools and friends. Without
+     * this, following one of those would land the reader on a collapsed header.
+     */
+    useEffect(() => {
+        const openFromHash = () => {
+            const key = window.location.hash.replace("#", "");
+            if (!key) return;
+            setOpenKeys((prev) => (prev.includes(key) ? prev : [...prev, key]));
+        };
+        openFromHash();
+        window.addEventListener("hashchange", openFromHash);
+        return () => window.removeEventListener("hashchange", openFromHash);
+    }, []);
+
+    if (groups.length === 0) {
         return null;
     }
 
-    const getPrimaryLink = (resource: ResourceNode): string | null => {
-        if (resource.links && resource.links.length > 0) {
-            return resource.links[0].url;
-        }
-        return null;
-    };
+    const toggle = (key: string) =>
+        setOpenKeys((prev) =>
+            prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
+        );
 
     return (
         <>
-            {datasets.length > 0 && (
-                <div id="datasets">
-                    <h4 className={sectionTitle}>Datasets</h4>
-                    <ul className={resourceList}>
-                        {datasets.map((dataset, index) => (
-                            <ResourceItem
-                                key={index}
-                                description={dataset.description}
-                                link={getPrimaryLink(dataset)}
-                                name={dataset.name}
-                                shortDescription={dataset.shortDescription}
-                                onExpand={
-                                    onExpandDescription && dataset.description
-                                        ? () =>
-                                              onExpandDescription(
-                                                  dataset.description!,
-                                                  dataset.name ?? "Dataset",
-                                                  "datasets",
-                                              )
-                                        : undefined
-                                }
-                            />
-                        ))}
-                    </ul>
+            {groups.map((group) => (
+                <div className={resourceGroup} id={group.key} key={group.key}>
+                    <Collapse
+                        ghost
+                        activeKey={
+                            openKeys.includes(group.key) ? [group.key] : []
+                        }
+                        onChange={() => toggle(group.key)}
+                        items={[
+                            {
+                                key: group.key,
+                                label: (
+                                    <span className={resourceGroupLabel}>
+                                        {group.label}
+                                        <span className={resourceCount}>
+                                            {group.count}
+                                        </span>
+                                    </span>
+                                ),
+                                children: group.content,
+                            },
+                        ]}
+                    />
                 </div>
-            )}
-
-            {cellLines.length > 0 && (
-                <div id="cell-lines">
-                    <h4 className={sectionTitle}>Cell Lines</h4>
-                    <ul className={resourceList}>
-                        {cellLines.map((item, index) => (
-                            <ResourceItem
-                                key={index}
-                                link={getPrimaryLink(item)}
-                                name={item.name}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            )}
-
-            {protocols.length > 0 && (
-                <div id="protocols">
-                    <h4 className={sectionTitle}>Protocols</h4>
-                    <ul className={resourceList}>
-                        {protocols.map((item, index) => (
-                            <ResourceItem
-                                key={index}
-                                link={getPrimaryLink(item)}
-                                name={item.name}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            )}
-
-            {softwareTools.length > 0 && (
-                <div id="software-tools">
-                    <h4 className={sectionTitle}>Software Tools</h4>
-                    <ul className={resourceList}>
-                        {softwareTools.map((tool, index) => (
-                            <ResourceItem
-                                key={index}
-                                description={tool.description}
-                                link={getPrimaryLink(tool)}
-                                name={tool.name}
-                                shortDescription={tool.shortDescription}
-                                onExpand={
-                                    onExpandDescription && tool.description
-                                        ? () =>
-                                              onExpandDescription(
-                                                  tool.description!,
-                                                  tool.name ?? "Software Tool",
-                                                  "software-tools",
-                                              )
-                                        : undefined
-                                }
-                            />
-                        ))}
-                    </ul>
-                </div>
-            )}
+            ))}
         </>
     );
 };

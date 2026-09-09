@@ -10,6 +10,8 @@ const {
     ALLENITE_TEMPLATE_KEY,
     PROGRAM_TEMPLATE_KEY,
     ACCELERATOR_TEMPLATE_KEY,
+    IDEA_POST_TEMPLATE_KEY,
+    HOW_TO_START_PATH,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
@@ -91,6 +93,18 @@ exports.createPages = ({ actions, graphql }) => {
                         ),
                         context: { id: node.id },
                     });
+
+                    // Ideas get a nested "how to start working on this" page
+                    // holding the next steps and flagship resources.
+                    if (templateKey === IDEA_POST_TEMPLATE_KEY) {
+                        createPage({
+                            path: `${node.slug}${HOW_TO_START_PATH}/`,
+                            component: path.resolve(
+                                `src/templates/idea-how-to-start.tsx`,
+                            ),
+                            context: { id: node.id },
+                        });
+                    }
                 });
             });
         });

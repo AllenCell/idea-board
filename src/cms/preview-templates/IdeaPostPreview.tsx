@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { HOW_TO_START_TITLE } from "../../constants/sectionQuestions";
+import {
+    IdeaHowToStartTemplate,
+    IdeaHowToStartTemplateProps,
+} from "../../templates/idea-how-to-start";
 import {
     IdeaPostTemplate,
     IdeaPostTemplateProps,
@@ -14,6 +19,7 @@ import {
     resolveRelatedIdea,
     resolveRelationList,
     resolveResource,
+    resolveResourceImage,
 } from "../utils/resolvers";
 
 interface PreviewProps {
@@ -63,8 +69,24 @@ function normalizeCmsData(
 
     // resources: relation gives slugs; resolve each to its flattened ResourceNode
     // so MaterialsAndMethodsComponent can render (unhydrated entries dropped).
-    const resources = resolveRelationList(v.resources, (slug) =>
-        resolveResource(fieldsMetaData, slug),
+    // Uploaded images need the same getAsset treatment figures get.
+    const resources = resolveRelationList(v.resources, (slug) => {
+        const node = resolveResource(fieldsMetaData, slug, "resources");
+        return node && resolveResourceImage(node, getAsset);
+    });
+
+    // flagshipResources: a separate relation field, so Decap stashes its
+    // metadata under its own key — hence passing the field name explicitly.
+    const flagshipResources = resolveRelationList(
+        v.flagshipResources,
+        (slug) => {
+            const node = resolveResource(
+                fieldsMetaData,
+                slug,
+                "flagshipResources",
+            );
+            return node && resolveResourceImage(node, getAsset);
+        },
     );
 
     // related_ideas: relation gives slugs; resolve each to { title, slug }.
@@ -101,6 +123,7 @@ function normalizeCmsData(
         ...v,
         authors,
         date,
+        flagshipResources,
         isPreview: true,
         preliminaryFindings,
         primaryContact,
@@ -118,8 +141,48 @@ const IdeaPostPreview: React.FC<PreviewProps> = ({
 }) => {
     const raw = value ?? (entry?.get("data") as ImmutableLike | undefined);
     const v = fromImmutable<Record<string, unknown>>(raw) ?? {};
+    /*
+     * An idea renders as two pages but Decap registers one preview per
+     * collection, so without this switch `nextSteps` and `flagshipResources`
+     * would be uneditable-by-feel: filled in with nothing to check them against.
+     */
+    const [page, setPage] = useState<"overview" | "howToStart">("overview");
+    const normalized = normalizeCmsData(v, fieldsMetaData, getAsset);
     return (
         <>
+            <div
+                style={{
+                    display: "flex",
+                    gap: 8,
+                    margin: 8,
+                    fontSize: 12,
+                }}
+            >
+                {(
+                    [
+                        ["overview", "Overview"],
+                        ["howToStart", HOW_TO_START_TITLE],
+                    ] as const
+                ).map(([key, label]) => (
+                    <button
+                        key={key}
+                        type="button"
+                        onClick={() => setPage(key)}
+                        style={{
+                            padding: "4px 10px",
+                            borderRadius: 4,
+                            cursor: "pointer",
+                            border: "1px solid",
+                            borderColor: page === key ? "#6464ff" : "#ddd",
+                            background: page === key ? "#6464ff" : "#fff",
+                            color: page === key ? "#fff" : "#333",
+                            fontWeight: 600,
+                        }}
+                    >
+                        {label}
+                    </button>
+                ))}
+            </div>
             <div
                 style={{
                     background: "#fffbe6",
@@ -135,13 +198,14 @@ const IdeaPostPreview: React.FC<PreviewProps> = ({
                 may differ from production, and not all functionality will be
                 available.
             </div>
-            <IdeaPostTemplate
-                {...(normalizeCmsData(
-                    v,
-                    fieldsMetaData,
-                    getAsset,
-                ) as IdeaPostTemplateProps)}
-            />
+            {page === "overview" ? (
+                <IdeaPostTemplate {...(normalized as IdeaPostTemplateProps)} />
+            ) : (
+                <IdeaHowToStartTemplate
+                    {...(normalized as unknown as IdeaHowToStartTemplateProps)}
+                    isPreview
+                />
+            )}
         </>
     );
 };

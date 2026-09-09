@@ -4,6 +4,8 @@ export const TABLET_BREAKPOINT = 744;
 export const PHONE_BREAKPOINT = 576;
 
 export const MAX_RESOURCE_DESCRIPTION_LENGTH = 300;
+export const MAX_LIST_DESCRIPTION_LENGTH = 160;
+export const RESOURCE_GROUP_AUTO_EXPAND_LIMIT = 5;
 
 export const NETLIFY_FUNCTION_BASE_PATH = "/.netlify/functions";
 export const CONTACT_FUNCTION_PATH = NETLIFY_FUNCTION_BASE_PATH + "/contact";

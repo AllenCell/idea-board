@@ -11,6 +11,14 @@ const MARKDOWN_REMARK_GATSBY_NODE_KEY = `MarkdownRemark`;
 const IDEAS_SLUG_DIRECTORY = `ideas`;
 
 /**
+ * Path segment appended to an idea's slug for its nested "how to start" page.
+ * Kept in sync with HOW_TO_START_PATH in src/constants/sectionQuestions.ts,
+ * which the React side uses to build links (this file is CommonJS and can't be
+ * imported from the TypeScript sources).
+ */
+const HOW_TO_START_PATH = `how-to-start`;
+
+/**
  * Maps frontmatter templateKey → a distinct GraphQL node type.
  * gatsby-transformer-remark collapses every .md file into one flat MarkdownRemark
  * type regardless of which collection it lives in. Adding entries here causes
@@ -35,4 +43,5 @@ module.exports = {
     IDEA_POST_TEMPLATE_KEY,
     IDEA_POST_GATSBY_NODE_KEY,
     IDEAS_SLUG_DIRECTORY,
+    HOW_TO_START_PATH,
 };

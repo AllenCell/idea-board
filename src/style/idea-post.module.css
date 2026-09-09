@@ -272,3 +272,333 @@
 .relatedList a:hover {
     text-decoration: underline;
 }
+
+/* ── Expanded ("See more") view ──────────────────────────────── */
+/* Referenced by ExpandableDescriptionView, which previously had no rules here */
+.backBar {
+    margin: 8px 0 16px;
+}
+
+.mainTitle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin: 0 0 16px;
+}
+
+/* ── Framing sentence under a section heading ────────────────── */
+.sectionIntro {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary-color);
+    max-width: 68ch;
+    margin: -4px 0 14px;
+}
+
+.sectionIntro p {
+    margin: 0 0 8px;
+}
+
+/* ── "How to start working on this" call to action ───────────── */
+.howToStart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--bg-secondary-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 16px 18px;
+    margin: 28px 0 8px;
+}
+
+/* The button carries the name, so this is the only supporting line */
+.howToStartBlurb {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-secondary-color);
+    margin: 0;
+    min-width: 0;
+}
+
+/* ── Flagship resources ──────────────────────────────────────── */
+.flagshipSection {
+    margin-bottom: 8px;
+}
+
+.flagshipGrid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 14px;
+}
+
+.flagshipCard {
+    background: var(--surface-color);
+    border: 1.5px solid
+        color-mix(in srgb, var(--primary-color) 30%, transparent);
+    border-top: 4px solid var(--primary-color);
+    padding: 14px 16px 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.flagshipType {
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    margin-bottom: 6px;
+}
+
+.flagshipType::after {
+    content: " /";
+    font-weight: 300;
+    opacity: 0.7;
+}
+
+.flagshipName {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+}
+
+.flagshipName a {
+    color: var(--text-primary-color);
+    text-decoration: none;
+}
+
+.flagshipName a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* An image resource leads with the picture, so give it real width */
+.flagshipImage {
+    display: block;
+    width: 100%;
+    margin: 0 0 10px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+}
+
+/* Card copy sits below the 16px body size so cards read as a summary */
+.flagshipCard p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 8px;
+}
+
+.flagshipLede {
+    margin-bottom: 2px;
+}
+
+/*
+ * Facts, links and "See more" sit together at the card floor. margin-top:auto
+ * keeps them aligned across cards of differing content length.
+ */
+.flagshipFooter {
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.flagshipFactRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    margin: 0 0 10px;
+}
+
+.flagshipFact {
+    line-height: 1.3;
+}
+
+.flagshipFact dd {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary-color);
+    margin: 0;
+}
+
+.flagshipFactKey {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary-color);
+    margin-bottom: 1px;
+}
+
+.flagshipLinkRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.flagshipLink {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+    text-decoration: none;
+}
+
+.flagshipLink:hover {
+    background: var(--primary-color);
+    color: var(--text-light-color);
+}
+
+/* Inline text action. Overrides antd Button, which wins without !important */
+.flagshipTextButton {
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+/* ── Grouped resource accordion ──────────────────────────────── */
+.resourceGroup {
+    border-bottom: 1px solid
+        color-mix(in srgb, var(--border-color) 50%, transparent);
+}
+
+.resourceGroup:last-child {
+    border-bottom: none;
+}
+
+/* Overrides antd Collapse's scoped styles, which win without !important */
+.resourceGroup :global(.ant-collapse-header) {
+    padding: 8px 0 !important;
+    align-items: center !important;
+}
+
+.resourceGroup :global(.ant-collapse-content-box) {
+    padding: 0 0 10px !important;
+}
+
+.resourceGroupLabel {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-primary-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resourceCount {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--text-secondary-color);
+    background: var(--bg-secondary-color);
+    border-radius: 10px;
+    padding: 1px 7px;
+}
+
+.resourceItem {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+}
+
+.resourceItemThumb {
+    width: 72px;
+    height: 48px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+}
+
+.resourceItemBody {
+    flex: 1;
+    min-width: 0;
+}
+
+.resourceItemName {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Blurbs vary from nothing to a paragraph; keep them quiet and measured */
+.resourceItemBlurb p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary-color);
+    max-width: 72ch;
+    margin: 2px 0 0;
+}
+
+.resourceItemMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-secondary-color);
+}
+
+.resourceTextButton {
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+/* Citations carry markdown emphasis, so they render as markdown not raw text */
+.publicationText p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-primary-color);
+    max-width: 72ch;
+    margin: 0;
+}
+
+/* ── Related ideas ───────────────────────────────────────────── */
+.relatedGrid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+}
+
+.relatedCard {
+    border: 1px solid var(--border-color);
+    border-left: 3px solid
+        color-mix(in srgb, var(--primary-color) 55%, transparent);
+    background: var(--surface-color);
+    padding: 10px 12px;
+}
+
+.relatedCard a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary-color);
+    text-decoration: none;
+    line-height: 1.35;
+    display: block;
+}
+
+.relatedCard a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
