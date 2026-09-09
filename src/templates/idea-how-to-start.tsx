@@ -74,6 +74,18 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                     </div>
                 )}
 
+                {nextSteps && (
+                    <div id="proposal">
+                        <SectionLabel section="proposal" />
+                        <div className={proposal}>
+                            <CustomReactMarkdown
+                                className={sectionText}
+                                content={nextSteps}
+                            />
+                        </div>
+                    </div>
+                )}
+
                 {hasFlagshipResources && (
                     <div id="flagship-resources" className={flagshipSection}>
                         <SectionLabel section="flagship-resources" />
@@ -81,17 +93,6 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                             resources={flagshipResources}
                             onExpandDescription={onExpandDescription}
                         />
-                    </div>
-                )}
-
-                {nextSteps && (
-                    <div id="proposal">
-                        <div className={proposal}>
-                            <CustomReactMarkdown
-                                className={sectionText}
-                                content={nextSteps}
-                            />
-                        </div>
                     </div>
                 )}
             </div>
@@ -102,13 +103,13 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
 function buildNavItems(fm: IdeaHowToStartNode): PageNavSiderMenuItem[] {
     return [
         { key: "title", label: <a href="#title">{HOW_TO_START_TITLE}</a> },
-        fm.flagshipResources?.length && {
-            key: "flagship-resources",
-            label: <a href="#flagship-resources">Flagship Resources</a>,
-        },
         fm.nextSteps?.length && {
             key: "proposal",
             label: <a href="#proposal">{HOW_TO_START_TITLE}</a>,
+        },
+        fm.flagshipResources?.length && {
+            key: "flagship-resources",
+            label: <a href="#flagship-resources">Flagship Resources</a>,
         },
     ].filter(Boolean) as PageNavSiderMenuItem[];
 }

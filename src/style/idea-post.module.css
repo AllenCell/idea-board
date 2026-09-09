@@ -566,3 +566,35 @@
     display: block;
     margin: 8px 0;
 }
+
+/* ── Image-led idea hero ─────────────────────────────────────── */
+.heroFigure {
+    margin: 20px 0 8px;
+}
+
+.heroImage {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+    background: var(--bg-secondary-color);
+}
+
+.heroImage img {
+    object-fit: contain;
+    object-position: center;
+}
+
+.heroCaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-secondary-color);
+}
+
+.heroCaption a {
+    font-weight: 600;
+}

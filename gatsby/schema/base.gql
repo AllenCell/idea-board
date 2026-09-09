@@ -64,6 +64,7 @@ type IdeaPost implements Node {
     draft: Boolean
     flagshipResources: [Resource!]!
     introduction: String
+    layout: String
     maturity: String
     nextSteps: String
     preliminaryFindings: PreliminaryFindings

@@ -53,6 +53,19 @@ collections:
                     ],
             }
           - {
+                label: "Page Layout",
+                name: "layout",
+                widget: "select",
+                required: false,
+                options:
+                    [
+                        { label: "Standard", value: "standard" },
+                        { label: "Image led", value: "image" },
+                        { label: "Code Ocean led", value: "codeOcean" },
+                    ],
+                hint: "Ideas whose starting point is a single image or a Code Ocean capsule can render differently. Leave blank for the standard layout.",
+            }
+          - {
                 label: "Maturity",
                 name: "maturity",
                 widget: "select",

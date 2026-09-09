@@ -47,6 +47,9 @@ const createIdeaPostResolver = (reporter) => ({
     resourcesIntro: {
         resolve: (source) => source.resourcesIntro ?? null,
     },
+    layout: {
+        resolve: (source) => source.layout ?? null,
+    },
     relatedIdeas: {
         resolve: async (source, _args, context) => {
             const names = resolveToArray(source.related_ideas);

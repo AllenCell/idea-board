@@ -10,6 +10,7 @@ import { ContactModal } from "../components/ContactModal";
 import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import ExpandedDescriptionView from "../components/ExpandableDescriptionView";
 import FigureGallery from "../components/FigureGallery";
+import { IdeaHeroImage } from "../components/IdeaHeroImage";
 import { MaterialsAndMethodsComponent } from "../components/MaterialsAndMethods";
 import { MaturityBadge } from "../components/MaturityBadge";
 import { PageNavSiderMenuItem } from "../components/PageNavSider";
@@ -62,6 +63,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     flagshipResources,
     introduction,
     isPreview,
+    layout,
     maturity,
     nextSteps,
     onExpandDescription,
@@ -96,6 +98,9 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     const groupedResources = (resources ?? []).filter(
         (r) => !flagshipSlugs.has(r?.slug),
     );
+
+    // An image-led idea shows its picture here rather than only on how-to-start
+    const showHero = layout === "image" && hasFlagshipResources;
 
     const hasHowToStart = Boolean(nextSteps) || hasFlagshipResources;
     const howToStartPath = `${slug}${HOW_TO_START_PATH}/`;
@@ -209,6 +214,8 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
 
             {/* Body */}
             <div className={container}>
+                {showHero && <IdeaHeroImage resources={flagshipResources} />}
+
                 {introduction && (
                     <div id="introduction">
                         <SectionLabel section="introduction" />
@@ -428,6 +435,7 @@ export const pageQuery = graphql`
             scope
             researcherLevel
             type
+            layout
             resourcesIntro
             preliminaryFindings {
                 summary
