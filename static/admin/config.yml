@@ -1,8 +1,7 @@
 publish_mode: editorial_workflow
 
 backend:
-    name: github
-    repo: AllenCell/idea-board
+    name: git-gateway
     branch: main
     commit_messages:
         create: "Create {{collection}} “{{slug}}”"
@@ -254,13 +253,6 @@ collections:
                     [{ field: "resourceDetails.type", values: ["dataset"] }],
             }
           - {
-                label: "Why these resources?",
-                name: "resourcesIntro",
-                widget: "markdown",
-                required: false,
-                hint: "A short blurb for this idea explaining what the resources below let someone do.",
-            }
-          - {
                 label: "Flagship Resources",
                 name: "flagshipResources",
                 widget: "relation",
@@ -286,6 +278,31 @@ collections:
                 required: false,
                 hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
             }
+          - label: "Why these resources?"
+            name: "resourceNotes"
+            widget: "list"
+            required: false
+            label_singular: "Resource note"
+            summary: "{{fields.resource}}"
+            hint: "Optionally say why a particular resource matters for this idea. Only add notes for resources selected above."
+            fields:
+                - {
+                      label: "Resource",
+                      name: "resource",
+                      widget: "relation",
+                      collection: "resources",
+                      search_fields:
+                          ["resourceDetails.name", "resourceDetails.type"],
+                      value_field: "{{slug}}",
+                      display_fields:
+                          ["resourceDetails.type", "resourceDetails.name"],
+                  }
+                - {
+                      label: "Why it is relevant",
+                      name: "relevance",
+                      widget: "text",
+                      hint: "What this resource gives you for this particular idea.",
+                  }
           - {
                 label: "Related Ideas",
                 name: "related_ideas",

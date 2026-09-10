@@ -57,10 +57,9 @@ type ImgWithCaption @dontInfer {
     url: String
 }
 
-type IdeaStep {
-    text: String
-    note: String
+type IdeaResourceNote {
     resource: Resource
+    relevance: String
 }
 
 type IdeaPost implements Node {
@@ -80,8 +79,8 @@ type IdeaPost implements Node {
     publication: String
     relatedIdeas: [IdeaPost!]!
     researcherLevel: [String!]!
+    resourceNotes: [IdeaResourceNote!]!
     resources: [Resource!]!
-    resourcesIntro: String
     scope: String
     slug: String!
     tags: [String!]!

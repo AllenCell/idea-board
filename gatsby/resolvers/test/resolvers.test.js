@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { createIdeaPostResolver } from "../resolvers";
 
-const mockReporter = { error: () => {} };
+const mockReporter = { error: () => {}, warn: () => {} };
 
 describe("createIdeaPostResolver - maturity", () => {
     const resolver = createIdeaPostResolver(mockReporter);
@@ -185,21 +185,79 @@ describe("createIdeaPostResolver - resources (unchanged by the shared helper)", 
     });
 });
 
-describe("createIdeaPostResolver - resourcesIntro", () => {
-    const resolver = createIdeaPostResolver(mockReporter);
-
-    it("returns the blurb when present", () => {
-        expect(
-            resolver.resourcesIntro.resolve({
-                resourcesIntro: "These resources let you...",
-            }),
-        ).toBe("These resources let you...");
+describe("createIdeaPostResolver - resourceNotes", () => {
+    const RELEASED = "/resource/released-emt-dataset/";
+    const context = (known) => ({
+        nodeModel: {
+            findOne: vi.fn(async ({ query }) =>
+                known.includes(query.filter.slug.eq)
+                    ? { slug: query.filter.slug.eq }
+                    : null,
+            ),
+        },
     });
 
-    it("returns null when absent", () => {
-        expect(resolver.resourcesIntro.resolve({})).toBeNull();
+    it("resolves a note's resource and keeps its relevance text", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.resourceNotes.resolve(
+            {
+                title: "Test idea",
+                resources: ["released-emt-dataset"],
+                resourceNotes: [
+                    {
+                        resource: "released-emt-dataset",
+                        relevance: "Start here.",
+                    },
+                ],
+            },
+            {},
+            context([RELEASED]),
+        );
+        expect(result).toEqual([
+            { relevance: "Start here.", resource: { slug: RELEASED } },
+        ]);
+    });
+
+    it("returns an empty array when there are no notes", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
         expect(
-            resolver.resourcesIntro.resolve({ resourcesIntro: null }),
-        ).toBeNull();
+            await resolver.resourceNotes.resolve({}, {}, context([])),
+        ).toEqual([]);
+    });
+
+    it("reports a note whose resource does not exist", async () => {
+        const reporter = { error: vi.fn(), warn: vi.fn() };
+        const resolver = createIdeaPostResolver(reporter);
+        await resolver.resourceNotes.resolve(
+            {
+                title: "Test idea",
+                resources: ["nope"],
+                resourceNotes: [{ resource: "nope", relevance: "x" }],
+            },
+            {},
+            context([]),
+        );
+        expect(reporter.error).toHaveBeenCalledTimes(1);
+    });
+
+    it("warns when a note refers to a resource the idea no longer selects", async () => {
+        const reporter = { error: vi.fn(), warn: vi.fn() };
+        const resolver = createIdeaPostResolver(reporter);
+        await resolver.resourceNotes.resolve(
+            {
+                title: "Test idea",
+                resources: [],
+                resourceNotes: [
+                    { resource: "released-emt-dataset", relevance: "x" },
+                ],
+            },
+            {},
+            context([RELEASED]),
+        );
+        expect(reporter.error).not.toHaveBeenCalled();
+        expect(reporter.warn).toHaveBeenCalledTimes(1);
+        expect(reporter.warn.mock.calls[0][0]).toContain(
+            "released-emt-dataset",
+        );
     });
 });
