@@ -27,6 +27,10 @@ program:
   - EMT
 accelerator:
   - Cell Science
+scope: Summer project
+researcherLevel:
+  - Graduate student
+  - Postdoc
 introduction: >
   Collective cell migration during EMT appears to be preceded by subtle
   remodeling of cell-cell junctions. We suspect that temporal patterns in

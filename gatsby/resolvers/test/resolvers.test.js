@@ -53,3 +53,44 @@ describe("createIdeaPostResolver - accelerator", () => {
         ).toEqual([]);
     });
 });
+
+describe("createIdeaPostResolver - scope", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the scope value when present", () => {
+        expect(resolver.scope.resolve({ scope: "Summer project" })).toBe(
+            "Summer project",
+        );
+    });
+
+    it("returns null when scope is absent", () => {
+        expect(resolver.scope.resolve({})).toBeNull();
+        expect(resolver.scope.resolve({ scope: null })).toBeNull();
+        expect(resolver.scope.resolve({ scope: undefined })).toBeNull();
+    });
+});
+
+describe("createIdeaPostResolver - researcherLevel", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the levels when present", () => {
+        expect(
+            resolver.researcherLevel.resolve({
+                researcherLevel: ["Graduate student", "Postdoc"],
+            }),
+        ).toEqual(["Graduate student", "Postdoc"]);
+    });
+
+    it("returns an empty array when absent", () => {
+        expect(resolver.researcherLevel.resolve({})).toEqual([]);
+        expect(
+            resolver.researcherLevel.resolve({ researcherLevel: null }),
+        ).toEqual([]);
+    });
+
+    it("returns an empty array for a non-array value", () => {
+        expect(
+            resolver.researcherLevel.resolve({ researcherLevel: "Postdoc" }),
+        ).toEqual([]);
+    });
+});
