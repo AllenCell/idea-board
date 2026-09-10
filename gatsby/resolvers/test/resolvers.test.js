@@ -184,22 +184,3 @@ describe("createIdeaPostResolver - resources (unchanged by the shared helper)", 
         expect(result).toEqual([{ slug: TFE }]);
     });
 });
-
-describe("createIdeaPostResolver - resourcesIntro", () => {
-    const resolver = createIdeaPostResolver(mockReporter);
-
-    it("returns the blurb when present", () => {
-        expect(
-            resolver.resourcesIntro.resolve({
-                resourcesIntro: "These resources let you...",
-            }),
-        ).toBe("These resources let you...");
-    });
-
-    it("returns null when absent", () => {
-        expect(resolver.resourcesIntro.resolve({})).toBeNull();
-        expect(
-            resolver.resourcesIntro.resolve({ resourcesIntro: null }),
-        ).toBeNull();
-    });
-});

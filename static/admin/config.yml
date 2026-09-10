@@ -240,13 +240,6 @@ collections:
                     [{ field: "resourceDetails.type", values: ["dataset"] }],
             }
           - {
-                label: "Why these resources?",
-                name: "resourcesIntro",
-                widget: "markdown",
-                required: false,
-                hint: "A short blurb for this idea explaining what the resources below let someone do.",
-            }
-          - {
                 label: "Flagship Resources",
                 name: "flagshipResources",
                 widget: "relation",

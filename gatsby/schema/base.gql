@@ -68,7 +68,6 @@ type IdeaPost implements Node {
     relatedIdeas: [IdeaPost!]!
     researcherLevel: [String!]!
     resources: [Resource!]!
-    resourcesIntro: String
     scope: String
     slug: String!
     tags: [String!]!
