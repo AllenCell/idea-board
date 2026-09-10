@@ -51,6 +51,11 @@ type ImgWithCaption @dontInfer {
     url: String
 }
 
+type IdeaResourceNote {
+    resource: Resource
+    relevance: String
+}
+
 type IdeaPost implements Node {
     accelerator: [String!]!
     authors: [Allenite!]!
@@ -67,6 +72,7 @@ type IdeaPost implements Node {
     publication: String
     relatedIdeas: [IdeaPost!]!
     researcherLevel: [String!]!
+    resourceNotes: [IdeaResourceNote!]!
     resources: [Resource!]!
     scope: String
     slug: String!
