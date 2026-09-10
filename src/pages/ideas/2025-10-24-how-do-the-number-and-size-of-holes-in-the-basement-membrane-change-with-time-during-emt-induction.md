@@ -8,6 +8,8 @@ resources:
 nextSteps: Need to be filled out
 program:
   - EMT
+accelerator:
+  - Cell Science
 date: 2025-10-24T15:25:00.000Z
 type: hypothesis that requires new experimentation
 authors:
