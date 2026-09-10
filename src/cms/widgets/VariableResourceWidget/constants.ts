@@ -7,6 +7,8 @@ const SOFTWARE_STATUS_OPTIONS = [
     "Internal use only",
 ];
 
+const HOST_OPTIONS = ["Quilt", "Code Ocean", "GitHub", "Internal / on request"];
+
 const DATASET_STATUS_OPTIONS = [
     "Public",
     "Not QCed",
@@ -38,6 +40,13 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
         value: RESOURCE_TYPES.DATASET,
         label: "Dataset",
         fields: [
+            {
+                label: "Host",
+                name: "host",
+                type: "select",
+                options: HOST_OPTIONS,
+                hint: "Where the data lives / how it is accessed.",
+            },
             {
                 label: "Status",
                 name: "status",

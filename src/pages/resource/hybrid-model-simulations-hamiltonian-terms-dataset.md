@@ -3,6 +3,7 @@ templateKey: resource
 name: "Hybrid model simulations: Hamiltonian terms dataset"
 resourceDetails:
     type: dataset
+    host: Quilt
     links:
         - name: "Hybrid model simulations: Hamiltonian terms dataset"
           url: https://open.quiltdata.com/b/allencell/tree/aics/hybrid_model_simulations/hybrid_model_simulations_hamiltonian_terms/

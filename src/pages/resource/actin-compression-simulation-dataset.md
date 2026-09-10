@@ -3,6 +3,7 @@ templateKey: resource
 name: Actin compression simulation dataset
 resourceDetails:
   type: dataset
+  host: Quilt
   name: Actin compression simulation dataset
   shortDescription: >
       This dataset contains simulated data of actin filaments using the monomer-scale model [ReaDDy](https://github.com/simularium/readdy-models) and fiber-scale model [Cytosim](https://github.com/simularium/Cytosim).

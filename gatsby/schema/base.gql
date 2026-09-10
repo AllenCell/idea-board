@@ -31,6 +31,7 @@ type Resource implements Node {
     shortDescription: String
     draft: Boolean
     file: String
+    host: String
     imageFile: File @fileByRelativePath
     imageUrl: String
     name: String
