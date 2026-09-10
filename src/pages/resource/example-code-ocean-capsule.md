@@ -13,6 +13,14 @@ resourceDetails:
     together, so they behave differently from a plain hosted dataset. This
     resource exists so we have something to design against while working out
     how capsules should be presented and prioritised.
+  accessSteps: |-
+    1. Sign in to Code Ocean with your institute account.
+    2. Open the capsule and choose **Reproducible Run** to execute it as
+       published.
+    3. To change anything, duplicate the capsule first — the published version
+       is read only.
+
+    Placeholder steps: confirm against the real capsule before relying on them.
   status: Public
   links:
     - name: Open capsule

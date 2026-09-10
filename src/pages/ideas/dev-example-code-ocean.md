@@ -35,10 +35,12 @@ flagshipResources:
 resources:
   - example-code-ocean-capsule
   - actin-compression-simulation-dataset
-nextSteps: |-
-  - Open the capsule and run it unchanged to confirm the environment works.
-
-  - Swap in a different input dataset and compare the results.
+nextSteps:
+  - text: "Open the capsule and run it unchanged to confirm the environment works."
+    resource: example-code-ocean-capsule
+  - text: "Swap in a different input dataset and compare the results."
+    resource: actin-compression-simulation-dataset
+    note: "Start with the 4.7 um/s condition so runs stay short."
 tags:
   - DEV Example
   - Code Ocean

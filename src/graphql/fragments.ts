@@ -5,6 +5,7 @@ export const SoftwareToolResourceFields = graphql`
         slug
         type
         name
+        accessSteps
         description
         shortDescription
         links {
@@ -23,6 +24,7 @@ export const DatasetResourceFields = graphql`
         slug
         type
         name
+        accessSteps
         description
         shortDescription
         links {
@@ -41,6 +43,7 @@ export const CellLineResourceFields = graphql`
         slug
         type
         name
+        accessSteps
         links {
             name
             url
@@ -54,6 +57,7 @@ export const ProtocolLinkResourceFields = graphql`
         slug
         type
         name
+        accessSteps
         description
         shortDescription
         links {
@@ -69,6 +73,7 @@ export const ProtocolFileResourceFields = graphql`
         slug
         type
         name
+        accessSteps
         description
         shortDescription
         links {
@@ -85,6 +90,7 @@ export const ImageResourceFields = graphql`
         slug
         type
         name
+        accessSteps
         description
         links {
             name

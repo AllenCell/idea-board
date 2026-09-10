@@ -35,13 +35,10 @@ resources:
   - simularium
   - actin-compression-simulation-dataset
   - subcellular-model-simulation-and-analysis-pipeline
-nextSteps: >-
-  - Build a [MEDYAN](https://medyan.org/) model for compression of a single
-  actin filament
-
-  - Run simulations at different compression velocities
-
-  - Use the [subcell-pipeline](https://github.com/simularium/subcell-pipeline) to align filaments, perform dimensionality reduction, and calculate metrics
+nextSteps:
+  - text: "Build a [MEDYAN](https://medyan.org/) model for compression of a single actin filament"
+  - text: "Run simulations at different compression velocities"
+  - text: "Use the [subcell-pipeline](https://github.com/simularium/subcell-pipeline) to align filaments, perform dimensionality reduction, and calculate metrics"
 publication: https://www.micropublication.org/journals/biology/micropub-biology-001347
 tags:
   - actin

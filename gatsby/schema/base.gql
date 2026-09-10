@@ -23,6 +23,7 @@ type ResourceLink {
 }
 
 type Resource implements Node {
+    accessSteps: String
     slug: String!
     name: String
     type: String
@@ -56,6 +57,12 @@ type ImgWithCaption @dontInfer {
     url: String
 }
 
+type IdeaStep {
+    text: String
+    note: String
+    resource: Resource
+}
+
 type IdeaPost implements Node {
     accelerator: [String!]!
     authors: [Allenite!]!
@@ -66,7 +73,7 @@ type IdeaPost implements Node {
     introduction: String
     layout: String
     maturity: String
-    nextSteps: String
+    nextSteps: [IdeaStep!]!
     preliminaryFindings: PreliminaryFindings
     primaryContact: Allenite
     program: [String!]!

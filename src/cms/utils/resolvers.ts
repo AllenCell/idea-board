@@ -164,3 +164,19 @@ export function resolveResourceImage(
         imageFile: null,
     } as unknown as ResourceNode;
 }
+
+/**
+ * A relation nested inside a list widget isn't keyed predictably in Decap's
+ * metadata, so try the likely field names and take the first that hydrates.
+ */
+export function resolveNestedResource(
+    fieldsMetaData: FieldsMetaData | undefined,
+    slug: string,
+    fieldCandidates: string[],
+): ResourceNode | null {
+    for (const field of fieldCandidates) {
+        const node = resolveResource(fieldsMetaData, slug, field);
+        if (node) return node;
+    }
+    return null;
+}

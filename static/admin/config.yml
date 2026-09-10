@@ -298,13 +298,40 @@ collections:
                 required: false,
                 hint: "Select any ideas that this idea this downstream of. If some answer a question that leads to this one, select it here.",
             }
-          - {
-                label: "Suggested next steps",
-                name: "nextSteps",
-                widget: "markdown",
-                required: false,
-                hint: "What are the next steps to further investigate this idea?",
-            }
+          - label: "How to start working on this"
+            name: "nextSteps"
+            widget: "list"
+            required: false
+            label_singular: "Step"
+            summary: "{{fields.text}}"
+            hint: "Ordered steps. Link a step to a resource to pull in that resource's access instructions automatically."
+            fields:
+                - {
+                      label: "Step",
+                      name: "text",
+                      widget: "markdown",
+                      hint: "What to do at this stage.",
+                  }
+                - {
+                      label: "Resource",
+                      name: "resource",
+                      widget: "relation",
+                      collection: "resources",
+                      search_fields:
+                          ["resourceDetails.name", "resourceDetails.type"],
+                      value_field: "{{slug}}",
+                      display_fields:
+                          ["resourceDetails.type", "resourceDetails.name"],
+                      required: false,
+                      hint: "Optional. Its access instructions appear under this step.",
+                  }
+                - {
+                      label: "Note for this idea",
+                      name: "note",
+                      widget: "text",
+                      required: false,
+                      hint: "Anything specific to this idea, beyond the resource's general instructions.",
+                  }
           - {
                 label: "Associated publication",
                 name: "publication",

@@ -17,6 +17,8 @@ export type IdeaPostNode = NonNullable<IdeaPostQuery["ideaPost"]>;
 export type IdeaHowToStartQuery = Queries.IdeaHowToStartQuery;
 export type IdeaHowToStartNode = NonNullable<IdeaHowToStartQuery["ideaPost"]>;
 
+export type IdeaStep = IdeaHowToStartNode["nextSteps"][number];
+
 export type Allenite = NonNullable<IdeaPostNode["primaryContact"]>;
 
 export type IdeasForTags =

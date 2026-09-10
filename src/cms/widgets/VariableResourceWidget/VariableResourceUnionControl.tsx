@@ -3,7 +3,10 @@ import React from "react";
 import type { CmsWidgetControlProps } from "decap-cms-core";
 
 import VariableTypeWidgetControl from "../VariableTypeWidget/VariableTypeWidgetControl";
-import { VARIABLE_TYPE_RESOURCE_CONFIG } from "./constants";
+import {
+    RESOURCE_BASE_FIELDS,
+    VARIABLE_TYPE_RESOURCE_CONFIG,
+} from "./constants";
 
 /**
  * Implementation of VariableTypeWidgetControl for a union of different
@@ -14,6 +17,7 @@ const ResourceUnionControl = (props: CmsWidgetControlProps) => {
     return (
         <VariableTypeWidgetControl
             {...props}
+            baseFields={RESOURCE_BASE_FIELDS}
             types={VARIABLE_TYPE_RESOURCE_CONFIG}
             defaultType="softwareTool"
         />

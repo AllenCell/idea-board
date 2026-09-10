@@ -1,5 +1,5 @@
 import { RESOURCE_TYPES } from "../../../constants/resourceTypes";
-import { TypeConfig } from "../VariableTypeWidget/types";
+import { FieldConfig, TypeConfig } from "../VariableTypeWidget/types";
 
 const SOFTWARE_STATUS_OPTIONS = [
     "Public",
@@ -14,6 +14,19 @@ const DATASET_STATUS_OPTIONS = [
     "Not QCed",
     "Preliminary",
     "Need to request data directly",
+];
+
+// Shared by every resource type; passed to the widget as baseFields.
+export const RESOURCE_BASE_FIELDS: FieldConfig[] = [
+    { label: "Name", name: "name", type: "input" },
+    { label: "Description", name: "description", type: "markdown" },
+    {
+        label: "Access Steps",
+        name: "accessSteps",
+        type: "markdown",
+        hint: "How to get and start using this resource. Written once here, pulled into any idea whose next steps link to it.",
+    },
+    { label: "Links", name: "links", type: "links" },
 ];
 
 // Optional: override baseFields per type,

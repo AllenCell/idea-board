@@ -55,15 +55,12 @@ resources:
 related_ideas:
   - 2025-10-29-investigate-ecm-driven-basement-membrane-production
   - 2025-10-29-is-there-an-met-after-cell-migration-in-our-60-hr-timelapse-movies
-nextSteps: |-
-  - Expand analysis to all EMT datasets and stratify by treatment. And a link
-  for no reason: [link](https://allencell.org/)
-
-  - Quantify robustness of the junction "flicker" signature across cell lines.
-
-  - Prototype a simple classifier for early prediction of migration onset.
-
-  - Share intermediate results with the EMT program for feedback.
+nextSteps:
+  - text: "Expand analysis to all EMT datasets and stratify by treatment. And a link for no reason: [link](https://allencell.org/)"
+  - text: "Quantify robustness of the junction \"flicker\" signature across cell lines."
+    resource: timelapse-feature-explorer
+  - text: "Prototype a simple classifier for early prediction of migration onset."
+  - text: "Share intermediate results with the EMT program for feedback."
 publication: Dalgin et al., _In preparation_
 tags:
   - DEV Example

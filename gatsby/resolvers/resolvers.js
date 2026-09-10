@@ -42,7 +42,32 @@ const createIdeaPostResolver = (reporter) => ({
             stringWithDefault(source.description, "No description provided."),
     },
     nextSteps: {
-        resolve: (source) => source.nextSteps ?? null,
+        resolve: async (source, _args, context) => {
+            // Prose written before steps were structured still renders as one step
+            if (typeof source.nextSteps === "string") {
+                const text = source.nextSteps.trim();
+                return text ? [{ text, note: null, resource: null }] : [];
+            }
+            return Promise.all(
+                resolveToArray(source.nextSteps).map(async (step) => {
+                    const query = step?.resource
+                        ? resourceQuery(step.resource)
+                        : null;
+                    const resource = query
+                        ? await context.nodeModel.findOne(query)
+                        : null;
+                    if (step?.resource && !resource) {
+                        const msg = `Resource "${step.resource}" not found for a next step on idea "${source.title}".`;
+                        reporter.error(msg, new Error(msg));
+                    }
+                    return {
+                        text: step?.text ?? null,
+                        note: step?.note ?? null,
+                        resource,
+                    };
+                }),
+            );
+        },
     },
     resourcesIntro: {
         resolve: (source) => source.resourcesIntro ?? null,

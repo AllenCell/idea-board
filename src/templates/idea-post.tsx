@@ -102,7 +102,8 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     // An image-led idea shows its picture here rather than only on how-to-start
     const showHero = layout === "image" && hasFlagshipResources;
 
-    const hasHowToStart = Boolean(nextSteps) || hasFlagshipResources;
+    const hasHowToStart =
+        (nextSteps && nextSteps.length > 0) || hasFlagshipResources;
     const howToStartPath = `${slug}${HOW_TO_START_PATH}/`;
 
     return (
@@ -450,7 +451,9 @@ export const pageQuery = graphql`
                     caption
                 }
             }
-            nextSteps
+            nextSteps {
+                text
+            }
             flagshipResources {
                 ...ResourceFields
             }

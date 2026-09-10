@@ -34,11 +34,10 @@ flagshipResources:
   - microns-explorer-view
 resources:
   - microns-explorer-view
-nextSteps: |-
-  - Open the saved view and follow the two selected cells through the volume.
-
-  - Note anything worth a closer look, and save further views as new image
-    resources.
+nextSteps:
+  - text: "Open the saved view and follow the two selected cells through the volume."
+    resource: microns-explorer-view
+  - text: "Note anything worth a closer look, and save further views as new image resources."
 tags:
   - DEV Example
   - imaging

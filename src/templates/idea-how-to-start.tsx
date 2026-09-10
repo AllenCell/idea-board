@@ -7,9 +7,9 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 import { useSetLayoutConfig } from "../LayoutContext";
-import { CustomReactMarkdown } from "../components/CustomReactMarkdown";
 import ExpandedDescriptionView from "../components/ExpandableDescriptionView";
 import { FlagshipResources } from "../components/FlagshipResources";
+import { NextSteps } from "../components/NextSteps";
 import { PageNavSiderMenuItem } from "../components/PageNavSider";
 import { SectionLabel } from "../components/SectionLabel";
 import { HOW_TO_START_TITLE } from "../constants/sectionQuestions";
@@ -24,7 +24,6 @@ const {
     postHeader,
     postTitle,
     proposal,
-    sectionText,
 } = require("../style/idea-post.module.css");
 
 export type IdeaHowToStartTemplateProps = IdeaHowToStartNode & {
@@ -47,6 +46,7 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
 }) => {
     const hasFlagshipResources =
         flagshipResources && flagshipResources.length > 0;
+    const hasNextSteps = nextSteps && nextSteps.length > 0;
 
     return (
         <>
@@ -74,14 +74,11 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                     </div>
                 )}
 
-                {nextSteps && (
+                {hasNextSteps && (
                     <div id="proposal">
                         <SectionLabel section="proposal" />
                         <div className={proposal}>
-                            <CustomReactMarkdown
-                                className={sectionText}
-                                content={nextSteps}
-                            />
+                            <NextSteps steps={nextSteps} />
                         </div>
                     </div>
                 )}
@@ -173,7 +170,13 @@ export const pageQuery = graphql`
             slug
             title
             program
-            nextSteps
+            nextSteps {
+                text
+                note
+                resource {
+                    ...ResourceFields
+                }
+            }
             flagshipResources {
                 ...ResourceFields
             }

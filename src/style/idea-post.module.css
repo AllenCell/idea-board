@@ -598,3 +598,58 @@
 .heroCaption a {
     font-weight: 600;
 }
+
+/* ── Next steps ──────────────────────────────────────────────── */
+.stepList {
+    margin: 0;
+    padding-inline-start: 22px;
+}
+
+.stepItem {
+    margin-bottom: 14px;
+}
+
+.stepText p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Access instructions come from the resource, so they read as a nested aside */
+.stepAccess {
+    border-left: 2px solid
+        color-mix(in srgb, var(--secondary-color) 55%, transparent);
+    padding: 6px 0 2px 12px;
+    margin: 6px 0 0;
+}
+
+.stepAccessLabel {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    margin-bottom: 4px;
+}
+
+.stepAccess p,
+.stepAccess li {
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0 0 4px;
+}
+
+.stepAccess ul,
+.stepAccess ol {
+    padding-inline-start: 18px;
+    margin: 0;
+}
+
+.stepNote p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary-color);
+    margin: 6px 0 0;
+}

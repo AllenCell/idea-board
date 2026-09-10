@@ -9,13 +9,14 @@ import {
     IdeaPostTemplate,
     IdeaPostTemplateProps,
 } from "../../templates/idea-post";
-import { PreliminaryFindings } from "../../types";
+import { PreliminaryFindings, ResourceNode } from "../../types";
 import { ImmutableLike, fromImmutable } from "../utils/immutable";
 import {
     FieldsMetaData,
     GetAsset,
     resolveAllenite,
     resolveFigures,
+    resolveNestedResource,
     resolveRelatedIdea,
     resolveRelationList,
     resolveResource,
@@ -88,6 +89,37 @@ function normalizeCmsData(
         },
     );
 
+    /*
+     * nextSteps: each step's resource is a slug. Prefer Decap's metadata, and
+     * fall back to the idea's own resolved resources, which cover the usual
+     * case where a step links something already listed on the idea.
+     */
+    const resourceBySlug = new Map<string, ResourceNode>();
+    [...(resources ?? []), ...(flagshipResources ?? [])].forEach((r) => {
+        if (r?.slug) resourceBySlug.set(r.slug, r);
+    });
+    const nextSteps = Array.isArray(raw.nextSteps)
+        ? raw.nextSteps.map((step) => {
+              const entry = (step ?? {}) as Record<string, unknown>;
+              const slug =
+                  typeof entry.resource === "string" ? entry.resource : null;
+              const resource = slug
+                  ? (resolveNestedResource(fieldsMetaData, slug, [
+                        "resource",
+                        "nextSteps.resource",
+                        "nextSteps",
+                    ]) ??
+                    resourceBySlug.get(slug) ??
+                    null)
+                  : null;
+              return {
+                  text: typeof entry.text === "string" ? entry.text : null,
+                  note: typeof entry.note === "string" ? entry.note : null,
+                  resource,
+              };
+          })
+        : undefined;
+
     // related_ideas: relation gives slugs; resolve each to { title, slug }.
     const relatedIdeas = resolveRelationList(raw.related_ideas, (slug) =>
         resolveRelatedIdea(fieldsMetaData, slug),
@@ -124,6 +156,7 @@ function normalizeCmsData(
         date,
         flagshipResources,
         isPreview: true,
+        nextSteps,
         preliminaryFindings,
         primaryContact,
         program: normalizedProgram,
