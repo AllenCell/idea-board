@@ -19,6 +19,8 @@ const {
 interface MaterialsAndMethodsProps {
     resources: ResourceNode[];
     publication?: string | null;
+    /** Per-idea relevance notes, keyed by resource slug. */
+    relevanceBySlug?: Map<string, string>;
     onExpandDescription?: (
         content: string,
         label: string,
@@ -36,7 +38,7 @@ interface ResourceGroup {
 
 export const MaterialsAndMethodsComponent: React.FC<
     MaterialsAndMethodsProps
-> = ({ onExpandDescription, publication, resources }) => {
+> = ({ onExpandDescription, publication, relevanceBySlug, resources }) => {
     const byType = (type: string) => resources.filter((r) => r.type === type);
 
     const typeGroups = [
@@ -101,6 +103,11 @@ export const MaterialsAndMethodsComponent: React.FC<
                         <ResourceItem
                             key={item.slug ?? index}
                             resource={item}
+                            relevance={
+                                item.slug
+                                    ? relevanceBySlug?.get(item.slug)
+                                    : undefined
+                            }
                             sectionKey={group.key}
                             onExpand={onExpandDescription}
                         />

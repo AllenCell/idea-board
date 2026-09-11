@@ -7,6 +7,7 @@ const { flagshipGrid } = require("../style/idea-post.module.css");
 
 interface FlagshipResourcesProps {
     resources: readonly ResourceNode[];
+    relevanceBySlug?: Map<string, string>;
     onExpandDescription?: (
         content: string,
         label: string,
@@ -16,6 +17,7 @@ interface FlagshipResourcesProps {
 
 export const FlagshipResources: React.FC<FlagshipResourcesProps> = ({
     onExpandDescription,
+    relevanceBySlug,
     resources,
 }) => {
     // Decap's preview yields slug strings until a relation hydrates.
@@ -33,6 +35,11 @@ export const FlagshipResources: React.FC<FlagshipResourcesProps> = ({
                 <FlagshipResourceCard
                     key={resource.slug ?? resource.name ?? index}
                     resource={resource}
+                    relevance={
+                        resource.slug
+                            ? relevanceBySlug?.get(resource.slug)
+                            : undefined
+                    }
                     onExpandDescription={onExpandDescription}
                 />
             ))}

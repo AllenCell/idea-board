@@ -653,3 +653,28 @@
     color: var(--text-secondary-color);
     margin: 6px 0 0;
 }
+
+/* Why a resource matters for this particular idea */
+.resourceRelevance {
+    border-left: 2px solid
+        color-mix(in srgb, var(--primary-color) 40%, transparent);
+    padding-left: 10px;
+    margin-top: 6px;
+}
+
+.resourceRelevanceLabel {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    margin-bottom: 2px;
+}
+
+.resourceRelevance p {
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0;
+}

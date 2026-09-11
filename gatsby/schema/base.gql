@@ -57,6 +57,12 @@ type ImgWithCaption @dontInfer {
     url: String
 }
 
+type IdeaStep {
+    text: String
+    note: String
+    resource: Resource
+}
+
 type IdeaResourceNote {
     resource: Resource
     relevance: String
@@ -76,6 +82,7 @@ type IdeaPost implements Node {
     preliminaryFindings: PreliminaryFindings
     primaryContact: Allenite
     program: [String!]!
+    proposal: String
     publication: String
     relatedIdeas: [IdeaPost!]!
     researcherLevel: [String!]!

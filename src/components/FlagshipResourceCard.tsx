@@ -30,10 +30,13 @@ const {
     flagshipName,
     flagshipTextButton,
     flagshipType,
+    resourceRelevance,
+    resourceRelevanceLabel,
 } = require("../style/idea-post.module.css");
 
 interface FlagshipResourceCardProps {
     resource: ResourceNode;
+    relevance?: string | null;
     onExpandDescription?: (
         content: string,
         label: string,
@@ -56,6 +59,7 @@ function getLede(resource: ResourceDetailSource): string | null {
 
 export const FlagshipResourceCard: React.FC<FlagshipResourceCardProps> = ({
     onExpandDescription,
+    relevance,
     resource,
 }) => {
     // Widened once so field access doesn't depend on GraphQL codegen
@@ -106,6 +110,15 @@ export const FlagshipResourceCard: React.FC<FlagshipResourceCardProps> = ({
 
             {lede && (
                 <CustomReactMarkdown className={flagshipLede} content={lede} />
+            )}
+
+            {relevance && (
+                <div className={resourceRelevance}>
+                    <span className={resourceRelevanceLabel}>
+                        Why it is here
+                    </span>
+                    <CustomReactMarkdown content={relevance} />
+                </div>
             )}
 
             {hasFooter && (

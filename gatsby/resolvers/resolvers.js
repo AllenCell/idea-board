@@ -163,6 +163,9 @@ const createIdeaPostResolver = (reporter) => ({
         reporter,
         "flagshipResources",
     ),
+    proposal: {
+        resolve: (source) => source.proposal ?? null,
+    },
     preliminaryFindings: {
         resolve: (source) => {
             const raw = source.preliminaryFindings;

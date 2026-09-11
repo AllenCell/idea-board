@@ -70,9 +70,11 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     preliminaryFindings,
     primaryContact,
     program,
+    proposal,
     publication,
     relatedIdeas,
     researcherLevel,
+    resourceNotes,
     resources,
     resourcesIntro,
     scope,
@@ -101,6 +103,15 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
 
     // An image-led idea shows its picture here rather than only on how-to-start
     const showHero = layout === "image" && hasFlagshipResources;
+
+    const relevanceBySlug = new Map<string, string>();
+    (resourceNotes ?? []).forEach((note) => {
+        if (note?.resource?.slug && note.relevance) {
+            relevanceBySlug.set(note.resource.slug, note.relevance);
+        }
+    });
+
+    const hasProposal = Boolean(proposal);
 
     const hasHowToStart =
         (nextSteps && nextSteps.length > 0) || hasFlagshipResources;
@@ -227,6 +238,16 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                     </div>
                 )}
 
+                {hasProposal && (
+                    <div id="proposal">
+                        <SectionLabel section="proposal" />
+                        <CustomReactMarkdown
+                            className={sectionText}
+                            content={proposal!}
+                        />
+                    </div>
+                )}
+
                 {hasHowToStart && (
                     <div className={howToStart}>
                         <p className={howToStartBlurb}>
@@ -281,6 +302,7 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         <MaterialsAndMethodsComponent
                             resources={[...groupedResources]}
                             publication={publication}
+                            relevanceBySlug={relevanceBySlug}
                             onExpandDescription={onExpandDescription}
                         />
                     </div>
@@ -323,6 +345,10 @@ function buildIdeaNavItems(fm: IdeaPostNode): PageNavSiderMenuItem[] {
         fm.introduction && {
             key: "introduction",
             label: <a href="#introduction">Introduction</a>,
+        },
+        fm.proposal && {
+            key: "proposal",
+            label: <a href="#proposal">Proposal</a>,
         },
         // Next steps and flagship resources live on the nested page now
         (fm.nextSteps?.length || fm.flagshipResources?.length) && {
@@ -437,6 +463,7 @@ export const pageQuery = graphql`
             researcherLevel
             type
             layout
+            proposal
             resourcesIntro
             preliminaryFindings {
                 summary
@@ -459,6 +486,12 @@ export const pageQuery = graphql`
             }
             resources {
                 ...ResourceFields
+            }
+            resourceNotes {
+                relevance
+                resource {
+                    slug
+                }
             }
             relatedIdeas {
                 title

@@ -41,12 +41,20 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
     nextSteps,
     onExpandDescription,
     program,
+    resourceNotes,
     slug,
     title,
 }) => {
     const hasFlagshipResources =
         flagshipResources && flagshipResources.length > 0;
     const hasNextSteps = nextSteps && nextSteps.length > 0;
+
+    const relevanceBySlug = new Map<string, string>();
+    (resourceNotes ?? []).forEach((note) => {
+        if (note?.resource?.slug && note.relevance) {
+            relevanceBySlug.set(note.resource.slug, note.relevance);
+        }
+    });
 
     return (
         <>
@@ -75,8 +83,8 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                 )}
 
                 {hasNextSteps && (
-                    <div id="proposal">
-                        <SectionLabel section="proposal" />
+                    <div id="next-steps">
+                        <SectionLabel section="next-steps" />
                         <div className={proposal}>
                             <NextSteps steps={nextSteps} />
                         </div>
@@ -88,6 +96,7 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                         <SectionLabel section="flagship-resources" />
                         <FlagshipResources
                             resources={flagshipResources}
+                            relevanceBySlug={relevanceBySlug}
                             onExpandDescription={onExpandDescription}
                         />
                     </div>
@@ -101,8 +110,8 @@ function buildNavItems(fm: IdeaHowToStartNode): PageNavSiderMenuItem[] {
     return [
         { key: "title", label: <a href="#title">{HOW_TO_START_TITLE}</a> },
         fm.nextSteps?.length && {
-            key: "proposal",
-            label: <a href="#proposal">{HOW_TO_START_TITLE}</a>,
+            key: "next-steps",
+            label: <a href="#next-steps">{HOW_TO_START_TITLE}</a>,
         },
         fm.flagshipResources?.length && {
             key: "flagship-resources",
@@ -179,6 +188,12 @@ export const pageQuery = graphql`
             }
             flagshipResources {
                 ...ResourceFields
+            }
+            resourceNotes {
+                relevance
+                resource {
+                    slug
+                }
             }
         }
     }

@@ -19,11 +19,14 @@ const {
     resourceItemBlurb,
     resourceItemMeta,
     resourceItemName,
+    resourceRelevance,
+    resourceRelevanceLabel,
     resourceTextButton,
 } = require("../style/idea-post.module.css");
 
 interface ResourceItemProps {
     resource: ResourceNode;
+    relevance?: string | null;
     sectionKey: string;
     onExpand?: (content: string, label: string, sectionKey: string) => void;
 }
@@ -44,6 +47,7 @@ function getBlurb(resource: ResourceDetailSource): string | null {
 
 const ResourceItem: React.FC<ResourceItemProps> = ({
     onExpand,
+    relevance,
     resource,
     sectionKey,
 }) => {
@@ -72,6 +76,14 @@ const ResourceItem: React.FC<ResourceItemProps> = ({
                         className={resourceItemBlurb}
                         content={blurb}
                     />
+                )}
+                {relevance && (
+                    <div className={resourceRelevance}>
+                        <span className={resourceRelevanceLabel}>
+                            Why it is here
+                        </span>
+                        <CustomReactMarkdown content={relevance} />
+                    </div>
                 )}
                 {facts.length > 0 && (
                     <div className={resourceItemMeta}>

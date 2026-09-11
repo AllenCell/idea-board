@@ -22,6 +22,10 @@ export const SECTION_HEADINGS = {
         question: "What else connects to this?",
     },
     proposal: {
+        title: "Proposal",
+        question: "What needs to be done?",
+    },
+    "next-steps": {
         title: "How to start working on this",
         question: "What would you do first?",
     },
