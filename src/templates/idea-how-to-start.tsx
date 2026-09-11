@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { Link, PageProps, graphql } from "gatsby";
@@ -7,6 +7,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 import { useSetLayoutConfig } from "../LayoutContext";
+import { ContactModal } from "../components/ContactModal";
 import ExpandedDescriptionView from "../components/ExpandableDescriptionView";
 import { FlagshipResources } from "../components/FlagshipResources";
 import { NextSteps } from "../components/NextSteps";
@@ -18,6 +19,8 @@ import { IdeaHowToStartNode, IdeaHowToStartQuery } from "../types";
 
 const {
     backBar,
+    contactCta,
+    contactCtaBlurb,
     container,
     eyebrow,
     flagshipSection,
@@ -36,10 +39,12 @@ export type IdeaHowToStartTemplateProps = IdeaHowToStartNode & {
 };
 
 export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
+    authors,
     flagshipResources,
     isPreview,
     nextSteps,
     onExpandDescription,
+    primaryContact,
     program,
     resourceNotes,
     slug,
@@ -48,6 +53,7 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
     const hasFlagshipResources =
         flagshipResources && flagshipResources.length > 0;
     const hasNextSteps = nextSteps && nextSteps.length > 0;
+    const [contactModalOpen, setContactModalOpen] = useState(false);
 
     const relevanceBySlug = new Map<string, string>();
     (resourceNotes ?? []).forEach((note) => {
@@ -82,6 +88,21 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                     </div>
                 )}
 
+                <div className={contactCta}>
+                    <p className={contactCtaBlurb}>
+                        Interested, or not sure where this fits? The authors are
+                        happy to hear from you.
+                    </p>
+                    <Button
+                        type="primary"
+                        size="large"
+                        disabled={isPreview}
+                        onClick={() => setContactModalOpen(true)}
+                    >
+                        Contact the authors of this idea
+                    </Button>
+                </div>
+
                 {hasNextSteps && (
                     <div id="next-steps">
                         <SectionLabel section="next-steps" />
@@ -102,6 +123,16 @@ export const IdeaHowToStartTemplate: React.FC<IdeaHowToStartTemplateProps> = ({
                     </div>
                 )}
             </div>
+
+            {!isPreview && (
+                <ContactModal
+                    authors={authors}
+                    primaryContact={primaryContact}
+                    title={title}
+                    open={contactModalOpen}
+                    onClose={() => setContactModalOpen(false)}
+                />
+            )}
         </>
     );
 };
@@ -179,6 +210,14 @@ export const pageQuery = graphql`
             slug
             title
             program
+            authors {
+                name
+                contactId
+            }
+            primaryContact {
+                name
+                contactId
+            }
             nextSteps {
                 text
                 note
