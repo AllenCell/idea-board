@@ -68,4 +68,34 @@ export const VARIABLE_TYPE_RESOURCE_CONFIG: TypeConfig[] = [
         label: "Cell Line",
         fields: [],
     },
+    {
+        value: RESOURCE_TYPES.IMAGE,
+        label: "Image",
+        fields: [
+            {
+                label: "Viewer URL",
+                name: "viewerUrl",
+                type: "input",
+                hint: "If the image lives in an interactive viewer (Neuroglancer, etc.), link to that view here.",
+            },
+            {
+                label: "Image or Screenshot",
+                name: "imageFile",
+                type: "file",
+                hint: "The image itself, or a screenshot of the view above so something shows on the idea page. Most viewers have a screenshot option.",
+            },
+            {
+                label: "Image URL",
+                name: "imageUrl",
+                type: "input",
+                hint: "Only if the image is hosted elsewhere. Ignored when a file is set.",
+            },
+            {
+                label: "Alt Text",
+                name: "altText",
+                type: "input",
+                hint: "Describes the image for screen readers.",
+            },
+        ],
+    },
 ];

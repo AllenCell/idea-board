@@ -79,6 +79,28 @@ export const ProtocolFileResourceFields = graphql`
     }
 `;
 
+export const ImageResourceFields = graphql`
+    fragment ImageResourceFields on Resource {
+        slug
+        type
+        name
+        description
+        links {
+            name
+            url
+            description
+        }
+        altText
+        viewerUrl
+        imageUrl
+        imageFile {
+            childImageSharp {
+                gatsbyImageData(width: 900, quality: 90)
+            }
+        }
+    }
+`;
+
 /**
  * Composite fragment for querying mixed resource lists.
  * Results include all fields across all resource types;
@@ -91,5 +113,6 @@ export const ResourceFields = graphql`
         ...CellLineResourceFields
         ...ProtocolLinkResourceFields
         ...ProtocolFileResourceFields
+        ...ImageResourceFields
     }
 `;
