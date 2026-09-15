@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { createIdeaPostResolver } from "../resolvers";
 
@@ -92,5 +92,95 @@ describe("createIdeaPostResolver - researcherLevel", () => {
         expect(
             resolver.researcherLevel.resolve({ researcherLevel: "Postdoc" }),
         ).toEqual([]);
+    });
+});
+
+/** nodeModel stub resolving only the slugs it is told about. */
+const makeContext = (known) => ({
+    nodeModel: {
+        findOne: vi.fn(async ({ query }) =>
+            known.includes(query.filter.slug.eq)
+                ? { slug: query.filter.slug.eq }
+                : null,
+        ),
+    },
+});
+
+const EMT = "/resource/released-emt-dataset/";
+const TFE = "/resource/timelapse-feature-explorer/";
+
+describe("createIdeaPostResolver - flagshipResources", () => {
+    it("resolves flagship names into resource nodes", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.flagshipResources.resolve(
+            {
+                title: "Test idea",
+                flagshipResources: [
+                    "released-emt-dataset",
+                    "timelapse-feature-explorer",
+                ],
+            },
+            {},
+            makeContext([EMT, TFE]),
+        );
+        expect(result).toEqual([{ slug: EMT }, { slug: TFE }]);
+    });
+
+    it("returns an empty array when the field is absent", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const context = makeContext([]);
+        expect(
+            await resolver.flagshipResources.resolve({}, {}, context),
+        ).toEqual([]);
+        expect(context.nodeModel.findOne).not.toHaveBeenCalled();
+    });
+
+    it("drops unresolvable names and reports them", async () => {
+        const reporter = { error: vi.fn() };
+        const resolver = createIdeaPostResolver(reporter);
+        const result = await resolver.flagshipResources.resolve(
+            {
+                title: "Test idea",
+                flagshipResources: ["released-emt-dataset", "does-not-exist"],
+            },
+            {},
+            makeContext([EMT]),
+        );
+        expect(result).toEqual([{ slug: EMT }]);
+        expect(reporter.error).toHaveBeenCalledTimes(1);
+        expect(reporter.error.mock.calls[0][0]).toContain("does-not-exist");
+    });
+
+    it("reports a blank entry instead of querying for it", async () => {
+        const reporter = { error: vi.fn() };
+        const resolver = createIdeaPostResolver(reporter);
+        const context = makeContext([EMT]);
+        const result = await resolver.flagshipResources.resolve(
+            {
+                title: "Test idea",
+                flagshipResources: ["", "released-emt-dataset"],
+            },
+            {},
+            context,
+        );
+        expect(result).toEqual([{ slug: EMT }]);
+        expect(context.nodeModel.findOne).toHaveBeenCalledTimes(1);
+        expect(reporter.error).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe("createIdeaPostResolver - resources (unchanged by the shared helper)", () => {
+    it("still resolves `resources` independently of flagshipResources", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.resources.resolve(
+            {
+                title: "Test idea",
+                resources: ["timelapse-feature-explorer"],
+                flagshipResources: ["released-emt-dataset"],
+            },
+            {},
+            makeContext([TFE]),
+        );
+        expect(result).toEqual([{ slug: TFE }]);
     });
 });

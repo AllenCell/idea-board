@@ -240,6 +240,19 @@ collections:
                     [{ field: "resourceDetails.type", values: ["dataset"] }],
             }
           - {
+                label: "Flagship Resources",
+                name: "flagshipResources",
+                widget: "relation",
+                collection: "resources",
+                search_fields: ["resourceDetails.name", "resourceDetails.type"],
+                value_field: "{{slug}}",
+                display_fields:
+                    ["resourceDetails.type", "resourceDetails.name"],
+                multiple: true,
+                required: false,
+                hint: "The one or two resources most central to this idea.",
+            }
+          - {
                 label: "Resources",
                 name: "resources",
                 widget: "relation",
