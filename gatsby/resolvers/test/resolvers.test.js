@@ -32,3 +32,24 @@ describe("createIdeaPostResolver - maturity", () => {
         );
     });
 });
+
+describe("createIdeaPostResolver - accelerator", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the accelerator list when present", () => {
+        expect(
+            resolver.accelerator.resolve({ accelerator: ["Cell Science"] }),
+        ).toEqual(["Cell Science"]);
+    });
+
+    it("returns an empty array when accelerator is absent", () => {
+        expect(resolver.accelerator.resolve({})).toEqual([]);
+        expect(resolver.accelerator.resolve({ accelerator: null })).toEqual([]);
+    });
+
+    it("returns an empty array for a non-array value", () => {
+        expect(
+            resolver.accelerator.resolve({ accelerator: "Cell Science" }),
+        ).toEqual([]);
+    });
+});

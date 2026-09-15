@@ -111,6 +111,18 @@ collections:
                 options: ["EMT", "Endo", "Other"],
             }
           - {
+                label: "Accelerator",
+                name: "accelerator",
+                widget: "relation",
+                collection: "accelerator",
+                search_fields: ["name"],
+                value_field: "name",
+                display_fields: ["name"],
+                multiple: true,
+                required: false,
+                hint: "Which accelerator(s) this idea belongs to, if any.",
+            }
+          - {
                 label: "Introduction",
                 name: "introduction",
                 widget: "markdown",
@@ -294,6 +306,34 @@ collections:
                 search_fields: ["name"],
                 value_field: "name",
                 multiple: true,
+            }
+
+    - name: "accelerator"
+      label: "Accelerators"
+      label_singular: "Accelerator"
+      folder: "src/pages/accelerators"
+      create: true
+      slug: "{{name}}"
+      fields:
+          - {
+                label: "Template Key",
+                name: "templateKey",
+                widget: "hidden",
+                default: "accelerator",
+            }
+          - { label: "Name", name: "name", widget: "string" }
+          - {
+                label: "Description",
+                name: "description",
+                widget: "markdown",
+                required: false,
+            }
+          - {
+                label: "Active",
+                name: "active",
+                widget: "boolean",
+                required: false,
+                default: true,
             }
 
     - name: "program"
