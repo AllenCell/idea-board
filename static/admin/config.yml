@@ -160,6 +160,13 @@ collections:
                 hint: "Why is this idea interesting or important?",
             }
           - {
+                label: "Proposal",
+                name: "proposal",
+                widget: "markdown",
+                required: false,
+                hint: "What are we actually proposing someone does, and what results would you expect? This is the pitch, not the practical setup steps.",
+            }
+          - {
                 label: "Preliminary findings",
                 name: "preliminaryFindings",
                 widget: "object",

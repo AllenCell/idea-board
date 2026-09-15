@@ -74,6 +74,7 @@ type IdeaPost implements Node {
     preliminaryFindings: PreliminaryFindings
     primaryContact: Allenite
     program: [String!]!
+    proposal: String
     publication: String
     relatedIdeas: [IdeaPost!]!
     researcherLevel: [String!]!

@@ -261,3 +261,18 @@ describe("createIdeaPostResolver - resourceNotes", () => {
         );
     });
 });
+
+describe("createIdeaPostResolver - proposal", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the proposal text when present", () => {
+        expect(resolver.proposal.resolve({ proposal: "Do the thing." })).toBe(
+            "Do the thing.",
+        );
+    });
+
+    it("returns null when there is no proposal", () => {
+        expect(resolver.proposal.resolve({})).toBeNull();
+        expect(resolver.proposal.resolve({ proposal: null })).toBeNull();
+    });
+});

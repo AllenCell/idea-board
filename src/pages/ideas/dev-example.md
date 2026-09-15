@@ -31,6 +31,15 @@ scope: Summer project
 researcherLevel:
   - Graduate student
   - Postdoc
+proposal: >
+  Test whether junction remodelling measured from existing timelapses predicts
+  the onset of collective migration, using the released EMT data rather than new
+  imaging.
+
+
+  We would expect a quantified answer on whether junction dynamics carry a
+  predictive signal, and if they do, a shareable metric other EMT analyses can
+  reuse.
 introduction: >
   Collective cell migration during EMT appears to be preceded by subtle
   remodeling of cell-cell junctions. We suspect that temporal patterns in
