@@ -96,6 +96,37 @@ const createIdeaPostResolver = (reporter) => ({
     researcherLevel: {
         resolve: (source) => resolveToArray(source.researcherLevel),
     },
+    resourceNotes: {
+        resolve: async (source, _args, context) => {
+            const selected = resolveToArray(source.resources);
+            return Promise.all(
+                resolveToArray(source.resourceNotes).map(async (note) => {
+                    const query = note?.resource
+                        ? resourceQuery(note.resource)
+                        : null;
+                    const resource = query
+                        ? await context.nodeModel.findOne(query)
+                        : null;
+                    if (note?.resource && !resource) {
+                        const msg = `Resource "${note.resource}" not found for a resource note on idea "${source.title}".`;
+                        reporter.error(msg, new Error(msg));
+                    } else if (
+                        note?.resource &&
+                        !selected.includes(note.resource)
+                    ) {
+                        // A note for a resource no longer on the idea renders nowhere
+                        reporter.warn(
+                            `Resource note on idea "${source.title}" refers to "${note.resource}", which is not in that idea's resources.`,
+                        );
+                    }
+                    return {
+                        relevance: note?.relevance ?? null,
+                        resource,
+                    };
+                }),
+            );
+        },
+    },
     resources: createResourceListResolver(reporter, "resources"),
     flagshipResources: createResourceListResolver(
         reporter,

@@ -46,6 +46,13 @@ resources:
   - released-emt-dataset
   - aics-42
   - aics-67
+resourceNotes:
+  - resource: released-emt-dataset
+    relevance: The timelapses this idea is built on; start here to see the
+      junction behaviour described above.
+  - resource: timelapse-feature-explorer
+    relevance: Used to segment junctions and pull per-frame measurements out of
+      the movies.
 related_ideas:
   - 2025-10-29-investigate-ecm-driven-basement-membrane-production
   - 2025-10-29-is-there-an-met-after-cell-migration-in-our-60-hr-timelapse-movies

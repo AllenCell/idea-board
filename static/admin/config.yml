@@ -265,6 +265,31 @@ collections:
                 required: false,
                 hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
             }
+          - label: "Why these resources?"
+            name: "resourceNotes"
+            widget: "list"
+            required: false
+            label_singular: "Resource note"
+            summary: "{{fields.resource}}"
+            hint: "Optionally say why a particular resource matters for this idea. Only add notes for resources selected above."
+            fields:
+                - {
+                      label: "Resource",
+                      name: "resource",
+                      widget: "relation",
+                      collection: "resources",
+                      search_fields:
+                          ["resourceDetails.name", "resourceDetails.type"],
+                      value_field: "{{slug}}",
+                      display_fields:
+                          ["resourceDetails.type", "resourceDetails.name"],
+                  }
+                - {
+                      label: "Why it is relevant",
+                      name: "relevance",
+                      widget: "text",
+                      hint: "What this resource gives you for this particular idea.",
+                  }
           - {
                 label: "Related Ideas",
                 name: "related_ideas",
