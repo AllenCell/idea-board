@@ -60,8 +60,13 @@ export function renderContactEmail({
       <p>${body}</p>
       <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 16px 0;" />
       <p style="font-size: 12px; color: #888;">
-        You can reply directly to ${name} at
-        <a href="mailto:${email}">${email}</a>.
+        This is an automated message from the AICS Idea Board. ${name} sent it
+        using the contact form on an idea page; the Idea Board relayed it and
+        did not write it.
+      </p>
+      <p style="font-size: 12px; color: #888;">
+        Replying to this email reaches ${name} at
+        <a href="mailto:${email}">${email}</a>, not the Idea Board.
       </p>
     </div>
   </body>
