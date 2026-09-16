@@ -14,13 +14,14 @@
  *   The sheet must be shared (at least Viewer) with the service account email.
  *
  * Email sending:
- *   Uses the Netlify Email Integration with Mailgun. The integration must be
- *   configured with the required env vars.
- *   see: https://docs.netlify.com/extend/install-and-use/setup-guides/email-integration/#required-environment-variables
- *   The email template lives at emails/contact/index.html.
+ *   POSTs the rendered message to a Make.com webhook, which relays it to
+ *   Outlook. Required env vars:
+ *     MAKE_CONTACT_WEBHOOK_URL — custom webhook URL for the contact scenario
+ *     MAKE_CONTACT_API_KEY     — key from the webhook's API key authentication
  */
-
 import { createSign } from "node:crypto";
+
+import { renderContactEmail } from "../lib/contact-email";
 
 interface ContactRequest {
     senderName: string;
@@ -35,17 +36,24 @@ interface ContactRequest {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // CR/LF in header-interpolated fields enables email header injection
 const HEADER_INJECTION_RE = /[\r\n]/;
+// Under Netlify's 10s function limit, so we return 502 rather than being killed
+const WEBHOOK_TIMEOUT_MS = 8_000;
 
 function validateRequest(body: unknown): body is ContactRequest {
     if (typeof body !== "object" || body === null) return false;
     const b = body as Record<string, unknown>;
     return (
-        typeof b.senderName === "string" && b.senderName.length > 0 &&
+        typeof b.senderName === "string" &&
+        b.senderName.length > 0 &&
         !HEADER_INJECTION_RE.test(b.senderName) &&
-        typeof b.senderEmail === "string" && EMAIL_RE.test(b.senderEmail) &&
-        typeof b.recipientName === "string" && b.recipientName.length > 0 &&
-        typeof b.recipientId === "string" && b.recipientId.length > 0 &&
-        typeof b.message === "string" && b.message.length > 0
+        typeof b.senderEmail === "string" &&
+        EMAIL_RE.test(b.senderEmail) &&
+        typeof b.recipientName === "string" &&
+        b.recipientName.length > 0 &&
+        typeof b.recipientId === "string" &&
+        b.recipientId.length > 0 &&
+        typeof b.message === "string" &&
+        b.message.length > 0
     );
 }
 
@@ -93,14 +101,16 @@ async function getSheetsAccessToken(): Promise<string> {
     return data.access_token;
 }
 
-async function lookupRecipientEmail(recipientId: string): Promise<string | undefined> {
+async function lookupRecipientEmail(
+    recipientId: string,
+): Promise<string | undefined> {
     const sheetId = process.env.CONTACTS_SHEET_ID;
     if (!sheetId) throw new Error("CONTACTS_SHEET_ID missing");
     const token = await getSheetsAccessToken();
     const range = encodeURIComponent("Sheet1!A:C");
     const res = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
     );
     if (!res.ok) {
         throw new Error(`Sheets read failed: ${res.status}`);
@@ -116,7 +126,9 @@ async function lookupRecipientEmail(recipientId: string): Promise<string | undef
 
 export default async function (request: Request) {
     if (request.method !== "POST") {
-        return new Response(JSON.stringify("Method not allowed"), { status: 405 });
+        return new Response(JSON.stringify("Method not allowed"), {
+            status: 405,
+        });
     }
 
     let body: unknown;
@@ -127,7 +139,9 @@ export default async function (request: Request) {
     }
 
     if (!validateRequest(body)) {
-        return new Response(JSON.stringify("Missing or invalid fields"), { status: 400 });
+        return new Response(JSON.stringify("Missing or invalid fields"), {
+            status: 400,
+        });
     }
 
     let recipientEmail: string | undefined;
@@ -135,71 +149,70 @@ export default async function (request: Request) {
         recipientEmail = await lookupRecipientEmail(body.recipientId);
     } catch (error) {
         console.error("Contact lookup failed:", error);
-        return new Response(
-            JSON.stringify("Contact lookup failed"),
-            { status: 502 }
-        );
+        return new Response(JSON.stringify("Contact lookup failed"), {
+            status: 502,
+        });
     }
     if (!recipientEmail) {
         return new Response(
             JSON.stringify("No email stored for submitted contact ID"),
-            { status: 400 }
+            { status: 400 },
         );
     }
 
-    const baseUrl = new URL(request.url).origin;
-    const emailsSecret = process.env.NETLIFY_EMAILS_SECRET;
-    const from = process.env.NETLIFY_EMAILS_FROM
-        ?? (process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN
-            ? `noreply@${process.env.NETLIFY_EMAILS_MAILGUN_DOMAIN}`
-            : undefined);
+    const webhookUrl = process.env.MAKE_CONTACT_WEBHOOK_URL;
+    const apiKey = process.env.MAKE_CONTACT_API_KEY;
 
-    if (!emailsSecret || !from) {
-        console.error("Email service misconfigured:", { emailsSecret: !!emailsSecret, from: !!from });
-        return new Response(
-            JSON.stringify("Email service not configured"),
-            { status: 500 }
-        );
+    if (!webhookUrl || !apiKey) {
+        console.error("Email service misconfigured:", {
+            webhookUrl: !!webhookUrl,
+            apiKey: !!apiKey,
+        });
+        return new Response(JSON.stringify("Email service not configured"), {
+            status: 500,
+        });
     }
 
-    let emailResponse: Response;
+    let webhookResponse: Response;
     try {
-        emailResponse = await fetch(
-            `${baseUrl}/.netlify/functions/emails/contact`,
-            {
-                method: "POST",
-                headers: {
-                    "netlify-emails-secret": emailsSecret,
-                },
-                body: JSON.stringify({
-                    from,
-                    reply_to: body.senderEmail,
-                    to: recipientEmail,
-                    subject: `Idea Board: message from ${body.senderName}`,
-                    parameters: {
-                        senderName: body.senderName,
-                        senderEmail: body.senderEmail,
-                        message: body.message,
-                        ideaTitle: body.ideaTitle ?? "N/A",
-                    },
+        webhookResponse = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-make-apikey": apiKey,
+            },
+            // Make infers its data structure from a sample request, so send
+            // every field every time — an omitted one stops being mappable.
+            body: JSON.stringify({
+                to: recipientEmail,
+                replyTo: body.senderEmail,
+                subject: `Idea Board: message from ${body.senderName}`,
+                html: renderContactEmail({
+                    ideaTitle: body.ideaTitle ?? "N/A",
+                    message: body.message,
+                    senderEmail: body.senderEmail,
+                    senderName: body.senderName,
                 }),
-            }
-        );
+            }),
+            signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
+        });
     } catch (error) {
-        console.error("Error calling email function:", error);
-        return new Response(
-            JSON.stringify("Failed to send email"),
-            { status: 502 }
-        );
+        console.error("Error calling Make webhook:", error);
+        return new Response(JSON.stringify("Failed to send email"), {
+            status: 502,
+        });
     }
 
-    if (!emailResponse.ok) {
-        const errorText = await emailResponse.text();
-        console.error("Email send failed:", emailResponse.status, errorText);
-        return new Response(
-            JSON.stringify("Failed to send email"),
-            { status: 502 }
+    if (!webhookResponse.ok) {
+        const errorText = await webhookResponse.text();
+        console.error(
+            "Make webhook failed:",
+            webhookResponse.status,
+            errorText,
         );
+        return new Response(JSON.stringify("Failed to send email"), {
+            status: 502,
+        });
     }
 
     return new Response(JSON.stringify("Message sent"), { status: 200 });
