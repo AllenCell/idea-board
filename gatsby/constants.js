@@ -7,8 +7,12 @@ const IDEA_POST_TEMPLATE_KEY = `idea-post`;
 const RESOURCES_GATSBY_NODE_KEY = `Resource`;
 const IDEA_POST_GATSBY_NODE_KEY = `IdeaPost`;
 const ALLENITE_GATSBY_NODE_KEY = `Allenite`;
+const ACCELERATOR_GATSBY_NODE_KEY = `Accelerator`;
 const MARKDOWN_REMARK_GATSBY_NODE_KEY = `MarkdownRemark`;
 const IDEAS_SLUG_DIRECTORY = `ideas`;
+// Plural: the content folder is src/pages/accelerators, while the
+// templateKey is singular.
+const ACCELERATORS_SLUG_DIRECTORY = `accelerators`;
 
 /**
  * Maps frontmatter templateKey → a distinct GraphQL node type.
@@ -21,10 +25,13 @@ const TEMPLATE_KEY_TO_TYPE = {
     [RESOURCES_TEMPLATE_KEY]: RESOURCES_GATSBY_NODE_KEY,
     [IDEA_POST_TEMPLATE_KEY]: IDEA_POST_GATSBY_NODE_KEY,
     [ALLENITE_TEMPLATE_KEY]: ALLENITE_GATSBY_NODE_KEY,
+    [ACCELERATOR_TEMPLATE_KEY]: ACCELERATOR_GATSBY_NODE_KEY,
 };
 
 module.exports = {
     ACCELERATOR_TEMPLATE_KEY,
+    ACCELERATOR_GATSBY_NODE_KEY,
+    ACCELERATORS_SLUG_DIRECTORY,
     ALLENITE_TEMPLATE_KEY,
     ALLENITE_GATSBY_NODE_KEY,
     PROGRAM_TEMPLATE_KEY,

@@ -4,6 +4,7 @@ const {
     ideaPostQuery,
     resourceQuery,
     alleniteQuery,
+    acceleratorQuery,
 } = require("../utils/gatsby-resolver-utils");
 
 /**
@@ -89,6 +90,28 @@ const createIdeaPostResolver = (reporter) => ({
     },
     accelerator: {
         resolve: (source) => resolveToArray(source.accelerator),
+    },
+    /**
+     * The raw `accelerator` names stay as they are; this parallel field carries
+     * the resolved nodes so renderers can link to an accelerator's page.
+     */
+    accelerators: {
+        resolve: async (source, _args, context) => {
+            const names = resolveToArray(source.accelerator);
+            const results = await Promise.all(
+                names.map((name) => {
+                    const query = acceleratorQuery(name);
+                    return query ? context.nodeModel.findOne(query) : null;
+                }),
+            );
+            results.forEach((result, i) => {
+                if (!result) {
+                    const msg = `Accelerator "${names[i]}" not found for idea "${source.title}". Check for typos and ensure the accelerator file exists in src/pages/accelerators.`;
+                    reporter.error(msg, new Error(msg));
+                }
+            });
+            return results.filter(Boolean);
+        },
     },
     scope: {
         resolve: (source) => source.scope ?? null,
