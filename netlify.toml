@@ -2,8 +2,6 @@
   publish = "public"
   command = "npm run build"
   package = "@netlify/plugin-gatsby"
-[[plugins]]
-  package = "@netlify/plugin-emails"
 
 [build.environment]
   NODE_VERSION = "22.16.0"
