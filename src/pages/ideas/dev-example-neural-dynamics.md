@@ -1,5 +1,6 @@
 ---
 templateKey: idea-post
+draft: true
 title: Relate spontaneous activity to stimulus selectivity over days (dev example — neural dynamics)
 program:
   - Other

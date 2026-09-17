@@ -1,5 +1,6 @@
 ---
 templateKey: idea-post
+draft: true
 title: Map cell-type composition across cortical layers (dev example — brain science)
 program:
   - Other

@@ -1,5 +1,6 @@
 ---
 templateKey: idea-post
+draft: true
 title: Predict protein tag placement from structure models (dev example — AI biodesign)
 program:
   - Other

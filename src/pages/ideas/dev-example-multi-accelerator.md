@@ -1,5 +1,6 @@
 ---
 templateKey: idea-post
+draft: true
 title: Shared imaging pipeline across two accelerators (dev example — multiple accelerators)
 program:
   - Other
