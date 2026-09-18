@@ -23,10 +23,11 @@ const {
     eyebrow,
     metaContact,
     metaGroup,
+    metaGroups,
     metaKey,
     metaStrip,
     metaVal,
-    metaValBlue,
+    postByline,
     postHeader,
     postTitle,
     proposal,
@@ -54,9 +55,10 @@ export type IdeaPostTemplateProps = IdeaPostNode & {
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     authors,
     date,
+    doi,
     introduction,
-    maturity,
     isPreview,
+    maturity,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
@@ -91,40 +93,55 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                 <h1 id="title" className={postTitle}>
                     {title}
                 </h1>
+                <div className={postByline}>
+                    {authors && authors.length > 0 && (
+                        <span>{authors.map((a) => a.name).join(" · ")}</span>
+                    )}
+                    {date && <span>{date}</span>}
+                </div>
             </div>
 
             {/* Metadata strip */}
             <div className={metaStrip}>
-                {authors && authors.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Authors</span>
-                        <span className={metaValBlue}>
-                            {authors.map((a) => a.name).join(" · ")}
-                        </span>
-                    </div>
-                )}
-                <div className={metaGroup}>
-                    <span className={metaKey}>Date</span>
-                    <span className={metaVal}>{date}</span>
+                <div className={metaGroups}>
+                    {type && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Type</span>
+                            <span className={metaVal}>{type}</span>
+                        </div>
+                    )}
+                    {maturity && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Maturity</span>
+                            <MaturityBadge
+                                maturity={maturity}
+                                variant="inline"
+                            />
+                        </div>
+                    )}
+                    {program && program.length > 0 && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Program</span>
+                            <span className={metaVal}>
+                                {program.join(", ")}
+                            </span>
+                        </div>
+                    )}
+                    {doi && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>DOI</span>
+                            <span className={metaVal}>
+                                <a
+                                    href={`https://doi.org/${doi}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    {doi}
+                                </a>
+                            </span>
+                        </div>
+                    )}
                 </div>
-                {type && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Type</span>
-                        <span className={metaVal}>{type}</span>
-                    </div>
-                )}
-                {maturity && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Maturity</span>
-                        <MaturityBadge maturity={maturity} variant="inline" />
-                    </div>
-                )}
-                {program && program.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Program</span>
-                        <span className={metaVal}>{program.join(", ")}</span>
-                    </div>
-                )}
                 <div className={metaContact}>
                     <Button onClick={() => setContactModalOpen(true)}>
                         Contact
@@ -386,6 +403,7 @@ export const pageQuery = graphql`
             maturity
             title
             description
+            doi
             tags
             program
             type

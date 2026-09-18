@@ -13,6 +13,7 @@ preliminaryFindings:
       file: /img/228469011.jpg
 draft: false
 templateKey: idea-post
+doi: 10.5281/zenodo.1234567
 title: Investigate role of cell-cell junctions in collective cell migration (dev
   example)
 type: analysis of existing data

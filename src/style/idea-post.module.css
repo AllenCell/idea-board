@@ -20,6 +20,25 @@
     margin-bottom: 10px;
 }
 
+.postByline {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-heading-color);
+    opacity: 0.85;
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+/* Middot between byline entries, matching the topics row's separators */
+.postByline span + span::before {
+    content: "·";
+    opacity: 0.6;
+    margin-right: 10px;
+}
+
 .postTitle {
     font-size: 2rem;
     font-weight: 800;
@@ -38,28 +57,37 @@
     padding: 10px 48px 10px 24px;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 0;
+    justify-content: space-between;
+    gap: 16px;
     @media screen and (max-width: 576px) {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
         padding: 10px 16px;
     }
 }
 
-.metaGroup {
+.metaGroups {
     display: flex;
-    flex-direction: column;
-    padding-right: 20px;
-    margin-right: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 0;
+    min-width: 0;
+}
+
+.metaGroup {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding-right: 16px;
+    margin-right: 16px;
     border-right: 1px solid var(--border-color);
-    line-height: 1.3;
-    @media screen and (max-width: 576px) {
-        border-right: none;
-        padding-right: 0;
-        margin-right: 0;
-    }
+    line-height: 1.4;
+}
+
+.metaGroup:last-child {
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
 }
 
 .metaKey {
@@ -68,7 +96,7 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--text-secondary-color);
-    margin-bottom: 2px;
+    white-space: nowrap;
 }
 
 .metaVal {
@@ -77,17 +105,8 @@
     color: var(--text-primary-color);
 }
 
-.metaValBlue {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
 .metaContact {
-    margin-left: auto;
-    @media screen and (max-width: 576px) {
-        margin-left: 0;
-    }
+    flex-shrink: 0;
 }
 
 /* ── Tag row ─────────────────────────────────────────────────── */
