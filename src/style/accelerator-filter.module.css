@@ -1,0 +1,46 @@
+.filterRow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.filterLabel {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-secondary-color);
+    margin-right: 2px;
+}
+
+.filterLink {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+    text-decoration: none;
+}
+
+.filterLink:hover {
+    background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+}
+
+/* Same footprint as .filterLink so the row doesn't reflow on navigation */
+.filterLinkActive {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1.5px solid var(--primary-color);
+    background: var(--primary-color);
+    color: var(--text-light-color);
+    text-decoration: none;
+}

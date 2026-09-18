@@ -52,11 +52,12 @@ export type IdeaPostTemplateProps = IdeaPostNode & {
 };
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
+    accelerators,
     authors,
     date,
     introduction,
-    maturity,
     isPreview,
+    maturity,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
@@ -123,6 +124,27 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                     <div className={metaGroup}>
                         <span className={metaKey}>Program</span>
                         <span className={metaVal}>{program.join(", ")}</span>
+                    </div>
+                )}
+                {accelerators && accelerators.length > 0 && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>Accelerator</span>
+                        <span className={metaVal}>
+                            {accelerators.map((accelerator, i) => (
+                                <React.Fragment key={accelerator.slug}>
+                                    {i > 0 && ", "}
+                                    {/* Gatsby's Link needs the app runtime
+                                        the Decap preview iframe lacks */}
+                                    {isPreview ? (
+                                        accelerator.name
+                                    ) : (
+                                        <Link to={accelerator.slug}>
+                                            {accelerator.name}
+                                        </Link>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </span>
                     </div>
                 )}
                 <div className={metaContact}>
@@ -388,6 +410,10 @@ export const pageQuery = graphql`
             description
             tags
             program
+            accelerators {
+                name
+                slug
+            }
             type
             preliminaryFindings {
                 summary

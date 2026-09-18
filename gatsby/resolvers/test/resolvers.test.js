@@ -54,6 +54,70 @@ describe("createIdeaPostResolver - accelerator", () => {
     });
 });
 
+describe("createIdeaPostResolver - accelerators", () => {
+    const CELL = "/accelerators/cell-science/";
+    const BRAIN = "/accelerators/brain-science/";
+    const context = (known) => ({
+        nodeModel: {
+            findOne: vi.fn(async ({ query }) =>
+                known.includes(query.filter.slug.eq)
+                    ? { slug: query.filter.slug.eq }
+                    : null,
+            ),
+        },
+    });
+
+    it("resolves accelerator names into nodes", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.accelerators.resolve(
+            { title: "Test idea", accelerator: ["Cell Science"] },
+            {},
+            context([CELL]),
+        );
+        expect(result).toEqual([{ slug: CELL }]);
+    });
+
+    it("resolves several, preserving order", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.accelerators.resolve(
+            {
+                title: "Test idea",
+                accelerator: ["Cell Science", "Brain Science"],
+            },
+            {},
+            context([CELL, BRAIN]),
+        );
+        expect(result).toEqual([{ slug: CELL }, { slug: BRAIN }]);
+    });
+
+    it("returns an empty array when the field is absent", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const ctx = context([]);
+        expect(await resolver.accelerators.resolve({}, {}, ctx)).toEqual([]);
+        expect(ctx.nodeModel.findOne).not.toHaveBeenCalled();
+    });
+
+    it("reports an unresolvable name and drops it", async () => {
+        const reporter = { error: vi.fn(), warn: vi.fn() };
+        const resolver = createIdeaPostResolver(reporter);
+        const result = await resolver.accelerators.resolve(
+            { title: "Test idea", accelerator: ["Cell Science", "Nope"] },
+            {},
+            context([CELL]),
+        );
+        expect(result).toEqual([{ slug: CELL }]);
+        expect(reporter.error).toHaveBeenCalledTimes(1);
+        expect(reporter.error.mock.calls[0][0]).toContain("Nope");
+    });
+
+    it("leaves the raw accelerator name list untouched", () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        expect(
+            resolver.accelerator.resolve({ accelerator: ["Cell Science"] }),
+        ).toEqual(["Cell Science"]);
+    });
+});
+
 describe("createIdeaPostResolver - scope", () => {
     const resolver = createIdeaPostResolver(mockReporter);
 
