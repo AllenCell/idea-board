@@ -10,6 +10,7 @@ const {
     acceleratorEyebrow,
     byline,
     container,
+    draftBadge,
     emptyState,
     eyebrowTag,
     listItem,
@@ -38,13 +39,14 @@ const THUMBNAIL_SIZE = { width: 88, height: 56 };
 const IdeaRoll = ({ acceleratorSlug, count }: IdeaRollProps) => {
     const queryData = useStaticQuery(graphql`
         query IdeaRoll {
-            allIdeaPost(sort: { date: DESC }, filter: { draft: { ne: true } }) {
+            allIdeaPost(sort: { date: DESC }) {
                 nodes {
                     id
                     slug
                     title
                     tags
                     maturity
+                    draft
                     accelerators {
                         name
                         slug
@@ -149,6 +151,11 @@ const IdeaRoll = ({ acceleratorSlug, count }: IdeaRollProps) => {
                                         <MaturityBadge
                                             maturity={item.maturity}
                                         />
+                                    )}
+                                    {item.draft && (
+                                        <span className={draftBadge}>
+                                            Draft
+                                        </span>
                                     )}
                                 </div>
                                 <div className={byline}>

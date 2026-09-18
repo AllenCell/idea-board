@@ -9,6 +9,8 @@ const {
     TEMPLATE_KEY_TO_TYPE,
     ALLENITE_TEMPLATE_KEY,
     PROGRAM_TEMPLATE_KEY,
+    IDEA_POST_TEMPLATE_KEY,
+    SHOW_DRAFTS,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
@@ -93,7 +95,8 @@ exports.createPages = ({ actions, graphql }) => {
     /**
      * We make pages from all markdown files that are consumed by gatsby-transformer-remark,
      * unless they are specified in DATA_ONLY_PAGES, or TEMPLATE_KEY_TO_TYPE.
-     * In practice this block makes pages for idea posts and tags.
+     * In practice this block makes tag pages: idea posts have their own node
+     * type, so they are created by typedNodePages above.
      */
     const markdownPages = graphql(`
         {
@@ -155,6 +158,9 @@ exports.createPages = ({ actions, graphql }) => {
         let tags = [];
         // Iterate through each post, putting all found tags into `tags`
         posts.forEach((edge) => {
+            if (edge.node.frontmatter.draft === true && !SHOW_DRAFTS) {
+                return;
+            }
             if (_.get(edge, `node.frontmatter.tags`)) {
                 tags = tags.concat(edge.node.frontmatter.tags);
             }
@@ -207,6 +213,17 @@ exports.onCreateNode = ({
             templateKeysWithNodes.includes(node.frontmatter?.templateKey)
         ) {
             const nodeType = TEMPLATE_KEY_TO_TYPE[node.frontmatter.templateKey];
+
+            // Keeping draft ideas out of the data layer entirely means no query
+            // can surface them and nothing leaks into page-data JSON. The
+            // MarkdownRemark node still exists; only the typed node is skipped.
+            if (
+                node.frontmatter.templateKey === IDEA_POST_TEMPLATE_KEY &&
+                node.frontmatter.draft === true &&
+                !SHOW_DRAFTS
+            ) {
+                return;
+            }
 
             let fields = { ...node.frontmatter };
 

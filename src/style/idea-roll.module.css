@@ -115,3 +115,16 @@
             color-mix(in srgb, var(--thumbnail-border-color) 20%, transparent),
         0 2px 8px rgba(0, 0, 0, 0.15);
 }
+
+/* Only rendered when drafts are visible, i.e. never in a production build */
+.draftBadge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-light-color);
+    background: var(--text-secondary-color);
+    border-radius: 2px;
+    padding: 2px 6px;
+    white-space: nowrap;
+}

@@ -32,7 +32,7 @@ export const AcceleratorFilter: React.FC<AcceleratorFilterProps> = ({
                     name
                 }
             }
-            allIdeaPost(filter: { draft: { ne: true } }) {
+            allIdeaPost {
                 nodes {
                     accelerators {
                         slug

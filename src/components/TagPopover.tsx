@@ -19,36 +19,22 @@ export const TagPopover: React.FC<TagPopoverProps> = ({
 }) => {
     const data: Queries.AllIdeasForTagsQuery = useStaticQuery(graphql`
         query AllIdeasForTags {
-            allMarkdownRemark(
-                filter: { frontmatter: { templateKey: { eq: "idea-post" } } }
-            ) {
-                edges {
-                    node {
-                        id
-                        fields {
-                            slug
-                        }
-                        frontmatter {
-                            title
-                            tags
-                        }
-                    }
+            allIdeaPost {
+                nodes {
+                    id
+                    slug
+                    title
+                    tags
                 }
             }
         }
     `);
 
-    const postsWithTag = data.allMarkdownRemark.edges
-        .filter(
-            (edge) =>
-                edge.node.frontmatter.tags?.includes(tag) &&
-                edge.node.fields.slug !== currentSlug,
-        )
-        .map((post) => (
-            <li key={post.node.id} className={styles.postLink}>
-                <Link to={post.node.fields.slug}>
-                    {post.node.frontmatter.title}
-                </Link>
+    const postsWithTag = data.allIdeaPost.nodes
+        .filter((node) => node.tags.includes(tag) && node.slug !== currentSlug)
+        .map((node) => (
+            <li key={node.id} className={styles.postLink}>
+                <Link to={node.slug}>{node.title}</Link>
             </li>
         ));
 
