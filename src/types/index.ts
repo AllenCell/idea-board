@@ -16,8 +16,7 @@ export type IdeaPostQuery = Queries.IdeaPostByIDQuery;
 export type IdeaPostNode = NonNullable<IdeaPostQuery["ideaPost"]>;
 export type Allenite = NonNullable<IdeaPostNode["primaryContact"]>;
 
-export type IdeasForTags =
-    Queries.AllIdeasForTagsQuery["allMarkdownRemark"]["edges"];
+export type IdeasForTags = Queries.AllIdeasForTagsQuery["allIdeaPost"]["nodes"];
 
 export type PreliminaryFindings = NonNullable<
     IdeaPostNode["preliminaryFindings"]

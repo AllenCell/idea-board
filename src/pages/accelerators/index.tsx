@@ -77,7 +77,7 @@ export const pageQuery = graphql`
                 name
             }
         }
-        allIdeaPost(filter: { draft: { ne: true } }) {
+        allIdeaPost {
             nodes {
                 accelerators {
                     slug

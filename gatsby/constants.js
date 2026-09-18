@@ -10,6 +10,14 @@ const ALLENITE_GATSBY_NODE_KEY = `Allenite`;
 const ACCELERATOR_GATSBY_NODE_KEY = `Accelerator`;
 const MARKDOWN_REMARK_GATSBY_NODE_KEY = `MarkdownRemark`;
 const IDEAS_SLUG_DIRECTORY = `ideas`;
+
+/**
+ * Draft visibility for Node-side code. Browser equivalent lives in
+ * src/utils/drafts.ts — keep the two in sync.
+ */
+const SHOW_DRAFTS =
+    process.env.GATSBY_SHOW_DRAFTS === "true" ||
+    process.env.NODE_ENV === "development";
 // Plural: the content folder is src/pages/accelerators, while the
 // templateKey is singular.
 const ACCELERATORS_SLUG_DIRECTORY = `accelerators`;
@@ -29,6 +37,7 @@ const TEMPLATE_KEY_TO_TYPE = {
 };
 
 module.exports = {
+    SHOW_DRAFTS,
     ACCELERATOR_TEMPLATE_KEY,
     ACCELERATOR_GATSBY_NODE_KEY,
     ACCELERATORS_SLUG_DIRECTORY,
