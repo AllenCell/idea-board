@@ -1,3 +1,5 @@
+import slugify from "slugify";
+
 import { ResourceNode } from "../../types";
 import { fromImmutable } from "./immutable";
 
@@ -43,6 +45,31 @@ export function resolveRelationList<T>(
         .filter((v): v is string => typeof v === "string")
         .map(resolve)
         .filter((v): v is T => v != null);
+}
+
+/** The subset of an accelerator node the idea post template consumes. */
+export type ResolvedAccelerator = { name: string; slug: string };
+
+/**
+ * accelerator relation (name) → { name, slug }. Unlike the resource resolvers
+ * this never returns null: the name is the only field preview renders, so
+ * falling back to it keeps the block visible before metadata hydrates. The slug
+ * is derived the same way resolveSlug does on the Node side.
+ */
+export function resolveAccelerator(
+    fieldsMetaData: FieldsMetaData | undefined,
+    name: string,
+): ResolvedAccelerator {
+    const node = resolveRelation(
+        fieldsMetaData,
+        "accelerator",
+        "accelerator",
+        name,
+    );
+    return {
+        name: typeof node?.name === "string" ? node.name : name,
+        slug: `/accelerators/${slugify(name, { lower: true, strict: true })}/`,
+    };
 }
 
 /** The subset of an allenite node the idea post template actually consumes. */
