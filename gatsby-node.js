@@ -9,7 +9,6 @@ const {
     TEMPLATE_KEY_TO_TYPE,
     ALLENITE_TEMPLATE_KEY,
     PROGRAM_TEMPLATE_KEY,
-    ACCELERATOR_TEMPLATE_KEY,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
