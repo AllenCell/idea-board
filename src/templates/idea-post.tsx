@@ -54,9 +54,10 @@ export type IdeaPostTemplateProps = IdeaPostNode & {
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
     authors,
     date,
+    doi,
     introduction,
-    maturity,
     isPreview,
+    maturity,
     nextSteps,
     onExpandDescription,
     preliminaryFindings,
@@ -123,6 +124,20 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                     <div className={metaGroup}>
                         <span className={metaKey}>Program</span>
                         <span className={metaVal}>{program.join(", ")}</span>
+                    </div>
+                )}
+                {doi && (
+                    <div className={metaGroup}>
+                        <span className={metaKey}>DOI</span>
+                        <span className={metaVal}>
+                            <a
+                                href={`https://doi.org/${doi}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {doi}
+                            </a>
+                        </span>
                     </div>
                 )}
                 <div className={metaContact}>
@@ -386,6 +401,7 @@ export const pageQuery = graphql`
             maturity
             title
             description
+            doi
             tags
             program
             type
