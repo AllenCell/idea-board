@@ -9,6 +9,7 @@ import { ImmutableLike, fromImmutable } from "../utils/immutable";
 import {
     FieldsMetaData,
     GetAsset,
+    resolveAccelerator,
     resolveAllenite,
     resolveFigures,
     resolveRelatedIdea,
@@ -67,6 +68,12 @@ function normalizeCmsData(
         resolveResource(fieldsMetaData, slug),
     );
 
+    // accelerator: the frontmatter key is singular and holds names; the template
+    // prop is plural and wants { name, slug } nodes.
+    const accelerators = resolveRelationList(raw.accelerator, (name) =>
+        resolveAccelerator(fieldsMetaData, name),
+    );
+
     // related_ideas: relation gives slugs; resolve each to { title, slug }.
     const relatedIdeas = resolveRelationList(raw.related_ideas, (slug) =>
         resolveRelatedIdea(fieldsMetaData, slug),
@@ -99,6 +106,7 @@ function normalizeCmsData(
 
     return {
         ...v,
+        accelerators,
         authors,
         date,
         isPreview: true,
