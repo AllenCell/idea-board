@@ -120,6 +120,27 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                             />
                         </div>
                     )}
+                    {accelerators && accelerators.length > 0 && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Accelerator</span>
+                            <span className={metaVal}>
+                                {accelerators.map((accelerator, i) => (
+                                    <React.Fragment key={accelerator.slug}>
+                                        {i > 0 && ", "}
+                                        {/* Gatsby's Link needs the app runtime
+                                        the Decap preview iframe lacks */}
+                                        {isPreview ? (
+                                            accelerator.name
+                                        ) : (
+                                            <Link to={accelerator.slug}>
+                                                {accelerator.name}
+                                            </Link>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </span>
+                        </div>
+                    )}
                     {program && program.length > 0 && (
                         <div className={metaGroup}>
                             <span className={metaKey}>Program</span>
@@ -143,45 +164,6 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                         </div>
                     )}
                 </div>
-                {type && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Type</span>
-                        <span className={metaVal}>{type}</span>
-                    </div>
-                )}
-                {maturity && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Maturity</span>
-                        <MaturityBadge maturity={maturity} variant="inline" />
-                    </div>
-                )}
-                {program && program.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Program</span>
-                        <span className={metaVal}>{program.join(", ")}</span>
-                    </div>
-                )}
-                {accelerators && accelerators.length > 0 && (
-                    <div className={metaGroup}>
-                        <span className={metaKey}>Accelerator</span>
-                        <span className={metaVal}>
-                            {accelerators.map((accelerator, i) => (
-                                <React.Fragment key={accelerator.slug}>
-                                    {i > 0 && ", "}
-                                    {/* Gatsby's Link needs the app runtime
-                                        the Decap preview iframe lacks */}
-                                    {isPreview ? (
-                                        accelerator.name
-                                    ) : (
-                                        <Link to={accelerator.slug}>
-                                            {accelerator.name}
-                                        </Link>
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </span>
-                    </div>
-                )}
                 <div className={metaContact}>
                     <Button onClick={() => setContactModalOpen(true)}>
                         Contact
