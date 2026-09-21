@@ -54,6 +54,70 @@ describe("createIdeaPostResolver - accelerator", () => {
     });
 });
 
+describe("createIdeaPostResolver - accelerators", () => {
+    const CELL = "/accelerators/cell-science/";
+    const BRAIN = "/accelerators/brain-science/";
+    const context = (known) => ({
+        nodeModel: {
+            findOne: vi.fn(async ({ query }) =>
+                known.includes(query.filter.slug.eq)
+                    ? { slug: query.filter.slug.eq }
+                    : null,
+            ),
+        },
+    });
+
+    it("resolves accelerator names into nodes", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.accelerators.resolve(
+            { title: "Test idea", accelerator: ["Cell Science"] },
+            {},
+            context([CELL]),
+        );
+        expect(result).toEqual([{ slug: CELL }]);
+    });
+
+    it("resolves several, preserving order", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const result = await resolver.accelerators.resolve(
+            {
+                title: "Test idea",
+                accelerator: ["Cell Science", "Brain Science"],
+            },
+            {},
+            context([CELL, BRAIN]),
+        );
+        expect(result).toEqual([{ slug: CELL }, { slug: BRAIN }]);
+    });
+
+    it("returns an empty array when the field is absent", async () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        const ctx = context([]);
+        expect(await resolver.accelerators.resolve({}, {}, ctx)).toEqual([]);
+        expect(ctx.nodeModel.findOne).not.toHaveBeenCalled();
+    });
+
+    it("reports an unresolvable name and drops it", async () => {
+        const reporter = { error: vi.fn(), warn: vi.fn() };
+        const resolver = createIdeaPostResolver(reporter);
+        const result = await resolver.accelerators.resolve(
+            { title: "Test idea", accelerator: ["Cell Science", "Nope"] },
+            {},
+            context([CELL]),
+        );
+        expect(result).toEqual([{ slug: CELL }]);
+        expect(reporter.error).toHaveBeenCalledTimes(1);
+        expect(reporter.error.mock.calls[0][0]).toContain("Nope");
+    });
+
+    it("leaves the raw accelerator name list untouched", () => {
+        const resolver = createIdeaPostResolver(mockReporter);
+        expect(
+            resolver.accelerator.resolve({ accelerator: ["Cell Science"] }),
+        ).toEqual(["Cell Science"]);
+    });
+});
+
 describe("createIdeaPostResolver - scope", () => {
     const resolver = createIdeaPostResolver(mockReporter);
 
@@ -67,6 +131,22 @@ describe("createIdeaPostResolver - scope", () => {
         expect(resolver.scope.resolve({})).toBeNull();
         expect(resolver.scope.resolve({ scope: null })).toBeNull();
         expect(resolver.scope.resolve({ scope: undefined })).toBeNull();
+    });
+});
+
+describe("createIdeaPostResolver - doi", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the doi when present", () => {
+        expect(resolver.doi.resolve({ doi: "10.1234/abcd" })).toBe(
+            "10.1234/abcd",
+        );
+    });
+
+    it("returns null when absent", () => {
+        expect(resolver.doi.resolve({})).toBeNull();
+        expect(resolver.doi.resolve({ doi: null })).toBeNull();
+        expect(resolver.doi.resolve({ doi: undefined })).toBeNull();
     });
 });
 

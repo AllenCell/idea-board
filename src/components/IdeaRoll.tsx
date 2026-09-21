@@ -7,8 +7,10 @@ import { MaturityBadge } from "./MaturityBadge";
 import { TagPopover } from "./TagPopover";
 
 const {
+    acceleratorEyebrow,
     byline,
     container,
+    emptyState,
     eyebrowTag,
     listItem,
     tagEyebrow,
@@ -27,11 +29,13 @@ type IdeaListItem = Omit<IdeaNode, "resources"> & {
 
 interface IdeaRollProps {
     count?: number;
+    /** Slug of an accelerator to narrow the list to. */
+    acceleratorSlug?: string;
 }
 
 const THUMBNAIL_SIZE = { width: 88, height: 56 };
 
-const IdeaRoll = ({ count }: IdeaRollProps) => {
+const IdeaRoll = ({ acceleratorSlug, count }: IdeaRollProps) => {
     const queryData = useStaticQuery(graphql`
         query IdeaRoll {
             allIdeaPost(sort: { date: DESC }, filter: { draft: { ne: true } }) {
@@ -41,6 +45,10 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                     title
                     tags
                     maturity
+                    accelerators {
+                        name
+                        slug
+                    }
                     authors {
                         name
                     }
@@ -69,12 +77,22 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
         }
     `);
 
-    const nodes: IdeaNode[] = queryData.allIdeaPost.nodes.slice(0, count);
+    const allNodes: IdeaNode[] = queryData.allIdeaPost.nodes;
+    const matching = acceleratorSlug
+        ? allNodes.filter((post) =>
+              post.accelerators.some((a) => a?.slug === acceleratorSlug),
+          )
+        : allNodes;
+    const nodes: IdeaNode[] = matching.slice(0, count);
     const ideas: IdeaListItem[] = nodes.map((post) => ({
         ...post,
         dataset:
             post.resources.find((r) => r?.type === "dataset")?.name ?? null,
     }));
+
+    if (ideas.length === 0) {
+        return <p className={emptyState}>No ideas yet.</p>;
+    }
 
     return (
         <>
@@ -86,11 +104,27 @@ const IdeaRoll = ({ count }: IdeaRollProps) => {
                     return (
                         <li key={item.id} className={listItem}>
                             <div className={textBlock}>
-                                {item.tags.length > 0 && (
+                                {(item.accelerators.length > 0 ||
+                                    item.tags.length > 0) && (
                                     <div className={tagEyebrow}>
+                                        {item.accelerators.map(
+                                            (accelerator) => (
+                                                <Link
+                                                    key={accelerator.slug}
+                                                    to={accelerator.slug}
+                                                    className={
+                                                        acceleratorEyebrow
+                                                    }
+                                                >
+                                                    {accelerator.name}
+                                                </Link>
+                                            ),
+                                        )}
                                         {item.tags.map((tag, i) => (
                                             <React.Fragment key={tag}>
-                                                {i > 0 && (
+                                                {(i > 0 ||
+                                                    item.accelerators.length >
+                                                        0) && (
                                                     <span
                                                         className={tagSeparator}
                                                         aria-hidden="true"

@@ -4,6 +4,8 @@ const {
     IDEA_POST_TEMPLATE_KEY,
     IDEAS_SLUG_DIRECTORY,
     ALLENITE_TEMPLATE_KEY,
+    ACCELERATOR_TEMPLATE_KEY,
+    ACCELERATORS_SLUG_DIRECTORY,
 } = require("../constants");
 const slugify = require("slugify");
 
@@ -82,6 +84,15 @@ const alleniteQuery = (name) => {
     };
 };
 
+const acceleratorQuery = (name) => {
+    const slug = resolveSlug(name, ACCELERATORS_SLUG_DIRECTORY);
+    if (!slug) return null;
+    return {
+        query: { filter: { slug: { eq: slug } } },
+        type: TEMPLATE_KEY_TO_TYPE[ACCELERATOR_TEMPLATE_KEY],
+    };
+};
+
 module.exports = {
     stringWithDefault,
     resolveToArray,
@@ -89,4 +100,5 @@ module.exports = {
     resourceQuery,
     ideaPostQuery,
     alleniteQuery,
+    acceleratorQuery,
 };
