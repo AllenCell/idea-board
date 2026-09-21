@@ -5,6 +5,7 @@ import { graphql } from "gatsby";
 import PropTypes from "prop-types";
 
 import { useSetLayoutConfig } from "../LayoutContext";
+import { AcceleratorFilter } from "../components/AcceleratorFilter";
 import IdeaRoll from "../components/IdeaRoll";
 
 const {
@@ -47,6 +48,7 @@ export const IndexPageTemplate: React.FC = () => {
                 </div>
             </section>
             <div className={listWrapper}>
+                <AcceleratorFilter />
                 <IdeaRoll />
             </div>
         </div>

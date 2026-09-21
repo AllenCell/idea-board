@@ -61,8 +61,16 @@ type IdeaResourceNote {
     relevance: String
 }
 
+type Accelerator implements Node {
+    slug: String!
+    name: String
+    description: String
+    active: Boolean
+}
+
 type IdeaPost implements Node {
     accelerator: [String!]!
+    accelerators: [Accelerator!]!
     authors: [Allenite!]!
     date: Date @dateformat
     description: String

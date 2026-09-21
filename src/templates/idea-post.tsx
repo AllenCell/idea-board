@@ -53,6 +53,7 @@ export type IdeaPostTemplateProps = IdeaPostNode & {
 };
 
 export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
+    accelerators,
     authors,
     date,
     doi,
@@ -117,6 +118,27 @@ export const IdeaPostTemplate: React.FC<IdeaPostTemplateProps> = ({
                                 maturity={maturity}
                                 variant="inline"
                             />
+                        </div>
+                    )}
+                    {accelerators && accelerators.length > 0 && (
+                        <div className={metaGroup}>
+                            <span className={metaKey}>Accelerator</span>
+                            <span className={metaVal}>
+                                {accelerators.map((accelerator, i) => (
+                                    <React.Fragment key={accelerator.slug}>
+                                        {i > 0 && ", "}
+                                        {/* Gatsby's Link needs the app runtime
+                                        the Decap preview iframe lacks */}
+                                        {isPreview ? (
+                                            accelerator.name
+                                        ) : (
+                                            <Link to={accelerator.slug}>
+                                                {accelerator.name}
+                                            </Link>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </span>
                         </div>
                     )}
                     {program && program.length > 0 && (
@@ -406,6 +428,10 @@ export const pageQuery = graphql`
             doi
             tags
             program
+            accelerators {
+                name
+                slug
+            }
             type
             preliminaryFindings {
                 summary
