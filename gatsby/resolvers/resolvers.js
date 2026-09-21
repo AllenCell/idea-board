@@ -93,6 +93,9 @@ const createIdeaPostResolver = (reporter) => ({
     scope: {
         resolve: (source) => source.scope ?? null,
     },
+    doi: {
+        resolve: (source) => source.doi ?? null,
+    },
     researcherLevel: {
         resolve: (source) => resolveToArray(source.researcherLevel),
     },
