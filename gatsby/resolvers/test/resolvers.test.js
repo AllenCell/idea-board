@@ -134,6 +134,22 @@ describe("createIdeaPostResolver - scope", () => {
     });
 });
 
+describe("createIdeaPostResolver - doi", () => {
+    const resolver = createIdeaPostResolver(mockReporter);
+
+    it("returns the doi when present", () => {
+        expect(resolver.doi.resolve({ doi: "10.1234/abcd" })).toBe(
+            "10.1234/abcd",
+        );
+    });
+
+    it("returns null when absent", () => {
+        expect(resolver.doi.resolve({})).toBeNull();
+        expect(resolver.doi.resolve({ doi: null })).toBeNull();
+        expect(resolver.doi.resolve({ doi: undefined })).toBeNull();
+    });
+});
+
 describe("createIdeaPostResolver - researcherLevel", () => {
     const resolver = createIdeaPostResolver(mockReporter);
 

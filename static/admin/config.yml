@@ -323,6 +323,15 @@ collections:
                 required: false,
             }
           - {
+                label: "DOI",
+                name: "doi",
+                widget: "string",
+                required: false,
+                pattern:
+                    ['^10\.\d{4,9}/\S+$', "must be a bare DOI, e.g. 10.1234/abcd"],
+                hint: "Bare DOI, without the https://doi.org/ prefix — the link is built for you.",
+            }
+          - {
                 label: "Tags",
                 name: "tags",
                 widget: "list",

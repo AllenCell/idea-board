@@ -74,6 +74,7 @@ type IdeaPost implements Node {
     authors: [Allenite!]!
     date: Date @dateformat
     description: String
+    doi: String
     draft: Boolean
     flagshipResources: [Resource!]!
     introduction: String
