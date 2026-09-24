@@ -5,6 +5,7 @@ import {
     IdeaPostTemplateProps,
 } from "../../templates/idea-post";
 import { PreliminaryFindings } from "../../types";
+import { IDEA_DETAILS_FIELD } from "../constants";
 import { ImmutableLike, fromImmutable } from "../utils/immutable";
 import {
     FieldsMetaData,
@@ -27,15 +28,29 @@ interface PreviewProps {
 /**
  * Normalize CMS form data into the shape IdeaPostTemplate expects.
  * Decap gives us raw widget values which differ from resolved Gatsby data:
+ *   - the tabs widget nests every field under `ideaDetails`
  *   - relation widgets return value_field strings, not resolved objects
  *   - single select widgets return a string, not an array
  */
 function normalizeCmsData(
-    raw: Record<string, unknown>,
-    fieldsMetaData?: FieldsMetaData,
+    entry: Record<string, unknown>,
+    entryMetaData?: FieldsMetaData,
     getAsset?: GetAsset,
 ): Partial<IdeaPostTemplateProps> {
+    // Mirrors the flatten in gatsby-node's onCreateNode.
+    const raw = {
+        ...entry,
+        ...(fromImmutable<Record<string, unknown>>(entry[IDEA_DETAILS_FIELD]) ??
+            {}),
+    };
     const v = raw as Partial<IdeaPostTemplateProps>;
+
+    // Relation metadata is keyed by field path, so the nesting moves it to
+    // [ideaDetails, <field>, <collection>, <value>]. Descend once here rather
+    // than teaching every resolver about it.
+    const fieldsMetaData = entryMetaData?.getIn([IDEA_DETAILS_FIELD]) as
+        | FieldsMetaData
+        | undefined;
 
     // program: single select string → array
     const program = v.program;

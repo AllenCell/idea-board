@@ -1,89 +1,88 @@
 ---
-preliminaryFindings:
-  summary: 'Preliminary segmentation and tracking suggest that junction
-    "flickering" (rapid local changes in junction length and intensity)
-    increases ~30–60 minutes before migration onset in a subset of fields of
-    view. Here is a link for no reason: [link](https://allencell.org/). Adding
-    some text for reasons.'
-  figures:
-    - type: imageFile
-      file: /img/228469011.jpg
-      caption: An unrelated image from our website showing lots and lots of cells.
-    - type: imageFile
-      file: /img/228469011.jpg
 draft: false
 templateKey: idea-post
-doi: 10.5281/zenodo.1234567
-title: Investigate role of cell-cell junctions in collective cell migration (dev
-  example)
-type: analysis of existing data
-maturity: supported
-date: 2025-10-28T19:10:00.000Z
-authors:
-  - Gokhan Dalgin
-  - Caroline Hookway
-  - Megan Riel-Mehan
-primaryContact: Idea Board
-program:
-  - EMT
-accelerator:
-  - Cell Science
-scope: Summer project
-researcherLevel:
-  - Graduate student
-  - Postdoc
-proposal: >
-  Test whether junction remodelling measured from existing timelapses predicts
-  the onset of collective migration, using the released EMT data rather than new
-  imaging.
+ideaDetails:
+  preliminaryFindings:
+    summary: 'Preliminary segmentation and tracking suggest that junction
+      "flickering" (rapid local changes in junction length and intensity)
+      increases ~30–60 minutes before migration onset in a subset of fields of
+      view. Here is a link for no reason: [link](https://allencell.org/). Adding
+      some text for reasons.'
+    figures:
+      - type: imageFile
+        file: /img/228469011.jpg
+        caption: An unrelated image from our website showing lots and lots of cells.
+      - type: imageFile
+        file: /img/228469011.jpg
+  doi: 10.5281/zenodo.1234567
+  title: Investigate role of cell-cell junctions in collective cell migration (dev
+    example)
+  type: analysis of existing data
+  maturity: supported
+  date: 2025-10-28T19:10:00.000Z
+  authors:
+    - Gokhan Dalgin
+    - Caroline Hookway
+    - Megan Riel-Mehan
+  primaryContact: Idea Board
+  program:
+    - EMT
+  accelerator:
+    - Cell Science
+  scope: Summer project
+  researcherLevel:
+    - Graduate student
+    - Postdoc
+  proposal: >
+    Test whether junction remodelling measured from existing timelapses predicts
+    the onset of collective migration, using the released EMT data rather than
+    new imaging.
 
 
-  We would expect a quantified answer on whether junction dynamics carry a
-  predictive signal, and if they do, a shareable metric other EMT analyses can
-  reuse.
-introduction: >
-  Collective cell migration during EMT appears to be preceded by subtle
-  remodeling of cell-cell junctions. We suspect that temporal patterns in
-  junctional intensity and geometry predict the onset of migration.
-flagshipResources:
-  - released-emt-dataset
-  - timelapse-feature-explorer
-resources:
-  - microns-explorer-view
-  - cell-line-resources
-  - test-software-tool
-  - simularium
-  - timelapse-feature-explorer
-  - released-emt-dataset
-  - aics-42
-  - aics-67
-resourceNotes:
-  - resource: released-emt-dataset
-    relevance: The timelapses this idea is built on; start here to see the
-      junction behaviour described above.
-  - resource: timelapse-feature-explorer
-    relevance: Used to segment junctions and pull per-frame measurements out of
-      the movies.
-related_ideas:
-  - 2025-10-29-investigate-ecm-driven-basement-membrane-production
-  - 2025-10-29-is-there-an-met-after-cell-migration-in-our-60-hr-timelapse-movies
-nextSteps: |-
-  - Expand analysis to all EMT datasets and stratify by treatment. And a link
-  for no reason: [link](https://allencell.org/)
+    We would expect a quantified answer on whether junction dynamics carry a predictive signal, and if they do, a shareable metric other EMT analyses can reuse.
+  introduction: >
+    Collective cell migration during EMT appears to be preceded by subtle
+    remodeling of cell-cell junctions. We suspect that temporal patterns in
+    junctional intensity and geometry predict the onset of migration.
+  flagshipResources:
+    - released-emt-dataset
+    - timelapse-feature-explorer
+  resources:
+    - microns-explorer-view
+    - cell-line-resources
+    - test-software-tool
+    - simularium
+    - timelapse-feature-explorer
+    - released-emt-dataset
+    - aics-42
+    - aics-67
+  resourceNotes:
+    - resource: released-emt-dataset
+      relevance: The timelapses this idea is built on; start here to see the junction
+        behaviour described above.
+    - resource: timelapse-feature-explorer
+      relevance: Used to segment junctions and pull per-frame measurements out of the
+        movies.
+  related_ideas:
+    - 2025-10-29-investigate-ecm-driven-basement-membrane-production
+    - 2025-10-29-is-there-an-met-after-cell-migration-in-our-60-hr-timelapse-movies
+  nextSteps: |-
+    - Expand analysis to all EMT datasets and stratify by treatment. And a link
+    for no reason: [link](https://allencell.org/)
 
-  - Quantify robustness of the junction "flicker" signature across cell lines.
+    - Quantify robustness of the junction "flicker" signature across cell lines.
 
-  - Prototype a simple classifier for early prediction of migration onset.
+    - Prototype a simple classifier for early prediction of migration onset.
 
-  - Share intermediate results with the EMT program for feedback.
-publication: Dalgin et al., _In preparation_
-tags:
-  - DEV Example
-  - EMT
-  - migration
-  - cell-cell junctions
-acknowledgment: as co-authors
-concerns: >
-  Potential overlap with planned EMT program manuscripts; need to confirm
-  publication strategy with program leads before extensive external sharing.
+    - Share intermediate results with the EMT program for feedback.
+  publication: Dalgin et al., _In preparation_
+  tags:
+    - DEV Example
+    - EMT
+    - migration
+    - cell-cell junctions
+  acknowledgment: as co-authors
+  concerns: >
+    Potential overlap with planned EMT program manuscripts; need to confirm
+    publication strategy with program leads before extensive external sharing.
 ---

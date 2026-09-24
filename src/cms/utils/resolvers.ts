@@ -1,6 +1,7 @@
 import slugify from "slugify";
 
 import { ResourceNode } from "../../types";
+import { IDEA_DETAILS_FIELD } from "../constants";
 import { fromImmutable } from "./immutable";
 
 /** Decap's Immutable metadata side-channel, keyed [field, collection, value]. */
@@ -163,8 +164,12 @@ export function resolveRelatedIdea(
         "ideas",
         slug,
     );
+    // Idea frontmatter is nested by the tabs widget, so the title sits one level down.
+    const details = node?.[IDEA_DETAILS_FIELD] as
+        | Record<string, unknown>
+        | undefined;
     return {
-        title: typeof node?.title === "string" ? node.title : slug,
+        title: typeof details?.title === "string" ? details.title : slug,
         slug,
     };
 }

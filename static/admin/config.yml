@@ -22,7 +22,7 @@ collections:
       folder: "src/pages/ideas"
       create: true
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-      identifier_field: "title"
+      identifier_field: "ideaDetails.title"
       fields:
           - {
                 label: "Template Key",
@@ -30,330 +30,358 @@ collections:
                 widget: "hidden",
                 default: "idea-post",
             }
-          - {
-                label: "Question/Title/Hypothesis",
-                name: "title",
-                widget: "string",
-                hint: "A one sentence description of the idea, question, or hypothesis.",
-            }
-          - {
-                label: "Type",
-                name: "type",
-                widget: "select",
-                options:
-                    [
-                        "analysis of existing data",
-                        "hypothesis that requires new experimentation",
-                        "micropublication",
-                        "interesting observation",
-                        "converting code to production product",
-                        "applying method or tool to new data",
-                        "other",
-                    ],
-            }
-          - {
-                label: "Maturity",
-                name: "maturity",
-                widget: "select",
-                required: true,
-                default: "speculative",
-                options:
-                    [
-                        {
-                            label: "🌱 Speculative — Untested, shared to invite discussion",
-                            value: "speculative",
-                        },
-                        {
-                            label: "🌿 Exploratory — Early investigation, findings are preliminary",
-                            value: "exploratory",
-                        },
-                        {
-                            label: "🌳 Supported — Backed by data or analysis, not yet exhaustive",
-                            value: "supported",
-                        },
-                        {
-                            label: "🍎 Validated — Well-evidenced and reproducible",
-                            value: "validated",
-                        },
-                    ],
-            }
-          - {
-                label: "Publish Date",
-                name: "date",
-                widget: "datetime",
-                default: "{{now}}",
-            }
-
-          - {
-                label: "Author(s)",
-                name: "authors",
-                widget: "relation",
-                collection: "allenite",
-                search_fields: ["name", "title"],
-                value_field: "name",
-                multiple: true,
-            }
-          - {
-                label: "Primary Contact",
-                name: "primaryContact",
-                widget: "relation",
-                collection: "allenite",
-                search_fields: ["name", "title"],
-                value_field: "name",
-                multiple: false,
-                required: false,
-                hint: "Optionally designate the primary contact. If set, only this person will be contacted instead of all authors.",
-            }
-          - {
-                label: "Program",
-                name: "program",
-                widget: "select",
-                options: ["EMT", "Endo", "Other"],
-            }
-          - {
-                label: "Accelerator",
-                name: "accelerator",
-                widget: "relation",
-                collection: "accelerator",
-                search_fields: ["name"],
-                value_field: "name",
-                display_fields: ["name"],
-                multiple: true,
-                required: false,
-                hint: "Which accelerator(s) this idea belongs to, if any.",
-            }
-          - {
-                label: "Scope",
-                name: "scope",
-                widget: "select",
-                required: false,
-                options:
-                    [
-                        "Weeks",
-                        "Summer project",
-                        "1-2 years",
-                        "Multi-year",
-                    ],
-                hint: "Roughly how much work this idea represents.",
-            }
-          - {
-                label: "Expected Researcher Level",
-                name: "researcherLevel",
-                widget: "select",
-                multiple: true,
-                required: false,
-                options:
-                    [
-                        "Undergraduate",
-                        "Graduate student",
-                        "Postdoc",
-                        "Staff scientist",
-                        "Senior Scientist/PI"
-                    ],
-                hint: "Every level this idea would suit.",
-            }
-          - {
-                label: "Introduction",
-                name: "introduction",
-                widget: "markdown",
-                required: false,
-                hint: "Why is this idea interesting or important?",
-            }
-          - {
-                label: "Proposal",
-                name: "proposal",
-                widget: "markdown",
-                required: false,
-                hint: "What are we actually proposing someone does, and what results would you expect? This is the pitch, not the practical setup steps.",
-            }
-          - {
-                label: "Preliminary findings",
-                name: "preliminaryFindings",
-                widget: "object",
-                hint: "What have you found so far?",
-                required: false,
-                fields:
-                    [
-                        {
-                            label: "Summary of findings",
-                            name: "summary",
-                            widget: "markdown",
-                            required: false,
-                        },
-                        {
-                            label: "Images or figures",
-                            name: "figures",
-                            widget: "list",
-                            required: false,
-                            hint: "Add any images or figures that illustrate your preliminary findings.",
-                            types:
-                                [
-                                    {
-                                        label: "Image link",
-                                        name: "imageLink",
-                                        widget: "object",
-                                        fields:
-                                            [
-                                                {
-                                                    label: "Figure URL",
-                                                    name: "url",
-                                                    widget: "url-image",
-                                                    hint: "Enter a valid image URL to see a preview",
-                                                },
-                                                {
-                                                    label: "Caption",
-                                                    name: "caption",
-                                                    widget: "string",
-                                                    required: false,
-                                                },
-                                            ],
-                                    },
-                                    {
-                                        label: "Image file",
-                                        name: "imageFile",
-                                        widget: "object",
-                                        fields:
-                                            [
-                                                {
-                                                    label: "Figure",
-                                                    name: "file",
-                                                    widget: "image",
-                                                    choose_url: false,
-                                                },
-                                                {
-                                                    label: "Caption",
-                                                    name: "caption",
-                                                    widget: "string",
-                                                    required: false,
-                                                },
-                                            ],
-                                    },
-                                ],
-                        },
-                    ],
-            }
-          - {
-                label: "Datasets",
-                name: "datasets",
-                widget: "relation",
-                collection: "resources",
-                search_fields: ["name"],
-                value_field: "{{slug}}",
-                display_fields: ["name"],
-                multiple: true,
-                required: false,
-                hint: "Select datasets from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
-                filters:
-                    [{ field: "resourceDetails.type", values: ["dataset"] }],
-            }
-          - {
-                label: "Flagship Resources",
-                name: "flagshipResources",
-                widget: "relation",
-                collection: "resources",
-                search_fields: ["resourceDetails.name", "resourceDetails.type"],
-                value_field: "{{slug}}",
-                display_fields:
-                    ["resourceDetails.type", "resourceDetails.name"],
-                multiple: true,
-                required: false,
-                hint: "The one or two resources most central to this idea.",
-            }
-          - {
-                label: "Resources",
-                name: "resources",
-                widget: "relation",
-                collection: "resources",
-                search_fields: ["resourceDetails.name", "resourceDetails.type"],
-                value_field: "{{slug}}",
-                display_fields:
-                    ["resourceDetails.type", "resourceDetails.name"],
-                multiple: true,
-                required: false,
-                hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
-            }
-          - label: "Why these resources?"
-            name: "resourceNotes"
-            widget: "list"
-            required: false
-            label_singular: "Resource note"
-            summary: "{{fields.resource}}"
-            hint: "Optionally say why a particular resource matters for this idea. Only add notes for resources selected above."
+          - label: "Idea"
+            name: "ideaDetails"
+            widget: "tabs"
+            tabs:
+                - label: "The basics / metadata"
+                  hint: "Who this idea belongs to and how it should be filed. These fields drive the title, the listing page, and the accelerator and topic filters."
+                  fields:
+                      [
+                          "title",
+                          "type",
+                          "maturity",
+                          "date",
+                          "authors",
+                          "primaryContact",
+                          "accelerator",
+                          "program",
+                          "scope",
+                          "researcherLevel",
+                          "tags",
+                          "acknowledgment",
+                          "concerns",
+                      ]
+                - label: "The content"
+                  hint: "The idea itself, in prose. The introduction is why it is interesting; the proposal is what you are asking someone to actually do."
+                  fields: ["introduction", "proposal"]
+                - label: "Resources & related work"
+                  hint: "Supporting material: other resources worth knowing about, prior findings, publications, and neighbouring ideas."
+                  fields:
+                      [
+                          "resources",
+                          "resourceNotes",
+                          "related_ideas",
+                          "preliminaryFindings",
+                          "publication",
+                          "doi",
+                      ]
+                - label: "How to start working on this"
+                  hint: "Flagship resources are the one or two things to open first; next steps are the first moves someone should make."
+                  fields: ["flagshipResources", "nextSteps"]
             fields:
-                - {
-                      label: "Resource",
-                      name: "resource",
-                      widget: "relation",
-                      collection: "resources",
-                      search_fields:
-                          ["resourceDetails.name", "resourceDetails.type"],
-                      value_field: "{{slug}}",
-                      display_fields:
-                          ["resourceDetails.type", "resourceDetails.name"],
-                  }
-                - {
-                      label: "Why it is relevant",
-                      name: "relevance",
-                      widget: "text",
-                      hint: "What this resource gives you for this particular idea.",
-                  }
-          - {
-                label: "Related Ideas",
-                name: "related_ideas",
-                widget: "relation",
-                collection: "ideas",
-                search_fields: ["title"],
-                value_field: "{{slug}}",
-                display_fields: ["title"],
-                multiple: true,
-                required: false,
-                hint: "Select any ideas that this idea this downstream of. If some answer a question that leads to this one, select it here.",
-            }
-          - {
-                label: "Suggested next steps",
-                name: "nextSteps",
-                widget: "markdown",
-                required: false,
-                hint: "What are the next steps to further investigate this idea?",
-            }
-          - {
-                label: "Associated publication",
-                name: "publication",
-                widget: "string",
-                required: false,
-            }
-          - {
-                label: "DOI",
-                name: "doi",
-                widget: "string",
-                required: false,
-                pattern:
-                    ['^10\.\d{4,9}/\S+$', "must be a bare DOI, e.g. 10.1234/abcd"],
-                hint: "Bare DOI, without the https://doi.org/ prefix — the link is built for you.",
-            }
-          - {
-                label: "Tags",
-                name: "tags",
-                widget: "list",
-                allow_add: true,
-                required: false,
-                default: [],
-            }
-          - {
-                label: "Preferred acknowledgment",
-                name: "acknowledgment",
-                widget: "select",
-                options:
-                    ["as co-authors", "acknowledgment in paper", "citation"],
-                required: false,
-            }
-          - {
-                label: "AICS concerns if any (won't be shared publicly)",
-                name: "concerns",
-                widget: "string",
-                required: false,
-            }
-
+              - {
+                    label: "Question/Title/Hypothesis",
+                    name: "title",
+                    widget: "string",
+                    hint: "A one sentence description of the idea, question, or hypothesis.",
+                }
+              - {
+                    label: "Type",
+                    name: "type",
+                    widget: "select",
+                    options:
+                        [
+                            "analysis of existing data",
+                            "hypothesis that requires new experimentation",
+                            "micropublication",
+                            "interesting observation",
+                            "converting code to production product",
+                            "applying method or tool to new data",
+                            "other",
+                        ],
+                }
+              - {
+                    label: "Maturity",
+                    name: "maturity",
+                    widget: "select",
+                    required: true,
+                    default: "speculative",
+                    options:
+                        [
+                            {
+                                label: "🌱 Speculative — Untested, shared to invite discussion",
+                                value: "speculative",
+                            },
+                            {
+                                label: "🌿 Exploratory — Early investigation, findings are preliminary",
+                                value: "exploratory",
+                            },
+                            {
+                                label: "🌳 Supported — Backed by data or analysis, not yet exhaustive",
+                                value: "supported",
+                            },
+                            {
+                                label: "🍎 Validated — Well-evidenced and reproducible",
+                                value: "validated",
+                            },
+                        ],
+                }
+              - {
+                    label: "Publish Date",
+                    name: "date",
+                    widget: "datetime",
+                    default: "{{now}}",
+                }
+              - {
+                    label: "Author(s)",
+                    name: "authors",
+                    widget: "relation",
+                    collection: "allenite",
+                    search_fields: ["name", "title"],
+                    value_field: "name",
+                    multiple: true,
+                }
+              - {
+                    label: "Primary Contact",
+                    name: "primaryContact",
+                    widget: "relation",
+                    collection: "allenite",
+                    search_fields: ["name", "title"],
+                    value_field: "name",
+                    multiple: false,
+                    required: false,
+                    hint: "Optionally designate the primary contact. If set, only this person will be contacted instead of all authors.",
+                }
+              - {
+                    label: "Accelerator",
+                    name: "accelerator",
+                    widget: "relation",
+                    collection: "accelerator",
+                    search_fields: ["name"],
+                    value_field: "name",
+                    display_fields: ["name"],
+                    multiple: true,
+                    required: false,
+                    hint: "Which accelerator(s) this idea belongs to, if any.",
+                }
+              # Programs are a flat list across all accelerators; they should
+              # probably become per-accelerator.
+              - {
+                    label: "Program",
+                    name: "program",
+                    widget: "select",
+                    options:
+                        [
+                            "EMT",
+                            "Endo",
+                            "Build to Understand",
+                            "Understand to Build",
+                            "Other",
+                        ],
+                }
+              - {
+                    label: "Scope",
+                    name: "scope",
+                    widget: "select",
+                    required: false,
+                    options:
+                        [
+                            "Weeks",
+                            "Summer project",
+                            "1-2 years",
+                            "Multi-year",
+                        ],
+                    hint: "Roughly how much work this idea represents.",
+                }
+              - {
+                    label: "Expected Researcher Level",
+                    name: "researcherLevel",
+                    widget: "select",
+                    multiple: true,
+                    required: false,
+                    options:
+                        [
+                            "Undergraduate",
+                            "Graduate student",
+                            "Postdoc",
+                            "Staff scientist",
+                            "Senior Scientist/PI"
+                        ],
+                    hint: "Every level this idea would suit.",
+                }
+              - {
+                    label: "Tags",
+                    name: "tags",
+                    widget: "list",
+                    allow_add: true,
+                    required: false,
+                    default: [],
+                }
+              - {
+                    label: "Preferred acknowledgment",
+                    name: "acknowledgment",
+                    widget: "select",
+                    options:
+                        ["as co-authors", "acknowledgment in paper", "citation"],
+                    required: false,
+                }
+              - {
+                    label: "AICS concerns if any",
+                    name: "concerns",
+                    widget: "string",
+                    required: false,
+                    hint: "Published with the idea — this repo is public, so treat it as public.",
+                }
+              - {
+                    label: "Introduction",
+                    name: "introduction",
+                    widget: "markdown",
+                    required: false,
+                    hint: "Why is this idea interesting or important?",
+                }
+              - {
+                    label: "Proposal",
+                    name: "proposal",
+                    widget: "markdown",
+                    required: false,
+                    hint: "What are we actually proposing someone does, and what results would you expect? This is the pitch, not the practical setup steps.",
+                }
+              - {
+                    label: "Resources",
+                    name: "resources",
+                    widget: "relation",
+                    collection: "resources",
+                    search_fields: ["resourceDetails.name", "resourceDetails.type"],
+                    value_field: "{{slug}}",
+                    display_fields:
+                        ["resourceDetails.type", "resourceDetails.name"],
+                    multiple: true,
+                    required: false,
+                    hint: "Select other resources from the Resources collection, if missing, please add to the Resources collection and then finish editing this entry.",
+                }
+              - label: "Why these resources?"
+                name: "resourceNotes"
+                widget: "list"
+                required: false
+                label_singular: "Resource note"
+                summary: "{{fields.resource}}"
+                hint: "Optionally say why a particular resource matters for this idea."
+                fields:
+                    - {
+                          label: "Resource",
+                          name: "resource",
+                          widget: "resource_subset",
+                          source: "ideaDetails.resources",
+                          empty_hint: "No resources chosen yet — add them under Resources & related work first, then pick from them here.",
+                      }
+                    - {
+                          label: "Why it is relevant",
+                          name: "relevance",
+                          widget: "text",
+                          hint: "What this resource gives you for this particular idea.",
+                      }
+              - {
+                    label: "Related Ideas",
+                    name: "related_ideas",
+                    widget: "relation",
+                    collection: "ideas",
+                    # Dotted paths: idea fields are nested under `ideaDetails`.
+                    search_fields: ["ideaDetails.title"],
+                    value_field: "{{slug}}",
+                    display_fields: ["ideaDetails.title"],
+                    multiple: true,
+                    required: false,
+                    hint: "Select any ideas that this idea this downstream of. If some answer a question that leads to this one, select it here.",
+                }
+              - {
+                    label: "Preliminary findings",
+                    name: "preliminaryFindings",
+                    widget: "object",
+                    hint: "What have you found so far?",
+                    required: false,
+                    fields:
+                        [
+                            {
+                                label: "Summary of findings",
+                                name: "summary",
+                                widget: "markdown",
+                                required: false,
+                            },
+                            {
+                                label: "Images or figures",
+                                name: "figures",
+                                widget: "list",
+                                required: false,
+                                hint: "Add any images or figures that illustrate your preliminary findings.",
+                                types:
+                                    [
+                                        {
+                                            label: "Image link",
+                                            name: "imageLink",
+                                            widget: "object",
+                                            fields:
+                                                [
+                                                    {
+                                                        label: "Figure URL",
+                                                        name: "url",
+                                                        widget: "url-image",
+                                                        hint: "Enter a valid image URL to see a preview",
+                                                    },
+                                                    {
+                                                        label: "Caption",
+                                                        name: "caption",
+                                                        widget: "string",
+                                                        required: false,
+                                                    },
+                                                ],
+                                        },
+                                        {
+                                            label: "Image file",
+                                            name: "imageFile",
+                                            widget: "object",
+                                            fields:
+                                                [
+                                                    {
+                                                        label: "Figure",
+                                                        name: "file",
+                                                        widget: "image",
+                                                        choose_url: false,
+                                                    },
+                                                    {
+                                                        label: "Caption",
+                                                        name: "caption",
+                                                        widget: "string",
+                                                        required: false,
+                                                    },
+                                                ],
+                                        },
+                                    ],
+                            },
+                        ],
+                }
+              - {
+                    label: "Associated publication",
+                    name: "publication",
+                    widget: "string",
+                    required: false,
+                }
+              - {
+                    label: "DOI",
+                    name: "doi",
+                    widget: "string",
+                    required: false,
+                    pattern:
+                        ['^10\.\d{4,9}/\S+$', "must be a bare DOI, e.g. 10.1234/abcd"],
+                    hint: "Bare DOI, without the https://doi.org/ prefix — the link is built for you.",
+                }
+              - {
+                    label: "Flagship Resources",
+                    name: "flagshipResources",
+                    widget: "resource_subset",
+                    source: "ideaDetails.resources",
+                    multiple: true,
+                    required: false,
+                    hint: "The one or two resources most central to this idea, chosen from the ones you added under Resources & related work.",
+                    empty_hint: "No resources chosen yet — add them under Resources & related work first, then pick from them here.",
+                }
+              - {
+                    label: "Suggested next steps",
+                    name: "nextSteps",
+                    widget: "markdown",
+                    required: false,
+                    hint: "What are the next steps to further investigate this idea?",
+                }
     - name: "allenite"
       label: "Allenites"
       label_singular: "Allenite"

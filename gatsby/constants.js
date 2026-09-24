@@ -28,6 +28,16 @@ const TEMPLATE_KEY_TO_TYPE = {
     [ACCELERATOR_TEMPLATE_KEY]: ACCELERATOR_GATSBY_NODE_KEY,
 };
 
+/**
+ * Frontmatter key a CMS widget nests a type's fields under (the variable-type
+ * widget for resources, the tabs widget for ideas). onCreateNode flattens it
+ * so GraphQL sees a flat node.
+ */
+const NESTED_DETAILS_FIELD = {
+    [RESOURCES_GATSBY_NODE_KEY]: `resourceDetails`,
+    [IDEA_POST_GATSBY_NODE_KEY]: `ideaDetails`,
+};
+
 module.exports = {
     ACCELERATOR_TEMPLATE_KEY,
     ACCELERATOR_GATSBY_NODE_KEY,
@@ -37,6 +47,7 @@ module.exports = {
     PROGRAM_TEMPLATE_KEY,
     RESOURCES_TEMPLATE_KEY,
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
+    NESTED_DETAILS_FIELD,
     TEMPLATE_KEY_TO_TYPE,
     RESOURCES_GATSBY_NODE_KEY,
     IDEA_POST_TEMPLATE_KEY,

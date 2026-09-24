@@ -4,14 +4,20 @@ const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const { createIdeaPostResolver } = require("./gatsby/resolvers/resolvers");
 const {
-    RESOURCES_GATSBY_NODE_KEY,
     MARKDOWN_REMARK_GATSBY_NODE_KEY,
+    NESTED_DETAILS_FIELD,
     TEMPLATE_KEY_TO_TYPE,
     ALLENITE_TEMPLATE_KEY,
     PROGRAM_TEMPLATE_KEY,
 } = require("./gatsby/constants");
 
 const read = (p) => fs.readFileSync(path.join(__dirname, p), "utf8");
+
+/** `{ a, [key]: { b } }` → `{ a, b }` */
+const flattenField = (obj, key) => {
+    const { [key]: nested, ...rest } = obj;
+    return { ...rest, ...nested };
+};
 
 /**
  * Markdown in /src/pages/ with these templateKeys are data-only
@@ -208,17 +214,12 @@ exports.onCreateNode = ({
         ) {
             const nodeType = TEMPLATE_KEY_TO_TYPE[node.frontmatter.templateKey];
 
-            let fields = { ...node.frontmatter };
-
-            // The structure of our variable type widget leads to a nested field
-            // that we can flatten out here.
-            if (nodeType === RESOURCES_GATSBY_NODE_KEY) {
-                fields = {
-                    ...node.frontmatter,
-                    ...node.frontmatter.resourceDetails,
-                };
-                delete fields.resourceDetails; // avoid duplication in GraphQL node
-            }
+            // Some CMS widgets nest a type's fields under one key; flatten it
+            // so queries and resolvers see a flat node.
+            const nestedKey = NESTED_DETAILS_FIELD[nodeType];
+            const fields = nestedKey
+                ? flattenField(node.frontmatter, nestedKey)
+                : { ...node.frontmatter };
             createNode({
                 ...fields,
                 id: createNodeId(`${node.id}-${nodeType}`),
