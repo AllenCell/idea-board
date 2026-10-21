@@ -102,6 +102,7 @@
         "./src/**/*",
         "./gatsby-node.ts",
         "./gatsby-config.ts",
-        "./plugins/**/*"
+        "./plugins/**/*",
+        "./netlify/functions/**/*"
     ]
 }
