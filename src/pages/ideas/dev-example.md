@@ -13,10 +13,9 @@ preliminaryFindings:
       file: /img/228469011.jpg
 draft: false
 templateKey: idea-post
-doi: 10.5281/zenodo.1234567
 title: Investigate role of cell-cell junctions in collective cell migration (dev
   example)
-type: analysis of existing data
+type: hypothesis that requires new experimentation
 maturity: supported
 date: 2025-10-28T19:10:00.000Z
 authors:
@@ -32,19 +31,17 @@ scope: Summer project
 researcherLevel:
   - Graduate student
   - Postdoc
+introduction: >
+  Collective cell migration during EMT appears to be preceded by subtle
+  remodeling of cell-cell junctions. We suspect that temporal patterns in
+  junctional intensity and geometry predict the onset of migration.
 proposal: >
   Test whether junction remodelling measured from existing timelapses predicts
   the onset of collective migration, using the released EMT data rather than new
   imaging.
 
 
-  We would expect a quantified answer on whether junction dynamics carry a
-  predictive signal, and if they do, a shareable metric other EMT analyses can
-  reuse.
-introduction: >
-  Collective cell migration during EMT appears to be preceded by subtle
-  remodeling of cell-cell junctions. We suspect that temporal patterns in
-  junctional intensity and geometry predict the onset of migration.
+  We would expect a quantified answer on whether junction dynamics carry a predictive signal, and if they do, a shareable metric other EMT analyses can reuse.
 flagshipResources:
   - released-emt-dataset
   - timelapse-feature-explorer
@@ -59,11 +56,11 @@ resources:
   - aics-67
 resourceNotes:
   - resource: released-emt-dataset
-    relevance: The timelapses this idea is built on; start here to see the
-      junction behaviour described above.
+    relevance: The timelapses this idea is built on; start here to see the junction
+      behaviour described above.
   - resource: timelapse-feature-explorer
-    relevance: Used to segment junctions and pull per-frame measurements out of
-      the movies.
+    relevance: Used to segment junctions and pull per-frame measurements out of the
+      movies.
 related_ideas:
   - 2025-10-29-investigate-ecm-driven-basement-membrane-production
   - 2025-10-29-is-there-an-met-after-cell-migration-in-our-60-hr-timelapse-movies
@@ -77,6 +74,7 @@ nextSteps: |-
 
   - Share intermediate results with the EMT program for feedback.
 publication: Dalgin et al., _In preparation_
+doi: 10.5281/zenodo.1234567
 tags:
   - DEV Example
   - EMT
